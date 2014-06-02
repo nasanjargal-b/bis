@@ -23,7 +23,7 @@
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
         <sec:intercept-url pattern="/**" access="permitAll()"/>
         <!--<sec:access-denied-handler ref="authHandler"/>-->
-        <!--<sec:http-basic/>-->
+        <sec:http-basic/>
         <!--<sec:form-login
                 login-page="/security/login.html"
                 login-processing-url="/security/login-process.html"
