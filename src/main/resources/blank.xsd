@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.monsource.net/xsd/blank">
+
+    <xs:element name="questions" type="questionsType"/>
+
+    <xs:complexType name="questionsType">
+        <xs:sequence>
+            <xs:element name="question" type="questionType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="questionType">
+        <xs:sequence>
+            <xs:element name="text" type="xs:string"/>
+            <xs:element name="questions" type="questionsType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="choices" type="choicesType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="group" type="xs:boolean" use="required"/>
+        <xs:attribute name="type">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="text"/>
+                    <xs:enumeration value="decimal"/>
+                    <xs:enumeration value="integer"/>
+                    <xs:enumeration value="single_choice"/>
+                    <xs:enumeration value="multiple_choice"/>
+                    <xs:enumeration value="boolean"/>
+                    <xs:enumeration value="date"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="grid" type="xs:boolean"/>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="choicesType">
+        <xs:sequence>
+            <xs:element name="choice" type="xs:element"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

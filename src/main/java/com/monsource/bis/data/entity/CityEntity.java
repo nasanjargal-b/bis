@@ -1,0 +1,67 @@
+package com.monsource.bis.data.entity;
+
+import com.monsource.bis.core.data.DataEntity;
+
+import javax.persistence.*;
+import java.util.Set;
+
+/**
+ * Created by nasanjargal on 3/31/14.
+ */
+@Entity
+@Table(name = "city", schema = "public", catalog = "bis")
+public class CityEntity implements DataEntity {
+    private Integer id;
+    private String name;
+    private Set<DistrictEntity> districts;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 10, precision = 0)
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 128, precision = 0)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityEntity that = (CityEntity) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "city")
+    public Set<DistrictEntity> getDistricts() {
+        return districts;
+    }
+
+    public void setDistricts(Set<DistrictEntity> districts) {
+        this.districts = districts;
+    }
+}

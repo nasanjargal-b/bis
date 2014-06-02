@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <import resource="context-core.xml"/>
+
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/app/**" location="/app/"/>
+
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+        <property name="dateFormat">
+            <bean class="java.text.SimpleDateFormat">
+                <constructor-arg type="java.lang.String" value="yyyy-MM-dd"></constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+                <property name="prettyPrint" value="true"/>
+                <property name="prefixJson" value="false"/>
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>*/*</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <array>
+                <value>classpath:props/velocity.properties</value>
+            </array>
+        </property>
+    </bean>
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="resourceLoaderPath" value="/"/>
+        <!--<property name="preferFileSystemAccess" value="${velocity.preferFileSystemAccess}"/>-->
+        <property name="overrideLogging" value="${velocity.overrideLogging}"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">${velocity.input.encoding}</prop>
+                <prop key="output.encoding">${velocity.output.encoding}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">${velocity.input.encoding}</prop>
+                <prop key="output.encoding">${velocity.output.encoding}</prop>
+                <prop key="resource.loader">${velocity.resource.loader}</prop>
+                <prop key="class.resource.loader.class">${velocity.resource.class}</prop>
+                <prop key="class.resource.loader.path">/</prop>
+                <!--<prop key="class.resource.loader.cache">${velocity.resource.cache}</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="prefix" value="${velocity.resource.path}"/>
+        <property name="suffix" value="${velocity.resource.suffix}"/>
+        <property name="contentType" value="application/javascript;charset=UTF-8"/>
+        <!-- if you want to use the Spring Velocity macros, set this property to true -->
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="toolboxConfigLocation" value="/WEB-INF/vm/toolbox.xml"/>
+    </bean>
+
+</beans>
