@@ -9,12 +9,12 @@ Ext.define('Blank.view.BlankPanel', {
             {
                 text: 'Хадгалах',
                 icon: '/resources/images/save-16px.png',
-                alias: 'save'
+                action: 'save'
             },
             {
                 text: 'Болих',
                 icon: '/resources/images/close-16px.png',
-                alias: 'cancel'
+                action: 'cancel'
             }
         ]
     },
@@ -56,8 +56,10 @@ Ext.define('Blank.view.BlankPanel', {
                             allowBlank: false,
                             fieldLabel: 'Маягтын ангилал',
                             name: 'blankGroupId',
+                            queryMode: 'local',
                             displayField: 'name',
-                            valueField: 'id'
+                            valueField: 'id',
+                            store: 'Groups'
                         }
                     ]
                 },
@@ -88,8 +90,14 @@ Ext.define('Blank.view.BlankPanel', {
                         {
                             xtype: 'checkcolumn',
                             text: 'Хүснэгт',
-                            width: 50,
-                            dataIndex: 'grid'
+                            width: 60,
+                            dataIndex: 'grid',
+                            renderer: function (value, m, record) {
+                                if (!record.isLeaf())
+                                    return '';
+                                else
+                                    return (new Ext.ux.CheckColumn()).renderer(value);
+                            }
                         },
                         {
                             text: 'Багана',
@@ -112,7 +120,17 @@ Ext.define('Blank.view.BlankPanel', {
                                 return '';
                             }
                         }
-                    ]
+                    ],
+                    store: Ext.create('Ext.data.TreeStore', {
+                        model: 'Blank.model.Question',
+                        autoLoad: true,
+                        proxy: {
+                            type: 'memory',
+                            reader: {
+                                type: 'json'
+                            }
+                        }
+                    })
                 }
             ]
         }

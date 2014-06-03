@@ -1,10 +1,13 @@
 Ext.define('Blank.model.Question', {
-    extend: 'Ext.data.TreeModel',
+    extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'string'},
         {name: 'text', type: 'string'},
+        {name: 'name', type: 'string'},
         {name: 'group', type: 'boolean'},
-        {name: 'type', type: 'string'},
+        {name: 'grid', type: 'boolean'},
+        {name: 'type', type: 'string', useNull: true},
+        {name: 'choices', type: 'auto', useNull: true}
     ],
     proxy: {
         type: 'ajax',

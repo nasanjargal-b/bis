@@ -3,9 +3,9 @@ Ext.define('Blank.model.Blank', {
     fields: [
         {name: 'id', type: 'string'},
         {name: 'name', type: 'string'},
-        {name: 'blankGroupId', type: 'string'}
+        {name: 'blankGroupId', type: 'string'},
+        {name: 'questions', type: 'auto'}
     ],
-    hasMany: {model: 'Blank.model.Question', name: 'questions'},
     proxy: {
         type: 'ajax',
         url: '/blank-mod/blank/blank.json',
