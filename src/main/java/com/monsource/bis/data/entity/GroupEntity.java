@@ -70,7 +70,7 @@ public class GroupEntity implements DataEntity {
         return result;
     }
 
-    @javax.persistence.Transient
+    @OneToMany(mappedBy = "group",cascade = CascadeType.MERGE)
     public Set<GroupRoleEntity> getGroupRoles() {
         return groupRoles;
     }
@@ -79,7 +79,7 @@ public class GroupEntity implements DataEntity {
         this.groupRoles = groupRoles;
     }
 
-    @javax.persistence.Transient
+    @ManyToMany(mappedBy = "groups")
     public Set<AccountEntity> getAccounts() {
         return accounts;
     }

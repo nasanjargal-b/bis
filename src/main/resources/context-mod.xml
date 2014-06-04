@@ -6,7 +6,8 @@
 
 
     <!--Blank Module-->
-    <context:component-scan
-            base-package="com.monsource.bis.blank.controller,com.monsource.bis.blank.service,com.monsource.bis.blank.dao"/>
+    <context:component-scan base-package="com.monsource.bis.blank.controller,com.monsource.bis.blank.service,com.monsource.bis.blank.dao"/>
+    <!--Account Module-->
+    <context:component-scan base-package="com.monsource.bis.account.controller,com.monsource.bis.account.service,com.monsource.bis.account.dao"/>
 
 </beans>

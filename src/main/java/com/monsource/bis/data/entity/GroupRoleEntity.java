@@ -26,7 +26,9 @@ public class GroupRoleEntity implements DataEntity {
         this.id = id;
     }
 
-    @javax.persistence.Transient
+    @Basic
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     public Role getRole() {
         return role;
     }
@@ -55,7 +57,8 @@ public class GroupRoleEntity implements DataEntity {
         return result;
     }
 
-    @javax.persistence.ManyToOne(optional=false)
+    @javax.persistence.ManyToOne
+    @JoinColumn(name = "group_id",referencedColumnName = "id",nullable = false)
     public GroupEntity getGroup() {
         return group;
     }

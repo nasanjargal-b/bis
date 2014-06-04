@@ -1,5 +1,6 @@
 package com.monsource.bis.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
@@ -57,6 +58,7 @@ public class CityEntity implements DataEntity {
     }
 
     @OneToMany(mappedBy = "city")
+    @JsonIgnore
     public Set<DistrictEntity> getDistricts() {
         return districts;
     }

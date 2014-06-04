@@ -2,6 +2,7 @@ package com.monsource.bis.data.entity;
 
 import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.data.entity.type.AccountStatus;
+import com.monsource.bis.data.entity.type.Gender;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class AccountEntity implements DataEntity {
     private String password;
     private String salt;
     private String name;
-    private String gender;
+    private Gender gender;
     private String email;
     private String phone;
     private String address;
@@ -78,11 +79,12 @@ public class AccountEntity implements DataEntity {
 
     @Basic
     @Column(name = "gender", nullable = false, insertable = true, updatable = true, length = 8, precision = 0)
-    public String getGender() {
+    @Enumerated(EnumType.STRING)
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -116,7 +118,9 @@ public class AccountEntity implements DataEntity {
         this.address = address;
     }
 
-    @Transient
+    @Basic
+    @Column(name = "status", nullable = true, insertable = true, updatable = true, length = 32, precision = 0)
+    @Enumerated(EnumType.STRING)
     public AccountStatus getStatus() {
         return status;
     }
