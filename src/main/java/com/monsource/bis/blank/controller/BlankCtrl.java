@@ -7,6 +7,7 @@ import com.monsource.bis.blank.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,7 +49,7 @@ public class BlankCtrl {
     @Transactional
     @RequestMapping(value = "blank.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonData save(Blank blank) throws JAXBException {
+    public JsonData save(@RequestBody Blank blank) throws JAXBException {
         blankSrv.save(blank);
         return new JsonData(true);
     }
@@ -59,7 +60,7 @@ public class BlankCtrl {
     @Transactional
     @RequestMapping(value = "blank.json", method = RequestMethod.DELETE)
     @ResponseBody
-    public JsonData delete(List<String> ids) {
+    public JsonData delete(@RequestBody List<String> ids) throws JAXBException {
         blankSrv.delete(ids);
         return new JsonData(true);
     }

@@ -2,7 +2,9 @@ package com.monsource.bis.blank.service;
 
 import com.monsource.bis.blank.dao.*;
 import com.monsource.bis.blank.model.*;
+import com.monsource.bis.core.exception.EntityNotFoundByIdException;
 import com.monsource.bis.data.entity.BlankEntity;
+import com.monsource.bis.data.entity.BlankGroupEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchema;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.List;
 
 @Service
@@ -23,6 +26,9 @@ public class BlankService {
 
     @Autowired
     BlankDao blankDao;
+    @Autowired
+    QuestionService questionService;
+
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
 
@@ -59,16 +65,36 @@ public class BlankService {
      * @param blank
      */
     public void save(Blank blank) throws javax.xml.bind.JAXBException {
-        // TODO - implement BlankService.save
-        throw new UnsupportedOperationException();
+
+        questionService.saveBlankTable(blank);
+
+        QuestionsXmlModel questionsXmlModel = new QuestionsXmlModel();
+        questionsXmlModel.setQuestions(blank.getQuestions());
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(questionsXmlModel, writer);
+
+        BlankEntity blankEntity = new BlankEntity();
+        blankEntity.setId(blank.getId());
+        blankEntity.setName(blank.getName());
+        blankEntity.setBlankGroup(new BlankGroupEntity(blank.getBlankGroupId()));
+        blankEntity.setQuestions(writer.getBuffer().toString());
+
+        blankDao.merge(blankEntity);
     }
 
     /**
      * @param ids
      */
-    public void delete(List<String> ids) {
-        // TODO - implement BlankService.delete
-        throw new UnsupportedOperationException();
+    public void delete(List<String> ids) throws JAXBException {
+        for (String id : ids) {
+            Blank blank = this.get(id);
+
+            questionService.dropBlankTable(blank);
+
+            BlankEntity blankEntity = blankDao.get(id);
+
+            blankDao.delete(blankEntity);
+        }
     }
 
 }

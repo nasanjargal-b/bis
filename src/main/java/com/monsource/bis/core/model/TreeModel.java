@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by nasanjargal on 5/31/14.
  */
-public interface TreeModel<K> extends Serializable {
+public interface TreeModel<K>  {
 
     public K getId();
 

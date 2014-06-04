@@ -17,6 +17,13 @@ public class BlankGroupEntity implements DataEntity {
     private BlankGroupEntity blankGroup;
     private Set<BlankGroupEntity> blankGroups;
 
+    public BlankGroupEntity() {
+    }
+
+    public BlankGroupEntity(String id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id")
     public String getId() {

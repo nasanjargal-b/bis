@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <questions xmlns="http://www.monsource.net/xsd/blank">
-    <question grid="true" group="false" id="Q1" name="Q1" type="text">
+    <question grid="true" group="false" id="Q1" name="Q1" type="TEXT">
         <text>Асуулт 1</text>
     </question>
     <question grid="false" group="true" id="QG1" name="">
         <questions>
-            <question grid="true" group="false" id="Q2" name="" type="decimal">
+            <question grid="true" group="false" id="Q2" name="" type="DECIMAL">
                 <text>Асуулт 2</text>
             </question>
-            <question grid="true" group="false" id="Q3" name="Q3" type="integer">
+            <question grid="true" group="false" id="Q3" name="Q3" type="INTEGER">
                 <text>Асуулт 3</text>
             </question>
             <question grid="false" group="true" id="QG3" name="">
                 <questions>
-                    <question grid="true" group="false" id="Q8" name="" type="boolean">
+                    <question grid="true" group="false" id="Q8" name="" type="BOOLEAN">
                         <text>Асуулт 8</text>
                     </question>
                 </questions>
@@ -24,7 +24,7 @@
     </question>
     <question grid="false" group="true" id="QG2" name="">
         <questions>
-            <question grid="true" group="false" id="Q4" name="" type="single_choice">
+            <question grid="true" group="false" id="Q4" name="" type="SINGLE_CHOICE">
                 <choices>
                     <choice>Сонголт 1</choice>
                     <choice>Сонголт 2</choice>
@@ -33,7 +33,7 @@
                 </choices>
                 <text>Нэг сонголт</text>
             </question>
-            <question grid="true" group="false" id="Q5" name="Q5" type="multiple_choice">
+            <question grid="true" group="false" id="Q5" name="Q5" type="MULTIPLE_CHOICE">
                 <choices>
                     <choice>Сонголт 1</choice>
                     <choice>Сонголт 2</choice>
@@ -45,10 +45,10 @@
         </questions>
         <text>Жагсаалтан утгууд</text>
     </question>
-    <question grid="true" group="false" id="Q6" name="Q6" type="boolean">
+    <question grid="true" group="false" id="Q6" name="Q6" type="BOOLEAN">
         <text>Асуулт 6. Тийм үгүй.</text>
     </question>
-    <question grid="true" group="false" id="Q7" name="" type="date">
+    <question grid="true" group="false" id="Q7" name="" type="DATE">
         <text>Асуулт Date?</text>
     </question>
 </questions>
