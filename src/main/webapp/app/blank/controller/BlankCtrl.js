@@ -5,15 +5,16 @@ Ext.define('Blank.controller.BlankCtrl', {
             'blankGrid gridview': {
                 itemclick: function (view, record) {
                     this.editBlank(record.get('id'));
-                },
-                afterrender: function () {
-                    this.editBlank('B01');
-                    //todo delete nasanjargal
                 }
             },
-            'blankGrid button[alias="add"]': {
+            'blankGrid button[action="add"]': {
                 click: function (btn) {
                     this.editBlank(null);
+                }
+            },
+            'blankGrid button[action="delete"]': {
+                click: function (btn) {
+                    this.delete(btn.up('blankGrid'));
                 }
             },
             'blankPanel button[action="save"]': {
@@ -26,6 +27,33 @@ Ext.define('Blank.controller.BlankCtrl', {
     },
     getMainPanel: function () {
         return Ext.ComponentQuery.query('#blankMainPanel')[0];
+    },
+    delete: function (grid) {
+        var me = this;
+        var records = grid.getSelectionModel().getSelection();
+        if (records.length > 0) {
+            var ids = [];
+            for (var i = 0; i < records.length; i++) {
+                var record = records[i];
+                ids[ids.length] = record.get('id');
+            }
+
+            Ext.MessageBox.confirm('Асуулт', 'Та устгах үйлдлийг хийхдээ итгэлтэй байна уу?', function (btn) {
+                if (btn == 'yes')
+                    Ext.Ajax.request({
+                        url: '/blank-mod/blank/blank.json',
+                        method: 'delete',
+                        jsonData: ids,
+                        success: function () {
+                            grid.getStore().reload();
+                            me.editBlank(null);
+                        }
+                    })
+            })
+        } else {
+            Ext.MessageBox.alert('Алдаа', 'Та устгах мөрөө сонгоно уу!!!');
+        }
+
     },
     editBlank: function (id) {
         var mainPanel = this.getMainPanel();
@@ -44,6 +72,8 @@ Ext.define('Blank.controller.BlankCtrl', {
         };
 
         if (id) {
+            mainPanel.edit = true;
+            mainPanel.down('textfield[name="id"]').setReadOnly(true);
             Blank.model.Blank.load(id, {
                 success: function (model) {
                     blankPanel.loadRecord(model);
@@ -53,6 +83,8 @@ Ext.define('Blank.controller.BlankCtrl', {
                 }
             });
         } else {
+            console.log('ok');
+            mainPanel.edit = false;
             treeStore.setRootNode(rootNode);
             treePanel.expandAll();
         }
@@ -65,7 +97,7 @@ Ext.define('Blank.controller.BlankCtrl', {
             name: node.get('name'),
             group: node.get('group'),
             grid: node.get('grid'),
-            type: node.get('type'),
+            type: node.get('group') ? null : node.get('type'),
             choices: node.get('choices')
         }
 
@@ -81,6 +113,11 @@ Ext.define('Blank.controller.BlankCtrl', {
     save: function (btn) {
         var me = this;
         var form = btn.up('form');
+
+        if (form.edit) {
+            //todo
+        }
+
         if (form.getForm().isValid()) {
             var treePanel = form.down('treepanel');
             var values = form.getValues();

@@ -1,9 +1,12 @@
 package com.monsource.bis.blank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.monsource.bis.core.model.Model;
 
 import java.util.*;
 
+@JsonSerialize(include= JsonSerialize.Inclusion.NON_EMPTY)
 public class Blank implements Model<String> {
 
     private String id;

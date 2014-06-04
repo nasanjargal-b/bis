@@ -5,7 +5,6 @@ import com.monsource.bis.core.model.TreeModel;
 import javax.xml.bind.annotation.*;
 import java.util.*;
 
-@XmlRootElement(name = "question")
 public class Question implements TreeModel<String> {
 
     private String id;
@@ -81,7 +80,7 @@ public class Question implements TreeModel<String> {
         this.grid = grid;
     }
 
-    public List getChildren() {
+    public List<Question> getChildren() {
         return this.children;
     }
 

@@ -11,13 +11,13 @@ Ext.define('Blank.view.BlankGrid', {
                 {
                     text: 'Нэмэх',
                     icon: '/resources/images/add-16px.png',
-                    alias: 'add'
+                    action: 'add'
 
                 },
                 {
                     text: 'Устгах',
                     icon: '/resources/images/delete-16px.png',
-                    alias: 'delete'
+                    action: 'delete'
                 }
             ]
         }

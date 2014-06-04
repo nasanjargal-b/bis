@@ -20,13 +20,13 @@
         <xs:attribute name="type">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
-                    <xs:enumeration value="text"/>
-                    <xs:enumeration value="decimal"/>
-                    <xs:enumeration value="integer"/>
-                    <xs:enumeration value="single_choice"/>
-                    <xs:enumeration value="multiple_choice"/>
-                    <xs:enumeration value="boolean"/>
-                    <xs:enumeration value="date"/>
+                    <xs:enumeration value="TEXT"/>
+                    <xs:enumeration value="DECIMAL"/>
+                    <xs:enumeration value="INTEGER"/>
+                    <xs:enumeration value="SINGLE_CHOICE"/>
+                    <xs:enumeration value="MULTIPLE_CHOICE"/>
+                    <xs:enumeration value="BOOLEAN"/>
+                    <xs:enumeration value="DATE"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>

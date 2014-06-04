@@ -171,10 +171,16 @@ Ext.define('Blank.controller.QuestionCtrl', {
                 });
                 record.set('choices', choices);
                 break;
+            default :
+                record.set('choices', null);
+                break;
         }
 
         if (win.parent) {
-            var store = win.parent.store;
+
+            var store = Ext.ComponentQuery.query('blankPanel')[0].down('treepanel').getStore();
+            console.log(store);
+            console.log(record);
             if (store.getNodeById(record.get('id')) == null) {
                 win.parent.appendChild(record);
                 win.close();

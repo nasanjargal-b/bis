@@ -1,5 +1,5 @@
 Ext.define('Blank.model.Question', {
-    extend: 'Ext.data.Model',
+    extend: 'Ext.data.TreeModel',
     fields: [
         {name: 'id', type: 'string'},
         {name: 'text', type: 'string'},
@@ -8,13 +8,5 @@ Ext.define('Blank.model.Question', {
         {name: 'grid', type: 'boolean'},
         {name: 'type', type: 'string', useNull: true},
         {name: 'choices', type: 'auto', useNull: true}
-    ],
-    proxy: {
-        type: 'ajax',
-        url: '/blank-mod/blank/blank.json',
-        reader: {
-            type: 'json',
-            root: 'data'
-        }
-    }
+    ]
 })
