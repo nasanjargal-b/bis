@@ -38,7 +38,14 @@ Ext.define('Blank.view.ResearchGrid', {
         {
             text: 'Идэвхитэй',
             flex: 1,
-            dataIndex: 'active'
+            dataIndex: 'active',
+            renderer:function(value){
+                if(value==true){
+                    return "<span style='color: green'>Идэвхитэй</span>span>"
+                }else{
+                    return "<span style='color: red'>Идэвхитэй</span>span>"
+                }
+            }
         },
         {
             text: 'Эхлэх огноо',
