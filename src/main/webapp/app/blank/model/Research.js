@@ -10,7 +10,7 @@ Ext.define('Blank.model.Research', {
     ],
     proxy: {
         type: 'ajax',
-        url: '/blank-mod/research/research',
+        url: '/blank-mod/research/research.json',
         reader: {
             type: 'json',
             root: 'data'
