@@ -39,8 +39,6 @@ public class ResearchDao extends HibernateDaoSupport<ResearchEntity> {
             blankCriteria.setProjection(Projections.projectionList()
                     .add(Projections.property("id"), "id")
                     .add(Projections.property("name"), "name")
-                    .add(Projections.property("questions"), "questions")
-//                    .add(Projections.property("blankGroupId"), "blankGroupId")
             );
             blankCriteria.setResultTransformer(Transformers.aliasToBean(Blanks.class));
             List<Blanks> blanks = blankCriteria.list();
