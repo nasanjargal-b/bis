@@ -30,8 +30,8 @@ public class BlankCtrl {
      */
     @RequestMapping(value = "blanks.json", method = RequestMethod.GET)
     @ResponseBody
-    public JsonData getList(String text, String groupId) {
-        return new JsonData(blankDao.find(text, groupId));
+    public JsonData getList(String text, String groupId, Integer researchId) {
+        return new JsonData(blankDao.find(text, groupId, researchId));
     }
 
     /**

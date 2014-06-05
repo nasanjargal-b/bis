@@ -1,5 +1,6 @@
 package com.monsource.bis.blank.service;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,9 +59,9 @@ public class QuestionService {
         List<Question> questions = this.getColumnsWithoutGroup(blank.getQuestions());
 
         for (Question question : questions) {
-            if (question.getType() != ColumnType.MULTIPLE_CHOICE && question.getType() != ColumnType.SINGLE_CHOICE)
+            if (question.getType() != ColumnType.MULTIPLE_CHOICE && question.getType() != ColumnType.SINGLE_CHOICE) {
                 table.getColumns().add(new Column(question.getId(), ColumnTypeHelper.getSqlType(question.getType())));
-            else {
+            } else {
                 Table subTable = new Table();
                 subTable.setName(blank.getId() + question.getId());
                 subTable.setSchema(schema);
@@ -76,7 +77,7 @@ public class QuestionService {
         return table;
     }
 
-    private List<Question> getColumnsWithoutGroup(List<Question> questions) {
+    public List<Question> getColumnsWithoutGroup(List<Question> questions) {
         List<Question> questionList = new ArrayList<>();
         for (Question question : questions) {
             if (!question.isGroup()) {
@@ -107,4 +108,5 @@ public class QuestionService {
 
         return columns;
     }
+
 }
