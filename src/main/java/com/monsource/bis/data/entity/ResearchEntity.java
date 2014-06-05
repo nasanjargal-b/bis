@@ -3,7 +3,7 @@ package com.monsource.bis.data.entity;
 import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 /**

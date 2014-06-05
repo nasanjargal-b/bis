@@ -5,9 +5,10 @@ Ext.define('Account.model.Group', {
         {name: 'name', type: 'string'},
         {name: 'description', type: 'string'}
     ],
+    hasMany: {model: 'Account.model.Blank', name: 'blanks'},
     proxy: {
         type: 'ajax',
-        url: '/account-mod/group/single.json',
+        url: '/blank-mod/research/research.json',
         reader: {
             type: 'json',
             root: 'data'
