@@ -11,8 +11,9 @@ Ext.application({
                     region: 'west'
                 },
                 {
-                    xtype: 'researchPanel',
+                    xtype: 'panel',
                     border: false,
+                    itemId: 'researchMainPanel',
                     layout: 'fit',
                     region: 'center',
                     bodyStyle: 'background-color:#dfe9f6'

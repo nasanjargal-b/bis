@@ -46,9 +46,9 @@ public class ResearchCtrl {
 
     @RequestMapping(value = "research.json", method = RequestMethod.DELETE)
     @ResponseBody
-    public JsonData delete(Integer id) {
+    public JsonData delete(@RequestBody Research research) {
         JsonData data = new JsonData();
-        researchSrv.delete(id);
+        researchSrv.delete(research.getId());
         return data;
     }
 }

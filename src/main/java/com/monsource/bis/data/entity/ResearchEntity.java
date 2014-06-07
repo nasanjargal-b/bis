@@ -21,6 +21,7 @@ public class ResearchEntity implements DataEntity {
     private Set<BlankEntity> blanks;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Integer getId() {
         return id;

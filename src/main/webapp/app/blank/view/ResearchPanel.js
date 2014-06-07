@@ -1,46 +1,8 @@
-var columns = [
-    {text: "Record Name", flex: 1, sortable: true, dataIndex: 'name'},
-    {text: "column1", width: 70, sortable: true, dataIndex: 'column1'},
-    {text: "column2", width: 70, sortable: true, dataIndex: 'column2'}
-];
-var secondGrid = Ext.create('Ext.grid.Panel', {
-    viewConfig: {
-        plugins: {
-            ptype: 'gridviewdragdrop',
-            dragGroup: 'secondGridDDGroup',
-            dropGroup: 'firstGridDDGroup'
-        }
-
-    },
-    store: Ext.create('Blank.store.Blanks'),
-    width:300,
-    columns: columns,
-    height:600,
-    stripeRows: true,
-    title: 'Second Grid',
-    margins: '0 0 0 3'
-});
-var firstGrid = Ext.create('Ext.grid.Panel', {
-    multiSelect: true,
-    width:300,
-    viewConfig: {
-        plugins: {
-            ptype: 'gridviewdragdrop',
-            dragGroup: 'firstGridDDGroup',
-            dropGroup: 'secondGridDDGroup'
-        }
-    },
-    store: Ext.create('Blank.store.Blanks'),
-    columns: columns,
-    stripeRows: true,
-    height:600,
-    title: 'First Grid',
-    margins: '0 2 0 0'
-});
 Ext.define('Blank.view.ResearchPanel', {
     extend: 'Ext.form.Panel',
-    title: 'Маягт',
+    title: 'Судалгаа',
     layout: 'fit',
+    bodyStyle: 'background-color:#dfe9f6',
     alias: 'widget.researchPanel',
     dockedItems: {
         xtype: 'toolbar',
@@ -59,7 +21,10 @@ Ext.define('Blank.view.ResearchPanel', {
     },
     items: [
         {
-            xtype: 'panel',
+            xtype: 'form',
+            margin:'5 5 5 5',
+            border: false,
+            bodyStyle: 'background-color:#dfe9f6',
             border: false,
             layout: 'vbox',
             items: [
@@ -68,32 +33,55 @@ Ext.define('Blank.view.ResearchPanel', {
                     name:'id'
                 },
                 {
-                    xtype:'textfield',
+                    xtype:'numberfield',
+                    width:500,
+                    allowBlank:false,
                     fieldLabel:'Он',
                     name:'year'
                 },
                 {
                     xtype:'checkboxfield',
+                    width:500,
                     fieldLabel:'Идэвхитэй',
                     name:'active'
                 },
                 {
                     xtype:'datefield',
-                    fieldLabel:'Идэвхитэй',
+                    allowBlank:false,
+                    width:500,
+                    format:'m-d-Y',
+                    editable:false,
+                    fieldLabel:'Эхлэх хугацаа',
                     name:'startDate'
                 },
                 {
+                    xtype:'datefield',
+                    fieldLabel:'Дуусах хугацаа',
+                    allowBlank:false,
+                    format:'m-d-Y',
+                    editable:false,
+                    width:500,
+                    name:'endDate'
+                },
+                {
+                    xtype:'textareafield',
+                    fieldLabel:'Тайлбар',
+                    width:500,
+                    name:'description'
+                }
+                ,
+                {
                     layout: 'hbox',
                     xtype: 'panel',
-//                    width:300,
-//                    stretch: 'align:left',
+                    bodyStyle: 'background-color:#dfe9f6',
+                    border: false,
                     items: [
                         {
-                            xtype: firstGrid
+                            xtype: 'blankFirstGrid'
 
                         },
                         {
-                            xtype: secondGrid
+                            xtype: 'blankSecondGrid'
                         }
                     ]
                 }
