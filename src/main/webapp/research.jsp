@@ -11,6 +11,7 @@
     <title>Барилгын эрэлт, нийлүүлэтийн судалгааны мэдээллийн сан</title>
     <link rel="stylesheet" href="/resources/ext/resources/css/ext-all.css"/>
     <script type="application/javascript" src="/resources/ext/ext-all-dev.js"></script>
+    <script type="application/javascript" src="/resources/ext/ext-all-filter.js"></script>
     <script type="application/javascript" src="/resources/ext/ext-override.js"></script>
     <script type="application/javascript" src="/app/blank/ResearchApp.js"></script>
 </head>

@@ -1,7 +1,7 @@
 Ext.define('Blank.view.ResearchGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.researchGrid',
-    title: 'Маягтын жагсаалт',
+    title: 'Судалгааны жагсаалт',
     width: 400,
     forceFit: true,
     dockedItems: [
@@ -41,9 +41,9 @@ Ext.define('Blank.view.ResearchGrid', {
             dataIndex: 'active',
             renderer:function(value){
                 if(value==true){
-                    return "<span style='color: green'>Идэвхитэй</span>span>"
+                    return "<span style='color: green'>Идэвхитэй</span>"
                 }else{
-                    return "<span style='color: red'>Идэвхитэй</span>span>"
+                    return "<span style='color: red'>Идэвхигүй</span>"
                 }
             }
         },
