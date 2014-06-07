@@ -1,5 +1,6 @@
 package com.monsource.bis.blank.dao;
 
+import com.monsource.bis.blank.controller.RecordFilter;
 import com.monsource.bis.blank.exception.ChoiceNotMatchException;
 import com.monsource.bis.blank.model.Blank;
 import com.monsource.bis.blank.model.ColumnType;
@@ -34,15 +35,14 @@ public class RecordDao extends HibernateDaoSupport {
      * @param blankId
      * @param start
      * @param limit
+     * @param filter
      */
-    public List<Record> find(String blankId, Integer researchId, Integer start, Integer limit) throws JAXBException {
+    public List<Record> find(String blankId, Integer start, Integer limit, RecordFilter filter) throws JAXBException {
 
         Session session = this.getSession();
         Blank blank = blankSrv.get(blankId);
 
-        SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM " + questionSrv.getSchema() + "." + blank.getId() + " WHERE research_id = :researchId");
-
-        sqlQuery.setInteger("researchId", researchId);
+        SQLQuery sqlQuery = createDataQuery(blank, filter);
 
         sqlQuery.setFirstResult(start);
         sqlQuery.setMaxResults(limit);
@@ -62,12 +62,15 @@ public class RecordDao extends HibernateDaoSupport {
                     (Integer) result.get("city_id"),
                     (Integer) result.get("district_id"),
                     (String) result.get("description"),
-                    (Date) result.get("createDate"),
+                    (Date) result.get("created_date"),
                     (String) result.get("fill_worker"),
                     (String) result.get("fill_position"),
                     (String) result.get("fill_phone"),
                     (Date) result.get("fill_date"),
-                    (String) result.get("researcher")
+                    (String) result.get("researcher"),
+                    (String) result.get("username"),
+                    (String) result.get("city_name"),
+                    (String) result.get("district_name")
             );
 
             Map data = new HashMap();
@@ -95,6 +98,46 @@ public class RecordDao extends HibernateDaoSupport {
 
         return records;
 
+    }
+
+    private SQLQuery createDataQuery(Blank blank, RecordFilter filter) {
+
+        Session session = this.getSession();
+
+        String query = "SELECT b.*,a.username,c.name AS city_name, d.name AS district_name FROM " + questionSrv.getSchema() + "." + blank.getId() + " AS b " +
+                "INNER JOIN public.account AS a ON b.account_id = a.id " +
+                "INNER JOIN public.city AS c ON b.city_id = c.id " +
+                "LEFT JOIN public.district AS d ON b.district_id = d.id " +
+                "WHERE research_id = :researchId";
+
+        if (filter.getCityId() != null)
+            query += " AND b.city_id = :cityId";
+        if (filter.getDistrictId() != null)
+            query += " AND b.district_id = :districtId";
+        if (filter.getUsername() != null)
+            query += " AND a.username LIKE :username";
+        if (filter.getResearcher() != null)
+            query += " AND b.researcher LIKE :researcher";
+        if (filter.getCreateDate() != null)
+            query += " AND b.created_date = :createDate";
+
+
+        SQLQuery sqlQuery = session.createSQLQuery(query);
+
+        sqlQuery.setInteger("researchId", filter.getResearchId());
+
+        if (filter.getCityId() != null)
+            sqlQuery.setInteger("cityId", filter.getCityId());
+        if (filter.getDistrictId() != null)
+            sqlQuery.setInteger("districtId", filter.getDistrictId());
+        if (filter.getUsername() != null)
+            sqlQuery.setString("username", "%" + filter.getUsername() + "%");
+        if (filter.getResearcher() != null)
+            sqlQuery.setString("researcher", "%" + filter.getResearcher() + "%");
+        if (filter.getCreateDate() != null)
+            sqlQuery.setDate("createDate", filter.getCreateDate());
+
+        return sqlQuery;
     }
 
 
@@ -204,7 +247,7 @@ public class RecordDao extends HibernateDaoSupport {
                     if (data instanceof Collection) {
                         Collection values = (Collection) data;
                         for (Object value : values) {
-                            validChoice(question,value);
+                            validChoice(question, value);
                         }
                         deleteQuery.setInteger("ref_id", record.getId()).executeUpdate();
 

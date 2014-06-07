@@ -1,0 +1,166 @@
+Ext.create('Ext.grid.Panel', {
+    action: 'recordGrid',
+    title: 'Бичлэгийн жагсаалт',
+    width: 400,
+    dockedItems: [
+        {
+            xtype: 'toolbar',
+            autoScroll: true,
+            defaults: {
+                padding: '0 5 0 0'
+            },
+            items: [
+                {
+                    text: 'Нэмэх',
+                    icon: '/resources/images/add-16px.png',
+                    action: 'add'
+                },
+                {
+                    text: 'Засах',
+                    icon: '/resources/images/edit-16px.png',
+                    action: 'edit'
+                },
+                {
+                    text: 'Устгах',
+                    icon: '/resources/images/delete-16px.png',
+                    action: 'delete'
+                },
+                '|',
+                {
+                    xtype: 'filefield',
+                    buttonOnly: true,
+                    blankId: '$blankId',
+                    researchId: $researchId,
+                    buttonConfig: {
+                        text: 'Маягт илгээх',
+                        icon: '/resources/images/upload-doc-16px.png'
+                    },
+                    action: 'upload'
+                },
+                {
+                    text: 'Загвар татах',
+                    icon: '/resources/images/download-doc-16px.png',
+                    action: 'download',
+                    handler: function () {
+                        window.location = '/blank-mod/record/file/download.xlsx?blankId=$blankId'
+                    }
+                },
+                '->',
+                {
+                    xtype: 'hidden',
+                    name: 'blankId',
+                    value: "$blankId"
+                },
+                {
+                    xtype: 'hidden',
+                    name: 'researchId',
+                    value: $researchId
+                },
+                {
+                    xtype: 'combo',
+                    emptyText: 'Аймаг/Хот',
+                    enableKeyEvents: true,
+                    queryMode: 'local',
+                    displayField: 'name',
+                    valueField: 'id',
+                    name: 'cityId',
+                    action: 'search',
+                    autoSelect: true,
+                    store: 'City'
+                },
+                {
+                    xtype: 'combo',
+                    emptyText: 'Сум/Дүүрэг',
+                    enableKeyEvents: true,
+                    queryMode: 'local',
+                    displayField: 'name',
+                    valueField: 'id',
+                    name: 'districtId',
+                    action: 'search',
+                    autoSelect: true
+                },
+                {
+                    xtype: 'textfield',
+                    emptyText: 'Судалгаа авсан',
+                    enableKeyEvents: true,
+                    name: 'researcher',
+                    action: 'search'
+                },
+                {
+                    xtype: 'datefield',
+                    emptyText: 'Үүсгэсэн огноо',
+                    enableKeyEvents: true,
+                    format: 'Y-m-d',
+                    name: 'createDate',
+                    action: 'search'
+                },
+                {
+                    xtype: 'textfield',
+                    emptyText: 'Бүртгэсэн',
+                    enableKeyEvents: true,
+                    name: 'username',
+                    action: 'search'
+                },
+                {
+                    text: 'Хайх',
+                    icon: '/resources/images/search-16px.png',
+                    action: 'search'
+                },
+                {
+                    text: 'Цэвэрлэх',
+                    icon: '/resources/images/clear-16px.png',
+                    action: 'clear'
+                }
+            ]
+        }
+    ],
+    store: 'Record',
+    columns: [
+        {
+            text: '#',
+            width: 60,
+            dataIndex: 'id'
+        },
+        #foreach($question in $questions)
+            {
+                #if($question.name && $question.name != "")
+                    text: "$esc.javascript($question.name)",
+                #else
+                    text: "$esc.javascript($question.id)",
+                #end
+                autoScroll: true,
+                dataIndex: 'data',
+                renderer: function (value) {
+                    var data = value['$question.id.toLowerCase()'];
+                    if (Array.isArray(data))
+                        return data.join(";");
+                    else
+                        return  data;
+                }
+
+            },
+        #end
+        {
+            text: 'Хот/Аймаг',
+            dataIndex: 'cityName'
+        },
+        {
+            text: 'Сум/Дүүрэг',
+            dataIndex: 'districtName'
+        },
+        {
+            text: 'Судалгааг авсан',
+            dataIndex: 'researcher'
+        },
+        {
+            text: 'Үүсгэсэн огноо',
+            dataIndex: 'createDate',
+            xtype: 'datecolumn',
+            format: 'Y-m-d'
+        },
+        {
+            text: 'Бүртгэсэн',
+            dataIndex: 'accountName'
+        }
+    ]
+});

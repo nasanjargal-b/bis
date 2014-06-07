@@ -1,8 +1,8 @@
 Ext.application({
     name: 'Blank',
-    controllers: ['RecordCtrl'],
-    models: ['Record','Research'],
-    stores: ['Blanks', 'Researches', 'Record'],
+    controllers: ['RecordCtrl', 'RecordFileCtrl'],
+    models: ['Record', 'Research', 'City', 'District'],
+    stores: ['Blanks', 'Researches', 'Record', 'City'],
     views: ['RecordBlankGrid'],
     appFolder: '/app/blank',
     launch: function () {

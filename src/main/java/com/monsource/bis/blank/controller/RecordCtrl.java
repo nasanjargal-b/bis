@@ -9,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.monsource.bis.blank.service.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.xml.bind.JAXBException;
 
@@ -22,9 +24,32 @@ public class RecordCtrl {
     @Autowired
     BlankCityDao blankCityDao;
     @Autowired
+    BlankService blankSrv;
+    @Autowired
+    QuestionService questionSrv;
+    @Autowired
     RecordDao recordDao;
     @Autowired
     RecordService recordSrv;
+
+    @RequestMapping("grid.js")
+    public ModelAndView gridView(String blankId, Integer researchId) throws JAXBException {
+        Blank blank = blankSrv.get(blankId);
+        List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
+        List<Question> columnQuestions = new ArrayList<>();
+        for (Question question : questions) {
+            if (question.isGrid()) columnQuestions.add(question);
+        }
+
+        ModelAndView mav = new ModelAndView("/recordGrid.js");
+
+        mav.addObject("questions", columnQuestions);
+        mav.addObject("blankId", blankId);
+        mav.addObject("researchId", researchId);
+
+        return mav;
+
+    }
 
     @RequestMapping(value = "cities.json", method = RequestMethod.GET)
     @ResponseBody
@@ -39,8 +64,8 @@ public class RecordCtrl {
      */
     @RequestMapping(value = "records.json", method = RequestMethod.GET)
     @ResponseBody
-    public JsonData getList(@RequestParam String blankId, @RequestParam Integer researchId, Integer start, Integer limit) throws JAXBException {
-        return new JsonData(recordDao.find(blankId, researchId, start, limit));
+    public JsonData getList(@RequestParam String blankId, @ModelAttribute RecordFilter filter, Integer start, Integer limit) throws JAXBException {
+        return new JsonData(recordDao.find(blankId, start, limit, filter));
     }
 
     /**

@@ -1,9 +1,10 @@
-Ext.define('Blank.store.Record', {
+Ext.define('Blank.store.City', {
     extend: 'Ext.data.Store',
-    model: 'Blank.model.Record',
+    model:'Blank.model.City',
+    autoLoad:true,
     proxy: {
         type: 'ajax',
-        url: '/blank-mod/record/records.json',
+        url: '/blank-mod/record/cities.json',
         reader: {
             type: 'json',
             root: 'data'

@@ -3,12 +3,14 @@ package com.monsource.bis.core.json;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 public class JsonData implements Serializable {
 
     private boolean success;
     private Object data;
     private String message;
+    private Integer total;
 
     @JsonIgnore
     private String[] ignores;
@@ -38,6 +40,17 @@ public class JsonData implements Serializable {
     }
 
     /**
+     * @param data
+     * @param ignores
+     */
+    public JsonData(Collection data, Integer total, String... ignores) {
+        this.success = true;
+        this.data = data;
+        this.ignores = ignores;
+        this.total = total;
+    }
+
+    /**
      * @param success
      * @param message
      */
@@ -47,7 +60,6 @@ public class JsonData implements Serializable {
     }
 
     /**
-     *
      * @param data
      */
     public JsonData(Object data) {
@@ -87,4 +99,11 @@ public class JsonData implements Serializable {
         this.message = message;
     }
 
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
 }

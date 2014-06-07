@@ -17,12 +17,17 @@ public class Record {
     private String fillPhone;
     private Date fillDate;
     private String researcher;
+
+    private String accountName;
+    private String cityName;
+    private String districtName;
+
     private Map<String, Object> data;
 
     public Record() {
     }
 
-    public Record(Integer id, Integer accountId, Integer researchId, Integer cityId, Integer districtId, String description, Date createDate, String fillWorker, String fillPosition, String fillPhone, Date fillDate, String researcher) {
+    public Record(Integer id, Integer accountId, Integer researchId, Integer cityId, Integer districtId, String description, Date createDate, String fillWorker, String fillPosition, String fillPhone, Date fillDate, String researcher, String accountName, String cityName, String districtName) {
         this.id = id;
         this.accountId = accountId;
         this.researchId = researchId;
@@ -35,6 +40,11 @@ public class Record {
         this.fillPhone = fillPhone;
         this.fillDate = fillDate;
         this.researcher = researcher;
+
+        this.accountName = accountName;
+        this.cityName = cityName;
+        this.districtName = districtName;
+
     }
 
     public Integer getId() {
@@ -131,6 +141,30 @@ public class Record {
 
     public void setResearcher(String researcher) {
         this.researcher = researcher;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
     }
 
     public Map<String, Object> getData() {

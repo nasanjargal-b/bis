@@ -2,7 +2,7 @@ Ext.define('Blank.model.Record', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'accountId', type: 'int'},
+        {name: 'accountName', type: 'int'},
         {name: 'researchId', type: 'int'},
         {name: 'cityId', type: 'int'},
         {name: 'districtId', type: 'int'},
@@ -13,6 +13,9 @@ Ext.define('Blank.model.Record', {
         {name: 'fillPhone', type: 'string'},
         {name: 'fillDate', type: 'date'},
         {name: 'researcher', type: 'string'},
+        {name: 'accountName', type: 'string'},
+        {name: 'cityName', type: 'string'},
+        {name: 'districtName', type: 'string'},
         {name: 'data', type: 'auto'}
     ]
 });
