@@ -18,8 +18,9 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
     /**
      * @param text
      * @param groupId
+     * @param researchId
      */
-    public List<Blanks> find(String text, String groupId) {
+    public List<Blanks> find(String text, String groupId, Integer researchId) {
         Criteria criteria = this.getSession().createCriteria(BlankEntity.class);
 
         criteria.createAlias("blankGroup", "blankGroup");
@@ -33,6 +34,11 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
 
         if (groupId != null) {
             criteria.add(Restrictions.eq("blankGroup.id", groupId));
+        }
+
+        if (researchId != null) {
+            criteria.createAlias("researches", "researches");
+            criteria.add(Restrictions.eq("researches.id", researchId));
         }
 
 

@@ -5,6 +5,9 @@ Ext.define('Blank.controller.BlankCtrl', {
             'blankGrid gridview': {
                 itemclick: function (view, record) {
                     this.editBlank(record.get('id'));
+                },
+                afterrender: function (view) {
+                    view.getStore().load();
                 }
             },
             'blankGrid button[action="add"]': {

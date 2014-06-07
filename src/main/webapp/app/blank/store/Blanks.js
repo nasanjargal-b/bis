@@ -6,7 +6,6 @@ Ext.define('Blank.store.Blanks', {
         {name: 'blankGroupName', type: 'string'}
     ],
     groupField: 'blankGroupName',
-    autoLoad: true,
     proxy: {
         type: 'ajax',
         url: '/blank-mod/blank/blanks.json',
