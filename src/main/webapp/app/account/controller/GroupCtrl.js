@@ -12,8 +12,13 @@ Ext.define('Account.controller.GroupCtrl', {
                 click: function (btn) {
                     var grid = btn.up('grid');
                     var model = grid.getSelectionModel().getSelection()[0];
-                    console.log(model);
-                    this.edit(grid, model);
+//                    console.log(model);
+//                    this.edit(grid, model);
+                    if (model) {
+                        this.edit(grid, model);
+                    } else {
+                        Ext.MessageBox.alert("Алдаа", "Та засах мөрөө сонгоно уу?");
+                    }
                 }
             },
             'groupGrid component[action="search"]': {

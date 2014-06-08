@@ -59,12 +59,13 @@ Ext.define('Account.controller.AccountCtrl', {
             'accountGrid button[alias="delete"]': {
                 click: function (btn) {
                     var grid = btn.up('grid');
+                    var me = this;
                     var model = grid.getSelectionModel().getSelection()[0];
                     if (model) {
                         Ext.MessageBox.confirm('Асуулт', 'Та устгах үйлдэлийг хийхдээ итгэлтэй байна уу!!!<br/>' +
                             '<span style="color: red;">Та устгах үйлдлийг хийснээр үүнтэй холбоотой бусад мэдээллүүд мөн устах болно гэдэгийг анхаарана уу.</span>', function (btn) {
                             if (btn == 'yes')
-                                this.delete(model);
+                                me.delete(model);
                         });
                     } else {
                         Ext.MessageBox.alert("Алдаа", "Та устгах мөрөө сонгоно уу?");
