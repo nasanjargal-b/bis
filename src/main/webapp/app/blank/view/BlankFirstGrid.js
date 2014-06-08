@@ -4,6 +4,23 @@ Ext.define('Blank.view.BlankFirstGrid', {
     title: 'Маягтын жагсаалт',
     width: 400,
     forceFit: true,
+    dockedItems:[
+        {
+            xtype:'toolbar',
+            items:[
+                {
+                    xtype:'textfield',
+                    enableKeyEvents:true,
+                    action:'search'
+                },
+                {
+                    xtype:'button',
+                    text:'Хайх',
+                    action:'search'
+                }
+            ]
+        }
+    ],
     store: Ext.create('Blank.store.Blanks'),
     features: [
         {
@@ -14,7 +31,6 @@ Ext.define('Blank.view.BlankFirstGrid', {
     viewConfig: {
         plugins: {
             ptype: 'gridviewdragdrop',
-            ptype: 'Ext.ux.grid.FilterRow',
             dragGroup: 'secondGridDDGroup',
             dropGroup: 'firstGridDDGroup'
         }
