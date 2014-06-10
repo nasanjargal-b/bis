@@ -31,4 +31,8 @@ public class BaseException extends RuntimeException {
     public Object[] getParams() {
         return params.toArray();
     }
+
+    protected void setParams(Object... params) {
+        this.params.addAll(Arrays.asList(params));
+    }
 }

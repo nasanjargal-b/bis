@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +23,6 @@ public class ExcelWorkbook extends XSSFWorkbook {
 
     List<ExcelColumn> columns;
     Blank blank;
-    List<City> cities;
 
     ValueConverter valueConverter;
 
@@ -32,11 +32,10 @@ public class ExcelWorkbook extends XSSFWorkbook {
         init();
     }
 
-    public ExcelWorkbook(Blank blank, List<ExcelColumn> columns, InputStream inputStream, List<City> cities) throws IOException {
+    public ExcelWorkbook(Blank blank, List<ExcelColumn> columns, InputStream inputStream) throws IOException {
         super(inputStream);
         this.blank = blank;
         this.columns = columns;
-        this.cities = cities;
         valueConverter = new ValueConverter(this);
     }
 
@@ -142,7 +141,7 @@ public class ExcelWorkbook extends XSSFWorkbook {
             if (column != null)
                 sortedColumns.add(column);
             else
-                throw new IdColumnNotMatchException(cell.getColumnIndex());
+                throw new IdColumnNotMatchException(cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
         }
 
         ArrayList<Record> records = new ArrayList<>();
@@ -157,34 +156,33 @@ public class ExcelWorkbook extends XSSFWorkbook {
                 ExcelColumn column = sortedColumns.get(i);
                 Object value = valueConverter.getValue(row.getCell(i), column);
 
-                if(column.isBase()) {
-
-                    if (column.getId().equals("CITY")) {
-
-                    }
-
-                }else {
+                if (column.isBase()) {
+                    if (column.getId().equals("CITY"))
+                        record.setCityName((String) value);
+                    if (column.getId().equals("DISTRICT"))
+                        record.setDistrictName((String) value);
+                    if (column.getId().equals("DESC"))
+                        record.setDescription((String) value);
+                    if (column.getId().equals("WORKER"))
+                        record.setFillWorker((String) value);
+                    if (column.getId().equals("POSITION"))
+                        record.setFillPosition((String) value);
+                    if (column.getId().equals("PHONE"))
+                        record.setFillPhone((String) value);
+                    if (column.getId().equals("DATE"))
+                        record.setFillDate((Date) value);
+                    if (column.getId().equals("RESEARCHER"))
+                        record.setResearcher((String) value);
+                } else {
                     record.getData().put(column.getId().toLowerCase(), value);
                 }
 
             }
 
-
-
-
-            /*for (int i = 1; i < keys.size(); i++) {
-                String key = keys.get(i);
-                Cell cell = row.getCell(i);
-
-                setValueToRecord(key, cell, record);
-            }*/
-
             records.add(record);
-
         }
 
-        throw new UnsupportedOperationException();
-//        return records;
+        return records;
     }
 
     /*public List<Record> getRecords() {
@@ -336,7 +334,7 @@ public class ExcelWorkbook extends XSSFWorkbook {
         return false;
     }*/
 
-    private Integer getCityId(String cityName, Cell cell) {
+    /*private Integer getCityId(String cityName, Cell cell) {
         if (cityName != null)
             for (City city : cities) {
                 if (city.getName().toLowerCase().equals(cityName.toLowerCase())) return city.getId();
@@ -356,5 +354,5 @@ public class ExcelWorkbook extends XSSFWorkbook {
         }
 
         throw new DistrictNotMatchException(districtName, cityName, cell.getRowIndex() + 1);
-    }
+    }*/
 }

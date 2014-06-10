@@ -1,7 +1,7 @@
 package com.monsource.bis.blank.excel;
 
 
-import com.monsource.bis.blank.exception.DateInvalidCellValueException;
+import com.monsource.bis.blank.exception.DateNotMatchException;
 import com.monsource.bis.blank.exception.UnknownCellValueException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -59,10 +59,10 @@ public class ValueConverter {
                     value = getTextValue(cell);
             }
         } catch (ParseException e) {
-            throw new DateInvalidCellValueException(cell.getRowIndex(), column.getId(), e);
+            throw new DateNotMatchException(cell.getRowIndex()+1, cell.getColumnIndex() + 1);
         }
         if (value == null && cell.getCellType() != Cell.CELL_TYPE_BLANK) {
-            throw new UnknownCellValueException(cell.getRowIndex(), column.getId());
+            throw new UnknownCellValueException(cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
         }
 
         return value;

@@ -296,7 +296,7 @@ public class RecordDao extends HibernateDaoSupport {
         }
 
         if (!valid)
-            throw new ChoiceNotMatchException(question.getId(), value, question.getChoices());
+            throw new ChoiceNotMatchException(question.getId(), (String) value, question.getChoices());
     }
 
     private void setParams(SQLQuery sqlQuery, Integer researchId, List<Question> questions, Record record) throws ParseException {

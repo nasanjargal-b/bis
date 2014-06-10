@@ -10,7 +10,7 @@ import java.util.List;
  * Created by nasanjargal on 6/5/14.
  */
 public class ChoiceNotMatchException extends BaseException {
-    public ChoiceNotMatchException(String id, Object value, Collection values) {
+    public ChoiceNotMatchException(String id, String value, Collection values) {
         super(id, value, StringUtils.join(values, "; "));
     }
 }
