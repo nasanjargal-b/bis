@@ -175,4 +175,25 @@ public class Record {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "Record{" +
+                "id=" + id +
+                ", accountId=" + accountId +
+                ", researchId=" + researchId +
+                ", cityId=" + cityId +
+                ", districtId=" + districtId +
+                ", description='" + description + '\'' +
+                ", createDate=" + createDate +
+                ", fillWorker='" + fillWorker + '\'' +
+                ", fillPosition='" + fillPosition + '\'' +
+                ", fillPhone='" + fillPhone + '\'' +
+                ", fillDate=" + fillDate +
+                ", researcher='" + researcher + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", districtName='" + districtName + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

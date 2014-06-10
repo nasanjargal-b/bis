@@ -1,7 +1,9 @@
 package com.monsource.bis.blank.service;
 
 import com.monsource.bis.blank.dao.RecordDao;
+import com.monsource.bis.core.security.AuthDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.monsource.bis.blank.model.*;
 
@@ -25,7 +27,9 @@ public class RecordService {
     public void save(String blankId, Integer researchId, Record record) throws JAXBException, ParseException {
         Blank blank = blankSrv.get(blankId);
         record.setResearchId(researchId);
-//        record.setAccountId(); todo after fix
+        record.setAccountId(1); //todo after fix
+//        AuthDetails authDetails = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        record.setAccountId(authDetails.getId());
         recordDao.merge(blank, researchId, record);
     }
 

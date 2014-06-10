@@ -5,7 +5,7 @@ Ext.define('Blank.model.Record', {
         {name: 'accountName', type: 'int'},
         {name: 'researchId', type: 'int'},
         {name: 'cityId', type: 'int'},
-        {name: 'districtId', type: 'int'},
+        {name: 'districtId', type: 'int', useNull: true},
         {name: 'description', type: 'string'},
         {name: 'createDate', type: 'date'},
         {name: 'fillWorker', type: 'string'},

@@ -15,6 +15,11 @@ public class BaseException extends RuntimeException {
         this.params.addAll(Arrays.asList(params));
     }
 
+    public BaseException(Throwable e, Object... params) {
+        super(e);
+        this.params.addAll(Arrays.asList(params));
+    }
+
     public int paramsCount() {
         return params.size();
     }

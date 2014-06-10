@@ -1,0 +1,161 @@
+Ext.create('Ext.window.Window', {
+    width: '30%',
+    action: 'recordWindow',
+    height: '90%',
+    modal: true,
+    title: "$esc.javascript($blank.id) : $esc.javascript($blank.name)",
+    layout: 'fit',
+    blankId: '$blank.id',
+    researchId: $researchId,
+    items: {
+        xtype: 'panel',
+        bodyStyle: 'padding-right:15px;background-color:#dfe9f6',
+        border: false,
+        padding: '0 0 0 5',
+        autoScroll: true,
+        items: {
+            xtype: 'form',
+            border: false,
+            bodyStyle: 'background-color:#dfe9f6',
+            items: [
+                {
+                    xtype: 'hidden',
+                    name: 'id'
+                },
+                {
+                    xtype: 'fieldset',
+                    title: 'Үндсэн асуулт',
+                    layout: 'vbox',
+                    defaults: {
+                        labelWidth: 150,
+                        width: '100%'
+                    },
+                    items: [
+                        #foreach($question in $blank.questions)
+                            #if(!$foreach.first)
+                                ,
+                            #end
+                            #if($question.group)
+                                #parse('/WEB-INF/vm/record-fields/group.js.vm')
+                            #elseif($question.type == 'TEXT')
+                                #parse('/WEB-INF/vm/record-fields/text.js.vm')
+                            #elseif($question.type == 'DECIMAL')
+                                #parse('/WEB-INF/vm/record-fields/decimal.js.vm')
+                            #elseif($question.type == 'INTEGER')
+                                #parse('/WEB-INF/vm/record-fields/integer.js.vm')
+                            #elseif($question.type == 'SINGLE_CHOICE')
+                                #parse('/WEB-INF/vm/record-fields/single_choice.js.vm')
+                            #elseif($question.type == 'MULTIPLE_CHOICE')
+                                #parse('/WEB-INF/vm/record-fields/multiple_choice.js.vm')
+                            #elseif($question.type == 'BOOLEAN')
+                                #parse('/WEB-INF/vm/record-fields/boolean.js.vm')
+                            #elseif($question.type == 'DATE')
+                                #parse('/WEB-INF/vm/record-fields/date.js.vm')
+                            #end
+                        #end
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    title: "Судалгааг авсан хаяг, байршил",
+                    layout: 'vbox',
+                    defaults: {
+                        labelWidth: 150,
+                        width: '100%'
+                    },
+                    items: [
+                        {
+                            xtype: 'combo',
+                            allowBlank: false,
+                            name: 'cityId',
+                            fieldLabel: 'Хот/Аймаг',
+                            queryMode: 'local',
+                            autoSelect: true,
+                            editable: false,
+                            displayField: 'name',
+                            valueField: 'id',
+                            store: 'City'
+                        },
+                        {
+                            xtype: 'combo',
+                            allowBlank: true,
+                            name: 'districtId',
+                            fieldLabel: 'Дүүрэг/Сум',
+                            queryMode: 'local',
+                            autoSelect: true,
+                            displayField: 'name',
+                            valueField: 'id'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    title: "Мэдээлэлээр хангасан",
+                    layout: 'vbox',
+                    defaults: {
+                        labelWidth: 150,
+                        width: '100%'
+                    },
+                    items: [
+                        {
+                            xtype: 'textfield',
+                            name: 'fillWorker',
+                            fieldLabel: 'Овог нэр'
+                        },
+                        {
+                            xtype: 'textfield',
+                            name: 'fillPosition',
+                            fieldLabel: 'Албан тушаал'
+                        },
+                        {
+                            xtype: 'textfield',
+                            name: 'fillPhone',
+                            fieldLabel: 'Холбогдох утас'
+                        },
+                        {
+                            xtype: 'datefield',
+                            format: 'Y-m-d',
+                            name: 'fillDate',
+                            fieldLabel: 'Судалгаа бөгөлсөн огноо'
+                        },
+                        {
+                            xtype: 'textfield',
+                            name: 'researcher',
+                            fieldLabel: 'Судалсан мэргэжилтэн'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'fieldset',
+                    title: "Тайлбар",
+                    layout: 'fit',
+                    items: {
+                        xtype: 'textarea',
+                        name: 'description',
+                        padding: '0 0 8 0'
+                    }
+                }
+            ]
+        }
+    },
+    buttons: [
+        {
+            text: 'Хадгалах',
+            icon: '/resources/images/save-16px.png',
+            action: 'save'
+        },
+        {
+            text: 'Хадгалах',
+            icon: '/resources/images/save-new-16px.png',
+            action: 'saveNew'
+        },
+        {
+            text: 'Болих',
+            icon: '/resources/images/close-16px.png',
+            action: 'close',
+            handler: function (btn) {
+                btn.up('window').close();
+            }
+        }
+    ]
+});

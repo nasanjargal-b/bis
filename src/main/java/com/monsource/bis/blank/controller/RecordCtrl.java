@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.monsource.bis.blank.service.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,6 +53,19 @@ public class RecordCtrl {
 
     }
 
+    @RequestMapping("edit.js")
+    public ModelAndView editView(@RequestParam String blankId, @RequestParam Integer researchId) throws JAXBException {
+        Blank blank = blankSrv.get(blankId);
+
+        ModelAndView mav = new ModelAndView("/recordEdit.js");
+
+        mav.addObject("blank", blank);
+        mav.addObject("researchId", researchId);
+
+        return mav;
+
+    }
+
     @RequestMapping(value = "cities.json", method = RequestMethod.GET)
     @ResponseBody
     public JsonData getCities() {
@@ -65,7 +80,8 @@ public class RecordCtrl {
     @RequestMapping(value = "records.json", method = RequestMethod.GET)
     @ResponseBody
     public JsonData getList(@RequestParam String blankId, @ModelAttribute RecordFilter filter, Integer start, Integer limit) throws JAXBException {
-        return new JsonData(recordDao.find(blankId, start, limit, filter));
+        Map<String, Object> result = recordDao.find(blankId, start, limit, filter);
+        return new JsonData((Collection) result.get("records"), (int) result.get("total"));
     }
 
     /**

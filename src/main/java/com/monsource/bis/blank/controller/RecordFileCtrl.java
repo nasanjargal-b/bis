@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Created by nasanjargal on 6/6/14.
@@ -34,7 +35,7 @@ public class RecordFileCtrl {
     @Transactional
     @RequestMapping("upload.json")
     @ResponseBody
-    public JsonData upload(@RequestParam String blankId, @RequestParam Integer researchId, @RequestParam("file") MultipartFile file) throws JAXBException {
+    public JsonData upload(@RequestParam String blankId, @RequestParam Integer researchId, @RequestParam("file") MultipartFile file) throws JAXBException, ParseException {
 
         try {
             recordFileSrv.save(blankId, researchId, file.getInputStream());

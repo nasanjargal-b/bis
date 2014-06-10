@@ -11,17 +11,20 @@ public class ExcelColumn {
     private String name;
     private String id;
     private ColumnType type = ColumnType.TEXT;
+    private boolean base;
 
-    public ExcelColumn(short width, String name, String id) {
+    public ExcelColumn(short width, String name, String id, boolean base) {
         this.width = width;
         this.name = name;
         this.id = id;
+        this.base = base;
     }
 
-    public ExcelColumn(short width, String name, String id, ColumnType type) {
+    public ExcelColumn(short width, String name, String id, boolean base, ColumnType type) {
         this.width = width;
         this.name = name;
         this.id = id;
+        this.base = base;
         this.type = type;
     }
 
@@ -39,5 +42,9 @@ public class ExcelColumn {
 
     public ColumnType getType() {
         return type;
+    }
+
+    public boolean isBase() {
+        return base;
     }
 }

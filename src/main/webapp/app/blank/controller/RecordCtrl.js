@@ -4,7 +4,7 @@ Ext.define('Blank.controller.RecordCtrl', {
         this.control({
             'recordBlankGrid toolbar combo': {
                 change: this.reloadBlanks,
-                afterrender: function (cmb) {
+                afterrender: function (cmb) { //todo delete
                     window.setTimeout(function () {
                         cmb.setValue(1);
                     }, 500)
@@ -40,6 +40,88 @@ Ext.define('Blank.controller.RecordCtrl', {
                 click: function (cmp) {
                     this.search(cmp.up('toolbar'), true);
                 }
+            },
+            'grid[action="recordGrid"] button[action="add"]': {
+                click: function (btn) {
+                    var grid = btn.up('grid');
+                    this.editRecord(grid.blankId, grid.researchId);
+                }
+            },
+            'grid[action="recordGrid"] button[action="edit"]': {
+                click: function (btn) {
+                    var grid = btn.up('grid');
+                    var record = grid.getSelectionModel().getSelection()[0];
+                    if (record)
+                        this.editRecord(grid.blankId, grid.researchId, record);
+                    else
+                        Ext.MessageBox.alert('Алдаа', 'Засах бичлэгийн мөрөө сонгоно уу!!!');
+                }
+            },
+            'grid[action="recordGrid"] button[action="delete"]': {
+                click: function (btn) {
+                    var grid = btn.up('grid');
+                    var record = grid.getSelectionModel().getSelection()[0];
+                    if (record)
+                        this.deleteRecord(grid.blankId, grid.researchId, record);
+                    else
+                        Ext.MessageBox.alert('Алдаа', 'Устгах бичлэгээ сонгоно уу!!!');
+                }
+            },
+            'grid[action="recordGrid"]': {
+                itemdblclick: function (view, record) {
+                    var grid = view.up('grid');
+                    this.editRecord(grid.blankId, grid.researchId, record);
+                }
+            },
+            'window[action="recordWindow"] combo[name="cityId"]': {
+                change: function (cmb, value) {
+                    var record = cmb.getStore().getById(value);
+                    var districtCmb = cmb.up('fieldset').down('combo[name="districtId"]');
+                    if (record)
+                        districtCmb.bindStore(record.districts());
+                    else
+                        districtCmb.bindStore(Ext.create('Ext.data.ArrayStore'));
+                    districtCmb.setValue(null);
+                }
+            },
+            'window[action="recordWindow"] button[action="save"]': {
+                click: function (btn) {
+                    this.save(btn.up('window'), false);
+                }
+            },
+            'window[action="recordWindow"] button[action="saveNew"]': {
+                click: function (btn) {
+                    this.save(btn.up('window'), true);
+                }
+            }
+        });
+    },
+    editRecord: function (blankId, researchId, record) {
+        Ext.Ajax.request({
+            url: '/blank-mod/record/edit.js',
+            method: 'get',
+            params: {
+                blankId: blankId,
+                researchId: researchId
+            },
+            success: function (response) {
+                var win = eval(response.responseText);
+                win.show();
+                if (record) {
+                    var form = win.down('form');
+
+                    var data = record.get('data');
+                    for (var key in  data) {
+                        var cmp = form.down('component[name="' + key + '"]');
+                        if (cmp.isXType('radiogroup') || cmp.isXType('checkboxgroup')) {
+                            var obj = {};
+                            obj[key] = data[key];
+                            cmp.setValue(obj);
+                        } else
+                            cmp.setValue(data[key]);
+                    }
+                    form.loadRecord(record);
+                }
             }
         });
     },
@@ -49,8 +131,13 @@ Ext.define('Blank.controller.RecordCtrl', {
             cmb.setFieldStyle('color:green');
         else
             cmb.setFieldStyle('color:red');
+        var me = this;//todo delete
         cmb.up('recordBlankGrid').getStore().load({
-            params: {researchId: record.get('id')}
+            params: {researchId: record.get('id')},
+            callback: function (records) { //todo delete
+                var blankId = records[1].get('id');
+                me.reloadRecords(blankId, value);
+            }
         });
     },
     reloadRecords: function (blankId, researchId) {
@@ -67,13 +154,12 @@ Ext.define('Blank.controller.RecordCtrl', {
                 var mainPanel = Ext.ComponentQuery.query('#recordMainPanel')[0];
                 mainPanel.removeAll()
                 mainPanel.add(grid);
-
-                grid.getStore().load({
-                    params: {
-                        blankId: blankId,
-                        researchId: researchId
-                    }
-                })
+                var store = grid.getStore();
+                store.getProxy().extraParams = {
+                    blankId: blankId,
+                    researchId: researchId
+                };
+                store.loadPage(1)
 
             }
         });
@@ -98,9 +184,83 @@ Ext.define('Blank.controller.RecordCtrl', {
             if (toolbar.down('datefield[name="createDate"]').getValue()) params.createDate = toolbar.down('datefield[name="createDate"]').getValue();
             if (toolbar.down('textfield[name="username"]').getValue()) params.username = toolbar.down('textfield[name="username"]').getValue();
         }
+        var store = toolbar.up('grid').getStore();
+        store.getProxy().extraParams = params;
+        store.loadPage(1);
+    },
+    save: function (win, isNew) {
+        var me = this;
+        var form = win.down('form');
+        if (form.getForm().isValid()) {
 
-        toolbar.up('grid').getStore().load({
-            params: params
-        });
+            var values = form.getValues();
+
+            var record = {
+                id: null,
+                accountName: null,
+                researchId: null,
+                cityId: null,
+                districtId: null,
+                description: null,
+                createDate: null,
+                fillWorker: null,
+                fillPosition: null,
+                fillPhone: null,
+                fillDate: null,
+                researcher: null,
+                accountName: null,
+                cityName: null,
+                districtName: null,
+                data: {}
+            };
+            for (var key in record) {
+                record[key] = values[key] == '' ? null : values[key];
+                delete values[key];
+            }
+
+            for (var key in values) {
+                values[key] = values[key] == '' ? null : values[key];
+            }
+
+            record.data = values;
+            Ext.Ajax.request({
+                url: '/blank-mod/record/record.json',
+                method: 'post',
+                jsonData: record,
+                params: {
+                    blankId: win.blankId,
+                    researchId: win.researchId
+                },
+                success: function () {
+                    var grid = Ext.ComponentQuery.query('grid[action="recordGrid"]')[0];
+                    grid.getStore().reload();
+                    grid.getSelectionModel().deselectAll();
+                    win.close();
+                    if (isNew) {
+                        me.editRecord(win.blankId, win.researchId);
+                    }
+                }
+            });
+        }
+    },
+    deleteRecord: function (blankId, researchId, record) {
+        var me = this;
+        Ext.MessageBox.confirm('Асуулт', 'Та уг бичлэгийг устгахдаа итгэлтэй байна уу!!!', function (btn) {
+            if (btn == 'yes')
+                Ext.Ajax.request({
+                    url: '/blank-mod/record/record.json',
+                    method: 'delete',
+                    jsonData: [record.get('id')],
+                    params: {
+                        blankId: blankId,
+                        researchId: researchId
+                    },
+                    success: function () {
+                        var grid = Ext.ComponentQuery.query('grid[action="recordGrid"]')[0];
+                        grid.getStore().reload();
+                        grid.getSelectionModel().deselectAll();
+                    }
+                });
+        })
     }
 });

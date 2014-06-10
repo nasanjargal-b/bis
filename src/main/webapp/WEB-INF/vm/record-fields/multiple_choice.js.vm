@@ -1,0 +1,16 @@
+Ext.create('Ext.form.CheckboxGroup', {
+    fieldLabel: "$esc.javascript($question.text)",
+    columns: 1,
+    name: '$question.id.toLowerCase()',
+    items: [
+        #foreach($value in $question.choices)
+            #if(!$foreach.first),
+            #end
+            {
+                boxLabel: "$esc.javascript($value)",
+                name: '$question.id.toLowerCase()',
+                inputValue: "$esc.javascript($value)"
+            }
+        #end
+    ]
+})

@@ -1,0 +1,32 @@
+Ext.create('Ext.form.FieldSet', {
+    title: '$question.text',
+    layout: 'vbox',
+    defaults: {
+        labelWidth: 150,
+        width: '100%'
+    },
+    items: [
+        #foreach($question in $question.children)
+            #if(!$foreach.first)
+                ,
+            #end
+            #if($question.group)
+                #parse('/WEB-INF/vm/record-fields/group.js.vm')
+            #elseif($question.type == 'TEXT')
+                #parse('/WEB-INF/vm/record-fields/text.js.vm')
+            #elseif($question.type == 'DECIMAL')
+                #parse('/WEB-INF/vm/record-fields/decimal.js.vm')
+            #elseif($question.type == 'INTEGER')
+                #parse('/WEB-INF/vm/record-fields/integer.js.vm')
+            #elseif($question.type == 'SINGLE_CHOICE')
+                #parse('/WEB-INF/vm/record-fields/single_choice.js.vm')
+            #elseif($question.type == 'MULTIPLE_CHOICE')
+                #parse('/WEB-INF/vm/record-fields/multiple_choice.js.vm')
+            #elseif($question.type == 'BOOLEAN')
+                #parse('/WEB-INF/vm/record-fields/boolean.js.vm')
+            #elseif($question.type == 'DATE')
+                #parse('/WEB-INF/vm/record-fields/date.js.vm')
+            #end
+        #end
+    ]
+})

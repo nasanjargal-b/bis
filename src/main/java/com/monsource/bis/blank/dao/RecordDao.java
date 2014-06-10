@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.xml.bind.JAXBException;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,12 +38,12 @@ public class RecordDao extends HibernateDaoSupport {
      * @param limit
      * @param filter
      */
-    public List<Record> find(String blankId, Integer start, Integer limit, RecordFilter filter) throws JAXBException {
+    public Map<String, Object> find(String blankId, Integer start, Integer limit, RecordFilter filter) throws JAXBException {
 
         Session session = this.getSession();
         Blank blank = blankSrv.get(blankId);
 
-        SQLQuery sqlQuery = createDataQuery(blank, filter);
+        SQLQuery sqlQuery = createDataQuery(blank, filter, false);
 
         sqlQuery.setFirstResult(start);
         sqlQuery.setMaxResults(limit);
@@ -96,19 +97,36 @@ public class RecordDao extends HibernateDaoSupport {
             records.add(record);
         }
 
-        return records;
+        SQLQuery totalQuery = createDataQuery(blank, filter, true);
+
+        int total = ((BigInteger) totalQuery.uniqueResult()).intValue();
+
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        result.put("records", records);
+        result.put("total", total);
+
+        return result;
 
     }
 
-    private SQLQuery createDataQuery(Blank blank, RecordFilter filter) {
+    private SQLQuery createDataQuery(Blank blank, RecordFilter filter, boolean count) {
 
         Session session = this.getSession();
 
-        String query = "SELECT b.*,a.username,c.name AS city_name, d.name AS district_name FROM " + questionSrv.getSchema() + "." + blank.getId() + " AS b " +
-                "INNER JOIN public.account AS a ON b.account_id = a.id " +
-                "INNER JOIN public.city AS c ON b.city_id = c.id " +
-                "LEFT JOIN public.district AS d ON b.district_id = d.id " +
-                "WHERE research_id = :researchId";
+        String query = null;
+        if (!count)
+            query = "SELECT b.*,a.username,c.name AS city_name, d.name AS district_name FROM " + questionSrv.getSchema() + "." + blank.getId() + " AS b " +
+                    "INNER JOIN public.account AS a ON b.account_id = a.id " +
+                    "INNER JOIN public.city AS c ON b.city_id = c.id " +
+                    "LEFT JOIN public.district AS d ON b.district_id = d.id " +
+                    "WHERE research_id = :researchId";
+        else
+            query = "SELECT count(b.id) FROM " + questionSrv.getSchema() + "." + blank.getId() + " AS b " +
+                    "INNER JOIN public.account AS a ON b.account_id = a.id " +
+                    "INNER JOIN public.city AS c ON b.city_id = c.id " +
+                    "LEFT JOIN public.district AS d ON b.district_id = d.id " +
+                    "WHERE research_id = :researchId";
 
         if (filter.getCityId() != null)
             query += " AND b.city_id = :cityId";
@@ -122,7 +140,7 @@ public class RecordDao extends HibernateDaoSupport {
             query += " AND b.created_date = :createDate";
 
 
-        SQLQuery sqlQuery = session.createSQLQuery(query);
+        SQLQuery sqlQuery = session.createSQLQuery(query + (count ? "" : " ORDER BY b.id"));
 
         sqlQuery.setInteger("researchId", filter.getResearchId());
 
@@ -309,7 +327,7 @@ public class RecordDao extends HibernateDaoSupport {
                     sqlQuery.setParameter(id, data, DoubleType.INSTANCE);
                     break;
                 case INTEGER:
-                    data = data == null ? null : (data instanceof Integer) ? data : Double.valueOf(data + "");
+                    data = data == null ? null : (data instanceof Integer) ? data : Double.valueOf(data + "").intValue();
                     sqlQuery.setParameter(id, data, IntegerType.INSTANCE);
                     break;
                 case BOOLEAN:

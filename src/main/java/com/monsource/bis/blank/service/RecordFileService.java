@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,13 +34,19 @@ public class RecordFileService {
     BlankService blankSrv;
     @Autowired
     BlankCityDao cityDao;
+    @Autowired
+    RecordService recordSrv;
 
-    public void save(String blankId, Integer researchId, InputStream inputStream) throws IOException, JAXBException {
+    public void save(String blankId, Integer researchId, InputStream inputStream) throws IOException, JAXBException, ParseException {
 
         Blank blank = blankSrv.get(blankId);
         ExcelWorkbook excelWorkbook = new ExcelWorkbook(blank, getColumns(questionSrv.getColumnsWithoutGroup(blank.getQuestions())), inputStream, cityDao.findAll());
 
         List<Record> records = excelWorkbook.getRecords();
+
+        for (Record record : records) {
+            recordSrv.save(blankId, researchId, record);
+        }
 
     }
 
@@ -58,20 +65,20 @@ public class RecordFileService {
     private List<ExcelColumn> getColumns(List<Question> questions) {
         ArrayList<ExcelColumn> columns = new ArrayList<>();
 
-        columns.add(new ExcelColumn((short) 150, "#", "ID"));
+        columns.add(new ExcelColumn((short) 150, "#", "ID", true));
 
         for (Question question : questions) {
-            columns.add(new ExcelColumn((short) 300, question.getText(), question.getId().toUpperCase(), question.getType()));
+            columns.add(new ExcelColumn((short) 300, question.getText(), question.getId().toUpperCase(), false, question.getType()));
         }
 
-        columns.add(new ExcelColumn((short) 250, "Аймаг/Хот", "CITY"));
-        columns.add(new ExcelColumn((short) 250, "Сум/Дүүрэг", "DISTRICT"));
-        columns.add(new ExcelColumn((short) 300, "Тайлбар", "DESC"));
-        columns.add(new ExcelColumn((short) 300, "Ажилтан", "WORKER"));
-        columns.add(new ExcelColumn((short) 300, "Албан тушаал", "POSITION"));
-        columns.add(new ExcelColumn((short) 300, "Утас", "PHONE"));
-        columns.add(new ExcelColumn((short) 300, "Бүртгэсэн огноо", "DATE", ColumnType.DATE));
-        columns.add(new ExcelColumn((short) 300, "Мэдээллийг авсан судлаач", "RESEARCHER"));
+        columns.add(new ExcelColumn((short) 250, "Аймаг/Хот", "CITY", true));
+        columns.add(new ExcelColumn((short) 250, "Сум/Дүүрэг", "DISTRICT", true));
+        columns.add(new ExcelColumn((short) 300, "Тайлбар", "DESC", true));
+        columns.add(new ExcelColumn((short) 300, "Ажилтан", "WORKER", true));
+        columns.add(new ExcelColumn((short) 300, "Албан тушаал", "POSITION", true));
+        columns.add(new ExcelColumn((short) 300, "Утас", "PHONE", true));
+        columns.add(new ExcelColumn((short) 300, "Бүртгэсэн огноо", "DATE", true, ColumnType.DATE));
+        columns.add(new ExcelColumn((short) 300, "Мэдээллийг авсан судлаач", "RESEARCHER", true));
 
         return columns;
     }

@@ -1,0 +1,5 @@
+Ext.create('Ext.form.field.Date', {
+    name: '$question.id.toLowerCase()',
+    format: 'Y-m-d',
+    fieldLabel: "$esc.javascript($question.text)"
+})

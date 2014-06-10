@@ -1,0 +1,18 @@
+Ext.create('Ext.form.RadioGroup', {
+    fieldLabel: "$esc.javascript($question.text)",
+    columns: 1,
+    vertical: false,
+    name: '$question.id.toLowerCase()',
+    items: [
+        {
+            boxLabel: 'Тийм',
+            name: '$question.id.toLowerCase()',
+            inputValue: true
+        },
+        {
+            boxLabel: 'Үгүй',
+            name: '$question.id.toLowerCase()',
+            inputValue: false
+        }
+    ]
+})

@@ -1,6 +1,8 @@
 Ext.create('Ext.grid.Panel', {
     action: 'recordGrid',
     title: 'Бичлэгийн жагсаалт',
+    blankId: '$blankId',
+    researchId: $researchId,
     width: 400,
     dockedItems: [
         {
@@ -112,7 +114,16 @@ Ext.create('Ext.grid.Panel', {
                     action: 'clear'
                 }
             ]
-        }
+        },
+        {
+            xtype: 'pagingtoolbar',
+            store: 'Record',
+            dock: 'bottom',
+            beforePageText: 'Хуудас #',
+            afterPageText: ' Нийт хуудас {0}',
+            displayInfo: true,
+            displayMsg: 'Та нийт {2} бичлэг байгаагаас уг хуудсанд {0} - {1}-р билэг харагдаж байна.'
+        },
     ],
     store: 'Record',
     columns: [
@@ -132,10 +143,23 @@ Ext.create('Ext.grid.Panel', {
                 dataIndex: 'data',
                 renderer: function (value) {
                     var data = value['$question.id.toLowerCase()'];
-                    if (Array.isArray(data))
-                        return data.join(";");
-                    else
-                        return  data;
+
+                    #if($question.type == 'MULTIPLE_CHOICE')
+                        if (Array.isArray(data))
+                            return data.join(";");
+                        else
+                            return  data;
+                    #elseif($question.type == 'BOOLEAN')
+                        if (data == true) {
+                            return 'Тийм'
+                        } else if (data == false) {
+                            return 'Үгүй'
+                        } else {
+                            return data;
+                        }
+                    #else
+                        return data;
+                    #end
                 }
 
             },

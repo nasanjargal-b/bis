@@ -1,0 +1,16 @@
+Ext.create('Ext.form.field.ComboBox', {
+    name: '$question.id.toLowerCase()',
+    valueField: 'value',
+    displayField: 'value',
+    fieldLabel: "$esc.javascript($question.text)",
+    store: Ext.create('Ext.data.Store', {
+        fields: ['value'],
+        data: [
+            #foreach($choice in $question.choices)
+                #if(!$foreach.first),
+                #end
+                {value: "$esc.javascript($choice)"}
+            #end
+        ]
+    })
+})

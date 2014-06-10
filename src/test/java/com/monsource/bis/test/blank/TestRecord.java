@@ -50,8 +50,8 @@ public class TestRecord {
         String path = PATH + "records.json";
 
         MockHttpServletRequestBuilder request = get(path);
-        request.param("blankId", "B02");
-        request.param("researchId", "2");
+        request.param("blankId", "B01");
+        request.param("researchId", "1");
         request.param("start", "0");
         request.param("limit", "25");
 

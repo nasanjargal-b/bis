@@ -79,7 +79,7 @@ public class TestRecordFile {
 
         String path = PATH + "upload.json";
 
-        FileInputStream fis = new FileInputStream("/home/nasanjargal/Downloads/B01 (3).xlsx");
+        FileInputStream fis = new FileInputStream("/home/nasanjargal/Desktop/B01.xlsx");
         MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
 
         MockMultipartHttpServletRequestBuilder request = fileUpload(path);
@@ -89,22 +89,6 @@ public class TestRecordFile {
 
         mockMvc.perform(request)
                 .andExpect(status().isOk());
-
-        /*HashMap<String, String> contentTypeParams = new HashMap<String, String>();
-        contentTypeParams.put("boundary", "265001916915724");
-        contentTypeParams.put("blankId", "B01");
-        contentTypeParams.put("boundary", "265001916915724");
-        contentTypeParams.put("researchId", "1");
-        contentTypeParams.put("boundary", "265001916915724");
-
-        MediaType mediaType = new MediaType("multipart", "form-data", contentTypeParams);
-
-        mockMvc.perform(
-                post(path)
-                        .content(multipartFile.getBytes())
-                        .contentType(mediaType)
-        )
-                .andExpect(status().isOk());*/
     }
 
 }

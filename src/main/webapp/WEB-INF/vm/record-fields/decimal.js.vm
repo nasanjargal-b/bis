@@ -1,0 +1,5 @@
+Ext.create('Ext.form.field.Number', {
+    hideTrigger: true,
+    name: '$question.id.toLowerCase()',
+    fieldLabel: "$esc.javascript($question.text)"
+})

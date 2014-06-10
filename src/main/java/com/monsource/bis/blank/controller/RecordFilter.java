@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class RecordFilter {
     Integer researchId;
+    String blankId;
     Integer id;
     Integer cityId;
     Integer districtId;
@@ -20,6 +21,14 @@ public class RecordFilter {
 
     public void setResearchId(Integer researchId) {
         this.researchId = researchId;
+    }
+
+    public String getBlankId() {
+        return blankId;
+    }
+
+    public void setBlankId(String blankId) {
+        this.blankId = blankId;
     }
 
     public Integer getId() {

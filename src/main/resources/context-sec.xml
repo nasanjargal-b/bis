@@ -21,7 +21,8 @@
     <sec:http use-expressions="true" auto-config="true">
         <sec:intercept-url pattern="/favicon.ico" access="permitAll()"/>
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
-        <sec:intercept-url pattern="/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/**"
+                           access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_REGISTER','ROLE_REPORTER','ROLE_VIEWER')"/>
         <!--<sec:access-denied-handler ref="authHandler"/>-->
         <sec:http-basic/>
         <!--<sec:form-login

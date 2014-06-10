@@ -1,0 +1,4 @@
+Ext.create('Ext.form.field.Text', {
+    name: '$question.id.toLowerCase()',
+    fieldLabel: "$esc.javascript($question.text)"
+})
