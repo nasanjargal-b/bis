@@ -14,6 +14,17 @@ Ext.define('Blank.controller.ResearchCtrl', {
             'researchPanel button[action="cancel"]': {
                 click: this.cancel
             },
+            'researchPanel component[action="search"]': {
+                click: function (btn) {
+                    var text = btn.up('grid').down('textfield[action="search"]').getValue();
+                    this.search(text, btn);
+                },
+                keyup: function (field, e) {
+                    if (e.getKey() == e.ENTER) {
+                        this.search(field.getValue(), field);
+                    }
+                }
+            },
             'researchGrid button[action="add"]': {
                 click: function (btn) {
                     this.add()
@@ -127,5 +138,19 @@ Ext.define('Blank.controller.ResearchCtrl', {
         var researchPanel = this.getResearchPanelView().create();
         mainPanel.remove(researchPanel.down('researchPanel'));
         mainPanel.add(researchPanel)
+    },
+    search: function (text, btn) {
+        var items = btn.up('grid').getStore();
+        var models = new Array();
+        var index =0;
+        items.filterBy(function(record){
+            var search = record.get('name').search(text);
+            if(search!=-1){
+                return record
+            }else{
+                return false;
+            }
+
+        })
     }
 });
