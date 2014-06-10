@@ -10,9 +10,11 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="authService" class="com.monsource.bis.core.security.AuthService">
+    <context:component-scan base-package="com.monsource.bis.core.security"/>
+
+    <!--<bean id="authService" class="com.monsource.bis.core.security.AuthService">
         <property name="authDao" ref="authDaoImpl"/>
-    </bean>
+    </bean>-->
 
     <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
         <property name="userPropertyToUse" value="salt"/>
@@ -21,8 +23,8 @@
     <sec:http use-expressions="true" auto-config="true">
         <sec:intercept-url pattern="/favicon.ico" access="permitAll()"/>
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
-        <sec:intercept-url pattern="/**"
-                           access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_REGISTER','ROLE_REPORTER','ROLE_VIEWER')"/>
+        <!--<sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_REGISTER','ROLE_REPORTER','ROLE_VIEWER')"/>-->
+        <sec:intercept-url pattern="/**" access="permitAll()"/>
         <!--<sec:access-denied-handler ref="authHandler"/>-->
         <sec:http-basic/>
         <!--<sec:form-login

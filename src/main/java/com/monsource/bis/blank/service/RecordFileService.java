@@ -3,10 +3,16 @@ package com.monsource.bis.blank.service;
 import com.monsource.bis.blank.dao.BlankCityDao;
 import com.monsource.bis.blank.excel.ExcelColumn;
 import com.monsource.bis.blank.excel.ExcelWorkbook;
+import com.monsource.bis.blank.exception.CityNotMatchException;
+import com.monsource.bis.blank.exception.DistrictNotMatchException;
+import com.monsource.bis.blank.exception.UnknownCellValueException;
 import com.monsource.bis.blank.model.Blank;
 import com.monsource.bis.blank.model.ColumnType;
 import com.monsource.bis.blank.model.Question;
 import com.monsource.bis.blank.model.Record;
+import com.monsource.bis.core.exception.BaseException;
+import com.monsource.bis.data.entity.CityEntity;
+import com.monsource.bis.data.entity.DistrictEntity;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -40,14 +46,31 @@ public class RecordFileService {
     public void save(String blankId, Integer researchId, InputStream inputStream) throws IOException, JAXBException, ParseException {
 
         Blank blank = blankSrv.get(blankId);
-        ExcelWorkbook excelWorkbook = new ExcelWorkbook(blank, getColumns(questionSrv.getColumnsWithoutGroup(blank.getQuestions())), inputStream, cityDao.findAll());
+        ExcelWorkbook excelWorkbook = new ExcelWorkbook(blank, getColumns(questionSrv.getColumnsWithoutGroup(blank.getQuestions())), inputStream);
 
         List<Record> records = excelWorkbook.getRecords();
 
-        for (Record record : records) {
-            recordSrv.save(blankId, researchId, record);
+        for (int i = 0; i < records.size(); i++) {
+            Record record = records.get(i);
+            CityEntity city = cityDao.findByName(record.getCityName());
+            if (city == null) throw new CityNotMatchException(i + 3, record.getCityName());
+            record.setCityId(city.getId());
+            if (record.getDistrictName() != null && record.getDistrictName().equals("")) {
+                DistrictEntity district = null;
+                for (DistrictEntity districtEntity : city.getDistricts()) {
+                    if (districtEntity.getName().toLowerCase().equals(record.getDistrictName())) {
+                        district = districtEntity;
+                        break;
+                    }
+                }
+                if (district == null) throw new DistrictNotMatchException(i + 3, record.getDistrictName());
+            }
+            try {
+                recordSrv.save(blankId, researchId, record);
+            } catch (BaseException e) {
+                throw new UnknownCellValueException(i + 3, null, e);
+            }
         }
-
     }
 
     public XSSFWorkbook getWorkBook(String blankId) throws JAXBException {
