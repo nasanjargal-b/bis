@@ -5,6 +5,7 @@ import com.monsource.bis.core.data.HibernateDaoSupport;
 import com.monsource.bis.data.entity.CityEntity;
 import com.monsource.bis.data.entity.DistrictEntity;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -27,9 +28,15 @@ public class BlankCityDao extends HibernateDaoSupport<CityEntity> {
             }
             result.add(city);
         }
-
         return result;
+    }
 
+    public CityEntity findByName(String name) {
+        Criteria criteria = this.getSession().createCriteria(CityEntity.class);
+
+        criteria.add(Restrictions.ilike("name", name));
+
+        return (CityEntity) criteria.uniqueResult();
     }
 
 }
