@@ -66,10 +66,11 @@ Ext.define('Blank.controller.ResearchCtrl', {
                 jsonData: values,
                 success: function () {
                     me.getMainPanel().removeAll();
-                    me.getResearchesStore().create();
-                    Ext.ComponentQuery.query('grid[alias="widget.researchGrid"]')[0].getStore().load();
+                    var resGrid = Ext.ComponentQuery.query('grid[alias="widget.researchGrid"]')[0];
+                    resGrid.getStore().load();
+                    resGrid.getSelectionModel().clearSelections();
                 }
-            })
+            });
         }
     },
     getMainPanel: function () {
@@ -90,7 +91,6 @@ Ext.define('Blank.controller.ResearchCtrl', {
                         var deleteModel = new Array();
                         blankGrid.getStore().each(function (models) {
                             var modelId = models.get('id');
-                            console.log('id : ' + modelId);
                             for (var index in blanks) {
                                 if (modelId == blanks[index].id) {
                                     deleteModel[index] = models;
@@ -142,12 +142,12 @@ Ext.define('Blank.controller.ResearchCtrl', {
     search: function (text, btn) {
         var items = btn.up('grid').getStore();
         var models = new Array();
-        var index =0;
-        items.filterBy(function(record){
+        var index = 0;
+        items.filterBy(function (record) {
             var search = record.get('name').search(text);
-            if(search!=-1){
+            if (search != -1) {
                 return record
-            }else{
+            } else {
                 return false;
             }
 

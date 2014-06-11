@@ -23,6 +23,11 @@ Ext.define('Account.view.AccountGrid', {
                     text: 'Устгах',
                     icon: '/resources/images/delete-16px.png',
                     alias: 'delete'
+                },
+                {
+                    text: 'Нууц үг солих',
+                    icon: '/resources/images/password-16px.png',
+                    alias: 'resetPassword'
                 },'->',
                 {
                     xtype:'textfield',

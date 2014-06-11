@@ -12,8 +12,6 @@ Ext.define('Account.controller.GroupCtrl', {
                 click: function (btn) {
                     var grid = btn.up('grid');
                     var model = grid.getSelectionModel().getSelection()[0];
-//                    console.log(model);
-//                    this.edit(grid, model);
                     if (model) {
                         this.edit(grid, model);
                     } else {
@@ -46,9 +44,10 @@ Ext.define('Account.controller.GroupCtrl', {
     edit: function (view, record) {
         var win = this.getGroupPanelView().create();
         win.down('form').loadRecord(record);
-        console.log(record.get('roles'));
+
         var array = record.get('roles').split('\,');
-        if (array.length > 1) {
+        console.log(array);
+        if (array.length > 0 && array[0]!="") {
             for (var obj in array) {
                 var field = array[obj];
                 win.down('checkboxfield[inputValue="' + field + '"]').setValue(1)
