@@ -12,9 +12,11 @@
 
     <context:component-scan base-package="com.monsource.bis.core.security"/>
 
-    <!--<bean id="authService" class="com.monsource.bis.core.security.AuthService">
+    <bean id="authService" class="com.monsource.bis.core.security.AuthService">
         <property name="authDao" ref="authDaoImpl"/>
-    </bean>-->
+    </bean>
+
+    <bean id="authErrorHandler" class="com.monsource.bis.core.security.AuthErrorHandler"/>
 
     <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
         <property name="userPropertyToUse" value="salt"/>
@@ -23,22 +25,24 @@
     <sec:http use-expressions="true" auto-config="true">
         <sec:intercept-url pattern="/favicon.ico" access="permitAll()"/>
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
-        <!--<sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_REGISTER','ROLE_REPORTER','ROLE_VIEWER')"/>-->
-        <sec:intercept-url pattern="/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/security/login.jsp" access="permitAll()"/>
+        <!--<sec:intercept-url pattern="/**" access="permitAll()"/>-->
+        <sec:intercept-url pattern="/**"
+                           access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_REGISTER','ROLE_REPORTER','ROLE_VIEWER')"/>
         <!--<sec:access-denied-handler ref="authHandler"/>-->
-        <sec:http-basic/>
-        <!--<sec:form-login
-                login-page="/security/login.html"
-                login-processing-url="/security/login-process.html"
+        <!--<sec:http-basic/>-->
+        <sec:form-login
+                login-page="/security/login.jsp"
+                login-processing-url="/security/login-process"
                 username-parameter="username"
                 password-parameter="password"
-                authentication-failure-url="/security/login.html?error=NOT_VALID"
+                authentication-failure-url="/security/login.jsp?error=NOT_VALID"
                 />
         <sec:logout
                 invalidate-session="true"
-                logout-success-url="/security/login.html"
-                logout-url="/security/logout-process.html"
-                />-->
+                logout-success-url="/security/login.jsp"
+                logout-url="/security/logout-process.jsp"
+                />
     </sec:http>
 
     <sec:authentication-manager>

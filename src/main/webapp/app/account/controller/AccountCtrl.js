@@ -21,6 +21,21 @@ Ext.define('Account.controller.AccountCtrl', {
             'accountGrid gridview': {
                 itemdblclick: this.edit
             },
+            'accountGrid button[alias="resetPassword"]': {
+                click: function (btn) {
+                    var grid = btn.up('grid');
+                    var me = this;
+                    var model = grid.getSelectionModel().getSelection()[0];
+                    if (model) {
+                        Ext.MessageBox.confirm('Асуулт', 'Та нууц үг солихдоо итгэлтэй байна уу!!!<br/>', function (btn) {
+                            if (btn == 'yes')
+                                me.resetPassword(model);
+                        });
+                    } else {
+                        Ext.MessageBox.alert("Алдаа", "Та устгах мөрөө сонгоно уу?");
+                    }
+                }
+            },
             'accountGrid button[alias="edit"]': {
                 click: function (btn) {
                     var grid = btn.up('grid');
@@ -118,10 +133,12 @@ Ext.define('Account.controller.AccountCtrl', {
                 url: '/account-mod/account/single.json',
                 method: 'post',
                 jsonData: values,
-                success: function () {
+                success: function (data) {
                     btn.up('window').close();
                     var grid = Ext.ComponentQuery.query('accountGrid')[0];
                     grid.getStore().reload();
+//                    var pass = Ext.decode(data.responseText);
+//                    Ext.MessageBox.alert("Таны шинэ нууц үг",pass.data);
                 }
             })
         }
@@ -147,5 +164,21 @@ Ext.define('Account.controller.AccountCtrl', {
                 status:status
             }
         })
+    },
+    resetPassword:function(gridModels){
+        var values = gridModels;
+            Ext.Ajax.request({
+                url: '/account-mod/account/password.json',
+                method: 'post',
+                params:{
+                  id:values.get('id')
+                },
+                success: function (data) {
+                    var grid = Ext.ComponentQuery.query('accountGrid')[0];
+                    grid.getStore().reload();
+                    var pass = Ext.decode(data.responseText);
+                    Ext.MessageBox.alert("Таны шинэ нууц үг",pass.data);
+                }
+            })
     }
 });

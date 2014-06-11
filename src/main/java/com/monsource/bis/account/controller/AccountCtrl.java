@@ -47,7 +47,7 @@ public class AccountCtrl {
      */
     @RequestMapping(value = "list.json", method = RequestMethod.GET)
     @ResponseBody
-    public JsonData read(String text, AccountStatus status){
+    public JsonData read(String text, AccountStatus status) {
         JsonData jsonData = new JsonData();
         jsonData.setData(accountDao.find(text, status));
         return jsonData;
@@ -70,13 +70,27 @@ public class AccountCtrl {
     @RequestMapping(value = "single.json", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
-    public JsonData save(@RequestBody Account account)  throws JAXBException{
+    public JsonData save(@RequestBody Account account) throws JAXBException {
         AccountEntity entity = new AccountEntity();
+        JsonData data = new JsonData();
+        if (account.getId() == null) {
+            Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
+            Date date = new Date();
+            entity.setSalt(passwordEncoder.encodePassword(date.getTime() + "", null));
+            entity.setPassword(passwordEncoder.encodePassword(account.getUsername(), entity.getSalt()));
+        }else{
+            entity.setPassword(accountDao.get(account.getId()).getPassword());
+            entity.setSalt(accountDao.get(account.getId()).getSalt());
+        }
         entity.setId(account.getId());
         entity.setUsername(account.getUsername());
         entity.setName(account.getName());
         entity.setAddress(account.getAddress());
-        entity.setEmail(account.getEmail());
+        if (account.getEmail() != null && !"".equals(account.getEmail())) {
+            entity.setEmail(account.getEmail());
+        } else {
+            entity.setEmail(null);
+        }
         entity.setGender(account.getGender());
         entity.setPhone(account.getPhone());
         entity.setStatus(account.getStatus());
@@ -93,17 +107,10 @@ public class AccountCtrl {
         }
         entity.setGroups(groups);
         entity.setDistrict(districtDao.get(account.getDistrictId()));
-        Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
-        Date date = new Date();
-        entity.setSalt(date.getTime() + "");
-        entity.setPassword(passwordEncoder.encodePassword(account.getUsername(), entity.getSalt()));
         accountDao.merge(entity);
         accountDao.flush();
-        JsonData data = new JsonData();
-        data.setData(entity);
-        return new JsonData(true);
+        return data;
     }
-
     /**
      * @param account
      */
@@ -132,17 +139,20 @@ public class AccountCtrl {
     }
 
     /**
-     * @param password
      * @param id
      */
-    @RequestMapping(value = "password.json", method = RequestMethod.POST, params = {"password", "id"})
+    @RequestMapping(value = "password.json", method = RequestMethod.POST, params = {"id"})
     @ResponseBody
-    public JsonData password(String password, Integer id) {
-        if (!authSupport.checkAuthority(Role.ROLE_ADMINISTRATOR)) {
-            throw new AccessDeniedException("You don't have permission to change password of other user!!!");
-        }
-        accountSrv.changePassword(password, accountDao.get(id));
-        return new JsonData(true);
+    public JsonData password(Integer id) {
+        Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
+        Date date = new Date();
+        AccountEntity entity = accountDao.get(id);
+        entity.setSalt(passwordEncoder.encodePassword(date.getTime() + "", null));
+        String password = entity.getSalt().substring(3, 11);
+        accountSrv.changePassword(password, entity);
+        JsonData data = new JsonData();
+        data.setData(password);
+        return data;
     }
 
 }

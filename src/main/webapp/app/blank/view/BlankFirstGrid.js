@@ -10,6 +10,7 @@ Ext.define('Blank.view.BlankFirstGrid', {
             items:[
                 {
                     xtype:'textfield',
+                    isFormField:false,
                     enableKeyEvents:true,
                     action:'search'
                 },

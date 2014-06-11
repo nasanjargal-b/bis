@@ -1,0 +1,64 @@
+Ext.create('Ext.toolbar.Toolbar', {
+##    alias: 'widget.mainPanel',
+    defaults: {
+        hrefTarget: 'mainFrame'
+    },
+    border:false,
+    items: [
+        #drawMenu($roles)
+        #macro(drawMenu $roles)
+            #set($menu="")
+            #foreach($role in $roles)
+                #if($role=='ROLE_ADMINISTRATOR')
+                   {
+                    xtype: 'button',
+                    text: 'Груп',
+                    href:'group.jsp'
+                    },
+                {
+                xtype: 'button',
+                text: 'Хэрэглэгч',
+                href:'account.jsp'
+                },
+
+                #end
+                #if($role=='ROLE_REPORTER')
+                   {
+                        xtype: 'button',
+                        text: 'Report',
+                        href:'group.jsp'
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'createReport',
+                        href:'group.jsp'
+                    },
+                #end
+                #if($role=='ROLE_REGISTER')
+                    {
+                        xtype: 'button',
+                        text: 'research',
+                        href:'research.jsp'
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'Маягт',
+                        href:'blank.jsp'
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'Бичлэг',
+                        href:'record.jsp'
+                    },
+                #end
+                #if($role=='ROLE_VIEWER')
+                    {
+                        xtype: 'button',
+                        text: 'Тайлан'
+                    },
+
+                #end
+            #end
+        #end
+    ]
+});
