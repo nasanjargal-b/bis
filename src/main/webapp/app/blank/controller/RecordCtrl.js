@@ -60,9 +60,9 @@ Ext.define('Blank.controller.RecordCtrl', {
             'grid[action="recordGrid"] button[action="delete"]': {
                 click: function (btn) {
                     var grid = btn.up('grid');
-                    var record = grid.getSelectionModel().getSelection()[0];
-                    if (record)
-                        this.deleteRecord(grid.blankId, grid.researchId, record);
+                    var records = grid.getSelectionModel().getSelection();
+                    if (records && records.length > 0)
+                        this.deleteRecord(grid.blankId, grid.researchId, records);
                     else
                         Ext.MessageBox.alert('Алдаа', 'Устгах бичлэгээ сонгоно уу!!!');
                 }
@@ -243,14 +243,21 @@ Ext.define('Blank.controller.RecordCtrl', {
             });
         }
     },
-    deleteRecord: function (blankId, researchId, record) {
+    deleteRecord: function (blankId, researchId, records) {
         var me = this;
+
+        var ids = [];
+        for (var i = 0; i < records.length; i++) {
+            var record = records[i];
+            ids[i] = record.get('id');
+        }
+
         Ext.MessageBox.confirm('Асуулт', 'Та уг бичлэгийг устгахдаа итгэлтэй байна уу!!!', function (btn) {
             if (btn == 'yes')
                 Ext.Ajax.request({
                     url: '/blank-mod/record/record.json',
                     method: 'delete',
-                    jsonData: [record.get('id')],
+                    jsonData: ids,
                     params: {
                         blankId: blankId,
                         researchId: researchId

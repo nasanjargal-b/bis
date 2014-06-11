@@ -160,15 +160,10 @@ public class RecordDao extends HibernateDaoSupport {
 
 
     public void merge(Blank blank, Integer researchId, Record record) throws ParseException {
-
         if (record.getId() == null)
             insertRecord(blank, researchId, record);
         else
             updateRecord(blank, researchId, record);
-
-
-        this.getSession().flush();
-
     }
 
     private void insertRecord(Blank blank, Integer researchId, Record record) throws ParseException {

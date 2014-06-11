@@ -32,7 +32,6 @@ public class RecordFileCtrl {
     @Autowired
     RecordFileService recordFileSrv;
 
-    @Transactional
     @RequestMapping("upload.json")
     @ResponseBody
     public JsonData upload(@RequestParam String blankId, @RequestParam Integer researchId, @RequestParam("file") MultipartFile file) throws JAXBException, ParseException {

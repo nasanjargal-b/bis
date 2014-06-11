@@ -31,6 +31,7 @@ public class RecordService {
 //        AuthDetails authDetails = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        record.setAccountId(authDetails.getId());
         recordDao.merge(blank, researchId, record);
+        recordDao.flush();
     }
 
     /**

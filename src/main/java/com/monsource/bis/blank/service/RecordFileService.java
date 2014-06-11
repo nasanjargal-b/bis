@@ -19,6 +19,9 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.xml.bind.JAXBException;
 import java.awt.*;
@@ -43,34 +46,46 @@ public class RecordFileService {
     @Autowired
     RecordService recordSrv;
 
-    public void save(String blankId, Integer researchId, InputStream inputStream) throws IOException, JAXBException, ParseException {
+    @Autowired
+    TransactionTemplate template;
+
+    public void save(final String blankId, final Integer researchId, InputStream inputStream) throws IOException, JAXBException, ParseException {
 
         Blank blank = blankSrv.get(blankId);
         ExcelWorkbook excelWorkbook = new ExcelWorkbook(blank, getColumns(questionSrv.getColumnsWithoutGroup(blank.getQuestions())), inputStream);
 
-        List<Record> records = excelWorkbook.getRecords();
+        final List<Record> records = excelWorkbook.getRecords();
 
-        for (int i = 0; i < records.size(); i++) {
-            Record record = records.get(i);
-            CityEntity city = cityDao.findByName(record.getCityName());
-            if (city == null) throw new CityNotMatchException(i + 3, record.getCityName());
-            record.setCityId(city.getId());
-            if (record.getDistrictName() != null && record.getDistrictName().equals("")) {
-                DistrictEntity district = null;
-                for (DistrictEntity districtEntity : city.getDistricts()) {
-                    if (districtEntity.getName().toLowerCase().equals(record.getDistrictName())) {
-                        district = districtEntity;
-                        break;
+        template.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                for (int i = 0; i < records.size(); i++) {
+                    Record record = records.get(i);
+                    CityEntity city = cityDao.findByName(record.getCityName());
+                    if (city == null) throw new CityNotMatchException(i + 3, record.getCityName());
+                    record.setCityId(city.getId());
+                    if (record.getDistrictName() != null && record.getDistrictName().equals("")) {
+                        DistrictEntity district = null;
+                        for (DistrictEntity districtEntity : city.getDistricts()) {
+                            if (districtEntity.getName().toLowerCase().equals(record.getDistrictName())) {
+                                district = districtEntity;
+                                break;
+                            }
+                        }
+                        if (district == null) throw new DistrictNotMatchException(i + 3, record.getDistrictName());
+                    }
+                    try {
+                        recordSrv.save(blankId, researchId, record);
+                    } catch (BaseException e) {
+                        throw new UnknownCellValueException(i + 3, null, e);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    } catch (JAXBException e) {
+                        throw new RuntimeException(e);
                     }
                 }
-                if (district == null) throw new DistrictNotMatchException(i + 3, record.getDistrictName());
             }
-            try {
-                recordSrv.save(blankId, researchId, record);
-            } catch (BaseException e) {
-                throw new UnknownCellValueException(i + 3, null, e);
-            }
-        }
+        });
     }
 
     public XSSFWorkbook getWorkBook(String blankId) throws JAXBException {

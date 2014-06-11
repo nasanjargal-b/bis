@@ -1,6 +1,7 @@
 Ext.create('Ext.grid.Panel', {
     action: 'recordGrid',
     title: 'Бичлэгийн жагсаалт',
+    multiSelect: true,
     blankId: '$blankId',
     researchId: $researchId,
     width: 400,

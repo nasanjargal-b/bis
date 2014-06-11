@@ -8,11 +8,9 @@ Ext.define('Blank.controller.RecordFileCtrl', {
         });
     },
     upload: function (field) {
-        var panel = field.up('grid');
-
         var waitMsg;
 
-        file = field.fileInputEl.dom.files[0];
+        var file = field.fileInputEl.dom.files[0];
 
         if (file) {
             var xhr = new XMLHttpRequest();
@@ -28,8 +26,10 @@ Ext.define('Blank.controller.RecordFileCtrl', {
                 if (xhr.readyState == 4) {
                     console.log(xhr.status);
                     waitMsg.close();
-                    if (xhr.status == 200)
+                    if (xhr.status == 200) {
                         Ext.MessageBox.alert('Мэдээлэл', 'Амжилттай хуулагдлаа');
+                        field.up('grid').getStore().reload();
+                    }
                     else if (xhr.status == 500) {
                         var result = Ext.decode(xhr.responseText);
                         Ext.MessageBox.alert('Алдаа', result.message);
@@ -39,8 +39,8 @@ Ext.define('Blank.controller.RecordFileCtrl', {
             }
 
             waitMsg = Ext.MessageBox.wait("Файлыг илгээж байна...")
-
             xhr.send(fd);
+            field.reset();
         }
     }
 });
