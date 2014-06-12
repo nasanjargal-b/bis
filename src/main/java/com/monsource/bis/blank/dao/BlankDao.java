@@ -53,4 +53,9 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
 
         return criteria.list();
     }
+
+    public List<BlankEntity> findAll() {
+        Criteria criteria = this.getSession().createCriteria(BlankEntity.class);
+        return criteria.list();
+    }
 }

@@ -45,8 +45,11 @@ public class RecordDao extends HibernateDaoSupport {
 
         SQLQuery sqlQuery = createDataQuery(blank, filter, false);
 
-        sqlQuery.setFirstResult(start);
-        sqlQuery.setMaxResults(limit);
+        if (start != null && limit != null) {
+            sqlQuery.setFirstResult(start);
+            sqlQuery.setMaxResults(limit);
+        }
+
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 
         List<Map> results = sqlQuery.list();

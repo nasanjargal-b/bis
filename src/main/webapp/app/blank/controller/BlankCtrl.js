@@ -117,10 +117,6 @@ Ext.define('Blank.controller.BlankCtrl', {
         var me = this;
         var form = btn.up('form');
 
-        if (form.edit) {
-            //todo
-        }
-
         if (form.getForm().isValid()) {
             var treePanel = form.down('treepanel');
             var values = form.getValues();

@@ -3,12 +3,7 @@ Ext.define('Blank.controller.RecordCtrl', {
     init: function () {
         this.control({
             'recordBlankGrid toolbar combo': {
-                change: this.reloadBlanks,
-                afterrender: function (cmb) { //todo delete
-                    window.setTimeout(function () {
-                        cmb.setValue(1);
-                    }, 500)
-                }
+                change: this.reloadBlanks
             },
             'recordBlankGrid gridview': {
                 itemclick: function (view, record) {
@@ -131,13 +126,8 @@ Ext.define('Blank.controller.RecordCtrl', {
             cmb.setFieldStyle('color:green');
         else
             cmb.setFieldStyle('color:red');
-        var me = this;//todo delete
         cmb.up('recordBlankGrid').getStore().load({
-            params: {researchId: record.get('id')},
-            callback: function (records) { //todo delete
-                var blankId = records[1].get('id');
-                me.reloadRecords(blankId, value);
-            }
+            params: {researchId: record.get('id')}
         });
     },
     reloadRecords: function (blankId, researchId) {
