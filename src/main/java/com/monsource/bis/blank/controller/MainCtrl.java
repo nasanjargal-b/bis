@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by nyamaa on 6/11/14.
+ * Created by nyamaa on 6/11/14. todo move
  */
 @Controller
 @RequestMapping("/main.js")

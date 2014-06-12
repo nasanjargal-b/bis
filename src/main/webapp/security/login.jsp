@@ -71,6 +71,7 @@
             buttons: [
                 {
                     text: 'Нэвтрэх',
+                    icon:'/resources/images/login-16px.png',
                     onClick: function() {
                         this.up('window').submitForm();
                     }

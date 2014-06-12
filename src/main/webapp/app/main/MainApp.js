@@ -4,13 +4,14 @@ Ext.application({
     controllers: ['MainCtrl'],
     launch: function () {
         Ext.create('Ext.container.Viewport', {
+            action:'mainViewport',
             layout: 'border',
             items: [
-                {
+                /*{
                     xtype: 'mainPanel',
                     itemId: 'main',
                     region: 'north'
-                },
+                },*/
                 {
                     region: 'center',
                     xtype: 'component',
