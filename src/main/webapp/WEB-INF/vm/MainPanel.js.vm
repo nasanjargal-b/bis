@@ -1,0 +1,16 @@
+Ext.define('MainApp.view.MainPanel', {
+    extend: 'Ext.form.Panel',
+    title: 'Үндсэн хэсэг',
+    layout: 'fit',
+    alias: 'widget.mainPanel',
+    dockedItems:[
+        {
+            xtype:'toolbars',
+            items:[
+            #foreach
+            ]
+        }
+    ],
+    items: [
+    ]
+});
