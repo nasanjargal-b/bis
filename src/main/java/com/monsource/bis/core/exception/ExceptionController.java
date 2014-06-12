@@ -1,6 +1,7 @@
 package com.monsource.bis.core.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monsource.bis.blank.exception.UnknownCellValueException;
 import com.monsource.bis.core.json.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -42,6 +43,13 @@ public class ExceptionController {
         JsonData jsonData = null;
 
         if (ex instanceof BaseException) {
+
+            if (ex instanceof UnknownCellValueException) {
+                UnknownCellValueException uex = (UnknownCellValueException) ex;
+                if (uex.getCause() != null)
+                    uex.setParams(resourceBundle.getMessage("core." + uex.getCause().getClass().getSimpleName(), uex.getCause().getParams(), locale));
+            }
+
             BaseException e = (BaseException) ex;
             jsonData = new JsonData(false, resourceBundle.getMessage("core." + e.getClass().getSimpleName(), e.getParams(), locale));
         } else {
@@ -61,6 +69,7 @@ public class ExceptionController {
             }
 
         }
+
 
         ex.printStackTrace();
 
