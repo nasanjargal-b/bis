@@ -34,6 +34,9 @@
         <sec:intercept-url pattern="/blank-mod/research/researches.json" access="hasAnyRole('ROLE_VIEWER')"/>
         <sec:intercept-url pattern="/blank-mod/blank/blanks.json" access="hasAnyRole('ROLE_VIEWER')"/>
         <sec:intercept-url pattern="/blank-mod/**" access="hasAnyRole('ROLE_REGISTER')"/>
+        <!--REPORT-->
+        <sec:intercept-url pattern="/report-mod/report/view/**" access="hasAnyRole('ROLE_REPORTER','ROLE_VIEWER')"/>
+        <sec:intercept-url pattern="/report-mod/report/**" access="hasAnyRole('ROLE_REPORTER')"/>
 
         <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
 
