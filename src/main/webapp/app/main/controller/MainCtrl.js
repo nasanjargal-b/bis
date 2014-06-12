@@ -6,7 +6,6 @@ Ext.define('MainApp.controller.MainCtrl', {
             'mainPanel':{
                 afterrender:function(panel){
                     Ext.Ajax.request({
-                        //78bc7a9e
                         url: '/main.js',
                         method: 'get',
                         success: function (response) {
@@ -16,7 +15,11 @@ Ext.define('MainApp.controller.MainCtrl', {
                             var mainMenu = mainPanel
                             console.log(mainMenu);
                             mainMenu.add(grid);
-
+                            var records = Ext.ComponentQuery.query('button[href="record.jsp"]');
+                            console.log(records);
+                            if(records.length==2){
+                               records[0].hide()
+                            }
                         }
                     });
                 }

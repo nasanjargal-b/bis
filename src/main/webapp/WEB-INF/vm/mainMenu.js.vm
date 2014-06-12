@@ -56,9 +56,19 @@ Ext.create('Ext.toolbar.Toolbar', {
                         xtype: 'button',
                         text: 'Тайлан'
                     },
+                    {
+                        text:'Бичлэг',
+                        href:'record.jsp'
+                    },
 
                 #end
             #end
-        #end
+        #end,
+        '->',
+        {
+            text:'Гарах',
+            icon:'/resources/images/cancel-window-16px.png',
+            href:'/security/logout-process'
+        }
     ]
 });
