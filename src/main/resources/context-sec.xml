@@ -25,6 +25,7 @@
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
         <sec:intercept-url pattern="/security/**" access="permitAll()"/>
         <!--ACCOUNT-->
+        <sec:intercept-url pattern="/account-mod/account/password.json" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/account-mod/**" access="hasAnyRole('ROLE_ADMINISTRATOR')"/>
         <!--BLANK-->
         <sec:intercept-url pattern="/blank-mod/record/*.js" access="hasAnyRole('ROLE_VIEWER')"/>
