@@ -9,7 +9,7 @@ Ext.create('Ext.toolbar.Toolbar', {
         #drawMenu($roles)
         #macro(drawMenu $roles)
 
-            #if($auth.checkAuthority('ROLE_REGISTER'))
+            #if($auth.checkAuthority('ROLE_REGISTER') && $auth.checkAuthority('ROLE_VIEWER'))
                 {
 
                     defaults: {
@@ -29,17 +29,55 @@ Ext.create('Ext.toolbar.Toolbar', {
                             icon:'',
                             href: 'blank.jsp'
                         }
-                        #if($auth.checkAuthority('ROLE_VIEWER'))
                             ,{
                             text: 'Бичлэг',
                             hrefTarget:'mainFrame',
                             icon:'',
                             href: 'record.jsp'
                         }
-                        #end
+
                     ]
                 },
-            #end
+            #elseif($auth.checkAuthority('ROLE_REGISTER'))
+                {
+
+                    defaults: {
+                        hrefTarget: 'mainFrame'
+                    },
+                    text:'Бүртгэл',
+                    menu:[
+                        {
+                            text: 'Судалгаа',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'research.jsp'
+                        },
+                        {
+                            text: 'Маягт',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'blank.jsp'
+                        }
+
+                    ]
+                },
+            #elseif($auth.checkAuthority('ROLE_VIEWER'))
+                {
+
+                    defaults: {
+                        hrefTarget: 'mainFrame'
+                    },
+                    text:'Бүртгэл',
+                    menu:[
+                    {
+                        text: 'Бичлэг',
+                        hrefTarget:'mainFrame',
+                        icon:'',
+                        href: 'record.jsp'
+                    }
+                    ]
+                },
+             #end
             #if($auth.checkAuthority('ROLE_REPORTER'))
                 {
 
