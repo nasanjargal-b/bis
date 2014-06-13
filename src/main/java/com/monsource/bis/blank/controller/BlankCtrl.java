@@ -57,7 +57,6 @@ public class BlankCtrl {
     /**
      * @param ids
      */
-    @Transactional
     @RequestMapping(value = "blank.json", method = RequestMethod.DELETE)
     @ResponseBody
     public JsonData delete(@RequestBody List<String> ids) throws JAXBException {

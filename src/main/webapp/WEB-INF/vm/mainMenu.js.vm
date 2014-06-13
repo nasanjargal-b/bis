@@ -18,7 +18,7 @@ Ext.create('Ext.toolbar.Toolbar', {
             #foreach($role in $roles)
                 #if($role=='ROLE_ADMINISTRATOR')
                     {
-                        xtype:'splitbutton',
+
                         text:'Админ',
                         defaults: {
                             hrefTarget: 'mainFrame'
@@ -41,7 +41,7 @@ Ext.create('Ext.toolbar.Toolbar', {
                 #end
                 #if($role=='ROLE_REPORTER')
                     {
-                        xtype:'splitbutton',
+
                         text:'Тайлан',
                         defaults: {
                             hrefTarget: 'mainFrame'
@@ -65,7 +65,7 @@ Ext.create('Ext.toolbar.Toolbar', {
                 #end
                 #if($role=='ROLE_REGISTER')
                     {
-                        xtype:'splitbutton',
+
                         defaults: {
                             hrefTarget: 'mainFrame'
                         },
@@ -98,7 +98,7 @@ Ext.create('Ext.toolbar.Toolbar', {
         #end,
         '->',
         {
-            xtype:'splitbutton',
+
             text:'$mav.name',
             defaults: {
                 hrefTarget: 'mainFrame'

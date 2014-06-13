@@ -30,6 +30,13 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>pentaho-releases</id>
+            <url>http://repository.pentaho.org/artifactory/repo/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- **********************************************************************
 			 ** 				COMPILE DEPENDENCIES 							 **
@@ -176,6 +183,14 @@
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.1-901.jdbc4</version>
+        </dependency>
+        <!-- **********************************************************************
+            ** 				PENTAHO REPORT DEPENDENCIES 						**
+            ********************************************************************** -->
+        <dependency>
+            <groupId>pentaho-report-designer</groupId>
+            <artifactId>report-designer</artifactId>
+            <version>5.0.5</version>
         </dependency>
         <!-- **********************************************************************
             ** 				TESTING DEPENDENCIES 							 **
