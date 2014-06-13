@@ -3,7 +3,7 @@ Ext.define('MainApp.view.PasswordWindow', {
     title: 'Нууц үг солих',
     autoShow:true,
     height: 165,
-    width: 260,
+    width: 350,
     layout: 'fit',
     bodyStyle: 'background-color:#dfe9f6',
     alias: 'widget.passwordWindow',
@@ -18,12 +18,14 @@ Ext.define('MainApp.view.PasswordWindow', {
                 {
                     xtype: 'textfield',
                     inputType:'password',
+                    width:325,
                     fieldLabel: 'Хуучин нууц үг:',
                     name: 'oldPassword',
                     allowBlank: false
                 },
                 {
                     xtype: 'textfield',
+                    width:325,
                     inputType:'password',
                     fieldLabel: 'Шинэ нууц үг:',
                     name: 'newPassword',
@@ -32,6 +34,7 @@ Ext.define('MainApp.view.PasswordWindow', {
                 {
                     xtype: 'textfield',
                     inputType:'password',
+                    width:325,
                     fieldLabel: 'Шинэ нууц үгээ давт:',
                     name: 'rePassword',
                     allowBlank: false
