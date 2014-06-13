@@ -6,29 +6,15 @@ Ext.create('Ext.toolbar.Toolbar', {
     border: false,
 
     items: [
-        {
-            xtype:'splitbutton',
-            text:'Үндсэн',
-            defaults: {
-                hrefTarget: 'mainFrame'
-            },
-            menu:[
-                {
-                    text: 'Гарах',
-                    icon: '/resources/images/cancel-window-16px.png',
-                    handler: function () {
-                        window.location = '/security/logout-process';
-                    }
-                },
-                {
-                    text:'Нууц үг солих',
-                    action:'changePassword'
-                }
-            ]
-        },
-        #drawMenu($roles)
+        #drawMenu($mav.roles)
         #macro(drawMenu $roles)
-            #set($menu="")
+            #set($viewer=false)
+            #set($registerViewer=false)
+            #foreach($role in $roles)
+                #if($role=='ROLE_VIEWER')
+                    #set($viewer = true)
+                #end
+            #end
             #foreach($role in $roles)
                 #if($role=='ROLE_ADMINISTRATOR')
                     {
@@ -73,6 +59,7 @@ Ext.create('Ext.toolbar.Toolbar', {
                                 icon:'',
                                 href: 'group.jsp'
                             }
+
                         ]
                     },
                 #end
@@ -95,40 +82,41 @@ Ext.create('Ext.toolbar.Toolbar', {
                                 hrefTarget:'mainFrame',
                                 icon:'',
                                 href: 'blank.jsp'
-                            },
-                            {
-                                text: 'Бичлэг',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'record.jsp'
                             }
+                        #if($viewer)
+                            ,{
+                            text: 'Бичлэг',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'record.jsp'
+                        }
+                        #end
                         ]
                     },
-                #end
-                #if($role=='ROLE_VIEWER')
-                    {
-                        xtype:'splitbutton',
-                        defaults: {
-                            hrefTarget: 'mainFrame'
-                        },
-                        text:'Харах',
-                        menu:[
-                            {
-                                icon:'',
-                                hrefTarget:'mainFrame',
-                                text: 'Тайлан'
-                            },
-                            {
-                                text: 'Бичлэг',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'record.jsp'
-                            }
-                        ]
-                    },
-
                 #end
             #end
-        #end
+        #end,
+        '->',
+        {
+            xtype:'splitbutton',
+            text:'$mav.name',
+            defaults: {
+                hrefTarget: 'mainFrame'
+            },
+            menu:[
+                {
+                    text: 'Гарах',
+                    icon: '/resources/images/cancel-window-16px.png',
+                    handler: function () {
+                        window.location = '/security/logout-process';
+                    }
+                },
+                {
+                    text:'Нууц үг солих',
+                    icon: '/resources/images/password-16px.png',
+                    action:'changePassword'
+                }
+            ]
+        },
     ]
 });

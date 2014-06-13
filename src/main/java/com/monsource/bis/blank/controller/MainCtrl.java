@@ -1,15 +1,15 @@
 package com.monsource.bis.blank.controller;
 
+import com.monsource.bis.account.dao.AccountDao;
 import com.monsource.bis.core.security.AuthAuthority;
 import com.monsource.bis.core.security.AuthSupport;
+import com.monsource.bis.data.entity.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by nyamaa on 6/11/14. todo move
@@ -20,17 +20,22 @@ public class MainCtrl {
 
     @Autowired
     private AuthSupport authSupport;
+    @Autowired
+    private AccountDao accountDao;
 
     @RequestMapping
     public ModelAndView getMains(){
         ModelAndView mav = new ModelAndView("/mainMenu.js");
         List<String> roles = new ArrayList<String>();
         Collection<AuthAuthority> authorities = authSupport.getAuthDetails().getAuthorities();
-
+        AccountEntity entity = accountDao.get(authSupport.getAuthDetails().getId());
+        Map map = new HashMap();
+        map.put("name",entity.getName());
         for (AuthAuthority authority : authorities) {
             roles.add(authority.getAuthority());
         }
-        mav.addObject("roles", roles);
+        map.put("roles",roles);
+        mav.addObject("mav", map);
         return mav;
     }
 }

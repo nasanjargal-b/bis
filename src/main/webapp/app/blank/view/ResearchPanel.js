@@ -26,6 +26,7 @@ Ext.define('Blank.view.ResearchPanel', {
             border: false,
             bodyStyle: 'background-color:#dfe9f6',
             border: false,
+            height:'100%',
             layout: 'vbox',
             items: [
                 {
@@ -73,17 +74,24 @@ Ext.define('Blank.view.ResearchPanel', {
                 {
                     layout: 'hbox',
                     xtype: 'panel',
+                    flex:1,
+                    style:
+                    {
+                        "height": "100%"
+                    },
                     width:'100%',
                     bodyStyle: 'background-color:#dfe9f6',
                     border: false,
                     items: [
                         {
                             width: '100%',
+                            height:'100%',
                             xtype: 'blankFirstGrid'
 
                         },
                         {
                             width: '100%',
+                            height:'100%',
                             xtype: 'blankSecondGrid'
                         }
                     ]

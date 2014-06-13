@@ -3,6 +3,7 @@ Ext.define('Account.view.AccountGrid', {
     alias: 'widget.accountGrid',
     title: 'Груп',
     width: 400,
+    height:'100%',
     forceFit: true,
     dockedItems: [
         {
@@ -70,12 +71,6 @@ Ext.define('Account.view.AccountGrid', {
         }
     ],
     store: 'Accounts',
-//    features: [
-//        {
-//            ftype: 'grouping',
-//            groupHeaderTpl: '{name}'
-//        }
-//    ],
     columns: [
         {
             text: '#',

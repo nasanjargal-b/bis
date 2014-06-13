@@ -15,8 +15,7 @@ Ext.application({
                     border: false,
 //                    itemId: 'blankMainPanel',
                     layout: 'fit',
-                    region: 'center',
-                    bodyStyle: 'background-color:#dfe9f6'
+                    region: 'center'
                 }
             ]
         });

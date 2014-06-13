@@ -11,8 +11,7 @@ Ext.application({
                     xtype: 'accountGrid',
                     border: false,
                     layout: 'fit',
-                    region: 'center',
-                    bodyStyle: 'background-color:#dfe9f6'
+                    region: 'center'
                 }
             ]
         });

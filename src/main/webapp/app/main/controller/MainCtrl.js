@@ -11,18 +11,15 @@ Ext.define('MainApp.controller.MainCtrl', {
                         success: function (response) {
                             var menuBar = eval(response.responseText);
                             viewport.add(menuBar);
-                            var records = Ext.ComponentQuery.query('component[href="record.jsp"]');
-                            if(records.length==2){
-                                records[0].hide()
-                            }
+
                         }
                     });
                 }
             },
-            'viewport button[action="changePassword"]':{
+            'viewport component[action="changePassword"]':{
                 click: this.changePassword
             },
-            'passwordWindow button[action="save"]':{
+            'passwordWindow component[action="save"]':{
                 click:function(btn){
                     this.changePasswordSave(btn.up('window'))
                 }
