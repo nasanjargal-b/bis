@@ -29,4 +29,18 @@ public class AuthSupport {
         return false;
     }
 
+    /**
+     * @param roleName
+     */
+    public boolean checkAuthority(String roleName) {
+        Role role = Role.valueOf(roleName);
+        for (AuthAuthority authAuthority : this.getAuthDetails().getAuthorities()) {
+            if (authAuthority.getRole().equals(role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
