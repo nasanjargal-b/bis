@@ -3,7 +3,8 @@ Ext.define('MainApp.view.PasswordWindow', {
     title: 'Нууц үг солих',
     autoShow:true,
     height: 165,
-    width: 350,
+    width: 450,
+    resizable:false,
     layout: 'fit',
     bodyStyle: 'background-color:#dfe9f6',
     alias: 'widget.passwordWindow',
@@ -18,14 +19,16 @@ Ext.define('MainApp.view.PasswordWindow', {
                 {
                     xtype: 'textfield',
                     inputType:'password',
-                    width:325,
+                    labelWidth:110,
+                    width:425,
                     fieldLabel: 'Хуучин нууц үг:',
                     name: 'oldPassword',
                     allowBlank: false
                 },
                 {
                     xtype: 'textfield',
-                    width:325,
+                    width:425,
+                    labelWidth:110,
                     inputType:'password',
                     fieldLabel: 'Шинэ нууц үг:',
                     name: 'newPassword',
@@ -34,7 +37,8 @@ Ext.define('MainApp.view.PasswordWindow', {
                 {
                     xtype: 'textfield',
                     inputType:'password',
-                    width:325,
+                    width:425,
+                    labelWidth:110,
                     fieldLabel: 'Шинэ нууц үгээ давт:',
                     name: 'rePassword',
                     allowBlank: false
@@ -46,11 +50,13 @@ Ext.define('MainApp.view.PasswordWindow', {
     buttons: [
         {
             text: 'Хадгалах',
+            icon:'/resources/images/save-16px.png',
             action: 'save'
         },
         {
             text: 'Болих',
             action: 'close',
+            icon:'/resources/images/delete-16px.png',
             listeners:{
                 click:function(btn){
                     btn.up('window').close();

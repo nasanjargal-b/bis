@@ -105,17 +105,20 @@ Ext.create('Ext.toolbar.Toolbar', {
             },
             menu:[
                 {
+                    text:'Нууц үг солих',
+                    icon: '/resources/images/password-16px.png',
+                    action:'changePassword'
+                },
+                '-'
+                ,
+                {
                     text: 'Гарах',
                     icon: '/resources/images/cancel-window-16px.png',
                     handler: function () {
                         window.location = '/security/logout-process';
                     }
-                },
-                {
-                    text:'Нууц үг солих',
-                    icon: '/resources/images/password-16px.png',
-                    action:'changePassword'
                 }
+
             ]
         },
     ]
