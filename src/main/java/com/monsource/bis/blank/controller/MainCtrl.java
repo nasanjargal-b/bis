@@ -24,18 +24,16 @@ public class MainCtrl {
     private AccountDao accountDao;
 
     @RequestMapping
-    public ModelAndView getMains(){
+    public ModelAndView getMains() {
         ModelAndView mav = new ModelAndView("/mainMenu.js");
         List<String> roles = new ArrayList<String>();
         Collection<AuthAuthority> authorities = authSupport.getAuthDetails().getAuthorities();
         AccountEntity entity = accountDao.get(authSupport.getAuthDetails().getId());
-        Map map = new HashMap();
-        map.put("name",entity.getName());
         for (AuthAuthority authority : authorities) {
             roles.add(authority.getAuthority());
         }
-        map.put("roles",roles);
-        mav.addObject("mav", map);
+        mav.addObject("name", entity.getName());
+        mav.addObject("roles", roles);
         return mav;
     }
 }
