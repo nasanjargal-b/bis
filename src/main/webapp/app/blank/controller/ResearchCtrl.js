@@ -134,6 +134,7 @@ Ext.define('Blank.controller.ResearchCtrl', {
 
     },
     add: function (panel) {
+        this.getMainPanel().removeAll();
         var mainPanel = this.getMainPanel();
         var researchPanel = this.getResearchPanelView().create();
         mainPanel.remove(researchPanel.down('researchPanel'));

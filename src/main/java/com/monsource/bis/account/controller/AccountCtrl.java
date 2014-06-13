@@ -125,17 +125,23 @@ public class AccountCtrl {
     /**
      * @param password
      */
-    @RequestMapping(value = "password.json", method = RequestMethod.POST, params = {"password"})
+    @RequestMapping(value = "password.json", method = RequestMethod.POST, params = {"oldPassword","password"})
     @ResponseBody
-    public JsonData password(String password) {
+    public JsonData password(String oldPassword,String password) {
         AuthDetails authDetails = authSupport.getAuthDetails();
+        JsonData data = new JsonData();
         AccountEntity entity = accountDao.get(authDetails.getId());
         Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
-        Date date = new Date();
-        entity.setSalt(date.getTime() + "");
-        entity.setPassword(passwordEncoder.encodePassword(entity.getUsername(), entity.getSalt()));
-        accountDao.merge(entity);
-        return new JsonData(true);
+        entity.setSalt(authDetails.getSalt());
+        String oldPass = passwordEncoder.encodePassword(oldPassword,authDetails.getSalt());
+        if(oldPass.equals(authDetails.getPassword())){
+            entity.setPassword(passwordEncoder.encodePassword(password,entity.getSalt()));
+            accountDao.merge(entity);
+            data.setData("success");
+        }else{
+            data.setData("failed");
+        }
+        return data;
     }
 
     /**

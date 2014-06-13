@@ -4,75 +4,131 @@ Ext.create('Ext.toolbar.Toolbar', {
         hrefTarget: 'mainFrame'
     },
     border: false,
+
     items: [
+        {
+            xtype:'splitbutton',
+            text:'Үндсэн',
+            defaults: {
+                hrefTarget: 'mainFrame'
+            },
+            menu:[
+                {
+                    text: 'Гарах',
+                    icon: '/resources/images/cancel-window-16px.png',
+                    handler: function () {
+                        window.location = '/security/logout-process';
+                    }
+                },
+                {
+                    text:'Нууц үг солих',
+                    action:'changePassword'
+                }
+            ]
+        },
         #drawMenu($roles)
         #macro(drawMenu $roles)
             #set($menu="")
             #foreach($role in $roles)
                 #if($role=='ROLE_ADMINISTRATOR')
                     {
-                        text: 'Груп',
-                        icon:'',
-                        href: 'group.jsp'
+                        xtype:'splitbutton',
+                        text:'Админ',
+                        defaults: {
+                            hrefTarget: 'mainFrame'
+                        },
+                        menu:[
+                            {
+                                text: 'Груп',
+                                icon:'',
+                                hrefTarget:'mainFrame',
+                                href: 'group.jsp'
+                            },
+                            {
+                                text: 'Хэрэглэгч',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'account.jsp'
+                            }
+                        ]
                     },
-                    {
-                        text: 'Хэрэглэгч',
-                        icon:'',
-                        href: 'account.jsp'
-                    },
-
                 #end
                 #if($role=='ROLE_REPORTER')
                     {
-                        text: 'Report',
-                        icon:'',
-                        href: 'group.jsp'
-                    },
-                    {
-                        text: 'createReport',
-                        icon:'',
-                        href: 'group.jsp'
+                        xtype:'splitbutton',
+                        text:'Тайлан',
+                        defaults: {
+                            hrefTarget: 'mainFrame'
+                        },
+                        menu:[
+                            {
+                                text: 'Тайлан',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'group.jsp'
+                            },
+                            {
+                                text: 'Тайлан үүсгэх',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'group.jsp'
+                            }
+                        ]
                     },
                 #end
                 #if($role=='ROLE_REGISTER')
                     {
-                        text: 'research',
-                        icon:'',
-                        href: 'research.jsp'
-                    },
-                    {
-                        text: 'Маягт',
-                        icon:'',
-                        href: 'blank.jsp'
-                    },
-                    {
-                        text: 'Бичлэг',
-                        icon:'',
-                        href: 'record.jsp'
+                        xtype:'splitbutton',
+                        defaults: {
+                            hrefTarget: 'mainFrame'
+                        },
+                        text:'Бүртгэл',
+                        menu:[
+                            {
+                                text: 'Судалгаа',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'research.jsp'
+                            },
+                            {
+                                text: 'Маягт',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'blank.jsp'
+                            },
+                            {
+                                text: 'Бичлэг',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'record.jsp'
+                            }
+                        ]
                     },
                 #end
                 #if($role=='ROLE_VIEWER')
                     {
-                        xtype: 'button',
-                        icon:'',
-                        text: 'Тайлан'
-                    },
-                    {
-                        text: 'Бичлэг',
-                        icon:'',
-                        href: 'record.jsp'
+                        xtype:'splitbutton',
+                        defaults: {
+                            hrefTarget: 'mainFrame'
+                        },
+                        text:'Харах',
+                        menu:[
+                            {
+                                icon:'',
+                                hrefTarget:'mainFrame',
+                                text: 'Тайлан'
+                            },
+                            {
+                                text: 'Бичлэг',
+                                hrefTarget:'mainFrame',
+                                icon:'',
+                                href: 'record.jsp'
+                            }
+                        ]
                     },
 
                 #end
             #end
-        #end,
-        '->',
-        {
-            text: 'Гарах',
-            icon: '/resources/images/cancel-window-16px.png',
-            handler: function () {
-                window.location = '/security/logout-process';
-            }
-        }
+        #end
     ]
 });

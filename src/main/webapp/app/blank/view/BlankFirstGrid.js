@@ -2,7 +2,8 @@ Ext.define('Blank.view.BlankFirstGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.blankFirstGrid',
     title: 'Маягтын жагсаалт',
-    width: 400,
+    width: '100%',
+    flex:.5,
     forceFit: true,
     dockedItems:[
         {

@@ -1,7 +1,8 @@
 Ext.define('Blank.view.BlankSecondGrid', {
     extend: 'Ext.grid.Panel',
     title: 'Судалгааны маягтын жагсаалт',
-    width: 400,
+    width: '100%',
+    flex:.5,
     forceFit: true,
     store: Ext.create('Blank.store.ResearchBlanks'),
     viewConfig: {

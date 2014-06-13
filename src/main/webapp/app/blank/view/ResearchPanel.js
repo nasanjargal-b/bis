@@ -49,7 +49,7 @@ Ext.define('Blank.view.ResearchPanel', {
                     xtype:'datefield',
                     allowBlank:false,
                     width:500,
-                    format:'m-d-Y',
+                    format:'Y-m-d',
                     editable:false,
                     fieldLabel:'Эхлэх хугацаа',
                     name:'startDate'
@@ -58,7 +58,7 @@ Ext.define('Blank.view.ResearchPanel', {
                     xtype:'datefield',
                     fieldLabel:'Дуусах хугацаа',
                     allowBlank:false,
-                    format:'m-d-Y',
+                    format:'Y-m-d',
                     editable:false,
                     width:500,
                     name:'endDate'
@@ -73,14 +73,17 @@ Ext.define('Blank.view.ResearchPanel', {
                 {
                     layout: 'hbox',
                     xtype: 'panel',
+                    width:'100%',
                     bodyStyle: 'background-color:#dfe9f6',
                     border: false,
                     items: [
                         {
+                            width: '100%',
                             xtype: 'blankFirstGrid'
 
                         },
                         {
+                            width: '100%',
                             xtype: 'blankSecondGrid'
                         }
                     ]

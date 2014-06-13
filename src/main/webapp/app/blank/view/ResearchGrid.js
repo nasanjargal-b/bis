@@ -50,11 +50,15 @@ Ext.define('Blank.view.ResearchGrid', {
         {
             text: 'Эхлэх огноо',
             flex: 1,
+            xtype:'datecolumn',
+            format:'Y-m-d',
             dataIndex: 'startDate'
         },
         {
             text: 'Дуусах огноо',
             flex: 1,
+            xtype:'datecolumn',
+            format:'Y-m-d',
             dataIndex: 'endDate'
         },
         {
