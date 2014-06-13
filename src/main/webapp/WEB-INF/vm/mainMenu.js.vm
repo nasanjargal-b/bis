@@ -6,17 +6,65 @@ Ext.create('Ext.toolbar.Toolbar', {
     border: false,
 
     items: [
-        #drawMenu($mav.roles)
+        #drawMenu($roles)
         #macro(drawMenu $roles)
-            #set($viewer=false)
-            #set($registerViewer=false)
-            #foreach($role in $roles)
-                #if($role=='ROLE_VIEWER')
-                    #set($viewer = true)
-                #end
+
+            #if($auth.checkAuthority('ROLE_REGISTER'))
+                {
+
+                    defaults: {
+                        hrefTarget: 'mainFrame'
+                    },
+                    text:'Бүртгэл',
+                    menu:[
+                        {
+                            text: 'Судалгаа',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'research.jsp'
+                        },
+                        {
+                            text: 'Маягт',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'blank.jsp'
+                        }
+                        #if($auth.checkAuthority('ROLE_VIEWER'))
+                            ,{
+                            text: 'Бичлэг',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'record.jsp'
+                        }
+                        #end
+                    ]
+                },
             #end
-            #foreach($role in $roles)
-                #if($role=='ROLE_ADMINISTRATOR')
+            #if($auth.checkAuthority('ROLE_REPORTER'))
+                {
+
+                    text:'Тайлан',
+                    defaults: {
+                        hrefTarget: 'mainFrame'
+                    },
+                    menu:[
+                        {
+                            text: 'Тайлан',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'group.jsp'
+                        },
+                        {
+                            text: 'Тайлан үүсгэх',
+                            hrefTarget:'mainFrame',
+                            icon:'',
+                            href: 'group.jsp'
+                        }
+
+                    ]
+                },
+            #end
+                #if($auth.checkAuthority('ROLE_ADMINISTRATOR'))
                     {
 
                         text:'Админ',
@@ -39,67 +87,13 @@ Ext.create('Ext.toolbar.Toolbar', {
                         ]
                     },
                 #end
-                #if($role=='ROLE_REPORTER')
-                    {
 
-                        text:'Тайлан',
-                        defaults: {
-                            hrefTarget: 'mainFrame'
-                        },
-                        menu:[
-                            {
-                                text: 'Тайлан',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'group.jsp'
-                            },
-                            {
-                                text: 'Тайлан үүсгэх',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'group.jsp'
-                            }
 
-                        ]
-                    },
-                #end
-                #if($role=='ROLE_REGISTER')
-                    {
-
-                        defaults: {
-                            hrefTarget: 'mainFrame'
-                        },
-                        text:'Бүртгэл',
-                        menu:[
-                            {
-                                text: 'Судалгаа',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'research.jsp'
-                            },
-                            {
-                                text: 'Маягт',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'blank.jsp'
-                            }
-                        #if($viewer)
-                            ,{
-                            text: 'Бичлэг',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'record.jsp'
-                        }
-                        #end
-                        ]
-                    },
-                #end
-            #end
         #end,
         '->',
         {
 
-            text:'$mav.name',
+            text:'$name',
             defaults: {
                 hrefTarget: 'mainFrame'
             },

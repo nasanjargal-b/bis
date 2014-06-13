@@ -33,6 +33,7 @@ public class MainCtrl {
             roles.add(authority.getAuthority());
         }
         mav.addObject("name", entity.getName());
+        mav.addObject("auth", authSupport);
         mav.addObject("roles", roles);
         return mav;
     }
