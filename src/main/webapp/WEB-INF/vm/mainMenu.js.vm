@@ -6,138 +6,97 @@ Ext.create('Ext.toolbar.Toolbar', {
     border: false,
 
     items: [
-        #drawMenu($roles)
-        #macro(drawMenu $roles)
+        #if($auth.checkAuthority('ROLE_REGISTER') || $auth.checkAuthority('ROLE_VIEWER'))
+            {
 
-            #if($auth.checkAuthority('ROLE_REGISTER') && $auth.checkAuthority('ROLE_VIEWER'))
-                {
-
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    text:'Бүртгэл',
-                    menu:[
+                defaults: {
+                    hrefTarget: 'mainFrame'
+                },
+                text: 'Бүртгэл',
+                menu: [
+                    #if($auth.checkAuthority('ROLE_REGISTER'))
                         {
                             text: 'Судалгаа',
-                            hrefTarget:'mainFrame',
-                            icon:'',
+                            hrefTarget: 'mainFrame',
+                            icon: '',
                             href: 'research.jsp'
                         },
                         {
                             text: 'Маягт',
-                            hrefTarget:'mainFrame',
-                            icon:'',
+                            hrefTarget: 'mainFrame',
+                            icon: '',
                             href: 'blank.jsp'
-                        }
-                            ,{
-                            text: 'Бичлэг',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'record.jsp'
-                        }
-
-                    ]
-                },
-            #elseif($auth.checkAuthority('ROLE_REGISTER'))
-                {
-
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    text:'Бүртгэл',
-                    menu:[
-                        {
-                            text: 'Судалгаа',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'research.jsp'
                         },
-                        {
-                            text: 'Маягт',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'blank.jsp'
-                        }
-
-                    ]
-                },
-            #elseif($auth.checkAuthority('ROLE_VIEWER'))
-                {
-
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    text:'Бүртгэл',
-                    menu:[
+                    #end
                     {
                         text: 'Бичлэг',
-                        hrefTarget:'mainFrame',
-                        icon:'',
+                        hrefTarget: 'mainFrame',
+                        icon: '',
                         href: 'record.jsp'
                     }
-                    ]
-                },
-             #end
-            #if($auth.checkAuthority('ROLE_REPORTER'))
-                {
 
-                    text:'Тайлан',
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    menu:[
-                        {
-                            text: 'Тайлан',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'group.jsp'
-                        },
-                        {
-                            text: 'Тайлан үүсгэх',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'group.jsp'
-                        }
+                ]
+            },
+        #end
+        #if($auth.checkAuthority('ROLE_REPORTER'))
+            {
 
-                    ]
+                text: 'Тайлан',
+                defaults: {
+                    hrefTarget: 'mainFrame'
                 },
-            #end
-                #if($auth.checkAuthority('ROLE_ADMINISTRATOR'))
+                menu: [
                     {
-
-                        text:'Админ',
-                        defaults: {
-                            hrefTarget: 'mainFrame'
-                        },
-                        menu:[
-                            {
-                                text: 'Груп',
-                                icon:'',
-                                hrefTarget:'mainFrame',
-                                href: 'group.jsp'
-                            },
-                            {
-                                text: 'Хэрэглэгч',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'account.jsp'
-                            }
-                        ]
+                        text: 'Тайлан',
+                        hrefTarget: 'mainFrame',
+                        icon: '',
+                        href: 'group.jsp'
                     },
-                #end
+                    {
+                        text: 'Тайлан үүсгэх',
+                        hrefTarget: 'mainFrame',
+                        icon: '',
+                        href: 'group.jsp'
+                    }
+
+                ]
+            },
+        #end
+        #if($auth.checkAuthority('ROLE_ADMINISTRATOR'))
+            {
+
+                text: 'Админ',
+                defaults: {
+                    hrefTarget: 'mainFrame'
+                },
+                menu: [
+                    {
+                        text: 'Груп',
+                        icon: '',
+                        hrefTarget: 'mainFrame',
+                        href: 'group.jsp'
+                    },
+                    {
+                        text: 'Хэрэглэгч',
+                        hrefTarget: 'mainFrame',
+                        icon: '',
+                        href: 'account.jsp'
+                    }
+                ]
+            },
         #end,
         '->',
         {
 
-            text:'$name',
+            text: '$name',
             defaults: {
                 hrefTarget: 'mainFrame'
             },
-            menu:[
+            menu: [
                 {
-                    text:'Нууц үг солих',
+                    text: 'Нууц үг солих',
                     icon: '/resources/images/password-16px.png',
-                    action:'changePassword'
+                    action: 'changePassword'
                 },
                 '-'
                 ,
