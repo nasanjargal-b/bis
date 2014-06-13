@@ -125,8 +125,6 @@ Ext.create('Ext.toolbar.Toolbar', {
                         ]
                     },
                 #end
-
-
         #end,
         '->',
         {
