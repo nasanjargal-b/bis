@@ -40,8 +40,7 @@
         <sec:intercept-url pattern="/report-mod/report/view/**" access="hasAnyRole('ROLE_REPORTER','ROLE_VIEWER')"/>
         <sec:intercept-url pattern="/report-mod/**" access="hasAnyRole('ROLE_REPORTER')"/>
 
-        <!--<sec:intercept-url pattern="/**" access="isAuthenticated()"/>-->
-        <sec:intercept-url pattern="/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <sec:access-denied-handler ref="authService"/>
         <!--<sec:http-basic/>-->
