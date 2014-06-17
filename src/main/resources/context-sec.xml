@@ -24,6 +24,8 @@
         <sec:intercept-url pattern="/favicon.ico" access="permitAll()"/>
         <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
         <sec:intercept-url pattern="/security/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/test-mod/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/report-gen/**" access="permitAll()"/>
         <!--ACCOUNT-->
         <sec:intercept-url pattern="/account-mod/account/password.json" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/account-mod/**" access="hasAnyRole('ROLE_ADMINISTRATOR')"/>
@@ -36,9 +38,10 @@
         <sec:intercept-url pattern="/blank-mod/**" access="hasAnyRole('ROLE_REGISTER')"/>
         <!--REPORT-->
         <sec:intercept-url pattern="/report-mod/report/view/**" access="hasAnyRole('ROLE_REPORTER','ROLE_VIEWER')"/>
-        <sec:intercept-url pattern="/report-mod/report/**" access="hasAnyRole('ROLE_REPORTER')"/>
+        <sec:intercept-url pattern="/report-mod/**" access="hasAnyRole('ROLE_REPORTER')"/>
 
-        <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
+        <!--<sec:intercept-url pattern="/**" access="isAuthenticated()"/>-->
+        <sec:intercept-url pattern="/**" access="permitAll()"/>
 
         <sec:access-denied-handler ref="authService"/>
         <!--<sec:http-basic/>-->

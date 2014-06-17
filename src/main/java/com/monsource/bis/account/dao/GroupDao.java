@@ -23,7 +23,6 @@ public class GroupDao extends HibernateDaoSupport<GroupEntity> {
      */
     public List<Group> find(String text) {
         Criteria criteria = getSession().createCriteria(GroupEntity.class);
-        System.out.println("search: "+text);
         if (text != null && !"".equals(text)) {
             criteria.add(Restrictions.or(
                     Restrictions.like("description", text, MatchMode.ANYWHERE),
