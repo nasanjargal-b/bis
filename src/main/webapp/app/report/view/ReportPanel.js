@@ -181,6 +181,10 @@ Ext.define('Report.view.ReportPanel', {
                                         return 'Бүхэл тоо';
                                     case 'DECIMAL':
                                         return 'Бутархай тоо';
+                                    case 'DATE':
+                                        return 'Огноо';
+                                    case 'TIME':
+                                        return 'Цаг';
                                     case 'TEXT':
                                         return 'Текст';
                                     case 'BOOLEAN':

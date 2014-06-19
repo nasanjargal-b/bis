@@ -1,6 +1,6 @@
 Ext.define('Account.view.GroupPanel', {
         extend: 'Ext.window.Window',
-        title: 'Груп',
+        title: 'Групп',
         autoShow: true,
         width: 320,
         resizable:false,

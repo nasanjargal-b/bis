@@ -1,5 +1,6 @@
 Ext.define('Report.view.ReportGridPanel', {
     extend: 'Ext.panel.Panel',
+    border: false,
     alias: 'widget.reportGridPanel',
     layout: {
         type: 'vbox',
@@ -8,7 +9,7 @@ Ext.define('Report.view.ReportGridPanel', {
     items: [
         {
             xtype: 'treepanel',
-            title: 'Груп',
+            title: 'Групп',
             alias: 'widget.groupTree',
             width: 400,
             flex: .4,
@@ -75,6 +76,14 @@ Ext.define('Report.view.ReportGridPanel', {
             ],
             columns: [
                 {
+                    text: '',
+                    width: 10,
+                    dataIndex: 'name',
+                    renderer: function (value) {
+                        return '<img src="/resources/images/report-16px.png">';
+                    }
+                },
+                {
                     text: 'Нэр',
                     dataIndex: 'name'
                 }
@@ -83,11 +92,6 @@ Ext.define('Report.view.ReportGridPanel', {
                 plugins: {
                     ptype: 'gridviewdragdrop',
                     ddGroup: 'selDD'
-                },
-                listeners: {
-                    drop: function (node, data, dropRec, dropPosition) {
-
-                    }
                 }
             }
         }

@@ -50,6 +50,8 @@ Ext.define('Report.view.ParamWindow', {
                         {value: 'DECIMAL', name: 'Бутархай тоо'},
                         {value: 'TEXT', name: 'Текст'},
                         {value: 'BOOLEAN', name: 'Тийм/Үгүй'},
+                        {value: 'DATE', name: 'Огноо'},
+                        {value: 'TIME', name: 'Цаг'},
                         {value: 'MULTIPLE_CHOICE', name: 'Олон сонголттой'},
                         {value: 'SINGLE_CHOICE', name: 'Нэг сонголттой'},
                         {value: 'CITY', name: 'Аймаг/Хот'},

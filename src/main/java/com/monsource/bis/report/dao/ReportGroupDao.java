@@ -38,4 +38,18 @@ public class ReportGroupDao extends HibernateDaoSupport<ReportGroupEntity> {
 
         return criteria.list();
     }
+
+    public List<ReportGroupEntity> find(Integer parentId) {
+        Criteria criteria = this.getSession().createCriteria(ReportGroupEntity.class);
+
+        criteria.createAlias("parentGroup", "parentGroup", JoinType.LEFT_OUTER_JOIN);
+
+        if (parentId == null || parentId == 0) {
+            criteria.add(Restrictions.isNull("parentGroup"));
+        } else {
+            criteria.add(Restrictions.eq("parentGroup.id", parentId));
+        }
+
+        return criteria.list();
+    }
 }

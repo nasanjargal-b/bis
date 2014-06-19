@@ -3,22 +3,23 @@ Ext.define('Blank.view.BlankFirstGrid', {
     alias: 'widget.blankFirstGrid',
     title: 'Маягтын жагсаалт',
     width: '100%',
-    flex:.5,
+    flex: .5,
     forceFit: true,
-    dockedItems:[
+    dockedItems: [
         {
-            xtype:'toolbar',
-            items:[
+            xtype: 'toolbar',
+            items: [
                 {
-                    xtype:'textfield',
-                    isFormField:false,
-                    enableKeyEvents:true,
-                    action:'search'
+                    xtype: 'textfield',
+                    isFormField: false,
+                    enableKeyEvents: true,
+                    action: 'search'
                 },
                 {
-                    xtype:'button',
-                    text:'Хайх',
-                    action:'search'
+                    xtype: 'button',
+                    text: 'Хайх',
+                    icon: '/resources/images/search-16px.png',
+                    action: 'search'
                 }
             ]
         }
@@ -37,8 +38,8 @@ Ext.define('Blank.view.BlankFirstGrid', {
             dropGroup: 'firstGridDDGroup'
         }
     },
-    width:300,
-    height:400,
+    width: 300,
+    height: 400,
     stripeRows: true,
     margins: '0 0 0 3',
     columns: [
@@ -50,10 +51,15 @@ Ext.define('Blank.view.BlankFirstGrid', {
         {
             text: 'Маягтын Нэр',
             flex: 1,
-            filterable : true,
+            filterable: true,
             dataIndex: 'name',
             filterInput: 'textfield',
-            filterOptions:[{value:'startwith', text:'Start With'},{value:'endwith', text:'End With'},{value:'contain', text:'Contain'},{value:'doesnotcontain', text:'Does Not Contain'}]
+            filterOptions: [
+                {value: 'startwith', text: 'Start With'},
+                {value: 'endwith', text: 'End With'},
+                {value: 'contain', text: 'Contain'},
+                {value: 'doesnotcontain', text: 'Does Not Contain'}
+            ]
         }
     ]
 });

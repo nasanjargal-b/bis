@@ -9,7 +9,7 @@ Ext.define('Report.store.ReportTree', {
     ],
     root: {
         id: 0,
-        text: 'Үндсэн груп'
+        text: 'Үндсэн групп'
     },
     autoLoad: true,
     proxy: {

@@ -16,6 +16,11 @@ Ext.define('Report.controller.ReportCtrl', {
                     this.submit(form);
                 }
             },
+            'reportPanel button[action="cancel"]': {
+                click: function (btn) {
+                    this.getMainPanel().removeAll();
+                }
+            },
             'treepanel[alias="widget.groupTree"]': {
                 itemclick: function (tree, record) {
                     var store = tree.up('reportGridPanel').down('grid').getStore();
@@ -199,10 +204,10 @@ Ext.define('Report.controller.ReportCtrl', {
     },
     refreshReport: function (clear) {
         var grid = Ext.ComponentQuery.query('reportGridPanel grid')[0];
-        if(clear)
+        if (clear)
             grid.getStore().removeAll();
         else
-        grid.getStore().reload();
+            grid.getStore().reload();
     },
     submit: function (form) {
         var me = this;

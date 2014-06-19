@@ -5,6 +5,7 @@ import org.pentaho.reporting.engine.classic.core.MasterReport;
 import org.pentaho.reporting.engine.classic.core.ReportProcessingException;
 import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.table.html.HtmlReportUtil;
+import org.pentaho.reporting.engine.classic.core.modules.output.table.rtf.RTFReportUtil;
 import org.pentaho.reporting.engine.classic.core.modules.output.table.xls.ExcelReportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class ReportGeneratorService {
             case HTML:
                 generateHTML(username, reportName, response, report);
                 break;
+            case DOC:
+                generateRTF(reportName, response, report);
+                break;
             case PDF:
                 generatePdf(reportName, response, report);
                 break;
@@ -37,6 +41,12 @@ public class ReportGeneratorService {
                 generateXlsx(reportName, response, report);
                 break;
         }
+    }
+
+    private void generateRTF(String reportName, HttpServletResponse response, MasterReport report) throws IOException, ReportProcessingException {
+        response.setContentType("application/rtf");
+        response.setHeader("Content-Disposition", "attachment; filename=" + reportName + ".rtf");
+        RTFReportUtil.createRTF(report, response.getOutputStream());
     }
 
     private void generateXlsx(String reportName, HttpServletResponse response, MasterReport report) throws IOException, ReportProcessingException {

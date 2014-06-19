@@ -4,7 +4,7 @@ Ext.define('Report.store.Group', {
     autoLoad: true,
     root: {
         id: 0,
-        text: 'Үндсэн груп',
+        text: 'Үндсэн групп',
         parentId: null
     },
     proxy: {

@@ -1,7 +1,7 @@
 Ext.define('Account.view.GroupGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.groupGrid',
-    title: 'Груп',
+    title: 'Групп',
     width: 400,
     forceFit: true,
     dockedItems: [
@@ -48,12 +48,12 @@ Ext.define('Account.view.GroupGrid', {
 //    ],
     columns: [
         {
-            text: 'Групын код',
+            text: 'Группын код',
             width: 80,
             dataIndex: 'id'
         },
         {
-            text: 'Групын нэр',
+            text: 'Группын нэр',
             flex:.5,
             dataIndex: 'name'
         },

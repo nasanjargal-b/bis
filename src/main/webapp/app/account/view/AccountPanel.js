@@ -1,6 +1,6 @@
 Ext.define('Account.view.AccountPanel', {
         extend: 'Ext.window.Window',
-        title: 'Груп',
+        title: 'Групп',
         autoShow: true,
         width: 600,
         height: 405,
@@ -142,12 +142,12 @@ Ext.define('Account.view.AccountPanel', {
                                 dataIndex: 'id'
                             },
                             {
-                                text: 'Групын нэр',
+                                text: 'Группын нэр',
                                 dataIndex: 'name'
                             },
                             {
                                 flex:.5,
-                                text: 'Групын эрх',
+                                text: 'Группын эрх',
                                 dataIndex: 'roles'
                             }
                         ]

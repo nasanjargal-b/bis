@@ -6,58 +6,69 @@ Ext.create('Ext.toolbar.Toolbar', {
     border: false,
 
     items: [
+        {
+            xtype: 'label',
+            html: '<img src="/resources/images/logomn-16px.png" style="position: fixed;top: 5px;left: 5px;"/>'
+        },
+        {
+            xtype: 'label',
+            html: '<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Барилга хот байгууллалтын яам</span>'
+        },
+        '->',
         #if($auth.checkAuthority('ROLE_REGISTER') || $auth.checkAuthority('ROLE_VIEWER'))
             {
 
                 defaults: {
                     hrefTarget: 'mainFrame'
                 },
+                icon: '/resources/images/blank-menu-16px.png',
                 text: 'Бүртгэл',
                 menu: [
                     #if($auth.checkAuthority('ROLE_REGISTER'))
                         {
                             text: 'Судалгаа',
                             hrefTarget: 'mainFrame',
-                            icon: '',
+                            icon: '/resources/images/research-16px.png',
                             href: 'research.jsp'
                         },
                         {
                             text: 'Маягт',
                             hrefTarget: 'mainFrame',
-                            icon: '',
+                            icon: '/resources/images/blank-16px.png',
                             href: 'blank.jsp'
                         },
                     #end
                     {
                         text: 'Бичлэг',
                         hrefTarget: 'mainFrame',
-                        icon: '',
+                        icon: '/resources/images/record-16px.png',
                         href: 'record.jsp'
                     }
 
                 ]
             },
         #end
-        #if($auth.checkAuthority('ROLE_REPORTER'))
+        #if($auth.checkAuthority('ROLE_REPORTER') || $auth.checkAuthority('ROLE_VIEWER'))
             {
 
                 text: 'Тайлан',
+                icon: '/resources/images/report-16px.png',
                 defaults: {
                     hrefTarget: 'mainFrame'
                 },
                 menu: [
-                    {
-                        text: 'Тайлан',
-                        hrefTarget: 'mainFrame',
-                        icon: '',
-                        href: 'group.jsp'
-                    },
-                    {
-                        text: 'Тайлан үүсгэх',
-                        hrefTarget: 'mainFrame',
-                        icon: '',
-                        href: 'group.jsp'
-                    }
+                    #if($auth.checkAuthority('ROLE_REPORTER'))
+                        {
+                            text: 'Тайлан үүсгэх',
+                            hrefTarget: 'mainFrame',
+                            icon: '/resources/images/report-menu-16px.png',
+                            href: 'report.jsp'
+                        },
+                        '-'
+                    #end
+                    #foreach($group in $groups),
+                        #parse('/WEB-INF/vm/reportMenu.json.vm')
+                    #end
 
                 ]
             },
@@ -66,29 +77,31 @@ Ext.create('Ext.toolbar.Toolbar', {
             {
 
                 text: 'Админ',
+                icon: '/resources/images/settings-16px.png',
                 defaults: {
                     hrefTarget: 'mainFrame'
                 },
                 menu: [
                     {
-                        text: 'Груп',
-                        icon: '',
+                        text: 'Групп',
+                        icon: '/resources/images/group-16px.png',
                         hrefTarget: 'mainFrame',
                         href: 'group.jsp'
                     },
                     {
                         text: 'Хэрэглэгч',
                         hrefTarget: 'mainFrame',
-                        icon: '',
+                        icon: '/resources/images/account-16px.png',
                         href: 'account.jsp'
                     }
                 ]
             },
         #end,
-        '->',
+
         {
 
             text: '$name',
+            icon: '/resources/images/username-16px.png',
             defaults: {
                 hrefTarget: 'mainFrame'
             },
