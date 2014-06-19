@@ -1,0 +1,24 @@
+{
+    text: "$esc.javascript($group.name)",
+    icon: '/resources/images/report-group-16px.png'
+#if($group.childrenGroup && $group.childrenGroup.size() > 0),
+    #set($comma = false)
+    menu: [
+        #foreach($group in $group.childrenGroup)
+            #if($comma) #set($comma = true) #else, #end
+            #parse('/WEB-INF/vm/reportMenu.json.vm')
+        #end
+        #if($group.reports && $group.reports.size() > 0)
+            #foreach($report in $group.reports)
+                #if($comma) #set($comma = true) #else, #end
+                {
+                    text: "$esc.javascript($report.name)",
+                    icon: '/resources/images/report-16px.png',
+                    hrefTarget: 'mainFrame',
+                    href: '/report-view.jsp?id=${report.id}'
+                }
+            #end
+        #end
+    ]
+#end
+}
