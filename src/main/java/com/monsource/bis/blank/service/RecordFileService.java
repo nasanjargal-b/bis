@@ -51,7 +51,7 @@ public class RecordFileService {
 
     public void save(final String blankId, final Integer researchId, InputStream inputStream) throws IOException, JAXBException, ParseException {
 
-        Blank blank = blankSrv.get(blankId);
+        /*Blank blank = blankSrv.get(blankId);
         ExcelWorkbook excelWorkbook = new ExcelWorkbook(blank, getColumns(questionSrv.getColumnsWithoutGroup(blank.getQuestions())), inputStream);
 
         final List<Record> records = excelWorkbook.getRecords();
@@ -85,18 +85,18 @@ public class RecordFileService {
                     }
                 }
             }
-        });
+        });*/
     }
 
     public XSSFWorkbook getWorkBook(String blankId) throws JAXBException {
 
-        Blank blank = blankSrv.get(blankId);
+        /*Blank blank = blankSrv.get(blankId);
         List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
 
         List<ExcelColumn> columns = getColumns(questions);
 
-        return new ExcelWorkbook(columns, blank);
-
+        return new ExcelWorkbook(columns, blank);*/
+return null;
     }
 
 

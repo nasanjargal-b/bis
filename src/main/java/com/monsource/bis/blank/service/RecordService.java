@@ -27,9 +27,8 @@ public class RecordService {
     public void save(String blankId, Integer researchId, Record record) throws JAXBException, ParseException {
         Blank blank = blankSrv.get(blankId);
         record.setResearchId(researchId);
-        record.setAccountId(1); //todo after fix
-//        AuthDetails authDetails = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        record.setAccountId(authDetails.getId());
+        AuthDetails authDetails = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        record.setAccountId(authDetails.getId());
         recordDao.merge(blank, researchId, record);
         recordDao.flush();
     }

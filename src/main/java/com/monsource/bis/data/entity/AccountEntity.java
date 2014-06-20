@@ -5,6 +5,7 @@ import com.monsource.bis.data.entity.type.AccountStatus;
 import com.monsource.bis.data.entity.type.Gender;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**

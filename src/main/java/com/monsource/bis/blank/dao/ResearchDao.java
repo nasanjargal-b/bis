@@ -1,6 +1,5 @@
 package com.monsource.bis.blank.dao;
 
-import com.monsource.bis.blank.model.Blank;
 import com.monsource.bis.blank.model.Blanks;
 import com.monsource.bis.blank.model.Research;
 import com.monsource.bis.core.data.HibernateDaoSupport;
@@ -24,6 +23,7 @@ public class ResearchDao extends HibernateDaoSupport<ResearchEntity> {
         Criteria criteria = getSession().createCriteria(ResearchEntity.class);
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.property("id"), "id")
+                .add(Projections.property("name"), "name")
                 .add(Projections.property("year"), "year")
                 .add(Projections.property("active"), "active")
                 .add(Projections.property("startDate"), "startDate")
@@ -52,6 +52,7 @@ public class ResearchDao extends HibernateDaoSupport<ResearchEntity> {
         criteria.add(Restrictions.eq("id", id));
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.property("id"), "id")
+                .add(Projections.property("name"), "name")
                 .add(Projections.property("year"), "year")
                 .add(Projections.property("active"), "active")
                 .add(Projections.property("startDate"), "startDate")
@@ -68,7 +69,6 @@ public class ResearchDao extends HibernateDaoSupport<ResearchEntity> {
                 .add(Projections.property("id"), "id")
                 .add(Projections.property("name"), "name")
                 .add(Projections.property("questions"), "questions")
-//                .add(Projections.property("blankGroup.id"), "blankGroupId")
         );
         blankCriteria.setResultTransformer(Transformers.aliasToBean(Blanks.class));
         List<Blanks> blanks = blankCriteria.list();

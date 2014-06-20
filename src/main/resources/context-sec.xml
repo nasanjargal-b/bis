@@ -43,8 +43,8 @@
         <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <sec:access-denied-handler ref="authService"/>
-        <!--<sec:http-basic/>-->
-        <sec:form-login
+        <sec:http-basic/>
+        <!--<sec:form-login
                 login-page="/security/login.jsp"
                 login-processing-url="/security/login-process"
                 username-parameter="username"
@@ -55,7 +55,7 @@
                 invalidate-session="true"
                 logout-success-url="/security/login.jsp"
                 logout-url="/security/logout-process"
-                />
+                />-->
     </sec:http>
 
     <sec:authentication-manager>

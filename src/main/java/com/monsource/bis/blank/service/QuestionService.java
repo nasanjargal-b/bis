@@ -49,7 +49,7 @@ public class QuestionService {
      * @param blank
      */
     private Table createTable(Blank blank) {
-        Table table = new Table();
+        /*Table table = new Table();
 
         table.setName(blank.getId());
         table.setSchema(schema);
@@ -74,7 +74,8 @@ public class QuestionService {
             }
         }
 
-        return table;
+        return table;*/
+        return null;
     }
 
     public List<Question> getColumnsWithoutGroup(List<Question> questions) {

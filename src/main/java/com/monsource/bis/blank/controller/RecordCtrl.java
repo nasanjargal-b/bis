@@ -36,7 +36,7 @@ public class RecordCtrl {
 
     @RequestMapping("grid.js")
     public ModelAndView gridView(String blankId, Integer researchId) throws JAXBException {
-        Blank blank = blankSrv.get(blankId);
+        /*Blank blank = blankSrv.get(blankId);
         List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
         List<Question> columnQuestions = new ArrayList<>();
         for (Question question : questions) {
@@ -49,7 +49,8 @@ public class RecordCtrl {
         mav.addObject("blankId", blankId);
         mav.addObject("researchId", researchId);
 
-        return mav;
+        return mav;*/
+        return null;
 
     }
 

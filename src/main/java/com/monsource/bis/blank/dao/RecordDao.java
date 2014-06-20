@@ -40,7 +40,7 @@ public class RecordDao extends HibernateDaoSupport {
      */
     public Map<String, Object> find(String blankId, Integer start, Integer limit, RecordFilter filter) throws JAXBException {
 
-        Session session = this.getSession();
+        /*Session session = this.getSession();
         Blank blank = blankSrv.get(blankId);
 
         SQLQuery sqlQuery = createDataQuery(blank, filter, false);
@@ -109,7 +109,8 @@ public class RecordDao extends HibernateDaoSupport {
         result.put("records", records);
         result.put("total", total);
 
-        return result;
+        return result;*/
+        return null;
 
     }
 
@@ -170,7 +171,7 @@ public class RecordDao extends HibernateDaoSupport {
     }
 
     private void insertRecord(Blank blank, Integer researchId, Record record) throws ParseException {
-        List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
+        /*List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
 
         StringBuilder query = new StringBuilder("INSERT INTO " + questionSrv.getSchema() + "." + blank.getId() + "");
         query.append("(account_id," +
@@ -214,12 +215,12 @@ public class RecordDao extends HibernateDaoSupport {
 
         record.setId((Integer) this.getSession().createSQLQuery("SELECT max(id) FROM " + questionSrv.getSchema() + "." + blank.getId()).uniqueResult());
 
-        saveChoicesQuestion(blank, questions, record);
+        saveChoicesQuestion(blank, questions, record);*/
 
     }
 
     private void updateRecord(Blank blank, Integer researchId, Record record) throws ParseException {
-        List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
+       /* List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
 
         StringBuilder query = new StringBuilder("UPDATE " + questionSrv.getSchema() + "." + blank.getId() + " SET ");
         query.append("account_id = :account_id," +
@@ -247,7 +248,7 @@ public class RecordDao extends HibernateDaoSupport {
         sqlQuery.setInteger("id", record.getId());
         sqlQuery.executeUpdate();
 
-        saveChoicesQuestion(blank, questions, record);
+        saveChoicesQuestion(blank, questions, record);*/
     }
 
     private void saveChoicesQuestion(Blank blank, List<Question> questions, Record record) {
@@ -342,7 +343,7 @@ public class RecordDao extends HibernateDaoSupport {
 
     public void delete(Blank blank, List<Integer> ids) {
 
-        for (Question question : questionSrv.getColumnsWithoutGroup(blank.getQuestions())) {
+        /*for (Question question : questionSrv.getColumnsWithoutGroup(blank.getQuestions())) {
             switch (question.getType()) {
                 case MULTIPLE_CHOICE:
                 case SINGLE_CHOICE:
@@ -358,7 +359,7 @@ public class RecordDao extends HibernateDaoSupport {
         sqlQuery.setParameterList("ids", ids);
         sqlQuery.executeUpdate();
 
-        this.getSession().flush();
+        this.getSession().flush();*/
     }
 
 }

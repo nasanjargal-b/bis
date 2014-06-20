@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 /**
- * Created by nyamaa on 6/11/14. todo move
+ * Created by erdenedavaa.b on 6/11/14.
  */
 @Controller
 @RequestMapping("/main.js")

@@ -23,48 +23,42 @@ Ext.define('Blank.view.ResearchGrid', {
         }
     ],
     store: 'Researches',
-//    features: [
-//        {
-//            ftype: 'grouping',
-//            groupHeaderTpl: '{name}'
-//        }
-//    ],
     columns: [
         {
-            text: 'код',
-            width: 80,
-            dataIndex: 'id'
+            text: 'Нэр',
+            flex: 1,
+            dataIndex: 'name'
         },
         {
             text: 'Идэвхитэй',
-            flex: 1,
+            width: 80,
             dataIndex: 'active',
-            renderer:function(value){
-                if(value==true){
+            renderer: function (value) {
+                if (value == true) {
                     return "<span style='color: green'>Идэвхитэй</span>"
-                }else{
+                } else {
                     return "<span style='color: red'>Идэвхигүй</span>"
                 }
             }
-        },
-        {
-            text: 'Эхлэх огноо',
-            flex: 1,
-            xtype:'datecolumn',
-            format:'Y-m-d',
-            dataIndex: 'startDate'
-        },
-        {
-            text: 'Дуусах огноо',
-            flex: 1,
-            xtype:'datecolumn',
-            format:'Y-m-d',
-            dataIndex: 'endDate'
-        },
-        {
-            text: 'Тайлбар',
-            flex: 1,
-            dataIndex: 'description'
-        }
+        }/*,
+         {
+         text: 'Эхлэх огноо',
+         flex: 1,
+         xtype:'datecolumn',
+         format:'Y-m-d',
+         dataIndex: 'startDate'
+         },
+         {
+         text: 'Дуусах огноо',
+         flex: 1,
+         xtype:'datecolumn',
+         format:'Y-m-d',
+         dataIndex: 'endDate'
+         },
+         {
+         text: 'Тайлбар',
+         flex: 1,
+         dataIndex: 'description'
+         }*/
     ]
 });
