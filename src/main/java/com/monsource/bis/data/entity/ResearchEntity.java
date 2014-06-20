@@ -130,7 +130,11 @@ public class ResearchEntity implements DataEntity {
         this.records = records;
     }
 
-    @ManyToMany(mappedBy = "researches")
+    @ManyToMany
+    @JoinTable(name = "research_blank", schema = "registration", catalog = "bis",
+            joinColumns = @JoinColumn(name = "research_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "blank_id", referencedColumnName = "id")
+    )
     public List<BlankEntity> getBlanks() {
         return blanks;
     }

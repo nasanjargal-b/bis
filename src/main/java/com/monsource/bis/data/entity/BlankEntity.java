@@ -96,10 +96,7 @@ public class BlankEntity implements DataEntity {
         this.records = records;
     }
 
-    @ManyToMany
-    @JoinTable(name = "research_blank", catalog = "bis", schema = "registration",
-            joinColumns = @JoinColumn(name = "blank_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "research_id", referencedColumnName = "id", nullable = false))
+    @ManyToMany(mappedBy = "blanks")
     public List<ResearchEntity> getResearches() {
         return researches;
     }
