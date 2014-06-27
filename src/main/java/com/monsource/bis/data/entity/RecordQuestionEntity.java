@@ -104,7 +104,10 @@ public class RecordQuestionEntity implements DataEntity {
         this.record = record;
     }
 
-    @ManyToMany(mappedBy = "recordQuestions")
+    @ManyToMany()
+    @JoinTable(name = "record_question_choice", catalog = "bis", schema = "registration",
+            joinColumns = @JoinColumn(name = "record_question_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false))
     public List<ChoiceEntity> getChoices() {
         return choices;
     }

@@ -56,6 +56,7 @@ Ext.define('Blank.view.BlankPanel', {
                             allowBlank: false,
                             fieldLabel: 'Маягтын ангилал',
                             name: 'blankGroupId',
+                            editable: false,
                             queryMode: 'local',
                             displayField: 'name',
                             valueField: 'id',
@@ -64,73 +65,7 @@ Ext.define('Blank.view.BlankPanel', {
                     ]
                 },
                 {
-                    xtype: 'treepanel',
-                    title: 'Асуултын жагсаалт',
-                    region: 'center',
-                    forceFit: true,
-                    viewConfig: {
-                        toggleOnDblClick: false,
-                        plugins: {
-                            ptype: 'treeviewdragdrop'
-                        }
-                    },
-                    columns: [
-                        {
-                            xtype: 'treecolumn',
-                            text: 'Код',
-                            width: 150,
-                            sortable: true,
-                            dataIndex: 'id'
-                        },
-                        {
-                            text: 'Асуулт',
-                            flex: 1,
-                            dataIndex: 'text'
-                        },
-                        {
-                            xtype: 'checkcolumn',
-                            text: 'Хүснэгт',
-                            width: 60,
-                            dataIndex: 'grid',
-                            renderer: function (value, m, record) {
-                                if (!record.isLeaf())
-                                    return '';
-                                else
-                                    return (new Ext.ux.CheckColumn()).renderer(value);
-                            }
-                        },
-                        {
-                            text: 'Багана',
-                            width: 150,
-                            dataIndex: 'name'
-                        },
-                        {
-                            text: 'Төрөл',
-                            width: 150,
-                            dataIndex: 'type',
-                            renderer: function (value) {
-                                if (value == 'TEXT') return 'Текст';
-                                if (value == 'DECIMAL') return 'Бутархай тоо';
-                                if (value == 'INTEGER') return 'Бүхэл тоо';
-                                if (value == 'BOOLEAN') return 'Тийм/Үгүй';
-                                if (value == 'DATE') return 'Огноо';
-                                if (value == 'SINGLE_CHOICE') return 'Нэг сонголттой';
-                                if (value == 'MULTIPLE_CHOICE') return 'Олон сонголттой';
-
-                                return '';
-                            }
-                        }
-                    ],
-                    store: Ext.create('Ext.data.TreeStore', {
-                        model: 'Blank.model.Question',
-                        autoLoad: true,
-                        proxy: {
-                            type: 'memory',
-                            reader: {
-                                type: 'json'
-                            }
-                        }
-                    })
+                    xtype:'questionTreePanel'
                 }
             ]
         }

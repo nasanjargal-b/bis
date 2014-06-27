@@ -1,6 +1,6 @@
 package com.monsource.bis.blank.service;
 
-import com.monsource.bis.blank.controller.RecordFilter;
+//import com.monsource.bis.blank.controller.RecordFilter;
 import com.monsource.bis.blank.dao.BlankDao;
 import com.monsource.bis.blank.dao.RecordDao;
 import com.monsource.bis.blank.dao.ResearchDao;
@@ -65,7 +65,7 @@ public class ResearchService {
     }
 
     public void delete(final Integer id) {
-        template.execute(new TransactionCallbackWithoutResult() {
+        /*template.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 try {
@@ -88,6 +88,6 @@ public class ResearchService {
                     throw new BaseException(e);
                 }
             }
-        });
+        });*/
     }
 }

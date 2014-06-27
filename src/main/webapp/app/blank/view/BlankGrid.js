@@ -29,6 +29,9 @@ Ext.define('Blank.view.BlankGrid', {
             groupHeaderTpl: '{name}'
         }
     ],
+    selModel: {
+        mode: 'MULTI'
+    },
     columns: [
         {
             text: 'Маягтын код',

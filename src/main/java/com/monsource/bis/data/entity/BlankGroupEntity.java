@@ -13,6 +13,13 @@ public class BlankGroupEntity implements DataEntity {
     private String id;
     private String name;
 
+    public BlankGroupEntity() {
+    }
+
+    public BlankGroupEntity(String id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id")
     public String getId() {

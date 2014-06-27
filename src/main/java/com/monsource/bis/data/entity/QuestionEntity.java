@@ -1,8 +1,11 @@
 package com.monsource.bis.data.entity;
 
+import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -11,27 +14,41 @@ import java.util.List;
 @Entity
 @Table(name = "question", schema = "registration", catalog = "bis")
 public class QuestionEntity implements DataEntity {
-    private String id;
+    private Integer id;
+    private String code;
     private String text;
-    private String type;
+    private QuestionType type;
     private String format;
+    private Integer order;
     private List<ChoiceEntity> choices;
     private BlankEntity blank;
-    private QuestionGroupEntity questionGroup;
     private List<RecordQuestionEntity> recordQuestions;
+    private QuestionEntity parent;
+    private List<QuestionEntity> children;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "text")
+    @Column(name = "code")
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Basic
+    @Column(name = "\"text\"")
     public String getText() {
         return text;
     }
@@ -41,12 +58,13 @@ public class QuestionEntity implements DataEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    public String getType() {
+    public QuestionType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(QuestionType type) {
         this.type = type;
     }
 
@@ -60,6 +78,16 @@ public class QuestionEntity implements DataEntity {
         this.format = format;
     }
 
+    @Basic
+    @Column(name = "\"order\"")
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,10 +95,12 @@ public class QuestionEntity implements DataEntity {
 
         QuestionEntity that = (QuestionEntity) o;
 
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
         if (format != null ? !format.equals(that.format) : that.format != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (type != that.type) return false;
 
         return true;
     }
@@ -78,13 +108,15 @@ public class QuestionEntity implements DataEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (format != null ? format.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<ChoiceEntity> getChoices() {
         return choices;
     }
@@ -103,16 +135,6 @@ public class QuestionEntity implements DataEntity {
         this.blank = blank;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "question_group_id", referencedColumnName = "id", nullable = false)
-    public QuestionGroupEntity getQuestionGroup() {
-        return questionGroup;
-    }
-
-    public void setQuestionGroup(QuestionGroupEntity questionGroup) {
-        this.questionGroup = questionGroup;
-    }
-
     @OneToMany(mappedBy = "question")
     public List<RecordQuestionEntity> getRecordQuestions() {
         return recordQuestions;
@@ -120,5 +142,25 @@ public class QuestionEntity implements DataEntity {
 
     public void setRecordQuestions(List<RecordQuestionEntity> recordQuestions) {
         this.recordQuestions = recordQuestions;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    public QuestionEntity getParent() {
+        return parent;
+    }
+
+    public void setParent(QuestionEntity parent) {
+        this.parent = parent;
+    }
+
+    @OneToMany(mappedBy = "parent")
+    @OrderBy("order asc")
+    public List<QuestionEntity> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<QuestionEntity> children) {
+        this.children = children;
     }
 }

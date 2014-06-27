@@ -1,9 +1,9 @@
 Ext.application({
     name: 'Blank',
-    controllers: ['BlankCtrl', 'QuestionCtrl', 'QuestionMenuCtrl'],
-    models: ['Blank', 'Question'],
-    stores: ['Blanks', 'Groups'],
-    views: ['BlankGrid', 'BlankPanel', 'QuestionWindow', 'ChoiceGrid'],
+    controllers: ['BlankCtrl', 'QuestionCtrl'],
+    models: ['Blank', 'Question', 'Choice'],
+    stores: ['Blanks', 'Groups', 'Questions'],
+    views: ['BlankGrid', 'BlankPanel', 'QuestionTreePanel', 'ChoiceWindow'],
     appFolder: '/app/blank',
     launch: function () {
         Ext.create('Ext.container.Viewport', {

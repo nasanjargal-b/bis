@@ -1,24 +1,20 @@
 package com.monsource.bis.blank.dao;
 
-import com.monsource.bis.blank.controller.RecordFilter;
+//import com.monsource.bis.blank.controller.RecordFilter;
 import com.monsource.bis.blank.exception.ChoiceNotMatchException;
 import com.monsource.bis.blank.model.Blank;
-import com.monsource.bis.blank.model.ColumnType;
 import com.monsource.bis.blank.model.Question;
 import com.monsource.bis.blank.model.Record;
 import com.monsource.bis.blank.service.BlankService;
-import com.monsource.bis.blank.service.QuestionService;
+//import com.monsource.bis.blank.service.QuestionService;
 import com.monsource.bis.core.data.HibernateDaoSupport;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.transform.Transformers;
 import org.hibernate.type.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.xml.bind.JAXBException;
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,21 +22,21 @@ import java.util.*;
 
 @Repository
 public class RecordDao extends HibernateDaoSupport {
-
-    @Autowired
-    QuestionService questionSrv;
+/*
+//    @Autowired
+//    QuestionService questionSrv;
     @Autowired
     BlankService blankSrv;
 
-    /**
+    *//**
      * @param blankId
      * @param start
      * @param limit
      * @param filter
-     */
-    public Map<String, Object> find(String blankId, Integer start, Integer limit, RecordFilter filter) throws JAXBException {
+     *//*
+    public Map<String, Object> find(String blankId, Integer start, Integer limit*//*, RecordFilter filter*//*) throws JAXBException {
 
-        /*Session session = this.getSession();
+        *//*Session session = this.getSession();
         Blank blank = blankSrv.get(blankId);
 
         SQLQuery sqlQuery = createDataQuery(blank, filter, false);
@@ -109,7 +105,7 @@ public class RecordDao extends HibernateDaoSupport {
         result.put("records", records);
         result.put("total", total);
 
-        return result;*/
+        return result;*//*
         return null;
 
     }
@@ -171,7 +167,7 @@ public class RecordDao extends HibernateDaoSupport {
     }
 
     private void insertRecord(Blank blank, Integer researchId, Record record) throws ParseException {
-        /*List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
+        *//*List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
 
         StringBuilder query = new StringBuilder("INSERT INTO " + questionSrv.getSchema() + "." + blank.getId() + "");
         query.append("(account_id," +
@@ -215,12 +211,12 @@ public class RecordDao extends HibernateDaoSupport {
 
         record.setId((Integer) this.getSession().createSQLQuery("SELECT max(id) FROM " + questionSrv.getSchema() + "." + blank.getId()).uniqueResult());
 
-        saveChoicesQuestion(blank, questions, record);*/
+        saveChoicesQuestion(blank, questions, record);*//*
 
     }
 
     private void updateRecord(Blank blank, Integer researchId, Record record) throws ParseException {
-       /* List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
+       *//* List<Question> questions = questionSrv.getColumnsWithoutGroup(blank.getQuestions());
 
         StringBuilder query = new StringBuilder("UPDATE " + questionSrv.getSchema() + "." + blank.getId() + " SET ");
         query.append("account_id = :account_id," +
@@ -248,11 +244,11 @@ public class RecordDao extends HibernateDaoSupport {
         sqlQuery.setInteger("id", record.getId());
         sqlQuery.executeUpdate();
 
-        saveChoicesQuestion(blank, questions, record);*/
+        saveChoicesQuestion(blank, questions, record);*//*
     }
 
     private void saveChoicesQuestion(Blank blank, List<Question> questions, Record record) {
-        for (Question question : questions) {
+        *//*for (Question question : questions) {
             String id = question.getId().toLowerCase();
             Object data = record.getData().get(id);
             if (data == null) continue;
@@ -285,21 +281,21 @@ public class RecordDao extends HibernateDaoSupport {
                     }
                     break;
             }
-        }
+        }*//*
     }
 
     private void validChoice(Question question, Object value) {
-        boolean valid = false;
-        for (String choice : question.getChoices()) {
+        *//*boolean valid = false;
+        *//**//*for (String choice : question.getChoices()) {
             if (choice.equals(value)) valid = true;
-        }
+        }*//**//* //todo
 
         if (!valid)
-            throw new ChoiceNotMatchException(question.getId(), (String) value, question.getChoices());
+            throw new ChoiceNotMatchException(question.getId(), (String) value, question.getChoices());*//*
     }
 
     private void setParams(SQLQuery sqlQuery, Integer researchId, List<Question> questions, Record record) throws ParseException {
-        sqlQuery.setParameter("account_id", record.getAccountId(), IntegerType.INSTANCE);
+        *//*sqlQuery.setParameter("account_id", record.getAccountId(), IntegerType.INSTANCE);
         sqlQuery.setParameter("research_id", researchId, IntegerType.INSTANCE);
         sqlQuery.setParameter("city_id", record.getCityId(), IntegerType.INSTANCE);
         sqlQuery.setParameter("district_id", record.getDistrictId(), IntegerType.INSTANCE);
@@ -338,12 +334,12 @@ public class RecordDao extends HibernateDaoSupport {
                     sqlQuery.setParameter(id, data, DateType.INSTANCE);
                     break;
             }
-        }
+        }*//*
     }
 
     public void delete(Blank blank, List<Integer> ids) {
 
-        /*for (Question question : questionSrv.getColumnsWithoutGroup(blank.getQuestions())) {
+        *//*for (Question question : questionSrv.getColumnsWithoutGroup(blank.getQuestions())) {
             switch (question.getType()) {
                 case MULTIPLE_CHOICE:
                 case SINGLE_CHOICE:
@@ -359,7 +355,7 @@ public class RecordDao extends HibernateDaoSupport {
         sqlQuery.setParameterList("ids", ids);
         sqlQuery.executeUpdate();
 
-        this.getSession().flush();*/
-    }
+        this.getSession().flush();*//*
+    }*/
 
 }

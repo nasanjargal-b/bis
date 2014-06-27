@@ -1,54 +1,153 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<questions xmlns="http://www.monsource.net/xsd/blank">
-    <question grid="true" group="false" id="Q1" name="Q1" type="TEXT">
-        <text>Асуулт 1</text>
-    </question>
-    <question grid="false" group="true" id="QG1" name="">
-        <questions>
-            <question grid="true" group="false" id="Q2" name="" type="DECIMAL">
-                <text>Асуулт 2</text>
-            </question>
-            <question grid="true" group="false" id="Q3" name="Q3" type="INTEGER">
-                <text>Асуулт 3</text>
-            </question>
-            <question grid="false" group="true" id="QG3" name="">
-                <questions>
-                    <question grid="true" group="false" id="Q8" name="" type="BOOLEAN">
-                        <text>Асуулт 8</text>
-                    </question>
-                </questions>
-                <text>Зөвхөн тест хийх зорилготой мэдээллэл</text>
-            </question>
-        </questions>
-        <text>Тоон утгууд</text>
-    </question>
-    <question grid="false" group="true" id="QG2" name="">
-        <questions>
-            <question grid="true" group="false" id="Q4" name="" type="SINGLE_CHOICE">
-                <choices>
-                    <choice>Сонголт 1</choice>
-                    <choice>Сонголт 2</choice>
-                    <choice>Сонголт 3</choice>
-                    <choice>Сонголт 4</choice>
-                </choices>
-                <text>Нэг сонголт</text>
-            </question>
-            <question grid="true" group="false" id="Q5" name="Q5" type="MULTIPLE_CHOICE">
-                <choices>
-                    <choice>Сонголт 1</choice>
-                    <choice>Сонголт 2</choice>
-                    <choice>Сонголт 3</choice>
-                    <choice>Сонголт 4</choice>
-                </choices>
-                <text>Олон сонголт</text>
-            </question>
-        </questions>
-        <text>Жагсаалтан утгууд</text>
-    </question>
-    <question grid="true" group="false" id="Q6" name="Q6" type="BOOLEAN">
-        <text>Асуулт 6. Тийм үгүй.</text>
-    </question>
-    <question grid="true" group="false" id="Q7" name="" type="DATE">
-        <text>Асуулт Date?</text>
-    </question>
-</questions>
+<?xml version="1.0" standalone="yes"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+        "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="790px" height="523px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1">
+    <defs></defs>
+    <rect width="100%" height="100%" fill="#fff" fill-opacity="0" stroke="none"/>
+    <circle cx="354" cy="261.5" r="24.15" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="48.3" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="72.45" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="96.6" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="120.75" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="144.9" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="169.05" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="193.2" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="217.35" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <circle cx="354" cy="261.5" r="241.5" fill="none" stroke="#ccc" transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 595.5 261.5 Z" fill="none" stroke="#ccc" z-index="0" transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 563.145135013942 382.25 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 474.75 470.64513501394197 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 354 503 Z" fill="none" stroke="#ccc" z-index="0" transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 233.25000000000006 470.64513501394197 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 144.85486498605803 382.24999999999994 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 112.5 261.50000000000006 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 144.8548649860581 140.74999999999994 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 233.2499999999999 52.354864986058146 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 353.99999999999994 20 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 474.75 52.35486498605806 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 354 261.5 L 563.1451350139419 140.7499999999999 Z" fill="none" stroke="#ccc" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <text x="354" y="237.35" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">10</tspan>
+    </text>
+    <text x="354" y="213.2" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">20</tspan>
+    </text>
+    <text x="354" y="189.05" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">30</tspan>
+    </text>
+    <text x="354" y="164.9" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">40</tspan>
+    </text>
+    <text x="354" y="140.75" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">50</tspan>
+    </text>
+    <text x="354" y="116.6" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">60</tspan>
+    </text>
+    <text x="354" y="92.44999999999999" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">70</tspan>
+    </text>
+    <text x="354" y="68.30000000000001" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">80</tspan>
+    </text>
+    <text x="354" y="44.150000000000006" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">90</tspan>
+    </text>
+    <text x="354" y="20" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">100</tspan>
+    </text>
+    <text x="605.5" y="261.5" font-size="12" font-family="Arial" text-anchor="start" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="605.5" dy="3">January</tspan>
+    </text>
+    <text x="571.8053890517863" y="387.25" font-size="12" font-family="Arial" text-anchor="start" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="571.8053890517863" dy="3">February</tspan>
+    </text>
+    <text x="479.75" y="479.30538905178634" font-size="12" font-family="Arial" text-anchor="start" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="479.75" dy="3">March</tspan>
+    </text>
+    <text x="354" y="513" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="354" dy="3">April</tspan>
+    </text>
+    <text x="228.25000000000006" y="479.3053890517864" font-size="12" font-family="Arial" text-anchor="end" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="228.25000000000006" dy="3">May</tspan>
+    </text>
+    <text x="136.19461094821364" y="387.24999999999994" font-size="12" font-family="Arial" text-anchor="end" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="136.19461094821364" dy="3">June</tspan>
+    </text>
+    <text x="102.5" y="261.50000000000006" font-size="12" font-family="Arial" text-anchor="end" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="102.5" dy="3">July</tspan>
+    </text>
+    <text x="136.1946109482137" y="135.74999999999994" font-size="12" font-family="Arial" text-anchor="end" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="136.1946109482137" dy="3">August</tspan>
+    </text>
+    <text x="228.24999999999986" y="43.69461094821375" font-size="12" font-family="Arial" text-anchor="end" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="228.24999999999986" dy="3">September</tspan>
+    </text>
+    <text x="353.99999999999994" y="10" font-size="12" font-family="Arial" text-anchor="middle" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="353.99999999999994" dy="3">October</tspan>
+    </text>
+    <text x="479.75" y="43.694610948213665" font-size="12" font-family="Arial" text-anchor="start" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="479.75" dy="3">November</tspan>
+    </text>
+    <text x="571.8053890517863" y="135.74999999999986" font-size="12" font-family="Arial" text-anchor="start"
+          fill="#000" transform="matrix(1,0,0,1,0,0)">
+        <tspan x="571.8053890517863" dy="3">December</tspan>
+    </text>
+    <path d="M 549.615 261.5 C 549.615 261.5 441.8409567058556 312.21500000000003 441.8409567058556 312.21500000000003 C 441.8409567058556 312.21500000000003 398.6775 338.88369995515853 398.6775 338.88369995515853 C 398.6775 338.88369995515853 354 309.8 354 309.8 C 354 309.8 323.8125 313.7862837534855 323.8125 313.7862837534855 C 323.8125 313.7862837534855 176.22663523814933 364.1375 176.22663523814933 364.1375 C 176.22663523814933 364.1375 235.66500000000002 261.5 235.66500000000002 261.5 C 235.66500000000002 261.5 218.05566224093775 183.0125 218.05566224093775 183.0125 C 218.05566224093775 183.0125 269.4749999999999 115.09840549024068 269.4749999999999 115.09840549024068 C 269.4749999999999 115.09840549024068 353.99999999999994 46.565 353.99999999999994 46.565 C 353.99999999999994 46.565 457.845 81.63518388800992 457.845 81.63518388800992 C 457.845 81.63518388800992 397.9204783529278 236.14249999999998 397.9204783529278 236.14249999999998 C 397.9204783529278 236.14249999999998 549.615 261.5 549.615 261.5"
+          fill="rgb(109,152,36)" stroke="rgb(109,152,36)" fill-opacity="0.4" stroke-width="0px" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 537.54 261.5 C 537.54 261.5 414.65208915404315 296.5175 414.65208915404315 296.5175 C 414.65208915404315 296.5175 378.15 303.3290270027884 378.15 303.3290270027884 C 378.15 303.3290270027884 354 423.305 354 423.305 C 354 423.305 296.04 361.88966480669217 296.04 361.88966480669217 C 296.04 361.88966480669217 224.33001629135597 336.36499999999995 224.33001629135597 336.36499999999995 C 224.33001629135597 336.36499999999995 126.99000000000001 261.5 126.99000000000001 261.5 C 126.99000000000001 261.5 178.31808658828876 160.06999999999994 178.31808658828876 160.06999999999994 C 178.31808658828876 160.06999999999994 322.60499999999996 207.1222648963751 322.60499999999996 207.1222648963751 C 322.60499999999996 207.1222648963751 354 213.2 354 213.2 C 354 213.2 391.4325 196.665008145678 391.4325 196.665008145678 C 391.4325 196.665008145678 452.2982134565527 204.74749999999995 452.2982134565527 204.74749999999995 C 452.2982134565527 204.74749999999995 537.54 261.5 537.54 261.5"
+          fill="rgb(135,20,110)" stroke="rgb(135,20,110)" fill-opacity="0.4" stroke-width="0px" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <path d="M 518.22 261.5 C 518.22 261.5 517.1332053108747 355.685 517.1332053108747 355.685 C 517.1332053108747 355.685 417.9975 372.34692155738924 417.9975 372.34692155738924 C 417.9975 372.34692155738924 354 478.85 354 478.85 C 354 478.85 240.49500000000006 458.09642691310546 240.49500000000006 458.09642691310546 C 240.49500000000006 458.09642691310546 312.1709729972116 285.65 312.1709729972116 285.65 C 312.1709729972116 285.65 228.42000000000002 261.5 228.42000000000002 261.5 C 228.42000000000002 261.5 228.51291899163485 189.04999999999995 228.51291899163485 189.04999999999995 C 228.51291899163485 189.04999999999995 248.94749999999988 79.5437325378706 248.94749999999988 79.5437325378706 C 248.94749999999988 79.5437325378706 354 126.25999999999999 354 126.25999999999999 C 354 126.25999999999999 378.15 219.6709729972116 378.15 219.6709729972116 C 378.15 219.6709729972116 395.8290270027884 237.34999999999997 395.8290270027884 237.34999999999997 C 395.8290270027884 237.34999999999997 518.22 261.5 518.22 261.5"
+          fill="rgb(42,145,150)" stroke="rgb(42,145,150)" fill-opacity="0.4" stroke-width="0px" z-index="0"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <rect x="708.5" y="224.5" width="62" height="73" fill="#FFF" stroke="#000" stroke-width="1"
+          transform="matrix(1,0,0,1,0,0)"/>
+    <text x="734" y="237" font-size="12" font-family="Helvetica, sans-serif" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="734" dy="3">data1</tspan>
+    </text>
+    <rect x="0" y="0" width="12" height="12" fill="#6d9824" transform="matrix(1,0,0,1,714,231)"/>
+    <text x="734" y="261" font-size="12" font-family="Helvetica, sans-serif" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="734" dy="3">data2</tspan>
+    </text>
+    <rect x="0" y="0" width="12" height="12" fill="#87146e" transform="matrix(1,0,0,1,714,255)"/>
+    <text x="734" y="285" font-size="12" font-family="Helvetica, sans-serif" fill="#000"
+          transform="matrix(1,0,0,1,0,0)">
+        <tspan x="734" dy="3">data3</tspan>
+    </text>
+    <rect x="0" y="0" width="12" height="12" fill="#2a9196" transform="matrix(1,0,0,1,714,279)"/>
+</svg>

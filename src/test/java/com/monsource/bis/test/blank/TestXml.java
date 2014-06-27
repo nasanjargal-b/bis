@@ -1,7 +1,6 @@
 package com.monsource.bis.test.blank;
 
 import com.monsource.bis.blank.model.Question;
-import com.monsource.bis.blank.model.QuestionsXmlModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,17 +23,17 @@ public class TestXml {
     @Before
     public void init() throws JAXBException {
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(QuestionsXmlModel.class);
+        /*JAXBContext jaxbContext = JAXBContext.newInstance(QuestionsXmlModel.class);
         marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-        unmarshaller = jaxbContext.createUnmarshaller();
+        unmarshaller = jaxbContext.createUnmarshaller();*/
 
     }
 
     @Test
     public void TestUnmarshaller() throws JAXBException {
-        QuestionsXmlModel question = (QuestionsXmlModel) unmarshaller.unmarshal(new File("/media/d/My Project/bis/WebBis/src/test/test.xml"));
+        /*QuestionsXmlModel question = (QuestionsXmlModel) unmarshaller.unmarshal(new File("/media/d/My Project/bis/WebBis/src/test/test.xml"));
 
         List<Question> questions = question.getQuestions();
 
@@ -44,7 +43,7 @@ public class TestXml {
                 for (Question question2 : question1.getChildren()) {
                     System.out.println("\t" + question2.getId());
                 }
-        }
+        }*/
 
 
     }
@@ -52,7 +51,7 @@ public class TestXml {
     @Test
     public void TestMarshaller() throws JAXBException {
 
-        QuestionsXmlModel questions = new QuestionsXmlModel();
+       /* QuestionsXmlModel questions = new QuestionsXmlModel();
 
         ArrayList<Question> questionList = new ArrayList<Question>();
         questions.setQuestions(questionList);
@@ -62,7 +61,7 @@ public class TestXml {
         question.setName("Test");
         questions.getQuestions().add(question);
 
-        marshaller.marshal(questions, System.out);
+        marshaller.marshal(questions, System.out);*/
 
     }
 

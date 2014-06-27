@@ -58,4 +58,10 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
         Criteria criteria = this.getSession().createCriteria(BlankEntity.class);
         return criteria.list();
     }
+
+    public Blank single(String id) {
+        BlankEntity entity = this.get(id);
+        return new Blank(entity.getId(), entity.getName(), entity.getBlankGroup().getId());
+    }
+
 }

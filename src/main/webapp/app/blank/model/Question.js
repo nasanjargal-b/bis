@@ -1,12 +1,12 @@
 Ext.define('Blank.model.Question', {
     extend: 'Ext.data.TreeModel',
     fields: [
-        {name: 'id', type: 'string'},
-        {name: 'text', type: 'string'},
-        {name: 'name', type: 'string'},
-        {name: 'group', type: 'boolean'},
-        {name: 'grid', type: 'boolean'},
+        {name: 'id', type: 'int', useNull: true},
+        {name: 'code', type: 'string', useNull: true},
+        {name: 'text', type: 'string', useNull: true},
         {name: 'type', type: 'string', useNull: true},
-        {name: 'choices', type: 'auto', useNull: true}
-    ]
+        {name: 'format', type: 'string', useNull: true},
+        {name: 'order', type: 'int', useNull: true}
+    ],
+    hasMany: {model: 'Blank.model.Choice', name: 'choices'}
 })

@@ -12,7 +12,7 @@ public class Blank implements Model<String> {
     private String id;
     private String name;
     private String blankGroupId;
-    /*private List<Question> questions;*/
+    private List<Question> questions;
 
     public Blank() {
     }
@@ -47,12 +47,12 @@ public class Blank implements Model<String> {
         this.blankGroupId = blankGroupId;
     }
 
-    /*public List<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return this.questions;
     }
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
-    }*/
+    }
 
 }

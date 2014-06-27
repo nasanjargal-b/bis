@@ -3,12 +3,13 @@ package com.monsource.bis.blank.model;
 /**
  * Created by nasanjargal on 5/31/14.
  */
-public enum ColumnType {
+public enum QuestionType {
     TEXT,
-    DECIMAL,
-    INTEGER,
+    NUMERIC,
     SINGLE_CHOICE,
     MULTIPLE_CHOICE,
-    BOOLEAN,
-    DATE
+    DATE,
+    TIME,
+
+    GROUP
 }

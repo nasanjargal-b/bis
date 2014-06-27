@@ -8,11 +8,6 @@
     <!--Blank Module-->
     <context:component-scan
             base-package="com.monsource.bis.blank.controller,com.monsource.bis.blank.service,com.monsource.bis.blank.dao"/>
-    <bean id="questionService" class="com.monsource.bis.blank.service.QuestionService">
-        <property name="schema" value="bdata"/>
-    </bean>
-    <context:component-scan
-            base-package="com.monsource.bis.blank.controller,com.monsource.bis.blank.service,com.monsource.bis.blank.dao"/>
 
     <!--Account Module-->
     <context:component-scan

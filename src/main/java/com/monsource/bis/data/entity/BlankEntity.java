@@ -15,7 +15,6 @@ public class BlankEntity implements DataEntity {
     private String name;
     private BlankGroupEntity blankGroup;
     private List<QuestionEntity> questions;
-    private List<QuestionGroupEntity> questionGroups;
     private List<RecordEntity> records;
     private List<ResearchEntity> researches;
 
@@ -69,22 +68,13 @@ public class BlankEntity implements DataEntity {
         this.blankGroup = blankGroup;
     }
 
-    @OneToMany(mappedBy = "blank")
+    @OneToMany(mappedBy = "blank", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<QuestionEntity> getQuestions() {
         return questions;
     }
 
     public void setQuestions(List<QuestionEntity> questions) {
         this.questions = questions;
-    }
-
-    @OneToMany(mappedBy = "blank")
-    public List<QuestionGroupEntity> getQuestionGroups() {
-        return questionGroups;
-    }
-
-    public void setQuestionGroups(List<QuestionGroupEntity> questionGroups) {
-        this.questionGroups = questionGroups;
     }
 
     @OneToMany(mappedBy = "blank")

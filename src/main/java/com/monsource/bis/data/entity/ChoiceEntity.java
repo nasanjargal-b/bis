@@ -1,8 +1,12 @@
 package com.monsource.bis.data.entity;
 
 import com.monsource.bis.core.data.DataEntity;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -15,9 +19,20 @@ public class ChoiceEntity implements DataEntity {
     private String code;
     private String text;
     private QuestionEntity question;
-    private List<RecordQuestionEntity> recordQuestions;
+//    private List<RecordQuestionEntity> recordQuestions;
+
+    public ChoiceEntity() {
+    }
+
+    public ChoiceEntity(Integer id, String code, String text, QuestionEntity question) {
+        this.id = id;
+        this.code = code;
+        this.text = text;
+        this.question = question;
+    }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -79,13 +94,16 @@ public class ChoiceEntity implements DataEntity {
         this.question = question;
     }
 
-    @ManyToMany
-    @JoinTable(name = "record_question_choice", catalog = "bis", schema = "registration", joinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "record_question_id", referencedColumnName = "id", nullable = false))
+    /*@ManyToMany()
+    @Cascade({CascadeType.MERGE})
+    @JoinTable(name = "record_question_choice", catalog = "bis", schema = "registration",
+            joinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "record_question_id", referencedColumnName = "id", nullable = false))
     public List<RecordQuestionEntity> getRecordQuestions() {
         return recordQuestions;
     }
 
     public void setRecordQuestions(List<RecordQuestionEntity> recordQuestions) {
         this.recordQuestions = recordQuestions;
-    }
+    }*/
 }
