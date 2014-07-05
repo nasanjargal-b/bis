@@ -4,7 +4,7 @@ import com.monsource.bis.account.dao.AccountDao;
 import com.monsource.bis.core.security.AuthAuthority;
 import com.monsource.bis.core.security.AuthSupport;
 import com.monsource.bis.data.entity.AccountEntity;
-import com.monsource.bis.report.dao.ReportGroupDao;
+//import com.monsource.bis.report.dao.ReportGroupDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +23,8 @@ public class MainCtrl {
     private AuthSupport authSupport;
     @Autowired
     private AccountDao accountDao;
-    @Autowired
-    ReportGroupDao reportGroupDao;
+//    @Autowired
+//    ReportGroupDao reportGroupDao;
 
     @RequestMapping
     public ModelAndView getMains() {
@@ -38,7 +38,7 @@ public class MainCtrl {
         mav.addObject("name", entity.getName());
         mav.addObject("auth", authSupport);
         mav.addObject("roles", roles);
-        mav.addObject("groups", reportGroupDao.find(null));
+//        mav.addObject("groups", reportGroupDao.find(null));
         return mav;
     }
 }

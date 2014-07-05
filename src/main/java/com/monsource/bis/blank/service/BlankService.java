@@ -60,7 +60,7 @@ public class BlankService {
             questionEntity.setCode(question.getCode());
             questionEntity.setBlank(blankEntity);
             questionEntity.setText(question.getText());
-            questionEntity.setFormat(question.getFormat());
+            questionEntity.setFormat("".equals(question.getFormat()) ? null : question.getFormat());
             questionEntity.setOrder(question.getOrder());
             questionEntity.setParent(parent);
             questionEntity.setType(question.getType());

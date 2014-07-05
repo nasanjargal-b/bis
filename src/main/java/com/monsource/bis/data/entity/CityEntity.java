@@ -17,7 +17,8 @@ public class CityEntity implements DataEntity {
     private Set<DistrictEntity> districts;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_seq_gen")
+    @SequenceGenerator(name = "city_seq_gen", sequenceName = "public.city_id_seq")
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 10, precision = 0)
     public Integer getId() {
         return id;

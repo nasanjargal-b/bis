@@ -28,7 +28,8 @@ public class AccountEntity implements DataEntity {
     private AccountStatus status;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq_gen")
+    @SequenceGenerator(name = "account_seq_gen", sequenceName = "public.account_id_seq")
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 10, precision = 0)
     public Integer getId() {
         return id;

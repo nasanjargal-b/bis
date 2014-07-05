@@ -55,7 +55,6 @@ Ext.define('Blank.view.QuestionTreePanel', {
             renderer: function (value) {
                 if (value == 'TEXT') return 'Текст';
                 if (value == 'NUMERIC') return 'Тоо';
-                if (value == 'INTEGER') return 'Бүхэл тоо';
                 if (value == 'SINGLE_CHOICE') return 'Нэг сонголттой';
                 if (value == 'MULTIPLE_CHOICE') return 'Олон сонголттой';
                 if (value == 'DATE') return 'Огноо';
@@ -73,7 +72,6 @@ Ext.define('Blank.view.QuestionTreePanel', {
                     data: [
                         { id: 'TEXT', value: 'Текст'},
                         { id: 'NUMERIC', value: 'Тоо'},
-                        { id: 'INTEGER', value: 'Бүхэл тоо'},
                         { id: 'SINGLE_CHOICE', value: 'Нэг сонголттой'},
                         { id: 'MULTIPLE_CHOICE', value: 'Олон сонголттой'},
                         { id: 'DATE', value: 'Огноо'},
@@ -88,8 +86,7 @@ Ext.define('Blank.view.QuestionTreePanel', {
             width: 100,
             dataIndex: 'format',
             editor: {
-                xtype: 'textfield',
-                allowBlank: false
+                xtype: 'textfield'
             }
         },
         {

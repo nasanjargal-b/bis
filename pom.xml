@@ -121,6 +121,29 @@
             <version>1.2</version>
         </dependency>
         <!-- **********************************************************************
+             ** 				SVG BATIK DEPENDENCIES 							 **
+             ********************************************************************** -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>xmlgraphics-commons</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-ext</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-codec</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <!-- **********************************************************************
 			 ** 				SPRING DEPENDENCIES 							 **
 			 ********************************************************************** -->
         <dependency>
@@ -195,127 +218,17 @@
             <version>9.1-901.jdbc4</version>
         </dependency>
         <!-- **********************************************************************
-            ** 				PENTAHO REPORT DEPENDENCIES 						**
+            ** 				JASPER REPORT DEPENDENCIES 						    **
             ********************************************************************** -->
         <dependency>
-            <groupId>pentaho-report-designer</groupId>
-            <artifactId>report-designer</artifactId>
-            <version>5.0.7</version>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>5.6.0</version>
         </dependency>
         <dependency>
-            <groupId>pentaho-reporting-engine</groupId>
-            <artifactId>pentaho-reporting-engine-classic-core</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-reporting-engine</groupId>
-            <artifactId>pentaho-reporting-engine-classic-extensions</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-reporting-engine</groupId>
-            <artifactId>pentaho-reporting-engine-legacy-charts</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-reporting-engine</groupId>
-            <artifactId>pentaho-reporting-engine-classic-extensions-hibernate</artifactId>
-            <version>3.9.4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.0.13</version>
-        </dependency>
-        <dependency>
-            <groupId>bsf</groupId>
-            <artifactId>bsf</artifactId>
-            <version>2.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libbase</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libcss</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libdocbundle</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libfonts</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libformat</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libformula</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libformula-test</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libformula-ui</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libloader</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libpensol</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libpixie</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>librepository</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libserializer</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libsparkline</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libswing</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>pentaho-library</groupId>
-            <artifactId>libxml</artifactId>
-            <version>5.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>4.2.1</version>
+            <groupId>net.sourceforge.dynamicreports</groupId>
+            <artifactId>dynamicreports-core</artifactId>
+            <version>3.2.1</version>
         </dependency>
         <!-- **********************************************************************
             ** 				TESTING DEPENDENCIES 							 **

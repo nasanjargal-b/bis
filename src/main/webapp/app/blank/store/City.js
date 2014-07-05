@@ -4,7 +4,7 @@ Ext.define('Blank.store.City', {
     autoLoad:true,
     proxy: {
         type: 'ajax',
-        url: '/blank-mod/record/cities.json',
+        url: '/blank-mod/cities.json',
         reader: {
             type: 'json',
             root: 'data'

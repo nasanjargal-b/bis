@@ -1,9 +1,9 @@
 Ext.application({
     name: 'Blank',
-    controllers: ['RecordCtrl', 'RecordFileCtrl'],
-    models: ['Record', 'Research', 'City', 'District'],
-    stores: ['Blanks', 'Researches', 'Record', 'City'],
-    views: ['RecordBlankGrid'],
+    controllers: ['RecordCtrl', 'RecordDataCtrl'],
+    models: ['Research', 'City', 'District'],
+    stores: ['Researches', 'Blanks', 'City'],
+    views: ['RecordBlankGrid', 'RecordGrid', 'RecordContextMenu', 'RecordUploadWindow'],
     appFolder: '/app/blank',
     launch: function () {
         Ext.create('Ext.container.Viewport', {

@@ -23,7 +23,8 @@ public class ResearchEntity implements DataEntity {
     private List<BlankEntity> blanks;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "research_seq_gen")
+    @SequenceGenerator(name = "research_seq_gen", sequenceName = "registration.research_id_seq")
     @Column(name = "id")
     public Integer getId() {
         return id;

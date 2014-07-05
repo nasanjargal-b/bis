@@ -19,9 +19,12 @@ public class ChoiceEntity implements DataEntity {
     private String code;
     private String text;
     private QuestionEntity question;
-//    private List<RecordQuestionEntity> recordQuestions;
 
     public ChoiceEntity() {
+    }
+
+    public ChoiceEntity(Integer id) {
+        this.id = id;
     }
 
     public ChoiceEntity(Integer id, String code, String text, QuestionEntity question) {
@@ -32,7 +35,8 @@ public class ChoiceEntity implements DataEntity {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "choice_seq_gen")
+    @SequenceGenerator(name = "choice_seq_gen", sequenceName = "registration.choice_id_seq")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -94,16 +98,4 @@ public class ChoiceEntity implements DataEntity {
         this.question = question;
     }
 
-    /*@ManyToMany()
-    @Cascade({CascadeType.MERGE})
-    @JoinTable(name = "record_question_choice", catalog = "bis", schema = "registration",
-            joinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "record_question_id", referencedColumnName = "id", nullable = false))
-    public List<RecordQuestionEntity> getRecordQuestions() {
-        return recordQuestions;
-    }
-
-    public void setRecordQuestions(List<RecordQuestionEntity> recordQuestions) {
-        this.recordQuestions = recordQuestions;
-    }*/
 }

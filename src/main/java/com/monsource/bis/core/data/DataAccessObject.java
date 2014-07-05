@@ -33,8 +33,4 @@ public interface DataAccessObject<E extends DataEntity> {
      */
     void flush();
 
-    /**
-     * @param autoFlush
-     */
-    public void setAutoFlush(boolean autoFlush);
 }

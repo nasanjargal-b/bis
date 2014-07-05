@@ -17,9 +17,12 @@ public class RecordEntity implements DataEntity {
     private AccountEntity account;
     private BlankEntity blank;
     private ResearchEntity research;
+    private DistrictEntity district;
     private List<RecordQuestionEntity> recordQuestions;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "record_seq_gen")
+    @SequenceGenerator(name = "record_seq_gen", sequenceName = "registration.record_id_seq")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -89,7 +92,17 @@ public class RecordEntity implements DataEntity {
         this.research = research;
     }
 
-    @OneToMany(mappedBy = "record")
+    @ManyToOne
+    @JoinColumn(name = "district_id", referencedColumnName = "id", nullable = false)
+    public DistrictEntity getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(DistrictEntity district) {
+        this.district = district;
+    }
+
+    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<RecordQuestionEntity> getRecordQuestions() {
         return recordQuestions;
     }

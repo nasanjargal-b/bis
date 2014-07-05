@@ -10,26 +10,20 @@ import java.lang.reflect.ParameterizedType;
 
 public class HibernateDaoSupport<E extends DataEntity> implements DataAccessObject<E> {
 
-    boolean autoFlush = true;
-
     @Autowired
     SessionFactory sessionFactory;
-
-    public boolean isAutoFlush() {
-        return autoFlush;
-    }
-
-    public void setAutoFlush(boolean autoFlush) {
-        this.autoFlush = autoFlush;
-    }
 
     /**
      * @param entity
      */
     @Override()
     public E merge(E entity) {
+        return merge(entity, true);
+    }
+
+    public E merge(E entity, boolean isAutoFlush) {
         Object merge = this.getSession().merge(entity);
-        if (autoFlush) this.getSession().flush();
+        if(isAutoFlush) this.flush();
         return (E) merge;
     }
 
@@ -39,7 +33,6 @@ public class HibernateDaoSupport<E extends DataEntity> implements DataAccessObje
     @Override()
     public E persist(E entity) {
         this.getSession().persist(entity);
-        if (autoFlush) this.getSession().flush();
         return entity;
     }
 
@@ -49,7 +42,6 @@ public class HibernateDaoSupport<E extends DataEntity> implements DataAccessObje
     @Override()
     public void delete(E entity) {
         this.getSession().delete(entity);
-        if (autoFlush) this.getSession().flush();
     }
 
     /**
