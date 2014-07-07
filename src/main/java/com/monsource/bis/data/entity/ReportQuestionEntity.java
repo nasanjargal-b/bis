@@ -16,9 +16,6 @@ public class ReportQuestionEntity implements DataEntity {
     private String name;
     private ReportQuestionType type;
     private Boolean group;
-    private Boolean research;
-    private Boolean city;
-    private Boolean district;
     private Double to;
     private Double from;
     private Integer order;
@@ -71,36 +68,6 @@ public class ReportQuestionEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "research")
-    public Boolean getResearch() {
-        return research;
-    }
-
-    public void setResearch(Boolean research) {
-        this.research = research;
-    }
-
-    @Basic
-    @Column(name = "city")
-    public Boolean getCity() {
-        return city;
-    }
-
-    public void setCity(Boolean city) {
-        this.city = city;
-    }
-
-    @Basic
-    @Column(name = "district")
-    public Boolean getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(Boolean district) {
-        this.district = district;
-    }
-
-    @Basic
     @Column(name = "to")
     public Double getTo() {
         return to;
@@ -137,14 +104,11 @@ public class ReportQuestionEntity implements DataEntity {
 
         ReportQuestionEntity that = (ReportQuestionEntity) o;
 
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        if (district != null ? !district.equals(that.district) : that.district != null) return false;
         if (from != null ? !from.equals(that.from) : that.from != null) return false;
         if (group != null ? !group.equals(that.group) : that.group != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (order != null ? !order.equals(that.order) : that.order != null) return false;
-        if (research != null ? !research.equals(that.research) : that.research != null) return false;
         if (to != null ? !to.equals(that.to) : that.to != null) return false;
         if (type != that.type) return false;
 
@@ -157,9 +121,6 @@ public class ReportQuestionEntity implements DataEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (group != null ? group.hashCode() : 0);
-        result = 31 * result + (research != null ? research.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (district != null ? district.hashCode() : 0);
         result = 31 * result + (to != null ? to.hashCode() : 0);
         result = 31 * result + (from != null ? from.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);

@@ -1,6 +1,7 @@
 package com.monsource.bis.data.entity;
 
 import com.monsource.bis.core.data.DataEntity;
+import com.monsource.bis.data.entity.type.ReportChartType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,7 +17,7 @@ public class ReportEntity implements DataEntity {
     private String file;
     private Integer order;
     private Boolean group;
-    private String chart;
+    private ReportChartType chart;
     private BlankEntity blank;
     private ReportEntity parent;
     private List<ReportEntity> children;
@@ -76,12 +77,13 @@ public class ReportEntity implements DataEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "chart")
-    public String getChart() {
+    public ReportChartType getChart() {
         return chart;
     }
 
-    public void setChart(String chart) {
+    public void setChart(ReportChartType chart) {
         this.chart = chart;
     }
 
