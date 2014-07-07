@@ -1,0 +1,7 @@
+.x-boundlist-item img.chkCombo {
+    background: transparent url(resources/themes/images/default/menu/unchecked.gif);
+}
+
+.x-boundlist-selected img.chkCombo {
+    background: transparent url(resources/themes/images/default/menu/checked.gif);
+}

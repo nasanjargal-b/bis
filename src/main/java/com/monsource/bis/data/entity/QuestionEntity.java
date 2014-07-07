@@ -164,4 +164,5 @@ public class QuestionEntity implements DataEntity {
     public void setChildren(List<QuestionEntity> children) {
         this.children = children;
     }
+
 }

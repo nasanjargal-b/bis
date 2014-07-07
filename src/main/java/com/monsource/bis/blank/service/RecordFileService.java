@@ -1,0 +1,321 @@
+package com.monsource.bis.blank.service;
+
+import com.monsource.bis.blank.dao.ChoiceDao;
+import com.monsource.bis.blank.dao.RecordDao;
+import com.monsource.bis.blank.exception.NotXlsxFileException;
+import com.monsource.bis.blank.exception.QuestionCodeNotMatchException;
+import com.monsource.bis.blank.exception.QuestionCodeRowIsEmptyException;
+import com.monsource.bis.blank.exception.UnknownCellValueException;
+import com.monsource.bis.blank.model.Choice;
+import com.monsource.bis.blank.model.MetaData;
+import com.monsource.bis.blank.model.QuestionType;
+import com.monsource.bis.blank.model.Record;
+import com.monsource.bis.core.exception.BaseException;
+import com.monsource.bis.data.entity.ChoiceEntity;
+import com.monsource.bis.data.entity.QuestionEntity;
+import com.monsource.bis.data.entity.RecordEntity;
+import com.monsource.bis.data.entity.RecordQuestionEntity;
+import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
+import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
+import net.sf.dynamicreports.report.builder.column.Columns;
+import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
+import net.sf.dynamicreports.report.builder.grid.ColumnGridComponentBuilder;
+import net.sf.dynamicreports.report.builder.grid.ColumnTitleGroupBuilder;
+import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.*;
+import net.sf.dynamicreports.report.constant.HorizontalAlignment;
+import net.sf.dynamicreports.report.constant.VerticalAlignment;
+import net.sf.dynamicreports.report.definition.ReportParameters;
+import net.sf.dynamicreports.report.exception.DRException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
+
+/**
+ * Created by nasanjargal on 7/3/14.
+ */
+@Service
+public class RecordFileService {
+
+    @Autowired
+    RecordDao recordDao;
+    @Autowired
+    RecordService recordSrv;
+    @Autowired
+    QuestionService questionSrv;
+    @Autowired
+    ChoiceDao choiceDao;
+
+    public InputStream downloadXlsx(String blankId, Integer researchId, Integer districtId) throws DRException {
+
+        List<MetaData> metaDatas = questionSrv.getMetaData(blankId);
+        List<Record> records = getRecords(blankId, researchId, districtId);
+
+        JasperReportBuilder report = report();
+
+        List<ColumnBuilder> columns = new ArrayList<>();
+        List<ColumnTitleGroupBuilder> headers = new ArrayList<>();
+
+        StyleBuilder headerStyle = stl.style().bold().setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
+        headerStyle.setBorder(stl.border().setTopPen(stl.pen(.5f, LineStyle.SOLID)));
+        headerStyle.setBorder(stl.border().setBottomPen(stl.pen(.5f, LineStyle.SOLID)));
+
+        StyleBuilder contentStyle = stl.style().setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
+
+        for (MetaData metaData : metaDatas) {
+
+            Class c = null;
+
+            switch (metaData.getType()) {
+                case TEXT:
+                    c = String.class;
+                    break;
+                case DATE:
+                    c = Date.class;
+                    break;
+                case TIME:
+                    c = Time.class;
+                    break;
+                case NUMERIC:
+                    c = Double.class;
+                    break;
+                case SINGLE_CHOICE:
+                    c = String.class;
+                    break;
+                case MULTIPLE_CHOICE:
+                    c = String.class;
+                    break;
+            }
+
+            TextColumnBuilder column = Columns.column(metaData.getCode(), metaData.getCode(), c);
+            column.setStyle(contentStyle);
+
+            if (metaData.getType() == QuestionType.TIME) {
+                column.setValueFormatter(new AbstractValueFormatter<String, Time>() {
+                    @Override
+                    public String format(Time value, ReportParameters reportParameters) {
+                        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+                        return df.format(value);
+                    }
+                });
+            } else if (metaData.getType() == QuestionType.DATE) {
+                column.setValueFormatter(new AbstractValueFormatter<String, Date>() {
+                    @Override
+                    public String format(Date value, ReportParameters reportParameters) {
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        return df.format(value);
+                    }
+                });
+            }
+
+            columns.add(column);
+
+            headers.add(grid.titleGroup(metaData.getText(), column));
+        }
+
+
+        report.setPageFormat(PageType.A4, PageOrientation.LANDSCAPE);
+        report.columns(columns.toArray(new ColumnBuilder[columns.size()]));
+        report.columnGrid(headers.toArray(new ColumnGridComponentBuilder[headers.size()]));
+
+        report.setColumnTitleStyle(headerStyle);
+        report.setDetailFooterStyle(stl.style().setBottomBorder(stl.pen(.5f, LineStyle.SOLID)));
+
+        report.setDataSource(records);
+        report.highlightDetailEvenRows();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        report.toXlsx(outputStream);
+
+        return new ByteArrayInputStream(outputStream.toByteArray());
+    }
+
+    private List<Record> getRecords(String blankId, Integer researchId, Integer districtId) {
+        List<RecordEntity> recordEntities = recordDao.find(blankId, researchId, districtId);
+        ArrayList<Record> records = new ArrayList<>();
+
+        for (RecordEntity recordEntity : recordEntities) {
+            Record record = new Record();
+            for (RecordQuestionEntity recordQuestionEntity : recordEntity.getRecordQuestions()) {
+                QuestionEntity question = recordQuestionEntity.getQuestion();
+                String code = question.getCode();
+
+                switch (question.getType()) {
+                    case TEXT:
+                        record.put(code, recordQuestionEntity.getString());
+                        break;
+                    case NUMERIC:
+                        record.put(code, recordQuestionEntity.getNumeric());
+                        break;
+                    case DATE:
+                        record.put(code, recordQuestionEntity.getDate());
+                        break;
+                    case TIME:
+                        record.put(code, recordQuestionEntity.getTime());
+                        break;
+                    case MULTIPLE_CHOICE:
+                        List<String> codes = new ArrayList<>();
+                        for (ChoiceEntity choiceEntity : recordQuestionEntity.getChoices()) {
+                            codes.add(choiceEntity.getCode());
+                        }
+                        record.put(code, StringUtils.join(codes, ", "));
+                        break;
+                    case SINGLE_CHOICE:
+                        if (recordQuestionEntity.getChoices() != null && recordQuestionEntity.getChoices().size() > 0)
+                            record.put(code, recordQuestionEntity.getChoices().get(0).getCode());
+                        else
+                            record.put(code, null);
+                        break;
+                }
+            }
+            records.add(record);
+        }
+
+        return records;
+    }
+
+
+    public void uploadXlsx(String blankId, Integer researchId, Integer districtId, Integer codeRow, MultipartFile file) throws IOException, ParseException {
+        Workbook workbook = getWorkbook(file);
+        List<MetaData> metaDatas = questionSrv.getMetaData(blankId);
+
+        Sheet sheet = workbook.getSheetAt(0);
+        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        evaluator.evaluateAll();
+        Map<Integer, MetaData> codes = getCodes(sheet.getRow(codeRow - 1), metaDatas);
+
+        List<Record> records = new ArrayList<>();
+
+        for (Row row : sheet) {
+            if (row.getRowNum() < codeRow) continue;
+            Record record = getRecord(row, codes);
+
+            records.add(record);
+        }
+
+        recordSrv.save(blankId, researchId, districtId, records);
+
+    }
+
+    private Record getRecord(Row row, Map<Integer, MetaData> codes) throws ParseException {
+        Record record = new Record();
+
+        for (Integer colIndex : codes.keySet()) {
+            MetaData metaData = codes.get(colIndex);
+            Cell cell = row.getCell(colIndex);
+            if (cell == null) continue;
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+
+            String cellValue = cell.getStringCellValue();
+            Object value = null;
+            try {
+
+                if (cellValue != null && !cellValue.equals("")) {
+                    switch (metaData.getType()) {
+                        case TEXT:
+                            value = cellValue;
+                            break;
+                        case NUMERIC:
+                            value = Double.valueOf(cellValue);
+                            break;
+                        case SINGLE_CHOICE:
+                            ChoiceEntity choiceSingle = choiceDao.getChoice(metaData.getId(), cellValue);
+                            if (choiceSingle == null)
+                                throw new UnknownCellValueException(cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
+                            value = choiceSingle.getId();
+                            break;
+                        case MULTIPLE_CHOICE:
+                            List<Integer> ids = new ArrayList<>();
+                            for (String code : cellValue.replaceAll(" ", "").split(",")) {
+                                ChoiceEntity choiceMultiple = choiceDao.getChoice(metaData.getId(), code);
+                                if (choiceMultiple == null)
+                                    throw new UnknownCellValueException(cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
+                                ids.add(choiceMultiple.getId());
+                            }
+                            break;
+                        case TIME:
+                        case DATE:
+                            DateFormat df;
+                            if (metaData.getType() == QuestionType.TIME) {
+                                df = new SimpleDateFormat("HH:mm:ss");
+                            } else {
+                                df = new SimpleDateFormat("yyyy-MM-dd");
+                            }
+                            try {
+                                value = Double.valueOf(cellValue);
+                            } catch (NumberFormatException e) {
+                                value = df.parse(cellValue).getTime();
+                            }
+                            break;
+                    }
+
+                }
+            } catch (BaseException e) {
+                throw e;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new UnknownCellValueException(cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
+            }
+            record.put(metaData.getCode(), value);
+        }
+
+        return record;
+    }
+
+    private Map<Integer, MetaData> getCodes(Row row, List<MetaData> metaDatas) {
+        HashMap<Integer, MetaData> codes = new HashMap<>();
+
+        for (Cell cell : row) {
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            String code = cell.getStringCellValue();
+            if (code != null && !code.equals("")) {
+                boolean isMatch = false;
+                for (MetaData meta : metaDatas) {
+                    if (code.equals(meta.getCode().toUpperCase())) {
+                        isMatch = true;
+                        codes.put(cell.getColumnIndex(), meta);
+                        break;
+                    }
+                }
+                if (!isMatch) {
+                    throw new QuestionCodeNotMatchException(code);
+                }
+            }
+        }
+
+        if (codes.isEmpty()) {
+            throw new QuestionCodeRowIsEmptyException(row.getRowNum() + 1);
+        }
+
+        return codes;
+    }
+
+    private Workbook getWorkbook(MultipartFile file) {
+        try {
+            return new XSSFWorkbook(file.getInputStream());
+        } catch (Exception e) {
+            try {
+                return new HSSFWorkbook(file.getInputStream());
+            } catch (Exception e1) {
+
+            }
+        }
+
+        throw new NotXlsxFileException();
+    }
+}
