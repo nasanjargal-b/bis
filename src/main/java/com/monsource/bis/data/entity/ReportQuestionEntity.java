@@ -1,6 +1,8 @@
 package com.monsource.bis.data.entity;
 
+import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.core.data.DataEntity;
+import com.monsource.bis.data.entity.type.ReportCalcType;
 import com.monsource.bis.data.entity.type.ReportQuestionType;
 
 import javax.persistence.*;
@@ -13,16 +15,17 @@ import java.util.List;
 @Table(name = "report_question", schema = "report", catalog = "bis")
 public class ReportQuestionEntity implements DataEntity {
     private Integer id;
+    private String code;
     private String name;
     private ReportQuestionType type;
-    private Boolean group;
-    private Double to;
-    private Double from;
+    private ReportCalcType calcType;
+    private QuestionType columnType;
+    private String filter;
     private Integer order;
     private ReportEntity report;
     private QuestionEntity question;
     private List<ReportChartEntity> reportCharts;
-    private List<ChoiceEntity> choices;
+    private ChoiceEntity choice;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_question_seq_gen")
@@ -34,6 +37,16 @@ public class ReportQuestionEntity implements DataEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "code")
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Basic
@@ -58,33 +71,35 @@ public class ReportQuestionEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "group")
-    public Boolean getGroup() {
-        return group;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "calc_type")
+    public ReportCalcType getCalcType() {
+        return calcType;
     }
 
-    public void setGroup(Boolean group) {
-        this.group = group;
-    }
-
-    @Basic
-    @Column(name = "to")
-    public Double getTo() {
-        return to;
-    }
-
-    public void setTo(Double to) {
-        this.to = to;
+    public void setCalcType(ReportCalcType calcType) {
+        this.calcType = calcType;
     }
 
     @Basic
-    @Column(name = "from")
-    public Double getFrom() {
-        return from;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "column_type")
+    public QuestionType getColumnType() {
+        return columnType;
     }
 
-    public void setFrom(Double from) {
-        this.from = from;
+    public void setColumnType(QuestionType columnType) {
+        this.columnType = columnType;
+    }
+
+    @Basic
+    @Column(name = "filter")
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 
     @Basic
@@ -104,12 +119,13 @@ public class ReportQuestionEntity implements DataEntity {
 
         ReportQuestionEntity that = (ReportQuestionEntity) o;
 
-        if (from != null ? !from.equals(that.from) : that.from != null) return false;
-        if (group != null ? !group.equals(that.group) : that.group != null) return false;
+        if (calcType != that.calcType) return false;
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
+        if (columnType != that.columnType) return false;
+        if (filter != null ? !filter.equals(that.filter) : that.filter != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (order != null ? !order.equals(that.order) : that.order != null) return false;
-        if (to != null ? !to.equals(that.to) : that.to != null) return false;
         if (type != that.type) return false;
 
         return true;
@@ -118,11 +134,12 @@ public class ReportQuestionEntity implements DataEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (group != null ? group.hashCode() : 0);
-        result = 31 * result + (to != null ? to.hashCode() : 0);
-        result = 31 * result + (from != null ? from.hashCode() : 0);
+        result = 31 * result + (calcType != null ? calcType.hashCode() : 0);
+        result = 31 * result + (columnType != null ? columnType.hashCode() : 0);
+        result = 31 * result + (filter != null ? filter.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);
         return result;
     }
@@ -138,7 +155,7 @@ public class ReportQuestionEntity implements DataEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
     public QuestionEntity getQuestion() {
         return question;
     }
@@ -156,13 +173,13 @@ public class ReportQuestionEntity implements DataEntity {
         this.reportCharts = reportCharts;
     }
 
-    @ManyToMany
-    @JoinTable(name = "report_question_choice", catalog = "bis", schema = "report", joinColumns = @JoinColumn(name = "report_question_id", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false))
-    public List<ChoiceEntity> getChoices() {
-        return choices;
+    @ManyToOne
+    @JoinColumn(name = "choice_id", referencedColumnName = "id")
+    public ChoiceEntity getChoice() {
+        return choice;
     }
 
-    public void setChoices(List<ChoiceEntity> choices) {
-        this.choices = choices;
+    public void setChoice(ChoiceEntity choice) {
+        this.choice = choice;
     }
 }

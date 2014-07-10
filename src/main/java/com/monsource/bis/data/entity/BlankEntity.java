@@ -18,6 +18,13 @@ public class BlankEntity implements DataEntity {
     private List<RecordEntity> records;
     private List<ResearchEntity> researches;
 
+    public BlankEntity() {
+    }
+
+    public BlankEntity(String id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id")
     public String getId() {
@@ -69,6 +76,7 @@ public class BlankEntity implements DataEntity {
     }
 
     @OneToMany(mappedBy = "blank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("order asc")
     public List<QuestionEntity> getQuestions() {
         return questions;
     }

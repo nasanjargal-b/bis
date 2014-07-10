@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,70 +50,15 @@ public class TestReportCtrl {
 
     @Test
     @Transactional
-    public void testSave() throws Exception {
+    public void testGet() throws Exception {
         String path = PATH + "report.json";
 
-        FileInputStream fis = new FileInputStream("/media/d/My Project/bis/WebBis/src/main/webapp/WEB-INF/report/B01.prpt");
-        MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
+        MockHttpServletRequestBuilder request = get(path);
+        request.param("id", "6");
 
-        MockMultipartHttpServletRequestBuilder request = fileUpload(path);
-        request.param("id", "12");
-        request.param("name", "R01");
-        request.param("reportGroupId", "1");
-        request.param("order", "1");
-
-        request.param("queries[0].id", "11");
-        request.param("queries[0].name", "Test1");
-        request.param("queries[0].query", "SELECT * FROM bdata.b01");
-
-        request.param("queries[0].params[0].id", "25");
-        request.param("queries[0].params[0].name", "q1_f");
-        request.param("queries[0].params[0].label", "From");
-        request.param("queries[0].params[0].type", "INTEGER");
-        request.param("queries[0].params[0].order", "0");
-
-        request.param("queries[0].params[1].id", "29");
-        request.param("queries[0].params[1].name", "q1_k");
-        request.param("queries[0].params[1].label", "To");
-        request.param("queries[0].params[1].type", "INTEGER");
-        request.param("queries[0].params[1].order", "0");
-
-        request.param("queries[1].id", "12");
-        request.param("queries[1].name", "Test2");
-        request.param("queries[1].query", "SELECT * FROM bdata.b01 where city_id = ${city_id}");
-
-        request.param("queries[1].params[0].id", "27");
-        request.param("queries[1].params[0].name", "q1_f");
-        request.param("queries[1].params[0].label", "From");
-        request.param("queries[1].params[0].type", "INTEGER");
-        request.param("queries[1].params[0].order", "0");
-
-        request.param("params[0].id", "24");
-        request.param("params[0].name", "title");
-        request.param("params[0].label", "Гарчиг");
-        request.param("params[0].type", "TEXT");
-        request.param("params[0].order", "0");
-
-        request.param("params[1].id", "0");
-        request.param("params[1].name", "delete");
-        request.param("params[1].label", "delete");
-        request.param("params[1].type", "TEXT");
-        request.param("params[1].order", "0");
-        request.param("params[1].query", "");
-
-        request.file(multipartFile);
-
-        mockMvc.perform(request)
+        ResultActions resultActions = mockMvc.perform(request)
                 .andExpect(status().isOk());
+        String content = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println(content);
     }
-
-    @Test
-    @Transactional
-    public void testDelete() throws Exception {
-        String path = PATH + "report.json";
-        MockHttpServletRequestBuilder request = delete(path).param("id", "12");
-        mockMvc.perform(request)
-                .andExpect(status().isOk());
-    }
-
 }

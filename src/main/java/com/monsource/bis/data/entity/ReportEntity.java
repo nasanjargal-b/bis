@@ -24,6 +24,13 @@ public class ReportEntity implements DataEntity {
     private List<ReportQuestionEntity> reportQuestions;
     private List<ReportFilterEntity> reportFilters;
 
+    public ReportEntity() {
+    }
+
+    public ReportEntity(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_seq_gen")
     @SequenceGenerator(name = "report_seq_gen", sequenceName = "report.report_id_seq")
@@ -57,7 +64,7 @@ public class ReportEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "order")
+    @Column(name = "\"order\"")
     public Integer getOrder() {
         return order;
     }
@@ -67,7 +74,7 @@ public class ReportEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "group")
+    @Column(name = "\"group\"")
     public Boolean getGroup() {
         return group;
     }
@@ -116,7 +123,7 @@ public class ReportEntity implements DataEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
     public ReportEntity getParent() {
         return parent;
     }
@@ -126,7 +133,7 @@ public class ReportEntity implements DataEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "blank_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "blank_id", referencedColumnName = "id")
     public BlankEntity getBlank() {
         return blank;
     }

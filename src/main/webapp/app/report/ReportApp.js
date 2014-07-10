@@ -1,9 +1,9 @@
 Ext.application({
     name: 'Report',
-    controllers: ['ReportCtrl', 'ParamCtrl', 'QueryCtrl'],
-    models: ['Group','Report', 'Param', 'Query'],
-    stores: ['Group', 'Reports'],
-    views: ['ReportGridPanel', 'GroupWindow', 'ReportPanel', 'ParamWindow', 'QueryWindow'],
+    controllers: ['ReportCtrl'],
+    models: ['Report', 'Column', 'Choice', 'City', 'District', 'Blank', 'Question'],
+    stores: ['Report', 'City', 'Blanks'],
+    views: ['ReportTreePanel', 'ReportPanel', 'QuestionGrid', 'ColumnPanel', 'FilterPanel'],
     appFolder: '/app/report',
     launch: function () {
         Ext.create('Ext.container.Viewport', {
@@ -11,7 +11,7 @@ Ext.application({
             items: [
                 {
                     region: 'west',
-                    xtype: 'reportGridPanel'
+                    xtype: 'reportTreePanel'
                 },
                 {
                     xtype: 'panel',

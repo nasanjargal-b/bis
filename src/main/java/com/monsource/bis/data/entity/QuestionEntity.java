@@ -26,6 +26,13 @@ public class QuestionEntity implements DataEntity {
     private QuestionEntity parent;
     private List<QuestionEntity> children;
 
+    public QuestionEntity() {
+    }
+
+    public QuestionEntity(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "question_seq_gen")
     @SequenceGenerator(name = "question_seq_gen", sequenceName = "registration.question_id_seq")

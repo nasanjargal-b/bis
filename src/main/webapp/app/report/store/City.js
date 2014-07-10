@@ -1,7 +1,7 @@
 Ext.define('Report.store.City', {
     extend: 'Ext.data.Store',
     model: 'Report.model.City',
-    autoLoad: true,
+    autoLoad: false,
     proxy: {
         type: 'ajax',
         url: '/report-mod/report/view/cities.json',
