@@ -35,6 +35,7 @@ public class ReportService {
         report.setColumns(new ArrayList<Column>());
 
         for (ReportQuestionEntity reportQuestionEntity : reportEntity.getReportQuestions()) {
+            QuestionEntity question = reportQuestionEntity.getQuestion();
             Column column = new Column(
                     reportQuestionEntity.getId(),
                     reportQuestionEntity.getName(),
@@ -42,13 +43,34 @@ public class ReportService {
                     reportQuestionEntity.getType(),
                     reportQuestionEntity.getCalcType(),
                     reportQuestionEntity.getColumnType(),
-                    reportQuestionEntity.getQuestion() == null ? null : reportQuestionEntity.getQuestion().getId(),
+                    question == null ? null : question.getId(),
                     reportQuestionEntity.getFilter(),
                     reportQuestionEntity.getChoice() == null ? null : reportQuestionEntity.getChoice().getId()
             );
 
+            if (question != null && (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_CHOICE)) {
+                List<ChoiceEntity> choiceEntities = question.getChoices();
+                column.setChoices(new ArrayList<Choice>());
+                column.getChoices().add(new Choice(null, "", ""));
+                for (ChoiceEntity choiceEntity : choiceEntities) {
+                    column.getChoices().add(new Choice(choiceEntity.getId(), choiceEntity.getCode(), choiceEntity.getText()));
+                }
+            }
+
             report.getColumns().add(column);
 
+        }
+
+        report.setFilters(new ArrayList<Filter>());
+        for (ReportFilterEntity reportFilterEntity : reportEntity.getReportFilters()) {
+            report.getFilters().add(new Filter(
+                    reportFilterEntity.getId(),
+                    reportFilterEntity.getType(),
+                    reportFilterEntity.getPrompt(),
+                    reportFilterEntity.getFilter(),
+                    reportFilterEntity.getOrder(),
+                    reportFilterEntity.getQuestion() == null ? null : reportFilterEntity.getQuestion().getId()
+            ));
         }
 
         return report;
@@ -57,7 +79,7 @@ public class ReportService {
     /**
      * @param report
      */
-    public void save(Report report) {
+    public Integer save(Report report) {
         ReportEntity reportEntity;
         if (report.getId() == null) {
             reportEntity = new ReportEntity();
@@ -79,6 +101,12 @@ public class ReportService {
 
         int order = 0;
         for (Column column : report.getColumns()) {
+
+            String filter = column.getFilter();
+            if (filter != null && filter.replaceAll(" ", "").equals("")) {
+                filter = null;
+            }
+
             ReportQuestionEntity reportQuestionEntity = new ReportQuestionEntity();
 
             reportQuestionEntity.setId(column.getId());
@@ -87,7 +115,7 @@ public class ReportService {
             reportQuestionEntity.setType(column.getType());
             reportQuestionEntity.setCalcType(column.getCalcType());
             reportQuestionEntity.setColumnType(column.getColumnType());
-            reportQuestionEntity.setFilter(column.getFilter());
+            reportQuestionEntity.setFilter(filter);
             reportQuestionEntity.setOrder(order++);
             reportQuestionEntity.setReport(reportEntity);
             if (column.getQuestionId() != null)
@@ -99,7 +127,9 @@ public class ReportService {
             reportEntity.getReportQuestions().add(reportQuestionEntity);
         }
 
-        reportDao.merge(reportEntity);
+        reportEntity = reportDao.merge(reportEntity);
+
+        return reportEntity.getId();
 
     }
 

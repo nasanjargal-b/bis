@@ -1,7 +1,7 @@
 package com.monsource.bis.data.entity;
 
 import com.monsource.bis.core.data.DataEntity;
-import com.monsource.bis.data.entity.type.ReportFilterType;
+import com.monsource.bis.data.entity.type.ReportQuestionType;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -15,12 +15,9 @@ import java.util.List;
 @Table(name = "report_filter", schema = "report", catalog = "bis")
 public class ReportFilterEntity implements DataEntity {
     private Integer id;
-    private ReportFilterType type;
-    private Double numeric;
-    private String string;
-    private Date date;
-    private Time time;
+    private ReportQuestionType type;
     private Boolean prompt;
+    private String filter;
     private Integer order;
     private QuestionEntity question;
     private ReportEntity report;
@@ -40,53 +37,23 @@ public class ReportFilterEntity implements DataEntity {
 
     @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "filter_type")
-    public ReportFilterType getType() {
+    @Column(name = "type")
+    public ReportQuestionType getType() {
         return type;
     }
 
-    public void setType(ReportFilterType type) {
+    public void setType(ReportQuestionType type) {
         this.type = type;
     }
 
     @Basic
-    @Column(name = "numeric")
-    public Double getNumeric() {
-        return numeric;
+    @Column(name = "filter")
+    public String getFilter() {
+        return filter;
     }
 
-    public void setNumeric(Double numeric) {
-        this.numeric = numeric;
-    }
-
-    @Basic
-    @Column(name = "string")
-    public String getString() {
-        return string;
-    }
-
-    public void setString(String string) {
-        this.string = string;
-    }
-
-    @Basic
-    @Column(name = "date")
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    @Basic
-    @Column(name = "time")
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 
     @Basic
@@ -116,13 +83,10 @@ public class ReportFilterEntity implements DataEntity {
 
         ReportFilterEntity that = (ReportFilterEntity) o;
 
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (filter != null ? !filter.equals(that.filter) : that.filter != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (numeric != null ? !numeric.equals(that.numeric) : that.numeric != null) return false;
         if (order != null ? !order.equals(that.order) : that.order != null) return false;
         if (prompt != null ? !prompt.equals(that.prompt) : that.prompt != null) return false;
-        if (string != null ? !string.equals(that.string) : that.string != null) return false;
-        if (time != null ? !time.equals(that.time) : that.time != null) return false;
         if (type != that.type) return false;
 
         return true;
@@ -132,17 +96,14 @@ public class ReportFilterEntity implements DataEntity {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (numeric != null ? numeric.hashCode() : 0);
-        result = 31 * result + (string != null ? string.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (time != null ? time.hashCode() : 0);
         result = 31 * result + (prompt != null ? prompt.hashCode() : 0);
+        result = 31 * result + (filter != null ? filter.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
     public QuestionEntity getQuestion() {
         return question;
     }
@@ -162,7 +123,9 @@ public class ReportFilterEntity implements DataEntity {
     }
 
     @ManyToMany
-    @JoinTable(name = "choice_report_filter", catalog = "bis", schema = "report", joinColumns = @JoinColumn(name = "report_filter_id", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false))
+    @JoinTable(name = "choice_report_filter", catalog = "bis", schema = "report",
+            joinColumns = @JoinColumn(name = "report_filter_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false))
     public List<ChoiceEntity> getChoices() {
         return choices;
     }

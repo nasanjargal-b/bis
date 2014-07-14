@@ -20,6 +20,7 @@ public class Report implements TreeModel<Integer> {
     private ReportChartType chart;
     private Integer order;
     private List<Column> columns;
+    private List<Filter> filters;
 
     public Report() {
     }
@@ -125,6 +126,14 @@ public class Report implements TreeModel<Integer> {
 
     public void setColumns(List<Column> columns) {
         this.columns = columns;
+    }
+
+    public List<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<Filter> filters) {
+        this.filters = filters;
     }
 
     @Override

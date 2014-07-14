@@ -21,6 +21,7 @@ public class Column implements Model<Integer> {
     private Integer questionId;
     private String filter;
     private Integer choiceId;
+    private List<Choice> choices;
 
     public Column() {
     }
@@ -107,5 +108,13 @@ public class Column implements Model<Integer> {
 
     public void setChoiceId(Integer choiceId) {
         this.choiceId = choiceId;
+    }
+
+    public List<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
     }
 }

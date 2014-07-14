@@ -70,17 +70,8 @@ Ext.define('Report.view.ReportPanel', {
             region: 'center',
             items: [
                 {xtype: 'columnPanel'},
-                {xtype: 'filterPanel'}
-            ],
-            buttons: [
-                {
-                    text: 'Өмнөх',
-                    action: 'prev'
-                },
-                {
-                    text: 'Дараах',
-                    action: 'next'
-                }
+                {xtype: 'filterPanel'},
+                {xtype: 'chartPanel'}
             ]
         }
     ]

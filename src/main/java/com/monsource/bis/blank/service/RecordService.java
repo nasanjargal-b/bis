@@ -214,6 +214,20 @@ public class RecordService {
 
     private void clearEmptyRecords(List<Record> records) {
         List<Record> removeRecords = new ArrayList<>();
+
+        for (Record record : records) {
+            for (String key : record.keySet()) {
+                Object data = record.get(key);
+                if (data != null && data instanceof String) {
+                    String str = (String) data;
+                    str = str.replaceAll(" ", "");
+                    if (str.equals("")) {
+                        record.put(key, null);
+                    }
+                }
+            }
+        }
+
         for (Record record : records) {
             boolean remove = true;
             for (String key : record.keySet()) {

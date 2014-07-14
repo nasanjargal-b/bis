@@ -1,10 +1,10 @@
 Ext.define('Report.controller.ReportCtrl', {
     extend: 'Ext.app.Controller',
     init: function () {
-        var me = this;
-        window.setTimeout(function () {
+        var me = this; // todo delete
+        window.setTimeout(function () { //todo delete
             var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
-            me.edit(tree.getRootNode().childNodes[0].childNodes[0]);
+            me.edit(tree.getRootNode().childNodes[0].childNodes[0].get('id'));
         }, 1000);
         this.control({
             'reportPanel button[action="save"]': {
@@ -15,18 +15,12 @@ Ext.define('Report.controller.ReportCtrl', {
                 itemclick: function (view, record) {
                     console.log(record);
                     if (record.isLeaf()) {
-                        this.edit(record);
+                        this.edit(record.get('id'));
                     }
                 }
             },
             'combo[name="blankId"]': {
                 change: this.blank
-            },
-            'columnPanel grid[action="columnGrid"] gridview': {
-                beforedrop: this.addColumn
-            },
-            'columnPanel grid[action="columnGrid"]': {
-                beforeedit: this.beforeEdit
             },
             'questionGrid gridview': {
                 beforedrop: function (node, data, overModel, dropPosition, dropHandlers) {
@@ -36,6 +30,7 @@ Ext.define('Report.controller.ReportCtrl', {
                         data.view.getStore().remove(data.records)
                         dropHandlers.cancelDrop();
                     }
+                    this.getController('ReportColumnCtrl').validColumn();
                 }
             }
         });
@@ -43,65 +38,15 @@ Ext.define('Report.controller.ReportCtrl', {
     getMainPanel: function () {
         return Ext.ComponentQuery.query('#reportMainPanel')[0];
     },
-    beforeEdit: function (editor, e, eOpts) {
-        if (e.field == 'calcType') {
-            var combo = e.column.getEditor(e.record);
-            var store = combo.getStore();
-            if (store.count() != 0)
-                store.removeAll();
-            switch (e.record.get('columnType')) {
-                case 'TEXT':
-                case 'DATE':
-                case 'TIME':
-                    store.add([
-                        {value: 'NORMAL', display: ''},
-                        {value: 'GROUP', display: 'GROUP'},
-                        {value: 'COUNT', display: 'COUNT'}
-                    ]);
-                    break;
-                case 'NUMERIC':
-                    store.add([
-                        {value: 'NORMAL', display: ''},
-                        {value: 'GROUP', display: 'GROUP'},
-                        {value: 'SUM', display: 'SUM'},
-                        {value: 'AVG', display: 'AVG'},
-                        {value: 'COUNT', display: 'COUNT'},
-                        {value: 'MAX', display: 'MAX'},
-                        {value: 'MIN', display: 'MIN'}
-                    ]);
-                    break;
-                case 'SINGLE_CHOICE':
-                case 'MULTIPLE_CHOICE':
-                    store.add([
-                        {value: 'NORMAL', display: ''},
-                        {value: 'COUNT', display: 'COUNT'}
-                    ]);
-                    break;
-            }
-
-            /*
-             * data: [
-             {value: 'NORMAL', display: ''},
-             {value: 'GROUP', display: 'GROUP'},
-             {value: 'SUM', display: 'SUM'},
-             {value: 'AVG', display: 'AVG'},
-             {value: 'COUNT', display: 'COUNT'},
-             {value: 'MAX', display: 'MAX'},
-             {value: 'MIN', display: 'MIN'}
-             ]
-             * */
-        }
-        return true;
-    },
     save: function (btn) {
+        var me = this;
         var form = btn.up('form');
-        if (form.getForm().isValid()) {
+        if (form.getForm().isValid() && this.getController('ReportColumnCtrl').validColumn()) {
             var record = form.getRecord();
             record.set(form.getValues());
-
             var data = {
                 id: record.get('id'),
-                name: record.get('name'),
+                name: form.down('textfield[name="name"]').getValue(),
                 parentId: record.get('parentId'),
                 blankId: record.get('blankId'),
                 chart: record.get('chart'),
@@ -128,9 +73,10 @@ Ext.define('Report.controller.ReportCtrl', {
             Ext.Ajax.request({
                 url: '/report-mod/report/report.json',
                 jsonData: data,
-                success: function () {
+                success: function (response) {
                     form.unmask();
-                    console.log('success');
+                    var result = Ext.decode(response.responseText);
+                    me.edit(result.data);
                 },
                 failure: function () {
                     form.unmask();
@@ -138,14 +84,14 @@ Ext.define('Report.controller.ReportCtrl', {
             })
         }
     },
-    edit: function (node) {
+    edit: function (id) {
         var me = this;
-        Report.model.Report.load(node.get('id'), {
+        Report.model.Report.load(id, {
             success: function (record) {
-                var panel = Ext.create('Report.view.ReportPanel');
                 var mainPanel = me.getMainPanel();
-                panel.loadRecord(record);
                 mainPanel.removeAll();
+                var panel = Ext.create('Report.view.ReportPanel');
+                panel.loadRecord(record);
                 mainPanel.add(panel);
 
                 var columnGrid = Ext.ComponentQuery.query('columnPanel')[0].down('grid[action="columnGrid"]');
@@ -183,35 +129,5 @@ Ext.define('Report.controller.ReportCtrl', {
                 }
             }
         });
-    },
-    addColumn: function (node, data, overModel, dropPosition, dropHandlers) {
-        if (data.copy)
-            for (var i = 0; i < data.records.length; i++) {
-                var record = data.records[i];
-                var columnRecord = Ext.create('Report.model.Column');
-                columnRecord.set('name', record.get('text'));
-                columnRecord.set('questionId', record.get('id'));
-                columnRecord.set('code', record.get('code'));
-                columnRecord.set('type', 'QUESTION');
-                columnRecord.set('calcType', 'NORMAL');
-                columnRecord.set('columnType', record.get('type'));
-                if (record.get('code').indexOf('$') == 0) {
-                    columnRecord.set('columnType', 'TEXT');
-                    switch (record.get('code')) {
-                        case '$R':
-                            columnRecord.set('type', 'RESEARCH');
-                            break;
-                        case '$C':
-                            columnRecord.set('type', 'CITY');
-                            break;
-                        case '$D':
-                            columnRecord.set('type', 'DISTRICT');
-                            break;
-                    }
-                }
-                data.records[i] = columnRecord;
-            }
-
-        dropHandlers.processDrop();
     }
 });

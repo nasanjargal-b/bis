@@ -49,8 +49,8 @@ public class ReportCtrl {
     @ResponseBody
     @Transactional
     public JsonData save(@RequestBody Report report) {
-        reportSrv.save(report);
-        return new JsonData(true);
+        Integer id = reportSrv.save(report);
+        return new JsonData(id);
     }
 
     /**

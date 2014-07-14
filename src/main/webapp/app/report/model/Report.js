@@ -12,7 +12,10 @@ Ext.define('Report.model.Report', {
         {name: 'chart', type: 'string', useNull: true},
         {name: 'order', type: 'int', useNull: true}
     ],
-    hasMany: {model: 'Report.model.Column', name: 'columns'},
+    hasMany: [
+        {model: 'Report.model.Column', name: 'columns'},
+        {model: 'Report.model.Filter', name: 'filters'}
+    ],
     proxy: {
         type: 'ajax',
         url: '/report-mod/report/report.json',

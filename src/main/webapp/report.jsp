@@ -9,19 +9,20 @@
 <html>
 <head>
     <title>Барилгын эрэлт, нийлүүлэтийн судалгааны мэдээллийн сан</title>
-    <link rel="stylesheet" href="/resources/ext/resources/css/ext-all.css"/>
+    <jsp:include page="resource.jsp"/>
+    <%--<link rel="stylesheet" href="/resources/ext/resources/css/ext-all.css"/>
     <link rel="stylesheet" href="/resources/codemirror/lib/codemirror.css"/>
     <script type="application/javascript" src="/resources/codemirror/lib/codemirror.js"></script>
     <script type="application/javascript" src="/resources/codemirror/mode/sql/sql.js"></script>
     <script type="application/javascript" src="/resources/ext/ext-all-dev.js"></script>
     <script type="application/javascript" src="/resources/ext/ext-override.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-ux.js"></script>
+    <script type="application/javascript" src="/resources/ext/ext-ux.js"></script>--%>
     <script type="application/javascript" src="/app/report/ReportApp.js"></script>
-    <style>
+    <%--<style>
         .CodeMirror {
             border: 1px solid #b5b8c8;
         }
-    </style>
+    </style>--%>
 </head>
 <body>
 

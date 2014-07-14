@@ -1,9 +1,9 @@
 Ext.application({
     name: 'Report',
-    controllers: ['ReportCtrl'],
-    models: ['Report', 'Column', 'Choice', 'City', 'District', 'Blank', 'Question'],
+    controllers: ['ReportCtrl', 'ReportColumnCtrl'],
+    models: ['Report', 'Column', 'Choice', 'City', 'District', 'Blank', 'Question', 'Filter'],
     stores: ['Report', 'City', 'Blanks'],
-    views: ['ReportTreePanel', 'ReportPanel', 'QuestionGrid', 'ColumnPanel', 'FilterPanel'],
+    views: ['ReportTreePanel', 'ReportPanel', 'QuestionGrid', 'ColumnPanel', 'FilterPanel', 'ChartPanel'],
     appFolder: '/app/report',
     launch: function () {
         Ext.create('Ext.container.Viewport', {

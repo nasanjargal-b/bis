@@ -9,6 +9,10 @@ Ext.define('Report.model.Column', {
         {name: 'questionId', type: 'int', useNull: true},
         {name: 'code', type: 'string', useNull: true},
         {name: 'filter', type: 'string', useNull: true},
-        {name: 'choiceId', type: 'int', useNull: true}
-    ]
+        {name: 'choiceId', type: 'int', useNull: true},
+        {name: 'error', type: 'boolean', useNull: true},
+        {name: 'errorMsg', type: 'string', useNull: true}
+    ],
+
+    hasMany: {model: 'Report.model.Choice', name: 'choices'}
 })
