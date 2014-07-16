@@ -6,5 +6,5 @@ package com.monsource.bis.data.entity.type;
 public enum ReportChartType {
     BAR,
     PIE,
-    RADAR
+    PIED
 }

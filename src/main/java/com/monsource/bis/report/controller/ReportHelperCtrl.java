@@ -6,6 +6,9 @@ import com.monsource.bis.data.entity.BlankEntity;
 import com.monsource.bis.data.entity.ChoiceEntity;
 import com.monsource.bis.data.entity.QuestionEntity;
 import com.monsource.bis.report.dao.ReportBlankDao;
+import com.monsource.bis.report.dao.ReportCityDao;
+import com.monsource.bis.report.dao.ReportDistrictDao;
+import com.monsource.bis.report.dao.ReportResearchDao;
 import com.monsource.bis.report.model.Blank;
 import com.monsource.bis.report.model.Choice;
 import com.monsource.bis.report.model.Question;
@@ -20,15 +23,22 @@ import java.util.ArrayList;
  * Created by nasanjargal on 7/7/14.
  */
 @Controller
-@RequestMapping("/report-mod/blank")
-public class ReportBlankCtrl {
+@RequestMapping("/report-mod/helper")
+public class ReportHelperCtrl {
 
     @Autowired
     ReportBlankDao blankDao;
 
+    @Autowired
+    ReportResearchDao researchDao;
+    @Autowired
+    ReportCityDao cityDao;
+    @Autowired
+    ReportDistrictDao districtDao;
+
     @RequestMapping("blank.json")
     @ResponseBody
-    public JsonData get(String id) {
+    public JsonData getBlank(String id) {
         BlankEntity blankEntity = blankDao.get(id);
 
 
@@ -64,8 +74,26 @@ public class ReportBlankCtrl {
 
     @RequestMapping("blanks.json")
     @ResponseBody
-    public JsonData list() {
+    public JsonData getBlanks() {
         return new JsonData(blankDao.findAll());
+    }
+
+    @RequestMapping("researches.json")
+    @ResponseBody
+    public JsonData getResearches() {
+        return new JsonData(researchDao.findAll());
+    }
+
+    @RequestMapping("cities.json")
+    @ResponseBody
+    public JsonData getCities() {
+        return new JsonData(cityDao.findAll());
+    }
+
+    @RequestMapping("districts.json")
+    @ResponseBody
+    public JsonData getDistricts() {
+        return new JsonData(districtDao.findAll());
     }
 
 }

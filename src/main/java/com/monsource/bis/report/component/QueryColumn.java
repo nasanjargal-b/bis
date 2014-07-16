@@ -7,59 +7,31 @@ import com.monsource.bis.data.entity.type.ReportCalcType;
  */
 public class QueryColumn {
 
-    public static enum NAME {
-        NAME, NUMERIC, STRING, DATE, TIME, TEXT
-    }
-
     private String alias;
-    private String columnName;
+    private String column;
+    private String name;
     private ReportCalcType calc;
-    private Integer questionId;
-    private Integer choiceId;
-    private boolean question;
-    private String filter;
-    private NAME name;
 
-    public QueryColumn(String alias, String columnName, ReportCalcType calc, Integer questionId, Integer choiceId, boolean question, String filter, NAME name) {
+    public QueryColumn(String alias, String column, String name, ReportCalcType calc) {
         this.alias = alias;
-        this.columnName = columnName;
-        this.calc = calc;
-        this.questionId = questionId;
-        this.choiceId = choiceId;
-        this.question = question;
-        this.filter = filter;
+        this.column = column;
         this.name = name;
+        this.calc = calc;
     }
 
     public String getAlias() {
         return alias;
     }
 
-    public String getColumnName() {
-        return columnName;
+    public String getColumn() {
+        return column;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ReportCalcType getCalc() {
         return calc;
-    }
-
-    public boolean isQuestion() {
-        return question;
-    }
-
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
-    public String getFilter() {
-        return filter;
-    }
-
-    public NAME getName() {
-        return name;
-    }
-
-    public Integer getChoiceId() {
-        return choiceId;
     }
 }

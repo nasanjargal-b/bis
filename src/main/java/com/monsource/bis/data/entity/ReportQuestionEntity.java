@@ -21,10 +21,10 @@ public class ReportQuestionEntity implements DataEntity {
     private ReportCalcType calcType;
     private QuestionType columnType;
     private String filter;
+    private Boolean percent;
     private Integer order;
     private ReportEntity report;
     private QuestionEntity question;
-    private List<ReportChartEntity> reportCharts;
     private ChoiceEntity choice;
 
     @Id
@@ -103,6 +103,16 @@ public class ReportQuestionEntity implements DataEntity {
     }
 
     @Basic
+    @Column(name = "percent")
+    public Boolean getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Boolean percent) {
+        this.percent = percent;
+    }
+
+    @Basic
     @Column(name = "\"order\"")
     public Integer getOrder() {
         return order;
@@ -162,15 +172,6 @@ public class ReportQuestionEntity implements DataEntity {
 
     public void setQuestion(QuestionEntity question) {
         this.question = question;
-    }
-
-    @ManyToMany(mappedBy = "datas")
-    public List<ReportChartEntity> getReportCharts() {
-        return reportCharts;
-    }
-
-    public void setReportCharts(List<ReportChartEntity> reportCharts) {
-        this.reportCharts = reportCharts;
     }
 
     @ManyToOne

@@ -9,3 +9,8 @@
 .u-row-cell-error td {
     background-color: rgba(255, 0, 0, 0.44) !important;
 }
+
+.x-grid-row-summary .x-grid-cell-inner {
+    font-weight: bold;
+    background-color: #dedede;
+}

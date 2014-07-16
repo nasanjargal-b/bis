@@ -22,6 +22,13 @@ public class ResearchEntity implements DataEntity {
     private List<RecordEntity> records;
     private List<BlankEntity> blanks;
 
+    public ResearchEntity() {
+    }
+
+    public ResearchEntity(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "research_seq_gen")
     @SequenceGenerator(name = "research_seq_gen", sequenceName = "registration.research_id_seq")
@@ -143,4 +150,5 @@ public class ResearchEntity implements DataEntity {
     public void setBlanks(List<BlankEntity> blanks) {
         this.blanks = blanks;
     }
+
 }

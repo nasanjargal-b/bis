@@ -16,13 +16,14 @@ Ext.define('Report.store.Report', {
     listeners: {
         load: function (store, node, records) {
             var treePanel = Ext.ComponentQuery.query('reportTreePanel')[0];
-            if (treePanel)
+            if (!treePanel) treePanel = Ext.ComponentQuery.query('reportViewTreePanel')[0];
+            if (treePanel) {
                 for (var i = 0; i < records.length; i++) {
                     var record = records[i];
                     if (!record.isLeaf())
                         treePanel.expandNode(record);
                 }
-
+            }
         }
     },
     proxy: {

@@ -21,12 +21,13 @@ public class Column implements Model<Integer> {
     private Integer questionId;
     private String filter;
     private Integer choiceId;
+    private Boolean percent = false;
     private List<Choice> choices;
 
     public Column() {
     }
 
-    public Column(Integer id, String name, String code, ReportQuestionType type, ReportCalcType calcType, QuestionType columnType, Integer questionId, String filter, Integer choiceId) {
+    public Column(Integer id, String name, String code, ReportQuestionType type, ReportCalcType calcType, QuestionType columnType, Integer questionId, String filter, Integer choiceId, Boolean percent) {
         this.id = id;
         this.name = name;
         this.code = code;
@@ -36,6 +37,7 @@ public class Column implements Model<Integer> {
         this.questionId = questionId;
         this.filter = filter;
         this.choiceId = choiceId;
+        this.percent = percent == null ? false : percent;
     }
 
     public Integer getId() {
@@ -108,6 +110,14 @@ public class Column implements Model<Integer> {
 
     public void setChoiceId(Integer choiceId) {
         this.choiceId = choiceId;
+    }
+
+    public Boolean getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Boolean percent) {
+        this.percent = percent == null ? false : percent;
     }
 
     public List<Choice> getChoices() {

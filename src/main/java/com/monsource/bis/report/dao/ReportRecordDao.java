@@ -2,9 +2,8 @@ package com.monsource.bis.report.dao;
 
 import com.monsource.bis.core.data.HibernateDaoSupport;
 import com.monsource.bis.data.entity.RecordEntity;
-import com.monsource.bis.data.entity.ReportEntity;
 import com.monsource.bis.report.component.RecordQueryBuilder;
-import org.hibernate.Criteria;
+import com.monsource.bis.report.model.Report;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,7 @@ import java.util.Map;
 @Repository
 public class ReportRecordDao extends HibernateDaoSupport<RecordEntity> {
 
-    public List<Map> find(ReportEntity report) {
+    public List<Map> find(Report report) {
 
         RecordQueryBuilder rqb = new RecordQueryBuilder(report);
 

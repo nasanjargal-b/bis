@@ -91,7 +91,7 @@ Ext.define('Report.view.ColumnPanel', {
                 {
                     text: 'Тооцоолох',
                     dataIndex: 'calcType',
-                    width: 100,
+                    width: 70,
                     getEditor: function (record) {
                         var data = [];
 
@@ -146,8 +146,15 @@ Ext.define('Report.view.ColumnPanel', {
                     }
                 },
                 {
+                    xtype: 'checkcolumn',
+                    text: '%',
+                    width: 30,
+                    dataIndex: 'percent'
+                },
+                {
                     text: 'Нөхцөл',
                     dataIndex: 'filter',
+                    minWidth: 200,
                     flex: .5,
                     renderer: function (value, metaData, record) {
                         switch (record.get('columnType')) {

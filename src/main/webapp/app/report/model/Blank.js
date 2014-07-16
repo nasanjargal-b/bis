@@ -7,7 +7,7 @@ Ext.define('Report.model.Blank', {
     hasMany: {model: 'Report.model.Question', name: 'questions'},
     proxy: {
         type: 'ajax',
-        url: '/report-mod/blank/blank.json',
+        url: '/report-mod/helper/blank.json',
         reader: {
             type: 'json',
             root: 'data'

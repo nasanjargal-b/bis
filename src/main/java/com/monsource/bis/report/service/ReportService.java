@@ -45,7 +45,8 @@ public class ReportService {
                     reportQuestionEntity.getColumnType(),
                     question == null ? null : question.getId(),
                     reportQuestionEntity.getFilter(),
-                    reportQuestionEntity.getChoice() == null ? null : reportQuestionEntity.getChoice().getId()
+                    reportQuestionEntity.getChoice() == null ? null : reportQuestionEntity.getChoice().getId(),
+                    reportQuestionEntity.getPercent()
             );
 
             if (question != null && (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_CHOICE)) {
@@ -63,14 +64,49 @@ public class ReportService {
 
         report.setFilters(new ArrayList<Filter>());
         for (ReportFilterEntity reportFilterEntity : reportEntity.getReportFilters()) {
-            report.getFilters().add(new Filter(
+            QuestionEntity question = reportFilterEntity.getQuestion();
+            ResearchEntity research = reportFilterEntity.getResearch();
+            CityEntity city = reportFilterEntity.getCity();
+            DistrictEntity district = reportFilterEntity.getDistrict();
+            Filter filter = new Filter(
                     reportFilterEntity.getId(),
+                    question == null ? null : question.getCode(),
                     reportFilterEntity.getType(),
+                    reportFilterEntity.getColumnType(),
                     reportFilterEntity.getPrompt(),
                     reportFilterEntity.getFilter(),
                     reportFilterEntity.getOrder(),
-                    reportFilterEntity.getQuestion() == null ? null : reportFilterEntity.getQuestion().getId()
-            ));
+                    question == null ? null : question.getId(),
+                    research == null ? null : research.getId(),
+                    city == null ? null : city.getId(),
+                    district == null ? null : district.getId()
+            );
+
+            filter.setChoiceIds(new ArrayList<Integer>());
+            for (ChoiceEntity choiceEntity : reportFilterEntity.getChoices()) {
+                filter.getChoiceIds().add(choiceEntity.getId());
+            }
+
+            if (question != null && (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_CHOICE)) {
+                filter.setChoices(new ArrayList<Choice>());
+                for (ChoiceEntity choiceEntity : question.getChoices()) {
+                    filter.getChoices().add(new Choice(choiceEntity.getId(), choiceEntity.getCode(), choiceEntity.getText()));
+                }
+            }
+
+            switch (filter.getType()) {
+                case RESEARCH:
+                    filter.setCode("$R");
+                    break;
+                case CITY:
+                    filter.setCode("$C");
+                    break;
+                case DISTRICT:
+                    filter.setCode("$D");
+                    break;
+            }
+
+            report.getFilters().add(filter);
         }
 
         return report;
@@ -85,9 +121,11 @@ public class ReportService {
             reportEntity = new ReportEntity();
             reportEntity.setId(report.getId());
             reportEntity.setReportQuestions(new ArrayList<ReportQuestionEntity>());
+            reportEntity.setReportFilters(new ArrayList<ReportFilterEntity>());
         } else {
             reportEntity = reportDao.get(report.getId());
             reportEntity.getReportQuestions().clear();
+            reportEntity.getReportFilters().clear();
         }
 
 
@@ -118,6 +156,7 @@ public class ReportService {
             reportQuestionEntity.setFilter(filter);
             reportQuestionEntity.setOrder(order++);
             reportQuestionEntity.setReport(reportEntity);
+            reportQuestionEntity.setPercent(column.getPercent());
             if (column.getQuestionId() != null)
                 reportQuestionEntity.setQuestion(new QuestionEntity(column.getQuestionId()));
 
@@ -125,6 +164,36 @@ public class ReportService {
                 reportQuestionEntity.setChoice(new ChoiceEntity(column.getChoiceId()));
 
             reportEntity.getReportQuestions().add(reportQuestionEntity);
+        }
+        order = 0;
+        for (Filter filter : report.getFilters()) {
+            String filterTxt = filter.getFilter();
+            if (filterTxt != null && filterTxt.replaceAll(" ", "").equals("")) {
+                filterTxt = null;
+            }
+
+            ReportFilterEntity reportFilterEntity = new ReportFilterEntity();
+
+            reportFilterEntity.setId(filter.getId());
+            reportFilterEntity.setType(filter.getType());
+            reportFilterEntity.setColumnType(filter.getColumnType());
+            reportFilterEntity.setPrompt(filter.getPrompt());
+            reportFilterEntity.setFilter(filterTxt);
+            reportFilterEntity.setOrder(order++);
+            reportFilterEntity.setQuestion(filter.getQuestionId() == null ? null : new QuestionEntity(filter.getQuestionId()));
+            reportFilterEntity.setReport(reportEntity);
+
+            reportFilterEntity.setResearch(filter.getResearchId() == null ? null : new ResearchEntity(filter.getResearchId()));
+            reportFilterEntity.setCity(filter.getCityId() == null ? null : new CityEntity(filter.getCityId()));
+            reportFilterEntity.setDistrict(filter.getDistrictId() == null ? null : new DistrictEntity(filter.getDistrictId()));
+
+            if (filter.getChoiceIds() != null) {
+                reportFilterEntity.setChoices(new ArrayList<ChoiceEntity>());
+                for (Integer choiceId : filter.getChoiceIds()) {
+                    reportFilterEntity.getChoices().add(new ChoiceEntity(choiceId));
+                }
+            }
+            reportEntity.getReportFilters().add(reportFilterEntity);
         }
 
         reportEntity = reportDao.merge(reportEntity);

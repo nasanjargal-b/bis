@@ -8,7 +8,7 @@ Ext.define('Report.store.Blanks', {
     groupField: 'blankGroupName',
     proxy: {
         type: 'ajax',
-        url: '/report-mod/blank/blanks.json',
+        url: '/report-mod/helper/blanks.json',
         reader: {
             type: 'json',
             root: 'data'

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,6 +16,13 @@ public class CityEntity implements DataEntity {
     private Integer id;
     private String name;
     private Set<DistrictEntity> districts;
+
+    public CityEntity() {
+    }
+
+    public CityEntity(Integer id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_seq_gen")
@@ -67,4 +75,5 @@ public class CityEntity implements DataEntity {
     public void setDistricts(Set<DistrictEntity> districts) {
         this.districts = districts;
     }
+
 }

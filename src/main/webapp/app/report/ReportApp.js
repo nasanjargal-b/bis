@@ -1,8 +1,8 @@
 Ext.application({
     name: 'Report',
-    controllers: ['ReportCtrl', 'ReportColumnCtrl'],
-    models: ['Report', 'Column', 'Choice', 'City', 'District', 'Blank', 'Question', 'Filter'],
-    stores: ['Report', 'City', 'Blanks'],
+    controllers: ['ReportCtrl', 'ReportColumnCtrl', 'ReportFilterCtrl'],
+    models: ['Report', 'Column', 'Choice', 'City', 'District', 'Research', 'Blank', 'Question', 'Filter'],
+    stores: ['Report', 'City', 'District', 'Research', 'Blanks'],
     views: ['ReportTreePanel', 'ReportPanel', 'QuestionGrid', 'ColumnPanel', 'FilterPanel', 'ChartPanel'],
     appFolder: '/app/report',
     launch: function () {

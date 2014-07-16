@@ -13,7 +13,7 @@ Ext.define('Report.controller.ReportColumnCtrl', {
         });
     },
     addColumn: function (node, data, overModel, dropPosition, dropHandlers) {
-        if (data.copy)
+        if (data.copy) {
             for (var i = 0; i < data.records.length; i++) {
                 var record = data.records[i];
                 var columnRecord = Ext.create('Report.model.Column');
@@ -65,8 +65,9 @@ Ext.define('Report.controller.ReportColumnCtrl', {
                 var store = Ext.ComponentQuery.query('grid[action="columnGrid"]')[0].getStore();
                 store.add(columnRecord);
                 this.validColumn();
-                dropHandlers.cancelDrop();
             }
+            dropHandlers.cancelDrop();
+        }
     },
     validColumn: function () {
         var valid = true;
