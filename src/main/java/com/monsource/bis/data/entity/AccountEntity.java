@@ -5,6 +5,7 @@ import com.monsource.bis.data.entity.type.AccountStatus;
 import com.monsource.bis.data.entity.type.Gender;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,7 +28,8 @@ public class AccountEntity implements DataEntity {
     private AccountStatus status;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq_gen")
+    @SequenceGenerator(name = "account_seq_gen", sequenceName = "public.account_id_seq")
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 10, precision = 0)
     public Integer getId() {
         return id;

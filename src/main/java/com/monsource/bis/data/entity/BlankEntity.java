@@ -3,19 +3,27 @@ package com.monsource.bis.data.entity;
 import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
- * Created by nasanjargal on 5/14/14.
+ * Created by nasanjargal on 6/20/14.
  */
 @Entity
 @Table(name = "blank", schema = "registration", catalog = "bis")
 public class BlankEntity implements DataEntity {
     private String id;
     private String name;
-    private String questions;
     private BlankGroupEntity blankGroup;
-    private Set<ResearchEntity> researches;
+    private List<QuestionEntity> questions;
+    private List<RecordEntity> records;
+    private List<ResearchEntity> researches;
+
+    public BlankEntity() {
+    }
+
+    public BlankEntity(String id) {
+        this.id = id;
+    }
 
     @Id
     @Column(name = "id")
@@ -37,16 +45,6 @@ public class BlankEntity implements DataEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "questions", columnDefinition = "varying")
-    public String getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(String questions) {
-        this.questions = questions;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,7 +54,6 @@ public class BlankEntity implements DataEntity {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (questions != null ? !questions.equals(that.questions) : that.questions != null) return false;
 
         return true;
     }
@@ -65,7 +62,6 @@ public class BlankEntity implements DataEntity {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (questions != null ? questions.hashCode() : 0);
         return result;
     }
 
@@ -79,12 +75,31 @@ public class BlankEntity implements DataEntity {
         this.blankGroup = blankGroup;
     }
 
+    @OneToMany(mappedBy = "blank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("order asc")
+    public List<QuestionEntity> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<QuestionEntity> questions) {
+        this.questions = questions;
+    }
+
+    @OneToMany(mappedBy = "blank")
+    public List<RecordEntity> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<RecordEntity> records) {
+        this.records = records;
+    }
+
     @ManyToMany(mappedBy = "blanks")
-    public Set<ResearchEntity> getResearches() {
+    public List<ResearchEntity> getResearches() {
         return researches;
     }
 
-    public void setResearches(Set<ResearchEntity> researches) {
+    public void setResearches(List<ResearchEntity> researches) {
         this.researches = researches;
     }
 }

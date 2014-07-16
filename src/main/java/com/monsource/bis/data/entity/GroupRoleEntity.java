@@ -16,7 +16,8 @@ public class GroupRoleEntity implements DataEntity {
     private GroupEntity group;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_role_seq_gen")
+    @SequenceGenerator(name = "group_role_seq_gen", sequenceName = "public.group_role_id_seq")
     @Column(name = "id", nullable = true, insertable = true, updatable = true, length = 255, precision = 0)
     public Integer getId() {
         return id;

@@ -1,7 +1,7 @@
 Ext.define('Account.view.AccountGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.accountGrid',
-    title: 'Груп',
+    title: 'Групп',
     width: 400,
     height:'100%',
     forceFit: true,

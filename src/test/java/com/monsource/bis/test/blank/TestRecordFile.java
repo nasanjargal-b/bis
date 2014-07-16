@@ -1,6 +1,7 @@
 package com.monsource.bis.test.blank;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monsource.bis.core.security.AuthService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockMultipartHttpServletRequest;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,11 +39,11 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"classpath:context-mod.xml", "classpath:context-db.xml", "classpath:context-web.xml"})
+@ContextConfiguration({"classpath:context-mod.xml", "classpath:context-sec.xml", "classpath:context-db.xml", "classpath:context-web.xml"})
 //@TransactionConfiguration(defaultRollback = false)
 public class TestRecordFile {
 
-    static final String PATH = "/blank-mod/record/file/";
+    static final String PATH = "/blank-mod/record/";
 
     @Autowired
     private WebApplicationContext wac;
@@ -55,10 +63,12 @@ public class TestRecordFile {
     @Transactional
     public void testDownload() throws Exception {
 
-        String path = PATH + "download.xlsx";
+        String path = PATH + "file.xlsx";
 
         MockHttpServletRequestBuilder request = get(path);
         request.param("blankId", "B01");
+        request.param("researchId", "1");
+        request.param("districtId", "28");
 
         MvcResult result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -77,14 +87,20 @@ public class TestRecordFile {
     @Transactional
     public void testSave() throws Exception {
 
-        String path = PATH + "upload.json";
+        String path = PATH + "file.json";
+        UserDetailsService authService = (UserDetailsService) wac.getBean("authService");
+        UserDetails userDetails = authService.loadUserByUsername("admin");
+        SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken(userDetails, userDetails.getPassword(), new ArrayList(userDetails.getAuthorities())));
 
         FileInputStream fis = new FileInputStream("/home/nasanjargal/Desktop/B01.xlsx");
         MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
 
         MockMultipartHttpServletRequestBuilder request = fileUpload(path);
+
         request.param("blankId", "B01");
         request.param("researchId", "1");
+        request.param("districtId", "28");
+        request.param("codeRow", "3");
         request.file(multipartFile);
 
         mockMvc.perform(request)

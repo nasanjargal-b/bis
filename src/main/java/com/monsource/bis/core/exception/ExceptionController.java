@@ -3,6 +3,7 @@ package com.monsource.bis.core.exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monsource.bis.blank.exception.UnknownCellValueException;
 import com.monsource.bis.core.json.JsonData;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;

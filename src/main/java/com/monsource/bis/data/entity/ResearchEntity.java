@@ -4,24 +4,34 @@ import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
- * Created by nasanjargal on 5/14/14.
+ * Created by nasanjargal on 6/20/14.
  */
 @Entity
 @Table(name = "research", schema = "registration", catalog = "bis")
 public class ResearchEntity implements DataEntity {
     private Integer id;
+    private String name;
     private Integer year;
-    private boolean active;
+    private Boolean active;
     private Date startDate;
     private Date endDate;
     private String description;
-    private Set<BlankEntity> blanks;
+    private List<RecordEntity> records;
+    private List<BlankEntity> blanks;
+
+    public ResearchEntity() {
+    }
+
+    public ResearchEntity(Integer id) {
+        this.id = id;
+    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "research_seq_gen")
+    @SequenceGenerator(name = "research_seq_gen", sequenceName = "registration.research_id_seq")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -29,6 +39,16 @@ public class ResearchEntity implements DataEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic
@@ -43,11 +63,11 @@ public class ResearchEntity implements DataEntity {
 
     @Basic
     @Column(name = "active")
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -88,25 +108,34 @@ public class ResearchEntity implements DataEntity {
 
         ResearchEntity that = (ResearchEntity) o;
 
-        if (active != that.active) return false;
-        if (id != that.id) return false;
-        if (year != that.year) return false;
+        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (year != null ? !year.equals(that.year) : that.year != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + year;
-        result = 31 * result + (active ? 1 : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "research")
+    public List<RecordEntity> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<RecordEntity> records) {
+        this.records = records;
     }
 
     @ManyToMany
@@ -114,11 +143,12 @@ public class ResearchEntity implements DataEntity {
             joinColumns = @JoinColumn(name = "research_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "blank_id", referencedColumnName = "id")
     )
-    public Set<BlankEntity> getBlanks() {
+    public List<BlankEntity> getBlanks() {
         return blanks;
     }
 
-    public void setBlanks(Set<BlankEntity> blanks) {
+    public void setBlanks(List<BlankEntity> blanks) {
         this.blanks = blanks;
     }
+
 }

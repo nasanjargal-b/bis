@@ -146,10 +146,17 @@ Ext.define('Blank.controller.ResearchCtrl', {
         var index = 0;
         items.filterBy(function (record) {
             var search = record.get('name').search(text);
+
             if (search != -1) {
-                return record
+                return record;
             } else {
-                return false;
+                var id = record.get('id').search(text);
+                if (id != -1) {
+                    return record;
+                } else {
+                    return false;
+                }
+
             }
 
         })

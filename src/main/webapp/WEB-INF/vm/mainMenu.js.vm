@@ -6,138 +6,110 @@ Ext.create('Ext.toolbar.Toolbar', {
     border: false,
 
     items: [
-        #drawMenu($roles)
-        #macro(drawMenu $roles)
+        {
+            xtype: 'label',
+            html: '<img src="/resources/images/logomn-16px.png" style="position: fixed;top: 5px;left: 5px;"/>'
+        },
+        {
+            xtype: 'label',
+            html: '<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Барилга хот байгууллалтын яам</span>'
+        },
+        '->',
+        #if($auth.checkAuthority('ROLE_REGISTER') || $auth.checkAuthority('ROLE_VIEWER'))
+            {
 
-            #if($auth.checkAuthority('ROLE_REGISTER') && $auth.checkAuthority('ROLE_VIEWER'))
-                {
-
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    text:'Бүртгэл',
-                    menu:[
+                defaults: {
+                    hrefTarget: 'mainFrame'
+                },
+                icon: '/resources/images/blank-menu-16px.png',
+                text: 'Бүртгэл',
+                menu: [
+                    #if($auth.checkAuthority('ROLE_REGISTER'))
                         {
                             text: 'Судалгаа',
-                            hrefTarget:'mainFrame',
-                            icon:'',
+                            hrefTarget: 'mainFrame',
+                            icon: '/resources/images/research-16px.png',
                             href: 'research.jsp'
                         },
                         {
                             text: 'Маягт',
-                            hrefTarget:'mainFrame',
-                            icon:'',
+                            hrefTarget: 'mainFrame',
+                            icon: '/resources/images/blank-16px.png',
                             href: 'blank.jsp'
-                        }
-                            ,{
-                            text: 'Бичлэг',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'record.jsp'
-                        }
-
-                    ]
-                },
-            #elseif($auth.checkAuthority('ROLE_REGISTER'))
-                {
-
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    text:'Бүртгэл',
-                    menu:[
-                        {
-                            text: 'Судалгаа',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'research.jsp'
                         },
-                        {
-                            text: 'Маягт',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'blank.jsp'
-                        }
-
-                    ]
-                },
-            #elseif($auth.checkAuthority('ROLE_VIEWER'))
-                {
-
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    text:'Бүртгэл',
-                    menu:[
+                    #end
                     {
                         text: 'Бичлэг',
-                        hrefTarget:'mainFrame',
-                        icon:'',
+                        hrefTarget: 'mainFrame',
+                        icon: '/resources/images/record-16px.png',
                         href: 'record.jsp'
                     }
-                    ]
-                },
-             #end
-            #if($auth.checkAuthority('ROLE_REPORTER'))
-                {
 
-                    text:'Тайлан',
-                    defaults: {
-                        hrefTarget: 'mainFrame'
-                    },
-                    menu:[
-                        {
-                            text: 'Тайлан',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'group.jsp'
-                        },
+                ]
+            },
+        #end
+        #if($auth.checkAuthority('ROLE_REPORTER') || $auth.checkAuthority('ROLE_VIEWER'))
+            {
+
+                text: 'Тайлан',
+                icon: '/resources/images/report-16px.png',
+                defaults: {
+                    hrefTarget: 'mainFrame'
+                },
+                menu: [
+                    #if($auth.checkAuthority('ROLE_REPORTER'))
                         {
                             text: 'Тайлан үүсгэх',
-                            hrefTarget:'mainFrame',
-                            icon:'',
-                            href: 'group.jsp'
-                        }
-
-                    ]
-                },
-            #end
-                #if($auth.checkAuthority('ROLE_ADMINISTRATOR'))
-                    {
-
-                        text:'Админ',
-                        defaults: {
-                            hrefTarget: 'mainFrame'
+                            hrefTarget: 'mainFrame',
+                            icon: '/resources/images/report-menu-16px.png',
+                            href: 'report.jsp'
                         },
-                        menu:[
-                            {
-                                text: 'Груп',
-                                icon:'',
-                                hrefTarget:'mainFrame',
-                                href: 'group.jsp'
-                            },
-                            {
-                                text: 'Хэрэглэгч',
-                                hrefTarget:'mainFrame',
-                                icon:'',
-                                href: 'account.jsp'
-                            }
-                        ]
+                        '-'
+                    #end
+                    #foreach($group in $groups),
+                        #parse('/WEB-INF/vm/reportMenu.json.vm')
+                    #end
+
+                ]
+            },
+        #end
+        #if($auth.checkAuthority('ROLE_ADMINISTRATOR'))
+            {
+
+                text: 'Админ',
+                icon: '/resources/images/settings-16px.png',
+                defaults: {
+                    hrefTarget: 'mainFrame'
+                },
+                menu: [
+                    {
+                        text: 'Групп',
+                        icon: '/resources/images/group-16px.png',
+                        hrefTarget: 'mainFrame',
+                        href: 'group.jsp'
                     },
-                #end
+                    {
+                        text: 'Хэрэглэгч',
+                        hrefTarget: 'mainFrame',
+                        icon: '/resources/images/account-16px.png',
+                        href: 'account.jsp'
+                    }
+                ]
+            },
         #end,
-        '->',
+
         {
 
-            text:'$name',
+            text: '$name',
+            icon: '/resources/images/username-16px.png',
             defaults: {
                 hrefTarget: 'mainFrame'
             },
-            menu:[
+            menu: [
                 {
-                    text:'Нууц үг солих',
+                    text: 'Нууц үг солих',
                     icon: '/resources/images/password-16px.png',
-                    action:'changePassword'
+                    action: 'changePassword'
                 },
                 '-'
                 ,

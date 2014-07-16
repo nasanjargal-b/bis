@@ -91,7 +91,6 @@ public class GroupCtrl {
     @RequestMapping(value = "single.json", method = RequestMethod.DELETE)
     @ResponseBody
     public JsonData remove(Integer id) {
-        System.out.println("group.getId() = " + id);
         JsonData message = new JsonData();
         groupSrv.remove(groupDao.get(id));
         return message;

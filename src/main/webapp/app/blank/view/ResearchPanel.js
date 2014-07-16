@@ -22,76 +22,82 @@ Ext.define('Blank.view.ResearchPanel', {
     items: [
         {
             xtype: 'form',
-            margin:'5 5 5 5',
+            margin: '5 5 5 5',
             border: false,
             bodyStyle: 'background-color:#dfe9f6',
             border: false,
-            height:'100%',
+            height: '100%',
             layout: 'vbox',
             items: [
                 {
-                    xtype:'hiddenfield',
-                    name:'id'
+                    xtype: 'hiddenfield',
+                    name: 'id'
                 },
                 {
-                    xtype:'numberfield',
-                    width:500,
-                    allowBlank:false,
-                    fieldLabel:'Он',
-                    name:'year'
+                    xtype: 'textfield',
+                    width: 500,
+                    allowBlank: false,
+                    fieldLabel: 'Нэр',
+                    name: 'name'
                 },
                 {
-                    xtype:'checkboxfield',
-                    width:500,
-                    fieldLabel:'Идэвхитэй',
-                    name:'active'
+                    xtype: 'numberfield',
+                    width: 500,
+                    allowBlank: false,
+                    fieldLabel: 'Он',
+                    name: 'year'
                 },
                 {
-                    xtype:'datefield',
-                    allowBlank:false,
-                    width:500,
-                    format:'Y-m-d',
-                    editable:false,
-                    fieldLabel:'Эхлэх хугацаа',
-                    name:'startDate'
+                    xtype: 'checkboxfield',
+                    width: 500,
+                    fieldLabel: 'Идэвхитэй',
+                    name: 'active'
                 },
                 {
-                    xtype:'datefield',
-                    fieldLabel:'Дуусах хугацаа',
-                    allowBlank:false,
-                    format:'Y-m-d',
-                    editable:false,
-                    width:500,
-                    name:'endDate'
+                    xtype: 'datefield',
+                    allowBlank: false,
+                    width: 500,
+                    format: 'Y-m-d',
+                    editable: false,
+                    fieldLabel: 'Эхлэх хугацаа',
+                    name: 'startDate'
                 },
                 {
-                    xtype:'textareafield',
-                    fieldLabel:'Тайлбар',
-                    width:500,
-                    name:'description'
+                    xtype: 'datefield',
+                    fieldLabel: 'Дуусах хугацаа',
+                    allowBlank: false,
+                    format: 'Y-m-d',
+                    editable: false,
+                    width: 500,
+                    name: 'endDate'
+                },
+                {
+                    xtype: 'textareafield',
+                    fieldLabel: 'Тайлбар',
+                    width: 500,
+                    name: 'description'
                 }
                 ,
                 {
                     layout: 'hbox',
                     xtype: 'panel',
-                    flex:1,
-                    style:
-                    {
+                    flex: 1,
+                    style: {
                         "height": "100%"
                     },
-                    width:'100%',
+                    width: '100%',
                     bodyStyle: 'background-color:#dfe9f6',
                     border: false,
                     items: [
                         {
                             width: '100%',
-                            height:'100%',
+                            height: '100%',
                             xtype: 'blankFirstGrid'
 
                         },
                         {
                             width: '100%',
-                            height:'100%',
+                            height: '100%',
                             xtype: 'blankSecondGrid'
                         }
                     ]

@@ -1,6 +1,6 @@
 package com.monsource.bis.blank.service;
 
-import com.monsource.bis.blank.controller.RecordFilter;
+//import com.monsource.bis.blank.controller.RecordFilter;
 import com.monsource.bis.blank.dao.BlankDao;
 import com.monsource.bis.blank.dao.RecordDao;
 import com.monsource.bis.blank.dao.ResearchDao;
@@ -46,11 +46,12 @@ public class ResearchService {
             entity.setId(model.getId());
         }
         entity.setActive(model.getActive());
+        entity.setName(model.getName());
         entity.setDescription(model.getDescription());
         entity.setEndDate(model.getEndDate());
         entity.setStartDate(model.getStartDate());
         entity.setYear(model.getYear());
-        Set<BlankEntity> blanks = new HashSet<BlankEntity>();
+        List<BlankEntity> blanks = new ArrayList<BlankEntity>();
         for (Blanks blank : model.getBlanks()) {
             BlankEntity blankEntity = blankDao.get(blank.getId());
             blanks.add(blankEntity);
@@ -63,8 +64,8 @@ public class ResearchService {
         return researchDao.getModel(id);
     }
 
-    public void delete(final Integer id)  {
-        template.execute(new TransactionCallbackWithoutResult() {
+    public void delete(final Integer id) {
+        /*template.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 try {
@@ -87,6 +88,6 @@ public class ResearchService {
                     throw new BaseException(e);
                 }
             }
-        });
+        });*/
     }
 }

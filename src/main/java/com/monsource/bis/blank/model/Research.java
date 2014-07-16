@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Research {
     private Integer id;
+    private String name;
     private Integer year;
     private Boolean active;
     private Date startDate;
@@ -15,20 +16,20 @@ public class Research {
     private String description;
     private List<Blanks> blanks;
 
-    public List<Blanks> getBlanks() {
-        return blanks;
-    }
-
-    public void setBlanks(List<Blanks> blanks) {
-        this.blanks = blanks;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getYear() {
@@ -69,5 +70,13 @@ public class Research {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Blanks> getBlanks() {
+        return blanks;
+    }
+
+    public void setBlanks(List<Blanks> blanks) {
+        this.blanks = blanks;
     }
 }

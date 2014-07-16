@@ -1,0 +1,68 @@
+{
+    "id": "B01",
+    "name": "\u0410\u043d\u043a\u0435\u0442 1",
+    "blankGroupId": "R1",
+    "questions": [
+        {
+            "id": 1,
+            "code": "Q01",
+            "text": "Q01",
+            "type": "NUMERIC",
+            "format": "#.00",
+            "order": 0
+        },
+        {
+            "id": 2,
+            "code": "QG1",
+            "text": "QG1",
+            "type": "GROUP",
+            "format": "",
+            "order": 1,
+            "children": [
+                {
+                    "id": 4,
+                    "code": "Q02",
+                    "text": "Q02",
+                    "type": "SINGLE_CHOICE",
+                    "format": "",
+                    "order": 2,
+                    "choices": [
+                        {
+                            "id": 27,
+                            "code": "1",
+                            "text": "1"
+                        },
+                        {
+                            "id": 28,
+                            "code": "2",
+                            "text": "2"
+                        },
+                        {
+                            "id": 29,
+                            "code": "3",
+                            "text": "3"
+                        },
+                        {
+                            "id": 30,
+                            "code": "4",
+                            "text": "4"
+                        },
+                        {
+                            "id": 34,
+                            "code": "5",
+                            "text": "5"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": null,
+            "code": "Q3",
+            "text": "Q03",
+            "type": "NUMERIC",
+            "format": "#",
+            "order": 3
+        }
+    ]
+}

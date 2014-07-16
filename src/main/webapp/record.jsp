@@ -9,10 +9,7 @@
 <html>
 <head>
     <title>Барилгын эрэлт, нийлүүлэтийн судалгааны мэдээллийн сан</title>
-    <link rel="stylesheet" href="/resources/ext/resources/css/ext-all.css"/>
-    <script type="application/javascript" src="/resources/ext/ext-all-dev.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-override.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-ux.js"></script>
+    <jsp:include page="resource.jsp"/>
     <script type="application/javascript" src="/app/blank/RecordApp.js"></script>
 </head>
 <body>

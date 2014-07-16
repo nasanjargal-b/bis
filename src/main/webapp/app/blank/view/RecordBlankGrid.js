@@ -12,18 +12,20 @@ Ext.define('Blank.view.RecordBlankGrid', {
                 {
                     xtype: 'combo',
                     fieldLabel: 'Судагаа',
+                    action:'research',
                     labelWidth: 50,
                     width: 390,
                     valueField: 'id',
+                    queryMode: 'local',
                     tpl: '<tpl for=".">' +
                         '<tpl if="active == true">' +
-                        '<div class="x-boundlist-item" style="color:green;">{year} - {description}</div>' +
+                        '<div class="x-boundlist-item" style="color:green;">{year} - {name}</div>' +
                         '</tpl>' +
                         '<tpl if="active == false">' +
-                        '<div class="x-boundlist-item" style="color:red;">{year} - {description}</div>' +
+                        '<div class="x-boundlist-item" style="color:red;">{year} - {name}</div>' +
                         '</tpl>' +
                         '</tpl>',
-                    displayTpl: '<tpl for=".">{year} - {description}</tpl>',
+                    displayTpl: '<tpl for=".">{year} - {name}</tpl>',
                     store: 'Researches'
                 }
             ]

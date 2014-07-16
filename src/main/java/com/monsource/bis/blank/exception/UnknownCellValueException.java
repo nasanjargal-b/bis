@@ -1,6 +1,5 @@
 package com.monsource.bis.blank.exception;
 
-import com.monsource.bis.blank.model.ColumnType;
 import com.monsource.bis.core.exception.BaseException;
 
 /**

@@ -3,19 +3,15 @@ package com.monsource.bis.data.entity;
 import com.monsource.bis.core.data.DataEntity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
- * Created by nasanjargal on 5/14/14.
+ * Created by nasanjargal on 6/20/14.
  */
 @Entity
 @Table(name = "blank_group", schema = "registration", catalog = "bis")
 public class BlankGroupEntity implements DataEntity {
     private String id;
     private String name;
-    private Set<BlankEntity> blanks;
-    private BlankGroupEntity blankGroup;
-    private Set<BlankGroupEntity> blankGroups;
 
     public BlankGroupEntity() {
     }
@@ -62,33 +58,5 @@ public class BlankGroupEntity implements DataEntity {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "blankGroup")
-    public Set<BlankEntity> getBlanks() {
-        return blanks;
-    }
-
-    public void setBlanks(Set<BlankEntity> blanks) {
-        this.blanks = blanks;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
-    public BlankGroupEntity getBlankGroup() {
-        return blankGroup;
-    }
-
-    public void setBlankGroup(BlankGroupEntity blankGroup) {
-        this.blankGroup = blankGroup;
-    }
-
-    @OneToMany(mappedBy = "blankGroup")
-    public Set<BlankGroupEntity> getBlankGroups() {
-        return blankGroups;
-    }
-
-    public void setBlankGroups(Set<BlankGroupEntity> blankGroups) {
-        this.blankGroups = blankGroups;
     }
 }
