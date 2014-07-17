@@ -18,11 +18,13 @@ public class ReportEntity implements DataEntity {
     private Integer order;
     private Boolean group;
     private ReportChartType chart;
+    private String chartCategory;
     private BlankEntity blank;
     private ReportEntity parent;
     private List<ReportEntity> children;
     private List<ReportQuestionEntity> reportQuestions;
     private List<ReportFilterEntity> reportFilters;
+    private List<ChartSeriesEntity> chartSerieses;
 
     public ReportEntity() {
     }
@@ -94,6 +96,16 @@ public class ReportEntity implements DataEntity {
         this.chart = chart;
     }
 
+    @Basic
+    @Column(name = "chart_category")
+    public String getChartCategory() {
+        return chartCategory;
+    }
+
+    public void setChartCategory(String chartCategory) {
+        this.chartCategory = chartCategory;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,7 +113,9 @@ public class ReportEntity implements DataEntity {
 
         ReportEntity that = (ReportEntity) o;
 
-        if (chart != null ? !chart.equals(that.chart) : that.chart != null) return false;
+        if (chart != that.chart) return false;
+        if (chartCategory != null ? !chartCategory.equals(that.chartCategory) : that.chartCategory != null)
+            return false;
         if (file != null ? !file.equals(that.file) : that.file != null) return false;
         if (group != null ? !group.equals(that.group) : that.group != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
@@ -119,6 +133,7 @@ public class ReportEntity implements DataEntity {
         result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (group != null ? group.hashCode() : 0);
         result = 31 * result + (chart != null ? chart.hashCode() : 0);
+        result = 31 * result + (chartCategory != null ? chartCategory.hashCode() : 0);
         return result;
     }
 
@@ -142,7 +157,7 @@ public class ReportEntity implements DataEntity {
         this.blank = blank;
     }
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<ReportEntity> getChildren() {
         return children;
     }
@@ -169,5 +184,15 @@ public class ReportEntity implements DataEntity {
 
     public void setReportFilters(List<ReportFilterEntity> reportFilters) {
         this.reportFilters = reportFilters;
+    }
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("order asc")
+    public List<ChartSeriesEntity> getChartSerieses() {
+        return chartSerieses;
+    }
+
+    public void setChartSerieses(List<ChartSeriesEntity> chartSerieses) {
+        this.chartSerieses = chartSerieses;
     }
 }

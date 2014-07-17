@@ -3,6 +3,10 @@ Ext.define('Report.view.ReportTreePanel', {
     alias: 'widget.reportTreePanel',
     title: 'Тайлангын жагсаалт',
     width: 400,
+    multiSelect: true,
+    viewConfig: {
+        plugins: { ptype: 'treeviewdragdrop' }
+    },
     dockedItems: [
         {
             xtype: 'toolbar',
@@ -11,7 +15,6 @@ Ext.define('Report.view.ReportTreePanel', {
                     text: 'Нэмэх',
                     icon: '/resources/images/add-16px.png',
                     action: 'add'
-
                 },
                 {
                     text: 'Устгах',

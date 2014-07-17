@@ -10,11 +10,13 @@ Ext.define('Report.model.Report', {
         {name: 'blankName', type: 'string', useNull: true},
         {name: 'group', type: 'boolean', useNull: true},
         {name: 'chart', type: 'string', useNull: true},
+        {name: 'chartCategory', type: 'string', useNull: true},
         {name: 'order', type: 'int', useNull: true}
     ],
     hasMany: [
         {model: 'Report.model.Column', name: 'columns'},
-        {model: 'Report.model.Filter', name: 'filters'}
+        {model: 'Report.model.Filter', name: 'filters'},
+        {model: 'Report.model.ChartSeries', name: 'chartSerieses'}
     ],
     proxy: {
         type: 'ajax',

@@ -48,9 +48,9 @@ Ext.define('Report.view.ReportPanel', {
                 },
                 {
                     xtype: 'textfield',
+                    readOnly: true,
                     name: 'parentName',
-                    fieldLabel: 'Групын нэр',
-                    allowBlank: false
+                    fieldLabel: 'Групын нэр'
                 },
                 {
                     xtype: 'combo',

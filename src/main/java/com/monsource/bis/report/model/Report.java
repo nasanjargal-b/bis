@@ -18,14 +18,17 @@ public class Report implements TreeModel<Integer> {
     private String blankName;
     private boolean group = false;
     private ReportChartType chart;
+    private String chartCategory;
     private Integer order;
     private List<Column> columns;
     private List<Filter> filters;
+    private List<ChartSeries> chartSerieses;
+    private List<Report> children;
 
     public Report() {
     }
 
-    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, ReportChartType chart, Integer order) {
+    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, ReportChartType chart, String chartCategory, Integer order) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -33,10 +36,11 @@ public class Report implements TreeModel<Integer> {
         this.blankId = blankId;
         this.blankName = blankName;
         this.chart = chart;
+        this.chartCategory = chartCategory;
         this.order = order;
     }
 
-    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, boolean group, ReportChartType chart, Integer order) {
+    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, boolean group, ReportChartType chart, String chartCategory, Integer order) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -45,6 +49,7 @@ public class Report implements TreeModel<Integer> {
         this.blankName = blankName;
         this.group = group;
         this.chart = chart;
+        this.chartCategory = chartCategory;
         this.order = order;
     }
 
@@ -112,6 +117,14 @@ public class Report implements TreeModel<Integer> {
         this.chart = chart;
     }
 
+    public String getChartCategory() {
+        return chartCategory;
+    }
+
+    public void setChartCategory(String chartCategory) {
+        this.chartCategory = chartCategory;
+    }
+
     public Integer getOrder() {
         return order;
     }
@@ -136,13 +149,25 @@ public class Report implements TreeModel<Integer> {
         this.filters = filters;
     }
 
+    public List<ChartSeries> getChartSerieses() {
+        return chartSerieses;
+    }
+
+    public void setChartSerieses(List<ChartSeries> chartSerieses) {
+        this.chartSerieses = chartSerieses;
+    }
+
     @Override
     public boolean isLeaf() {
         return !group;
     }
 
     @Override
-    public List getChildren() {
-        return null;
+    public List<Report> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Report> children) {
+        this.children = children;
     }
 }

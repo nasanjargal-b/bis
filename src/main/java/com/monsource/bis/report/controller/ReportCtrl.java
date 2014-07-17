@@ -34,6 +34,17 @@ public class ReportCtrl {
     }
 
     /**
+     * @param reports
+     */
+    @RequestMapping(value = "reports.json", method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional
+    public JsonData saveOrder(@RequestBody List<Report> reports) {
+        reportSrv.saveOrder(reports, 0, null);
+        return new JsonData(true);
+    }
+
+    /**
      * @param id
      */
     @RequestMapping(value = "report.json", method = RequestMethod.GET)

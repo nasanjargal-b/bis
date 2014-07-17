@@ -1,18 +1,15 @@
 Ext.define('Report.controller.ReportCtrl', {
     extend: 'Ext.app.Controller',
     init: function () {
-        var me = this; // todo delete
-        window.setTimeout(function () { //todo delete
-            var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
-            me.edit(tree.getRootNode().childNodes[0].childNodes[0].get('id'));
-            window.setTimeout(function () {
-                var tab = Ext.ComponentQuery.query('reportPanel')[0].down('tabpanel');
-                tab.setActiveTab(2);
-            }, 500);
-        }, 500);
         this.control({
             'reportPanel button[action="save"]': {
                 click: this.save
+            },
+            'reportTreePanel button[action="add"]': {
+                click: this.add
+            },
+            'reportTreePanel button[action="delete"]': {
+                click: this.delete
             },
             /*--------------------------*/
             'reportTreePanel': {
@@ -20,7 +17,32 @@ Ext.define('Report.controller.ReportCtrl', {
                     if (record.isLeaf()) {
                         this.edit(record.get('id'));
                     }
+                },
+                cellcontextmenu: function (grid, td, cellIndex, record, tr, rowIndex, e, eOpts) {
+                    e.stopEvent();
+                    if (!record.isLeaf()) {
+                        var position = e.getXY();
+                        var recordContextMenu = Ext.create('Report.view.ReportContextMenu');
+                        if (record.isRoot()) recordContextMenu.down('menuitem[action="edit"]').setDisabled(true);
+                        else recordContextMenu.down('menuitem[action="edit"]').setDisabled(false);
+                        recordContextMenu.record = record;
+                        recordContextMenu.showAt(position);
+                    }
                 }
+            },
+            'reportContextMenu menuitem': {
+                click: function (item) {
+                    var record = item.ownerCt.record;
+                    this.editGroup(record, item.action == 'edit');
+                }
+            },
+            'reportGroupWindow button[action="save"]': {
+                click: function (btn) {
+                    this.saveGroup(btn.up('window'));
+                }
+            },
+            'reportTreePanel treeview': {
+                drop: this.saveReportOrder
             },
             'combo[name="blankId"]': {
                 change: this.blank
@@ -55,6 +77,8 @@ Ext.define('Report.controller.ReportCtrl', {
                 jsonData: data,
                 success: function (response) {
                     form.unmask();
+                    var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
+                    tree.getStore().load();
                     var result = Ext.decode(response.responseText);
                     me.edit(result.data);
                 },
@@ -63,6 +87,66 @@ Ext.define('Report.controller.ReportCtrl', {
                 }
             })
         }
+    },
+    saveGroup: function (win) {
+        var form = win.down('form');
+        if (form.getForm().isValid()) {
+            var record = form.getRecord();
+            record.set('name', form.down('textfield').getValue());
+            var group = {
+                id: record.get('id'),
+                group: true,
+                name: record.get('name'),
+                parentId: record.get('parentId') == 0 ? null : record.get('parentId'),
+                columns: [],
+                filters: [],
+                chartSerieses: []
+            };
+
+            Ext.Ajax.request({
+                url: '/report-mod/report/report.json',
+                jsonData: group,
+                success: function () {
+                    win.close();
+                    var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
+                    tree.getStore().load();
+                }
+            })
+        }
+    },
+    saveReportOrder: function () {
+
+        var recurReport = function (report, children) {
+            report.children = [];
+            for (var i = 0; i < children.length; i++) {
+                var node = children[i];
+                report.children[i] = {
+                    id: node.get('id')
+                };
+                recurReport(report.children[i], node.childNodes);
+            }
+        }
+
+        var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
+        var reports = [];
+        var rootNode = tree.getRootNode();
+        for (var i = 0; i < rootNode.childNodes.length; i++) {
+            var node = rootNode.childNodes[i];
+            reports[i] = {
+                id: node.get('id')
+            };
+            recurReport(reports[i], node.childNodes);
+        }
+
+        Ext.Ajax.request({
+            url: '/report-mod/report/reports.json',
+            method: 'post',
+            jsonData: reports,
+            success: function () {
+                tree.getStore().load();
+            }
+        });
+
     },
     getFormData: function () {
         var form = Ext.ComponentQuery.query('reportPanel')[0];
@@ -73,10 +157,13 @@ Ext.define('Report.controller.ReportCtrl', {
             name: form.down('textfield[name="name"]').getValue(),
             parentId: record.get('parentId'),
             blankId: record.get('blankId'),
-            chart: record.get('chart'),
+            chart: record.get('chart') == "" ? null : record.get('chart'),
+            chartCategory: record.get('chartCategory') == "" ? null : record.get('chartCategory'),
+            group: false,
             order: record.get('order'),
             columns: [],
-            filters: []
+            filters: [],
+            chartSerieses: []
         };
 
         record.columns().each(function (cRecord) {
@@ -138,9 +225,19 @@ Ext.define('Report.controller.ReportCtrl', {
             data.filters[data.filters.length] = filter;
         })
 
+        record.chartSerieses().each(function (sRecord) {
+            var series = {
+                id: sRecord.get('id'),
+                type: sRecord.get('type'),
+                field: sRecord.get('field')
+            };
+
+            data.chartSerieses[data.chartSerieses.length] = series;
+        });
+
         return data;
     },
-    edit: function (id) {
+    edit: function (id, node) {
         var me = this;
         if (id != null) {
             Report.model.Report.load(id, {
@@ -149,7 +246,22 @@ Ext.define('Report.controller.ReportCtrl', {
                 }
             });
         } else {
-            me.buildReportPanel(Ext.create('Report.model.Report'));
+            var record = Ext.create('Report.model.Report');
+            record.set('parentId', node.get('id') == 0 ? null : node.get('id'));
+            record.set('parentName', node.get('name'));
+            me.buildReportPanel(record);
+        }
+    },
+    editGroup: function (record, edit) {
+        var win = Ext.createWidget('reportGroupWindow');
+        if (edit) {
+            win.down('form').loadRecord(record);
+        } else {
+            var report = Ext.create('Report.model.Report');
+            report.set('leaf', false);
+            report.set('group', true);
+            report.set('parentId', record.get('id') == 0 ? null : record.get('id'));
+            win.down('form').loadRecord(report);
         }
     },
     buildReportPanel: function (record) {
@@ -189,37 +301,78 @@ Ext.define('Report.controller.ReportCtrl', {
 
         var chartColumnGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartColumnGrid"]');
         chartColumnGrid.reconfigure(record.columns());
+        var chartSeriesGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartSeriesGrid"]');
+        chartSeriesGrid.reconfigure(record.chartSerieses());
 
     },
     blank: function (cmb, value) {
-        Report.model.Blank.load(value, {
-            success: function (record) {
-                var grids = Ext.ComponentQuery.query('questionGrid');
+        if (value)
+            Report.model.Blank.load(value, {
+                success: function (record) {
+                    var grids = Ext.ComponentQuery.query('questionGrid');
 
-                var store = record.questions();
-                store.insert(0, [
-                    Ext.create('Report.model.Question', {
-                        code: '$R',
-                        text: 'Судалгаа',
-                        type: 'TEXT'
-                    }),
-                    Ext.create('Report.model.Question', {
-                        code: '$C',
-                        text: 'Хот/Аймаг',
-                        type: 'TEXT'
-                    }),
-                    Ext.create('Report.model.Question', {
-                        code: '$D',
-                        text: 'Сум/Дүүрэг',
-                        type: 'TEXT'
-                    })
-                ]);
+                    var store = record.questions();
+                    store.insert(0, [
+                        Ext.create('Report.model.Question', {
+                            code: '$R',
+                            text: 'Судалгаа',
+                            type: 'TEXT'
+                        }),
+                        Ext.create('Report.model.Question', {
+                            code: '$C',
+                            text: 'Хот/Аймаг',
+                            type: 'TEXT'
+                        }),
+                        Ext.create('Report.model.Question', {
+                            code: '$D',
+                            text: 'Сум/Дүүрэг',
+                            type: 'TEXT'
+                        })
+                    ]);
 
-                for (var i = 0; i < grids.length; i++) {
-                    var grid = grids[i];
-                    grid.reconfigure(store);
+                    for (var i = 0; i < grids.length; i++) {
+                        var grid = grids[i];
+                        grid.reconfigure(store);
+                    }
                 }
-            }
-        });
+            });
+    },
+    add: function () {
+        var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
+        var nodes = tree.getSelectionModel().getSelection();
+        if (nodes.length == 0) {
+            nodes = [tree.getRootNode()];
+        }
+        this.edit(null, nodes[0]);
+    },
+    delete: function () {
+        var me = this;
+        var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
+        var nodes = tree.getSelectionModel().getSelection();
+        if (nodes.length > 0) {
+            Ext.MessageBox.confirm('Асуулт', 'Та устгах үйлдлийг хийхдээ итгэлтэй байна уу!!!', function (btn) {
+                if (btn == 'yes') {
+                    var data = [];
+                    for (var i = 0; i < nodes.length; i++) {
+                        var node = nodes[i];
+                        data[i] = {
+                            id: node.get('id')
+                        };
+                    }
+
+                    Ext.Ajax.request({
+                        url: '/report-mod/report/report.json',
+                        method: 'delete',
+                        jsonData: data,
+                        success: function () {
+                            me.getMainPanel().removeAll();
+                            tree.getStore().load();
+                        }
+                    })
+                }
+            })
+        } else {
+            Ext.MessageBox.alert('Алдаа', 'Та устгах тайлангаа сонгоно уу!!!');
+        }
     }
 });

@@ -19,7 +19,8 @@ Ext.define('Report.view.ChartPanel', {
             viewConfig: {
                 copy: true,
                 plugins: {
-                    ptype: 'gridviewdragdrop'
+                    ptype: 'gridviewdragdrop',
+                    ddGroup: 'fieldGroup'
                 }
             },
             forceFit: true,
@@ -28,20 +29,12 @@ Ext.define('Report.view.ChartPanel', {
                 {
                     text: 'Код',
                     dataIndex: 'code',
-                    width: 100,
-                    editor: {
-                        xtype: 'textfield',
-                        allowBlank: false
-                    }
+                    width: 100
                 },
                 {
                     text: 'Нэр',
                     dataIndex: 'name',
-                    width: 150,
-                    editor: {
-                        xtype: 'textfield',
-                        allowBlank: false
-                    }
+                    width: 150
                 },
                 {
                     text: 'Төрөл',
@@ -78,22 +71,92 @@ Ext.define('Report.view.ChartPanel', {
             items: [
                 {
                     region: 'north',
-                    xtype: 'combo',
-                    name: 'chart',
-                    fieldLabel: 'Төрөл сонгох',
-                    editable: false,
-                    valueField: 'id',
-                    displayField: 'name',
-                    tpl: new Ext.XTemplate('<tpl for="."><div style="height:22px;" class="x-boundlist-item" role="option">{name}</div></tpl>'),
-                    store: Ext.create('Ext.data.Store', {
-                        fields: ['id', 'name'],
-                        data: [
-                            {id: null, name: ''},
-                            {id: 'BAR', name: 'Bar Chart'},
-                            {id: 'PIE', name: 'Pie Chart'},
-                            {id: 'PIED', name: 'Donut Chart'}
-                        ]
-                    })
+                    xtype: 'panel',
+                    bodyStyle: 'background-color:#dfe9f6',
+                    border: false,
+                    defaults: {
+                        padding: '0 0 0 5',
+                        width: 300
+                    },
+                    items: [
+                        {
+                            xtype: 'combo',
+                            name: 'chart',
+                            fieldLabel: 'Төрөл сонгох',
+                            editable: false,
+                            valueField: 'id',
+                            displayField: 'name',
+                            tpl: new Ext.XTemplate('<tpl for="."><div style="height:22px;" class="x-boundlist-item" role="option">{name}</div></tpl>'),
+                            store: Ext.create('Ext.data.Store', {
+                                fields: ['id', 'name'],
+                                data: [
+                                    {id: null, name: ''},
+                                    {id: 'BAR', name: 'Bar Chart'},
+                                    {id: 'PIE', name: 'Pie Chart'},
+                                    {id: 'PIED', name: 'Donut Chart'}
+                                ]
+                            })
+                        },
+                        {
+                            xtype: 'textfield',
+                            name: 'chartCategory',
+                            ddGroup: 'fieldGroup',
+                            readOnly: true,
+                            fieldLabel: 'Категори багана'
+                        }
+                    ]
+                },
+                {
+                    region: 'center',
+                    xtype: 'grid',
+                    padding: '0 0 0 5',
+                    action: 'chartSeriesGrid',
+                    plugins: Ext.create('Ext.grid.plugin.CellEditing', {
+                        clicksToEdit: 1
+                    }),
+                    viewConfig: {
+                        plugins: {
+                            ptype: 'gridviewdragdrop',
+                            ddGroup: 'fieldGroup'
+                        }
+                    },
+                    multiSelect: true,
+                    columns: [
+                        {
+                            text: 'Код',
+                            dataIndex: 'field',
+                            width: 100
+                        },
+                        {
+                            text: 'Төрөл',
+                            width: 100,
+                            dataIndex: 'type',
+                            editor: {
+                                xtype: 'combo',
+                                allowBlank: false,
+                                editable: false,
+                                valueField: 'id',
+                                displayField: 'name',
+                                store: Ext.create('Ext.data.Store', {
+                                    fields: ['id', 'name'],
+                                    data: [
+                                        {id: 'COLUMN', name: 'Багана'},
+                                        {id: 'LINE', name: 'Шугаман'}
+                                    ]
+                                })
+                            },
+                            renderer: function (value) {
+                                switch (value) {
+                                    case 'COLUMN':
+                                        return'Багана';
+                                    case 'LINE':
+                                        return'Шугаман';
+                                    case 'PIE':
+                                        return'Pie';
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         }

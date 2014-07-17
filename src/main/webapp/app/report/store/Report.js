@@ -5,6 +5,7 @@ Ext.define('Report.store.Report', {
     root: {
         id: 0,
         text: 'Тайлангууд',
+        name: 'Тайлангууд',
         expanded: true
     },
     sorters: [

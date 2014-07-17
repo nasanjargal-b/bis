@@ -29,6 +29,7 @@ public class ReportService {
                 reportEntity.getBlank().getId(),
                 reportEntity.getBlank().getName(),
                 reportEntity.getChart(),
+                reportEntity.getChartCategory(),
                 reportEntity.getOrder()
         );
 
@@ -109,6 +110,11 @@ public class ReportService {
             report.getFilters().add(filter);
         }
 
+        report.setChartSerieses(new ArrayList<ChartSeries>());
+        for (ChartSeriesEntity chartSeriesEntity : reportEntity.getChartSerieses()) {
+            report.getChartSerieses().add(new ChartSeries(chartSeriesEntity.getId(), chartSeriesEntity.getField(), chartSeriesEntity.getType()));
+        }
+
         return report;
     }
 
@@ -120,22 +126,26 @@ public class ReportService {
         if (report.getId() == null) {
             reportEntity = new ReportEntity();
             reportEntity.setId(report.getId());
+            reportEntity.setOrder(Integer.MAX_VALUE);
             reportEntity.setReportQuestions(new ArrayList<ReportQuestionEntity>());
             reportEntity.setReportFilters(new ArrayList<ReportFilterEntity>());
+            reportEntity.setChartSerieses(new ArrayList<ChartSeriesEntity>());
         } else {
             reportEntity = reportDao.get(report.getId());
             reportEntity.getReportQuestions().clear();
             reportEntity.getReportFilters().clear();
+            reportEntity.getChartSerieses().clear();
         }
 
 
         reportEntity.setName(report.getName());
-        reportEntity.setOrder(report.getOrder());
-        reportEntity.setGroup(false);
+        reportEntity.setGroup(report.isGroup());
         reportEntity.setChart(report.getChart());
+        reportEntity.setChartCategory(report.getChartCategory());
         if (report.getParentId() != null)
             reportEntity.setParent(new ReportEntity(report.getParentId()));
-        reportEntity.setBlank(new BlankEntity(report.getBlankId()));
+        if (report.getBlankId() != null)
+            reportEntity.setBlank(new BlankEntity(report.getBlankId()));
 
         int order = 0;
         for (Column column : report.getColumns()) {
@@ -196,18 +206,44 @@ public class ReportService {
             reportEntity.getReportFilters().add(reportFilterEntity);
         }
 
+        order = 0;
+        for (ChartSeries chartSeries : report.getChartSerieses()) {
+            ChartSeriesEntity chartSeriesEntity = new ChartSeriesEntity();
+            chartSeriesEntity.setId(chartSeries.getId());
+            chartSeriesEntity.setType(chartSeries.getType());
+            chartSeriesEntity.setField(chartSeries.getField());
+            chartSeriesEntity.setReport(reportEntity);
+            chartSeriesEntity.setOrder(order);
+
+            reportEntity.getChartSerieses().add(chartSeriesEntity);
+
+        }
+
         reportEntity = reportDao.merge(reportEntity);
 
         return reportEntity.getId();
 
     }
 
+    public void saveOrder(List<Report> reports, Integer order, ReportEntity parent) {
+        for (Report report : reports) {
+            ReportEntity reportEntity = reportDao.get(report.getId());
+            reportEntity.setOrder(order++);
+            reportEntity.setParent(parent);
+            reportDao.merge(reportEntity);
+            saveOrder(report.getChildren(), order, reportEntity);
+        }
+    }
+
     /**
      * @param reports
      */
     public void delete(List<Report> reports) {
-        // TODO - implement ReportService.delete
-        throw new UnsupportedOperationException();
-    }
+        for (Report report : reports) {
+            ReportEntity reportEntity = reportDao.get(report.getId());
+            reportDao.delete(reportEntity);
+        }
 
+        reportDao.flush();
+    }
 }

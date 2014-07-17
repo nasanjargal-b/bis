@@ -4,6 +4,7 @@ import com.monsource.bis.core.data.HibernateDaoSupport;
 import com.monsource.bis.data.entity.ReportEntity;
 import com.monsource.bis.report.model.*;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -36,6 +37,8 @@ public class ReportDao extends HibernateDaoSupport<ReportEntity> {
                         .add(Projections.property("group"), "group")
                         .add(Projections.property("order"), "order")
         );
+
+        criteria.addOrder(Order.asc("order"));
 
         criteria.setResultTransformer(Transformers.aliasToBean(Report.class));
 
