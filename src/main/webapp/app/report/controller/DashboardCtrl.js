@@ -1,87 +1,80 @@
-Ext.define('Dashboard.controller.DashboardCtrl', {
-    views:['DashboardPanel'],
+Ext.define('Report.controller.DashboardCtrl', {
+    views: ['DashboardPanel', 'MainWindow'],
     extend: 'Ext.app.Controller',
-
     init: function () {
-
         this.control({
-            'DashboardPanel':{
-                afterrender:function(panel){
-                    this.mapInit(panel)
+            'DashboardPanel': {
+                afterrender: function (panel) {
+                    var me = this;
+                    this.mapInit(panel, this)
                 }
             },
-            'DashboardPanel button[action="load"]':{
-                click:function(btn){
-//                    var viewport =btn.up('panel').up('viewport');
-//                    viewport.remove(btn.up('panel').up('viewport').down('DashboardPanel'));
-////                    console.log(viewport.down('center'))
-//                    viewport.add({
-//                        xtype: 'DashboardPanel',
-//                        border: false,
-//                        layout: 'fit',
-//                        region: 'center',
-//                        bodyStyle: 'background-color:#dfe9f6'
-//                    });
-//                    viewport.update();
-//                    viewport.doLayout();
-                    this.mapInit(btn.up('panel'),true)
+//            'MainWindow':{
+//                afterrender:function(){
+//                    alert('sdadsad')
+//                }
+//            },
+            'DashboardPanel button[action="load"]': {
+                click: function (btn) {
+                    var me = this;
+                    this.mapInit(btn.up('panel'), me)
                 }
             }
         });
     },
-    mapInit:function(panel,zoom){
-        var map=null;
-        var parser=null;
+    mapInit: function (panel, me) {
+        var map = null;
+        var parser = null;
         console.log(panel)
 
         var data = Array();
         data[0] = 'Aimag3.kml';
-            mapOptions = {
-                zoom: 6,
-                center:	new google.maps.LatLng(46.9502622421856, 101.58984375),
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                mapTypeControl: true,
-                mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                    position: google.maps.ControlPosition.TOP_CENTER
-                },
-                panControl: true,
-                panControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_TOP
-                },
-                zoomControl: true,
-                zoomControlOptions: {
-                    style: google.maps.ZoomControlStyle.LARGE,
-                    position: google.maps.ControlPosition.RIGHT_TOP
-                },
-                scaleControl: true,
-                scaleControlOptions: {
-                    position: google.maps.ControlPosition.BOTTOM_CENTER
-                },
-                streetViewControl: true,
-                streetViewControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_TOP
-                }
-            };
-            map = new google.maps.Map(panel.body.dom,mapOptions);
-            parser = new geoXML3.parser({
-                map: map,
-                afterParse: useTheData,
-                hideCloseButton: true,
-                suppressInfoWindows: true,
-                animation: google.maps.Animation.map
-            })
-
-            for (var i = 0; i < 1; i++) {
-                parser.parse('resources/kml/' + data[i]);
+        mapOptions = {
+            zoom: 6,
+            center: new google.maps.LatLng(46.9502622421856, 101.58984375),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.TOP_CENTER
+            },
+            panControl: true,
+            panControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_TOP
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.LARGE,
+                position: google.maps.ControlPosition.RIGHT_TOP
+            },
+            scaleControl: true,
+            scaleControlOptions: {
+                position: google.maps.ControlPosition.BOTTOM_CENTER
+            },
+            streetViewControl: true,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_TOP
             }
-            aimagBunbble(map, true);
+        };
+        map = new google.maps.Map(panel.body.dom, mapOptions);
+        parser = new geoXML3.parser({
+            map: map,
+            afterParse: useTheData,
+            hideCloseButton: true,
+            suppressInfoWindows: true,
+            animation: google.maps.Animation.map
+        })
+
+        for (var i = 0; i < 1; i++) {
+            parser.parse('resources/kml/' + data[i]);
+        }
+        aimagBunbble(map, true);
         function useTheData(doc) {
             geoXmlDoc = doc;
             try {
                 for (var i = 0; i < doc[0].placemarks.length; i++) {
                     var placemark = doc[0].placemarks[i];
-                    placemark.polygon.setOptions({ fillColor: '#d4cb2c',fillOpacity: 0.5 });
+                    placemark.polygon.setOptions({ fillColor: '#d4cb2c', fillOpacity: 0.5 });
                     polygonMouseover(placemark.polygon, placemark);
                 }
             } catch (e) {
@@ -90,20 +83,22 @@ Ext.define('Dashboard.controller.DashboardCtrl', {
         }
         ;
         var win = null;
+
         function polygonMouseover(poly, text) {
             google.maps.event.addListener(poly, 'click', function (evt) {
 //                win.close();
 
                 console.clear();
                 console.log(evt.latLng)
-                for (var j = 6; j < 8; j++) {
-                    map.setZoom(j);
-                    map.setCenter(evt.latLng);
-                }
+
                 aimagBunbble(map, false);
                 console.log(text);
                 var para = new Date();
                 if (text.name != 'sum') {
+                    for (var j = 6; j < 8; j++) {
+                        map.setZoom(j);
+                        map.setCenter(evt.latLng);
+                    }
                     for (var i = 0; i < 1; i++) {
                         parser.hideDocument(parser.docs[i]);
                     }
@@ -180,6 +175,19 @@ Ext.define('Dashboard.controller.DashboardCtrl', {
                     var a = text.description;
                     a = a.toString().split(" ")[1];
                     console.log(a);
+                    me.getMainWindowView().create({
+                        listeners: {
+                            afterrender: function () {
+                                Ext.Ajax.request({
+                                    url: 'deleteRole.html',
+                                    method: 'POST',
+                                    params: {
+                                        sumId : a
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
             });
 

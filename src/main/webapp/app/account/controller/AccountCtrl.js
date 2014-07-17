@@ -91,8 +91,7 @@ Ext.define('Account.controller.AccountCtrl', {
     },
     add: function (btn) {
         var win = this.getAccountPanelView().create();
-        var model = this.getAccountModel().create();
-        win.down('form').load(model);
+        alert('add')
     },
     edit: function (view, record) {
         var win = this.getAccountPanelView().create();

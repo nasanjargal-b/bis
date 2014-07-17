@@ -1,6 +1,6 @@
-Ext.define('Dashboard.view.DashboardPanel', {
+Ext.define('Report.view.DashboardPanel', {
     extend: 'Ext.form.Panel',
-    title: 'Судалгаа',
+    title: 'Газарын зураг',
     layout: 'fit',
     id:'board',
     bodyStyle: 'background-color:#dfe9f6',
