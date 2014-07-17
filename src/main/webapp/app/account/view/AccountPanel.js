@@ -158,10 +158,12 @@ Ext.define('Account.view.AccountPanel', {
         buttons: [
             {
                 text: 'Хадгалах',
+                icon:'/resources/images/save-16px.png',
                 action: 'save'
             },
             {
                 text: 'Хаах',
+                icon:'/resources/images/close-16px.png',
                 action: 'close',
                 listeners:{
                     click:function(btn){
