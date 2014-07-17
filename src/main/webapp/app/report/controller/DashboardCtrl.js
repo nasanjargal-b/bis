@@ -174,20 +174,7 @@ Ext.define('Report.controller.DashboardCtrl', {
                 } else {
                     var a = text.description;
                     a = a.toString().split(" ")[1];
-                    console.log(a);
-                    me.getMainWindowView().create({
-                        listeners: {
-                            afterrender: function () {
-                                Ext.Ajax.request({
-                                    url: 'deleteRole.html',
-                                    method: 'POST',
-                                    params: {
-                                        sumId : a
-                                    }
-                                });
-                            }
-                        }
-                    });
+                    me.loadWindow(a,me);
                 }
             });
 
@@ -201,5 +188,8 @@ Ext.define('Report.controller.DashboardCtrl', {
             google.maps.event.addListener(map, 'center_changed', function (evt) {
             });
         }
+    },
+    loadWindow:function(id,me){
+
     }
 });
