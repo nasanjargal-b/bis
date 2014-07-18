@@ -6,6 +6,12 @@ Ext.define('Blank.view.RecordContextMenu', {
             action: 'delete',
             icon: '/resources/images/delete-16px.png',
             record: null
+        },
+        {
+            text: 'Бүгдийн устгах',
+            action: 'deleteAll',
+            icon: '/resources/images/delete-16px.png',
+            record: null
         }
     ]
 });

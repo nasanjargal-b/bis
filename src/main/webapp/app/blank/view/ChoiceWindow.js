@@ -20,6 +20,7 @@ Ext.define('Blank.view.ChoiceWindow', {
             },
             {
                 text: 'Устгах',
+                action:'delete',
                 icon: '/resources/images/delete-16px.png'
             }
         ]

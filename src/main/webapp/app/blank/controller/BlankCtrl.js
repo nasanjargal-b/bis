@@ -11,6 +11,15 @@ Ext.define('Blank.controller.BlankCtrl', {
                     view.getStore().load();
                 }
             },
+            'questionTreePanel': {
+                cellcontextmenu: function (grid, td, cellIndex, record, tr, rowIndex, e, eOpts) {
+                    var position = e.getXY();
+                    e.stopEvent();
+                    var recordContextMenu = Ext.create('Blank.view.BlankContextMenu');
+                    recordContextMenu.down('menuitem[action="add"]').record = record;
+                    recordContextMenu.showAt(position);
+                }
+            },
             'blankGrid button': {
                 click: function (btn) {
                     if (btn.action == 'add') {
@@ -103,7 +112,12 @@ Ext.define('Blank.controller.BlankCtrl', {
         var order = {
             num: 0
         };
-
+//        for (var i = 0; i < root.childNodes.length; i++) {
+//            var node = root.childNodes[i];
+//            for (var j=0; j<node.childNodes.length;j++) {
+//                node.childNodes[j].get('code');
+//            }
+//        }
         for (var i = 0; i < root.childNodes.length; i++) {
             var node = root.childNodes[i];
             questions[questions.length] = this.getNodeData(node, order);

@@ -190,6 +190,6 @@ Ext.define('Report.controller.DashboardCtrl', {
         }
     },
     loadWindow:function(id,me){
-
+        console.log('sum id: '+id);
     }
 });

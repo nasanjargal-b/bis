@@ -20,10 +20,12 @@ Ext.application({
                 {
                     border: false,
                     layout: 'fit',
+                    height:'100%',
+                    collapsible: true,
                     width:300,
                     xtype:'reportViewTreePanel',
                     region: 'west',
-                    bodyStyle: 'background-color:#dfe9f6'
+                    bodyStyle: 'background-color:white'
                 }
             ]
         });
