@@ -286,7 +286,7 @@ public class RecordFileService {
             if (code != null && !code.equals("")) {
                 boolean isMatch = false;
                 for (MetaData meta : metaDatas) {
-                    if (code.equals(meta.getCode().toUpperCase())) {
+                    if (code.toUpperCase().equals(meta.getCode().toUpperCase())) {
                         isMatch = true;
                         codes.put(cell.getColumnIndex(), meta);
                         break;
