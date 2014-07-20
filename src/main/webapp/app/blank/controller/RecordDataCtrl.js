@@ -8,6 +8,9 @@ Ext.define('Blank.controller.RecordDataCtrl', {
             'menuitem[action="delete"]': {
                 click: this.delete
             },
+            'menuitem[action="deleteAll"]': {
+                click: this.deleteAll
+            },
             'recordGrid button[action="refresh"]': {
                 click: function () {
                     this.getRecordGrid().getStore().reload();
@@ -111,6 +114,11 @@ Ext.define('Blank.controller.RecordDataCtrl', {
             this.getRecordGrid().getStore().remove(menuItem.record);
         }
     },
+    deleteAll: function (menuItem) {
+//        if (menuItem.record) {
+            this.getRecordGrid().getStore().removeAll();
+//        }
+    },
     download: function (btn) {
         var grid = btn.up('recordGrid');
         var blankId = grid.blankId;
@@ -126,6 +134,7 @@ Ext.define('Blank.controller.RecordDataCtrl', {
             form.submit({
                 success: function (f, action) {
                     form.unmask();
+                    Ext.MessageBox.alert('Мэдээлэл', 'Амжилттай хуулагдлаа');
                 },
                 failure: function (f, action) {
                     form.unmask();

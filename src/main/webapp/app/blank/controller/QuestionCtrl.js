@@ -17,6 +17,22 @@ Ext.define('Blank.controller.QuestionCtrl', {
                     }
                 }
             },
+            'menuitem[action="add"]': {
+                click: function(btn){
+                    this.add(Ext.ComponentQuery.query('questionTreePanel')[0]);
+                }
+            },
+            'questionTreePanel':{
+//              itemclick:function(record, index, node, eOpts){
+//                  alert('sdsd')
+//                  Ext.ComponentQuery.query('questionTreePanel')[0].getStore().each(function (model) {
+//                      console.log(model);
+////                      if (model) {
+////                          empty[empty.length] = record;
+////                      }
+//                  })
+//              }
+            },
             'questionTreePanel': {
                 edit: function (editor, e, eOpts) {
                     if ('GROUP' == e.record.get('type')) {
@@ -38,11 +54,23 @@ Ext.define('Blank.controller.QuestionCtrl', {
                 itemclick: function (view, record) {
                     var btn = view.up('treepanel').down('button[action="choice"]');
                     this.choiceBtnActive(btn, record.get('type'));
+                },
+                statesave:function(){
+                    alert('sadsda')
                 }
             },
             'choiceWindow grid': {
                 edit: function (editor, e) {
                     this.clearEmptyChoice(e.grid.getStore());
+                }
+//                ,
+//                afterrender:function(grid){
+//                    grid.getStore().reload();
+//                }
+            },
+            'choiceWindow button[action="delete"]': {
+                click: function (btn) {
+                    this.deleteChoice(btn.up('window').down('grid'));
                 }
             },
             'choiceWindow': {
@@ -87,7 +115,6 @@ Ext.define('Blank.controller.QuestionCtrl', {
     showChoice: function (tree) {
         var record = tree.getSelectionModel().getSelection()[0];
         var win = Ext.create('Blank.view.ChoiceWindow');
-
         win.down('grid').reconfigure(record.choices());
         record.choices().add(Ext.create('Blank.model.Choice'));
 
@@ -116,5 +143,9 @@ Ext.define('Blank.controller.QuestionCtrl', {
         } else {
             Ext.MessageBox.alert('Алдаа', 'Та устгах мөрөө сонгоно уу?');
         }
+    },
+    deleteChoice: function (grid) {
+        var model = grid.getSelectionModel().getSelection()[0];
+        grid.getStore().remove(model);
     }
 });
