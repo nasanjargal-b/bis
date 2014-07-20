@@ -1,7 +1,7 @@
 Ext.define('Blank.view.RecordBlankGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.recordBlankGrid',
-    title: 'Маягтын жагсаалт',
+    title: 'Анкетийн жагсаалт',
     width: 400,
     forceFit: true,
     dockedItems: [
@@ -40,12 +40,12 @@ Ext.define('Blank.view.RecordBlankGrid', {
     ],
     columns: [
         {
-            text: 'Маягтын код',
+            text: 'Анкетийн код',
             width: 80,
             dataIndex: 'id'
         },
         {
-            text: 'Маягтын Нэр',
+            text: 'Анкетийн Нэр',
             flex: 1,
             dataIndex: 'name'
         }

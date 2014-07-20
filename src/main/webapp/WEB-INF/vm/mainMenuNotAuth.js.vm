@@ -1,0 +1,25 @@
+Ext.create('Ext.toolbar.Toolbar', {
+    region: 'north',
+    defaults: {
+        hrefTarget: 'mainFrame'
+    },
+    border: false,
+
+    items: [
+        {
+            xtype: 'label',
+            html: '<img src="/resources/images/logomn-16px.png" style="position: fixed;top: 5px;left: 5px;"/>'
+        },
+        {
+            xtype: 'label',
+            html: '<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Барилга хот байгууллалтын яам</span>'
+        },
+        '->',
+        {
+
+            text: 'Нэвтрэх',
+            icon: '/resources/images/login-16px.png',
+            action: 'login'
+        }
+    ]
+});

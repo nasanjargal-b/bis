@@ -11,7 +11,7 @@ Ext.define('Report.view.MainWindow', {
                 layout: 'hbox',
                 xtype:'form',
                 margin:'5 5 0 5',
-                bodyStyle: 'background-color:#dfe9f6',
+                bodyStyle: 'background-color:'+PANEL_COLOR+'',
                 border: false,
                 items: [
                     {

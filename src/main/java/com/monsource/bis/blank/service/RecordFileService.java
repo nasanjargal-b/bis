@@ -28,9 +28,11 @@ import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.exception.DRException;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,86 +63,86 @@ public class RecordFileService {
     @Autowired
     ChoiceDao choiceDao;
 
-    public InputStream downloadXlsx(String blankId, Integer researchId, Integer districtId) throws DRException {
+    public InputStream downloadXlsx(String blankId, Integer researchId, Integer districtId) throws DRException, IOException {
 
         List<MetaData> metaDatas = questionSrv.getMetaData(blankId);
         List<Record> records = getRecords(blankId, researchId, districtId);
 
-        JasperReportBuilder report = report();
+        Workbook workbook = new XSSFWorkbook();
 
-        List<ColumnBuilder> columns = new ArrayList<>();
-        List<ColumnTitleGroupBuilder> headers = new ArrayList<>();
+        Sheet sheet = workbook.createSheet("Бичлэг");
+        int rowIndex = 1;
+        Row nameRow = sheet.createRow(rowIndex++);
+        Row row = sheet.createRow(rowIndex++);
 
-        StyleBuilder headerStyle = stl.style().bold().setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
-        headerStyle.setBorder(stl.border().setTopPen(stl.pen(.5f, LineStyle.SOLID)));
-        headerStyle.setBorder(stl.border().setBottomPen(stl.pen(.5f, LineStyle.SOLID)));
+        Font metaFont = workbook.createFont();
+        Font nameFont = workbook.createFont();
+        CellStyle metaStyle = workbook.createCellStyle();
+        CellStyle nameStyle = workbook.createCellStyle();
 
-        StyleBuilder contentStyle = stl.style().setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
+        metaFont.setFontHeightInPoints((short) 9);
 
+        nameFont.setFontHeightInPoints((short) 9);
+        nameFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+
+        metaStyle.setFont(metaFont);
+        metaStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        metaStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        metaStyle.setBorderTop(CellStyle.BORDER_THIN);
+        metaStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
+
+        nameStyle.setFont(nameFont);
+        nameStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        nameStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        nameStyle.setBorderTop(CellStyle.BORDER_THIN);
+        nameStyle.setBorderBottom(CellStyle.BORDER_THIN);
+
+        int i = 0;
         for (MetaData metaData : metaDatas) {
+            Cell metaCell = row.createCell(i);
+            Cell nameCell = nameRow.createCell(i++);
 
-            Class c = null;
+            metaCell.setCellValue(metaData.getCode());
+            metaCell.setCellStyle(metaStyle);
 
-            switch (metaData.getType()) {
-                case TEXT:
-                    c = String.class;
-                    break;
-                case DATE:
-                    c = Date.class;
-                    break;
-                case TIME:
-                    c = Time.class;
-                    break;
-                case NUMERIC:
-                    c = Double.class;
-                    break;
-                case SINGLE_CHOICE:
-                    c = String.class;
-                    break;
-                case MULTIPLE_CHOICE:
-                    c = String.class;
-                    break;
-            }
-
-            TextColumnBuilder column = Columns.column(metaData.getCode(), metaData.getCode(), c);
-            column.setStyle(contentStyle);
-
-            if (metaData.getType() == QuestionType.TIME) {
-                column.setValueFormatter(new AbstractValueFormatter<String, Time>() {
-                    @Override
-                    public String format(Time value, ReportParameters reportParameters) {
-                        DateFormat df = new SimpleDateFormat("HH:mm:ss");
-                        return df.format(value);
-                    }
-                });
-            } else if (metaData.getType() == QuestionType.DATE) {
-                column.setValueFormatter(new AbstractValueFormatter<String, Date>() {
-                    @Override
-                    public String format(Date value, ReportParameters reportParameters) {
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                        return df.format(value);
-                    }
-                });
-            }
-
-            columns.add(column);
-
-            headers.add(grid.titleGroup(metaData.getText(), column));
+            nameCell.setCellValue(metaData.getText());
+            nameCell.setCellStyle(nameStyle);
         }
 
+        Font recordFont = workbook.createFont();
+        recordFont.setFontHeightInPoints((short) 9);
 
-        report.setPageFormat(PageType.A4, PageOrientation.LANDSCAPE);
-        report.columns(columns.toArray(new ColumnBuilder[columns.size()]));
-        report.columnGrid(headers.toArray(new ColumnGridComponentBuilder[headers.size()]));
+        CellStyle recordStyle = workbook.createCellStyle();
+        recordStyle.setFont(recordFont);
 
-        report.setColumnTitleStyle(headerStyle);
-        report.setDetailFooterStyle(stl.style().setBottomBorder(stl.pen(.5f, LineStyle.SOLID)));
+        for (Record record : records) {
+            row = sheet.createRow(rowIndex++);
+            i = 0;
+            for (MetaData metaData : metaDatas) {
+                Cell recordCell = row.createCell(i++);
+                recordCell.setCellStyle(recordStyle);
+                Object data = record.get(metaData.getCode());
 
-        report.setDataSource(records);
-        report.highlightDetailEvenRows();
+                if (data instanceof String)
+                    recordCell.setCellValue((String) data);
+                else if (data instanceof Date)
+                    recordCell.setCellValue((Date) data);
+                else if (data instanceof Boolean)
+                    recordCell.setCellValue((Boolean) data);
+                else if (data instanceof Number)
+                    recordCell.setCellValue(((Number) data).doubleValue());
+
+
+            }
+        }
+
+        i = 0;
+        for (MetaData metaData : metaDatas) {
+            sheet.autoSizeColumn(i++);
+        }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        report.toXlsx(outputStream);
+        workbook.write(outputStream);
 
         return new ByteArrayInputStream(outputStream.toByteArray());
     }

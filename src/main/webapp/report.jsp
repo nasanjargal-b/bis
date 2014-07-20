@@ -12,12 +12,12 @@
     <jsp:include page="resource.jsp"/>
     <%--<link rel="stylesheet" href="/resources/ext/resources/css/ext-all.css"/>
     <link rel="stylesheet" href="/resources/codemirror/lib/codemirror.css"/>
-    <script type="application/javascript" src="/resources/codemirror/lib/codemirror.js"></script>
-    <script type="application/javascript" src="/resources/codemirror/mode/sql/sql.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-all-dev.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-override.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-ux.js"></script>--%>
-    <script type="application/javascript" src="/app/report/ReportApp.js"></script>
+    <script src="/resources/codemirror/lib/codemirror.js"></script>
+    <script src="/resources/codemirror/mode/sql/sql.js"></script>
+    <script src="/resources/ext/ext-all-dev.js"></script>
+    <script src="/resources/ext/ext-override.js"></script>
+    <script src="/resources/ext/ext-ux.js"></script>--%>
+    <script src="/app/report/ReportApp.js"></script>
     <%--<style>
         .CodeMirror {
             border: 1px solid #b5b8c8;

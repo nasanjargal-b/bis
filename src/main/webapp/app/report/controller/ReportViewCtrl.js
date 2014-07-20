@@ -1,11 +1,6 @@
 Ext.define('Report.controller.ReportViewCtrl', {
     extend: 'Ext.app.Controller',
     init: function () {
-        var me = this; // todo delete
-        window.setTimeout(function () { //todo delete
-            var tree = Ext.ComponentQuery.query('reportViewTreePanel')[0];
-            me.show(tree.getRootNode().childNodes[0].get('id'));
-        }, 500);
         this.control({
             'reportViewTreePanel': {
                 itemclick: function (view, record) {
@@ -22,7 +17,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
             'reportViewWindow button[action="download"]': {
                 click: function (btn) {
                     var data = btn.data;
-                    console.log(data);
+                    this.download(data, btn.up('window'));
                 }
             }
         });
@@ -47,36 +42,51 @@ Ext.define('Report.controller.ReportViewCtrl', {
     },
     showWindow: function (report) {
         var store = this.createStore(report);
-        var grid = this.createGrid(report, store);
         var chart = this.createChart(report, store);
 
-        var items = [grid];
+        store.load({
+            callback: function () {
+                var win = Ext.create('Report.view.ReportViewWindow', {
+                    title: 'Тайлан: ' + report.name,
+                    report: report,
+                    items: {
+                        xtype: 'panel',
+                        border: false,
+                        layout: 'fit',
+                        items: [
+                            {
+                                xtype: 'component',
+                                action: 'reportFrame',
+                                autoScroll: true
+                            }
+                        ]
+                    }
+                });
 
-        if (chart) items[1] = {
-            xtype: 'panel',
-            region: 'north',
-            height: 300,
-            layout: 'fit',
-            items: chart
-        };
+                win.chart = chart;
 
-        var win = Ext.create('Report.view.ReportViewWindow', {
-            title: 'Тайлан: ' + report.name,
-            items: {
-                xtype: 'panel',
-                border: false,
-                layout: 'border',
-                items: items
+                Ext.Ajax.request({
+                    url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML',
+                    success: function (response) {
+                        var frameCmp = win.down('component[action="reportFrame"]');
+                        frameCmp.update(response.responseText)
+                        if (chart)
+                            Ext.createWidget('panel', {
+                                layout: 'fit',
+                                border: false,
+                                width: 554,
+                                height: 300,
+                                items: chart,
+                                renderTo: 'chart'
+                            });
+                    }
+                });
             }
-        });
-
-        return win;
+        })
     },
     createChart: function (report, store) {
-        console.log(report);
         if (report.chart) {
             var chart = {
-                xtype: 'chart',
                 animate: true,
                 store: store,
                 shadow: true,
@@ -114,7 +124,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         },
                         grid: true,
                         minimum: 0,
-                        title:'Тоон утга'
+                        title: 'Тоон утга'
                     },
                     {
                         type: 'Category',
@@ -154,7 +164,6 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 }
 
                 if (columns.length > 0) {
-                    console.log(columns);
                     var titles = [];
 
                     for (var i = 0; i < columns.length; i++) {
@@ -168,8 +177,6 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         }
                     }
 
-                    console.log(titles);
-
                     series[series.length] = {
                         type: 'column',
                         axis: 'left',
@@ -182,7 +189,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 chart.series = series;
             } else {
                 var donut = 0;
-                if (report.chart == 'PIED') donut = 30;
+                if (report.chart == 'PIED') donut = 50;
 
                 series = [
                     {
@@ -197,7 +204,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         },
                         label: {
                             field: report.chartCategory,
-                            display: 'rotate',
+                            display: 'none',
                             contrast: true
                             //todo renderer value with percentage
                         }
@@ -208,12 +215,11 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 chart.series = series;
             }
 
-            return chart;
+            return Ext.create('Ext.chart.Chart', chart);
         }
         return null;
     },
     createStore: function (report) {
-        var items = [];
         var fields = [];
 
         for (var i = 0; i < report.columns.length; i++) {
@@ -223,7 +229,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
         }
         var store = Ext.create('Ext.data.Store', {
             fields: fields,
-            autoLoad: true,
+            autoLoad: false,
             proxy: {
                 type: 'ajax',
                 url: '/report-mod/view/data.json?id=' + report.id,
@@ -235,42 +241,44 @@ Ext.define('Report.controller.ReportViewCtrl', {
         });
         return store;
     },
-    createGrid: function (report, store) {
-        var columns = [];
+    download: function (data, win) {
+        var report = win.report;
+        var svg = null;
 
-        for (var i = 0; i < report.columns.length; i++) {
-            var rColumn = report.columns[i];
-            columns[i] = {
-                text: rColumn.name,
-                dataIndex: rColumn.code,
-                width: 150
-            }
-
-            if (rColumn.calcType != ('NORMAL' && 'GROUP') || rColumn.columnType == 'NUMERIC') {
-                columns[i].align = 'right';
-                columns[i].summaryType = 'sum';
-            }
-
-            if (rColumn.percent) {
-                var renderPercent = function (value) {
-                    return value + ' %';
-                };
-                columns[i].renderer = renderPercent;
-                columns[i].summaryRenderer = renderPercent;
-            }
+        var chart = win.chart;
+        if (chart) {
+            svg = chart.save({
+                type: 'image/svg+xml'
+            });
         }
 
-        var grid = Ext.createWidget('grid', {
-            region: 'center',
-            columns: columns,
-            features: [
+        var form = Ext.createWidget('form', {
+            url: '/report-mod/view/file.html',
+            method: 'post',
+            standardSubmit: true,
+            items: [
                 {
-                    ftype: 'summary'
+                    xtype: 'hiddenfield',
+                    name: 'reportId',
+                    value: report.id
+                },
+                {
+                    xtype: 'hiddenfield',
+                    name: 'svg',
+                    value: svg
+                },
+                {
+                    xtype: 'hiddenfield',
+                    name: 'type',
+                    value: data
                 }
-            ],
-            store: store
+            ]
         });
 
-        return grid;
+        form.submit({
+            reportId: report.id,
+            svg: svg,
+            type: data
+        })
     }
 });

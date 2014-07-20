@@ -2,7 +2,7 @@ Ext.define('Blank.view.ResearchPanel', {
     extend: 'Ext.form.Panel',
     title: 'Судалгаа',
     layout: 'fit',
-    bodyStyle: 'background-color:#dfe9f6',
+    bodyStyle: 'background-color:'+PANEL_COLOR+'',
     alias: 'widget.researchPanel',
     dockedItems: {
         xtype: 'toolbar',
@@ -24,7 +24,7 @@ Ext.define('Blank.view.ResearchPanel', {
             xtype: 'form',
             margin: '5 5 5 5',
             border: false,
-            bodyStyle: 'background-color:#dfe9f6',
+            bodyStyle: 'background-color:'+PANEL_COLOR+'',
             border: false,
             height: '100%',
             layout: 'vbox',
@@ -86,7 +86,7 @@ Ext.define('Blank.view.ResearchPanel', {
                         "height": "100%"
                     },
                     width: '100%',
-                    bodyStyle: 'background-color:#dfe9f6',
+                    bodyStyle: 'background-color:'+PANEL_COLOR+'',
                     border: false,
                     items: [
                         {

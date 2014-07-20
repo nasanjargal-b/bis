@@ -1,6 +1,6 @@
 Ext.application({
     name: 'Report',
-    controllers: ['DashboardCtrl','ReportViewCtrl'],
+    controllers: ['DashboardCtrl', 'ReportViewCtrl'],
     models: ['Report'],
     stores: ['Report'],
     views: ['ReportViewTreePanel', 'ReportViewWindow'],
@@ -10,20 +10,19 @@ Ext.application({
             layout: 'border',
             items: [
                 {
-                    xtype: 'DashboardPanel',
-                    border: true,
-                    layout: 'fit',
-                    region: 'center',
-                    bodyStyle: 'background-color:#dfe9f6'
-                }
-                ,
+                    width: 300,
+                    xtype: 'reportViewTreePanel',
+                    region: 'west',
+                    title: 'Эрэлт, нийллүүлэлтийн тайлан',
+                    collapsible: true,
+                    collapsed: true
+                },
                 {
+                    xtype: 'DashboardPanel',
                     border: false,
                     layout: 'fit',
-                    width:300,
-                    xtype:'reportViewTreePanel',
-                    region: 'west',
-                    bodyStyle: 'background-color:#dfe9f6'
+                    region: 'center',
+                    bodyStyle: 'background-color:'+PANEL_COLOR+''
                 }
             ]
         });

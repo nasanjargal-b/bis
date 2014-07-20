@@ -1,9 +1,9 @@
 Ext.define('Report.view.DashboardPanel', {
     extend: 'Ext.form.Panel',
-    title: 'Газарын зураг',
     layout: 'fit',
-    id:'board',
-    bodyStyle: 'background-color:#dfe9f6',
+    border: false,
+    id: 'board',
+    bodyStyle: 'background-color:'+PANEL_COLOR+'',
     alias: 'widget.DashboardPanel',
     dockedItems: [
         {
@@ -11,17 +11,18 @@ Ext.define('Report.view.DashboardPanel', {
             items: [
                 {
                     type: 'button',
-                    action:'load',
-                    text: 'Эх зураг'
+                    action: 'load',
+                    text: 'Эх зураг',
+                    icon: '/resources/images/map-16px.png'
                 }
             ]
         }
     ],
-    items:[
+    items: [
         {
-            xtype:'panel',
-            action:'doPanel',
-            html:"<div id='map'></div>"
+            xtype: 'panel',
+            action: 'doPanel',
+            html: "<div id='map'></div>"
         }
     ]
 });

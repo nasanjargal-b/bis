@@ -35,7 +35,7 @@ Ext.create('Ext.grid.Panel', {
                     blankId: '$blankId',
                     researchId: $researchId,
                     buttonConfig: {
-                        text: 'Маягт илгээх',
+                        text: 'Анкет илгээх',
                         icon: '/resources/images/upload-doc-16px.png'
                     },
                     action: 'upload'

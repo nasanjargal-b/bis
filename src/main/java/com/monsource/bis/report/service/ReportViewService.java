@@ -46,12 +46,11 @@ public class ReportViewService {
                     double number = ((Number) (value == null ? 0 : value)).doubleValue();
                     number = number * 100 / total;
 
-                    result.put(column.getCode(), Math.round(number));
+                    result.put(column.getCode(), number);
                 }
-                total = 0d;
+                /*total = 0d;
                 for (Map result : results) {
                     Object value = result.get(column.getCode());
-                    System.out.println(value);
                     total += ((Number) value).doubleValue();
                 }
                 for (Map result : results) {
@@ -60,9 +59,8 @@ public class ReportViewService {
                     number = number * 100 / total;
 
                     result.put(column.getCode(), Math.round(number));
-                }
+                }*/
 
-                System.out.println(column.getCode() + ":" + total);
             }
         }
 

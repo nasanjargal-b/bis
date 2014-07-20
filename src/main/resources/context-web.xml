@@ -7,7 +7,6 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:resources mapping="/app/**" location="/app/"/>
-    <mvc:resources mapping="/report-gen/**" location="/report-gen/"/>
 
     <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
         <property name="dateFormat">

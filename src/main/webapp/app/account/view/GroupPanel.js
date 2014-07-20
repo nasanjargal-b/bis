@@ -13,13 +13,13 @@ Ext.define('Account.view.GroupPanel', {
                 xtype:'form',
                 margin: '5 0 0 5',
                 border: false,
-                bodyStyle: 'background-color:#dfe9f6',
+                bodyStyle: 'background-color:'+PANEL_COLOR+'',
                 items: [
                     {
                         width: 300,
                         layout: 'vbox',
                         border: false,
-                        bodyStyle: 'background-color:#dfe9f6',
+                        bodyStyle: 'background-color:'+PANEL_COLOR+'',
                         items: [
                             {
                                 xtype: 'hiddenfield',
@@ -46,12 +46,12 @@ Ext.define('Account.view.GroupPanel', {
                                     layout: 'hbox',
                                     columnWidth: 0.5,
                                     margin:'0 0 10 0',
-                                    bodyStyle: 'background-color:#dfe9f6',
+                                    bodyStyle: 'background-color:'+PANEL_COLOR+'',
                                     border:false,
                                     items: [
                                         {
                                             layout: 'vbox',
-                                            bodyStyle: 'background-color:#dfe9f6',
+                                            bodyStyle: 'background-color:'+PANEL_COLOR+'',
                                             border:false,
                                             items: [
                                                 {
@@ -73,7 +73,7 @@ Ext.define('Account.view.GroupPanel', {
                                         {
                                             layout: 'vbox',
                                             margin:'0 0 0 40',
-                                            bodyStyle: 'background-color:#dfe9f6',
+                                            bodyStyle: 'background-color:'+PANEL_COLOR+'',
                                             border:false,
                                             items: [
                                                 {

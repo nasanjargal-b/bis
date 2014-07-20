@@ -19,7 +19,7 @@ Ext.application({
                     itemId: 'reportMainPanel',
                     layout: 'fit',
                     region: 'center',
-                    bodyStyle: 'background-color:#dfe9f6'
+                    bodyStyle: 'background-color:'+PANEL_COLOR+''
                 }
             ]
         });

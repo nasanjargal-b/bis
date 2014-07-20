@@ -91,6 +91,13 @@ public class RecordQueryBuilder {
     }
 
     private void initFilter() {
+
+        QueryFilter blankFilter = new QueryFilter();
+        blankFilter.setAlias(RECORD);
+        blankFilter.setColumn("blank_id");
+        blankFilter.setFilter("$ = \"" + report.getBlankId() + "\"");
+        queryFilters.add(blankFilter);
+
         for (Filter filter : report.getFilters()) {
             QueryFilter queryFilter = new QueryFilter();
             switch (filter.getType()) {
@@ -174,7 +181,7 @@ public class RecordQueryBuilder {
             String column = queryFilter.getAlias() + "." + queryFilter.getColumn();
 
             if (queryFilter.getFilter() != null) {
-                filterList.add("(" + queryFilter.getFilter().replace("$", column) + ")");
+                filterList.add("(" + queryFilter.getFilter().replace("\"","'").replace("$", column) + ")");
             } else if (queryFilter.getResearchId() != null) {
                 filterList.add(column + " = " + queryFilter.getResearchId());
             } else if (queryFilter.getCityId() != null) {
@@ -198,8 +205,10 @@ public class RecordQueryBuilder {
                 groupList.add("\"" + queryColumn.getName() + "\"");
             }
         }
-        if (groupList.size() > 0)
+        if (groupList.size() > 0) {
             queryBuilder.append(" GROUP BY " + StringUtils.join(groupList, ", "));
+            queryBuilder.append(" ORDER BY " + StringUtils.join(groupList, ", "));
+        }
     }
 
     private void buildColumn(StringBuilder queryBuilder) {

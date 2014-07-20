@@ -14,3 +14,24 @@
     font-weight: bold;
     background-color: #dedede;
 }
+
+#nameLabel {
+    font-weight: bold;
+    font-size: 27px;
+    text-align: center;
+    cursor: hand;
+    color: #1a3675;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+#homeLabel {
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    padding-top: 30px;
+    cursor: hand;
+    color: #4a753d;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}

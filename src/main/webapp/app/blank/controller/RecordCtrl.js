@@ -2,14 +2,6 @@ Ext.define('Blank.controller.RecordCtrl', {
     extend: 'Ext.app.Controller',
     init: function () {
         var me = this;
-        window.setTimeout(function () {//todo delete
-            Ext.ComponentQuery.query('combo[action="research"]')[0].setValue(1);
-            me.buildRecordGrid('B01', 1);
-            window.setTimeout(function () {
-                Ext.ComponentQuery.query('combo[name="city"]')[0].setValue(20);
-                Ext.ComponentQuery.query('combo[name="district"]')[0].setValue(346);
-            }, 500)
-        }, 500);
         this.control({
             'recordBlankGrid toolbar combo': {
                 change: this.reloadBlanks

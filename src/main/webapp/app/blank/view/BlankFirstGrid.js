@@ -1,7 +1,7 @@
 Ext.define('Blank.view.BlankFirstGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.blankFirstGrid',
-    title: 'Маягтын жагсаалт',
+    title: 'Анкетийн жагсаалт',
     width: '100%',
     flex: .5,
     forceFit: true,
@@ -44,12 +44,12 @@ Ext.define('Blank.view.BlankFirstGrid', {
     margins: '0 0 0 3',
     columns: [
         {
-            text: 'Маягтын код',
+            text: 'Анкетийн код',
             width: 80,
             dataIndex: 'id'
         },
         {
-            text: 'Маягтын Нэр',
+            text: 'Анкетийн Нэр',
             flex: 1,
             filterable: true,
             dataIndex: 'name',

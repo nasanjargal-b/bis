@@ -20,7 +20,7 @@ Ext.create('Ext.toolbar.Toolbar', {
                     href: 'research.jsp'
                 },
                 {
-                    text: 'Маягт',
+                    text: 'Анкет',
                     hrefTarget: 'mainFrame',
                     icon: '',
                     href: 'blank.jsp'

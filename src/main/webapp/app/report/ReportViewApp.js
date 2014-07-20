@@ -19,9 +19,10 @@ Ext.application({
                     itemId: 'reportViewMainPanel',
                     layout: 'fit',
                     region: 'center',
-                    bodyStyle: 'background-color:#dfe9f6'
+                    bodyStyle: 'background-color:'+PANEL_COLOR+''
                 }
-            ]
+            ],
+            renderTo: Ext.getBody('mainBody')
         });
     }
 });

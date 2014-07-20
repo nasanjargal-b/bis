@@ -24,7 +24,6 @@ Ext.define('Blank.controller.RecordFileCtrl', {
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
-                    console.log(xhr.status);
                     waitMsg.close();
                     if (xhr.status == 200) {
                         Ext.MessageBox.alert('Мэдээлэл', 'Амжилттай хуулагдлаа');

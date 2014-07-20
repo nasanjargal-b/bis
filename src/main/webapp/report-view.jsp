@@ -10,10 +10,9 @@
 <head>
     <title>Барилгын эрэлт, нийлүүлэтийн судалгааны мэдээллийн сан</title>
     <jsp:include page="resource.jsp"/>
-    <script type="application/javascript" src="/app/report/ReportViewApp.js"></script>
-
+    <script src="/app/report/ReportViewApp.js"></script>
 </head>
-<body>
+<body id="mainBody">
 </body>
 </html>
 

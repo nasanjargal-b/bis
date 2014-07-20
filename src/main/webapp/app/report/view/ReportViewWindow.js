@@ -5,32 +5,28 @@ Ext.define('Report.view.ReportViewWindow', {
     height: 600,
     modal: true,
     autoShow: true,
-    layout:'fit',
+    chart: null,
+    layout: 'fit',
     dockedItems: {
         xtype: 'toolbar',
         items: [
-            {
-                text: 'Ахин ачааллах',
-                icon: '/resources/images/refresh-16px.png',
-                action: 'refresh'
-            },
             '->',
-            {
+            /*{
                 text: 'PDF',
                 icon: '/resources/images/pdf-16px.png',
-                data: 'pdf',
+                data: 'PDF',
                 action: 'download'
-            },
+            },*/
             {
                 text: 'Excel',
                 icon: '/resources/images/excel-16px.png',
-                data: 'xlsx',
+                data: 'XLSX',
                 action: 'download'
             },
             {
                 text: 'Doc',
                 icon: '/resources/images/word-16px.png',
-                data: 'docx',
+                data: 'DOCX',
                 action: 'download'
             }
         ]

@@ -72,7 +72,7 @@ Ext.define('Report.view.ChartPanel', {
                 {
                     region: 'north',
                     xtype: 'panel',
-                    bodyStyle: 'background-color:#dfe9f6',
+                    bodyStyle: 'background-color:'+PANEL_COLOR+'',
                     border: false,
                     defaults: {
                         padding: '0 0 0 5',

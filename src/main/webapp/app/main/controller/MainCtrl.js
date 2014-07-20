@@ -16,6 +16,11 @@ Ext.define('MainApp.controller.MainCtrl', {
                     });
                 }
             },
+            'button[action="login"]': {
+                click: function () {
+                    window.location = '/security/login.jsp';
+                }
+            },
             'viewport component[action="changePassword"]': {
                 click: this.changePassword
             },

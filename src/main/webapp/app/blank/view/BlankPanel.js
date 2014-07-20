@@ -1,6 +1,6 @@
 Ext.define('Blank.view.BlankPanel', {
     extend: 'Ext.form.Panel',
-    title: 'Маягт',
+    title: 'Анкет',
     layout: 'fit',
     alias: 'widget.blankPanel',
     dockedItems: {
@@ -30,7 +30,7 @@ Ext.define('Blank.view.BlankPanel', {
                 {
                     xtype: 'panel',
                     region: 'north',
-                    bodyStyle: 'background-color:#dfe9f6',
+                    bodyStyle: 'background-color:'+PANEL_COLOR+'',
                     border: false,
                     defaults: {
                         labelWidth: 120,
@@ -40,7 +40,7 @@ Ext.define('Blank.view.BlankPanel', {
                         {
                             xtype: 'textfield',
                             allowBlank: false,
-                            fieldLabel: 'Маягтын код',
+                            fieldLabel: 'Анкетийн код',
                             name: 'id',
                             regex: /^[A-Za-z]{1}[A-Za-z0-9]*$/i,
                             maskRe: /^[A-Za-z0-9]*$/i
@@ -48,13 +48,13 @@ Ext.define('Blank.view.BlankPanel', {
                         {
                             xtype: 'textfield',
                             allowBlank: false,
-                            fieldLabel: 'Маягтын нэр',
+                            fieldLabel: 'Анкетийн нэр',
                             name: 'name'
                         },
                         {
                             xtype: 'combobox',
                             allowBlank: false,
-                            fieldLabel: 'Маягтын ангилал',
+                            fieldLabel: 'Анкетийн ангилал',
                             name: 'blankGroupId',
                             editable: false,
                             queryMode: 'local',

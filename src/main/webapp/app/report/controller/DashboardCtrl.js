@@ -25,7 +25,6 @@ Ext.define('Report.controller.DashboardCtrl', {
     mapInit: function (panel, me) {
         var map = null;
         var parser = null;
-        console.log(panel)
 
         var data = Array();
         data[0] = 'Aimag3.kml';
@@ -88,11 +87,8 @@ Ext.define('Report.controller.DashboardCtrl', {
             google.maps.event.addListener(poly, 'click', function (evt) {
 //                win.close();
 
-                console.clear();
-                console.log(evt.latLng)
 
                 aimagBunbble(map, false);
-                console.log(text);
                 var para = new Date();
                 if (text.name != 'sum') {
                     for (var j = 6; j < 8; j++) {
@@ -190,6 +186,5 @@ Ext.define('Report.controller.DashboardCtrl', {
         }
     },
     loadWindow:function(id,me){
-
     }
 });

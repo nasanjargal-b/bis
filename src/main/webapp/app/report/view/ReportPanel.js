@@ -25,7 +25,7 @@ Ext.define('Report.view.ReportPanel', {
         {
             xtype: 'panel',
             region: 'north',
-            bodyStyle: 'background-color:#dfe9f6',
+            bodyStyle: 'background-color:'+PANEL_COLOR+'',
             border: false,
             defaults: {
                 labelWidth: 120,
@@ -56,7 +56,7 @@ Ext.define('Report.view.ReportPanel', {
                     xtype: 'combo',
                     name: 'blankId',
                     query: 'local',
-                    fieldLabel: 'Маягт',
+                    fieldLabel: 'Анкет',
                     allowBlank: false,
                     valueField: 'id',
                     displayField: 'name',

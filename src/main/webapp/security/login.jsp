@@ -9,9 +9,7 @@
 <html>
 <head>
     <title>Барилгын эрэлт, нийлүүлэтийн судалгааны мэдээллийн сан</title>
-    <link rel="stylesheet" href="/resources/ext/resources/css/ext-all.css"/>
-    <script type="application/javascript" src="/resources/ext/ext-all-dev.js"></script>
-    <script type="application/javascript" src="/resources/ext/ext-override.js"></script>
+    <jsp:include page="../resource.jsp"/>
 </head>
 <body>
 <script type="text/javascript">
@@ -41,7 +39,7 @@
                     border: false,
                     bodyBorder: false,
                     padding: 5,
-                    bodyStyle: 'background-color: #dfe8f6',
+                    bodyStyle: 'background-color: ' + PANEL_COLOR + '',
                     defaultType: 'textfield',
                     fieldDefaults: {
                         labelWidth: 110

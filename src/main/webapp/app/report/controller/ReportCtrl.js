@@ -66,11 +66,8 @@ Ext.define('Report.controller.ReportCtrl', {
     save: function (btn) {
         var me = this;
         var form = btn.up('form');
-        console.log('before valid');
         if (form.getForm().isValid() && this.getController('ReportColumnCtrl').validColumn()) {
-            console.log('after valid');
             var data = this.getFormData();
-            console.log(data.filters);
             form.mask('Хадгалаж байна...');
             Ext.Ajax.request({
                 url: '/report-mod/report/report.json',

@@ -29,6 +29,6 @@
 
     <bean id="authSupport" class="com.monsource.bis.core.security.AuthSupport"/>
 
-    <context:component-scan base-package="com.monsource.bis.core.exception"/>
+    <context:component-scan base-package="com.monsource.bis.core.controller"/>
 
 </beans>

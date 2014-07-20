@@ -1,6 +1,8 @@
 package com.monsource.bis.core.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monsource.bis.core.exception.AccessDeniedBaseException;
+import com.monsource.bis.core.json.JsonData;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -47,10 +49,8 @@ public class AuthService implements UserDetailsService, AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        if (authSupport.getAuthDetails() == null) {
-            response.sendRedirect("/security/login.html");
-        }else{
-            throw new AccessDeniedBaseException();
-        }
+        response.setContentType("application/json;charset=UTF-8");
+        JsonData jsonData = new JsonData(false, "Таны хандах эрх хүрэсэнгүй!!!");
+        response.getWriter().println(new ObjectMapper().writeValueAsString(jsonData));
     }
 }

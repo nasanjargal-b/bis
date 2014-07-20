@@ -6,13 +6,13 @@ Ext.define('MainApp.view.PasswordWindow', {
     width: 450,
     resizable:false,
     layout: 'fit',
-    bodyStyle: 'background-color:#dfe9f6',
+    bodyStyle: 'background-color:'+PANEL_COLOR+'',
     alias: 'widget.passwordWindow',
     items:[
         {
             layout:'vbox',
             xtype:'form',
-            bodyStyle: 'background-color:#dfe9f6',
+            bodyStyle: 'background-color:'+PANEL_COLOR+'',
             border:false,
             margin:'5 5 5 5',
             items:[

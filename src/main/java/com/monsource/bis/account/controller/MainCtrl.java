@@ -23,22 +23,26 @@ public class MainCtrl {
     private AuthSupport authSupport;
     @Autowired
     private AccountDao accountDao;
-//    @Autowired
-//    ReportGroupDao reportGroupDao;
 
     @RequestMapping
     public ModelAndView getMains() {
-        ModelAndView mav = new ModelAndView("/mainMenu.js");
-        List<String> roles = new ArrayList<String>();
-        Collection<AuthAuthority> authorities = authSupport.getAuthDetails().getAuthorities();
-        AccountEntity entity = accountDao.get(authSupport.getAuthDetails().getId());
-        for (AuthAuthority authority : authorities) {
-            roles.add(authority.getAuthority());
+        ModelAndView mav;
+        if (authSupport.isAuthenticated()) {
+            mav = new ModelAndView("/mainMenu.js");
+
+            List<String> roles = new ArrayList<String>();
+            Collection<AuthAuthority> authorities = authSupport.getAuthDetails().getAuthorities();
+            AccountEntity entity = accountDao.get(authSupport.getAuthDetails().getId());
+            for (AuthAuthority authority : authorities) {
+                roles.add(authority.getAuthority());
+            }
+            mav.addObject("name", entity.getName());
+            mav.addObject("auth", authSupport);
+            mav.addObject("roles", roles);
+        } else {
+            mav = new ModelAndView("/mainMenuNotAuth.js");
         }
-        mav.addObject("name", entity.getName());
-        mav.addObject("auth", authSupport);
-        mav.addObject("roles", roles);
-//        mav.addObject("groups", reportGroupDao.find(null));
+
         return mav;
     }
 }

@@ -15,13 +15,19 @@ Ext.create('Ext.toolbar.Toolbar', {
             html: '<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Барилга хот байгууллалтын яам</span>'
         },
         '->',
+        {
+            text: 'Нүүр хуудас',
+            icon: '/resources/images/home-16px.png',
+            hrefTarget: 'mainFrame',
+            href: 'dashboard.jsp'
+        },
         #if($auth.checkAuthority('ROLE_REGISTER') || $auth.checkAuthority('ROLE_VIEWER'))
             {
 
                 defaults: {
                     hrefTarget: 'mainFrame'
                 },
-                icon: '/resources/images/blank-menu-16px.png',
+                icon: '/resources/images/registration-16px.png',
                 text: 'Бүртгэл',
                 menu: [
                     #if($auth.checkAuthority('ROLE_REGISTER'))
@@ -32,7 +38,7 @@ Ext.create('Ext.toolbar.Toolbar', {
                             href: 'research.jsp'
                         },
                         {
-                            text: 'Маягт',
+                            text: 'Анкет',
                             hrefTarget: 'mainFrame',
                             icon: '/resources/images/blank-16px.png',
                             href: 'blank.jsp'
@@ -63,11 +69,7 @@ Ext.create('Ext.toolbar.Toolbar', {
                             hrefTarget: 'mainFrame',
                             icon: '/resources/images/report-menu-16px.png',
                             href: 'report.jsp'
-                        },
-                        '-'
-                    #end
-                    #foreach($group in $groups),
-                        #parse('/WEB-INF/vm/reportMenu.json.vm')
+                        }
                     #end
 
                 ]
@@ -115,13 +117,13 @@ Ext.create('Ext.toolbar.Toolbar', {
                 ,
                 {
                     text: 'Гарах',
-                    icon: '/resources/images/cancel-window-16px.png',
+                    icon: '/resources/images/logout-16px.png',
                     handler: function () {
                         window.location = '/security/logout-process';
                     }
                 }
 
             ]
-        },
+        }
     ]
 });

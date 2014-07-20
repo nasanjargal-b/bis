@@ -42,13 +42,6 @@ public class ResearchCtrl {
     @ResponseBody
     public JsonData save(@RequestBody Research research) {
         JsonData data = new JsonData();
-        Thread thread = new Thread();
-        try {
-            thread.sleep(new Long(2000));
-        } catch (InterruptedException e) {
-            System.out.println("not thread");
-            e.printStackTrace();
-        }
         researchSrv.save(research);
         return data;
     }

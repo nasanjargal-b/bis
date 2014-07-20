@@ -11,13 +11,13 @@ Ext.define('Account.view.AccountPanel', {
                 layout: 'hbox',
                 xtype:'form',
                 margin:'5 5 0 5',
-                bodyStyle: 'background-color:#dfe9f6',
+                bodyStyle: 'background-color:'+PANEL_COLOR+'',
                 border: false,
                 items: [
                     {
                         layout: 'form',
                         width: 250,
-                        bodyStyle: 'background-color:#dfe9f6',
+                        bodyStyle: 'background-color:'+PANEL_COLOR+'',
                         border: false,
                         items: [
                             {

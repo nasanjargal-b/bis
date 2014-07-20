@@ -1,7 +1,7 @@
 Ext.define('Blank.view.BlankGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.blankGrid',
-    title: 'Маягтын жагсаалт',
+    title: 'Анкетийн жагсаалт',
     width: 400,
     forceFit: true,
     dockedItems: [
@@ -34,12 +34,12 @@ Ext.define('Blank.view.BlankGrid', {
     },
     columns: [
         {
-            text: 'Маягтын код',
+            text: 'Анкетийн код',
             width: 80,
             dataIndex: 'id'
         },
         {
-            text: 'Маягтын Нэр',
+            text: 'Анкетийн Нэр',
             flex: 1,
             dataIndex: 'name'
         }

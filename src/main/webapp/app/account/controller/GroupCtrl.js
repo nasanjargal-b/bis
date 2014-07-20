@@ -46,7 +46,6 @@ Ext.define('Account.controller.GroupCtrl', {
         win.down('form').loadRecord(record);
 
         var array = record.get('roles').split('\,');
-        console.log(array);
         if (array.length > 0 && array[0]!="") {
             for (var obj in array) {
                 var field = array[obj];

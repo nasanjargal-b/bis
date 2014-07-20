@@ -12,20 +12,11 @@
 
     <context:component-scan base-package="com.monsource.bis.core.security"/>
 
-    <!--<bean id="authService" class="com.monsource.bis.core.security.AuthService">
-        <property name="authDao" ref="authDaoImpl"/>
-    </bean>-->
-
     <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
         <property name="userPropertyToUse" value="salt"/>
     </bean>
 
     <sec:http use-expressions="true" auto-config="true">
-        <sec:intercept-url pattern="/favicon.ico" access="permitAll()"/>
-        <sec:intercept-url pattern="/resources/**" access="permitAll()"/>
-        <sec:intercept-url pattern="/security/**" access="permitAll()"/>
-        <sec:intercept-url pattern="/test-mod/**" access="permitAll()"/>
-        <sec:intercept-url pattern="/report-gen/**" access="permitAll()"/>
         <!--ACCOUNT-->
         <sec:intercept-url pattern="/account-mod/account/password.json" access="isAuthenticated()"/>
         <sec:intercept-url pattern="/account-mod/**" access="hasAnyRole('ROLE_ADMINISTRATOR')"/>
@@ -37,25 +28,26 @@
         <sec:intercept-url pattern="/blank-mod/blank/blanks.json" access="hasAnyRole('ROLE_VIEWER')"/>
         <sec:intercept-url pattern="/blank-mod/**" access="hasAnyRole('ROLE_REGISTER')"/>
         <!--REPORT-->
-        <sec:intercept-url pattern="/report-mod/report/view/**" access="hasAnyRole('ROLE_REPORTER','ROLE_VIEWER')"/>
+        <sec:intercept-url pattern="/report-mod/report/reports.json" method="GET" access="permitAll()"/>
+        <sec:intercept-url pattern="/report-mod/view/**" access="permitAll()"/>
         <sec:intercept-url pattern="/report-mod/**" access="hasAnyRole('ROLE_REPORTER')"/>
 
-        <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
-
         <sec:access-denied-handler ref="authService"/>
-        <sec:http-basic/>
-        <!--<sec:form-login
-                login-page="/security/login.jsp"
+        <!--<sec:http-basic/>-->
+        <sec:form-login
+                login-page="/security/error.json"
                 login-processing-url="/security/login-process"
+                default-target-url="/home.jsp"
+                always-use-default-target="true"
                 username-parameter="username"
                 password-parameter="password"
                 authentication-failure-url="/security/login.jsp?error=NOT_VALID"
                 />
         <sec:logout
                 invalidate-session="true"
-                logout-success-url="/security/login.jsp"
+                logout-success-url="/home.jsp"
                 logout-url="/security/logout-process"
-                />-->
+                />
     </sec:http>
 
     <sec:authentication-manager>

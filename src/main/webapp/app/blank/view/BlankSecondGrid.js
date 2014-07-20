@@ -1,6 +1,6 @@
 Ext.define('Blank.view.BlankSecondGrid', {
     extend: 'Ext.grid.Panel',
-    title: 'Судалгааны маягтын жагсаалт',
+    title: 'Судалгааны анкетийн жагсаалт',
     width: '100%',
     flex:.5,
     forceFit: true,
@@ -25,12 +25,12 @@ Ext.define('Blank.view.BlankSecondGrid', {
     ],
     columns: [
         {
-            text: 'Маягтын код',
+            text: 'Анкетийн код',
             width: 80,
             dataIndex: 'id'
         },
         {
-            text: 'Маягтын Нэр',
+            text: 'Анкетийн Нэр',
             flex: 1,
             dataIndex: 'name'
         }

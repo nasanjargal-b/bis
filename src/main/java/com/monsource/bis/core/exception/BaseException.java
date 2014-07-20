@@ -32,7 +32,7 @@ public class BaseException extends RuntimeException {
         return params.toArray();
     }
 
-    protected void setParams(Object... params) {
+    public void setParams(Object... params) {
         this.params.addAll(Arrays.asList(params));
     }
 }
