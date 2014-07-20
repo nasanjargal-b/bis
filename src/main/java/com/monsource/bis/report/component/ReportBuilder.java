@@ -249,7 +249,6 @@ public class ReportBuilder {
             ColumnBuilder columnBuilder;
 
             ReportCalcType calcType = column.getCalcType();
-            FieldBuilder field = field(code, getColumnClass(column));
 
             switch (calcType) {
                 case COUNT:
@@ -257,7 +256,7 @@ public class ReportBuilder {
                 case MIN:
                 case SUM:
                 case AVG:
-                    columnBuilder = Columns.column(name, field).setValueFormatter(valueFormatter).setStyle(numColumnStyle);
+                    columnBuilder = Columns.column(name, field(code, Number.class)).setValueFormatter(valueFormatter).setStyle(numColumnStyle);
                     break;
                 default:
                     switch (column.getColumnType()) {
@@ -273,9 +272,10 @@ public class ReportBuilder {
                             columnBuilder = Columns.column(name, code, Time.class).setValueFormatter(valueFormatter).setStyle(columnStyle);
                             break;
                         default:
-                            columnBuilder = Columns.column(name, field).setValueFormatter(valueFormatter).setStyle(numColumnStyle);
+                            columnBuilder = Columns.column(name, field(code, getColumnClass(column))).setValueFormatter(valueFormatter).setStyle(numColumnStyle);
                             break;
                     }
+                    break;
             }
             columnBuilder.setTitleStyle(stl.style().bold().setBottomPadding(3).setTopPadding(3));
             columnBuilders.add(columnBuilder);
