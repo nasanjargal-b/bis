@@ -28,7 +28,23 @@ Ext.define('Blank.view.QuestionTreePanel', {
         ]
     },
     plugins: Ext.create('Ext.grid.plugin.CellEditing', {
-        clicksToEdit: 2
+        clicksToEdit: 2,
+        listeners: {
+            'edit': function(e,a) {
+                if(a.field=='type' && a.record.raw.id){
+                    Ext.MessageBox.confirm('Асуулт', 'Та устгах үйлдэлийг хийхдээ итгэлтэй байна уу!!!<br/>' +
+                        '<span style="color: red;">Та устгах үйлдлийг хийснээр үүнтэй холбоотой бусад мэдээллүүд мөн устах болно гэдэгийг анхаарана уу.</span>', function (btn) {
+                        if (btn == 'yes') {
+
+                        }else{
+                            a.record.set('type',a.record.raw.type)
+                            console.log(a.record.raw.id);
+                        }
+                    });
+                }
+                console.log(a.field);
+            }
+        }
     }),
     viewConfig: {
         toggleOnDblClick: false,
@@ -51,6 +67,7 @@ Ext.define('Blank.view.QuestionTreePanel', {
         {
             text: 'Төрөл',
             width: 150,
+            action:'type',
             dataIndex: 'type',
             renderer: function (value) {
                 if (value == 'TEXT') return 'Текст';
