@@ -170,7 +170,7 @@ Ext.define('Report.controller.DashboardCtrl', {
                 } else {
                     var a = text.description;
                     a = a.toString().split(" ")[1];
-                    me.loadWindow(a,me);
+                    me.loadWindow(a, me);
                 }
             });
 
@@ -185,6 +185,7 @@ Ext.define('Report.controller.DashboardCtrl', {
             });
         }
     },
-    loadWindow:function(id,me){
+    loadWindow: function (id, me) {
+        this.getController('ReportViewCtrl').show(900, id);
     }
 });

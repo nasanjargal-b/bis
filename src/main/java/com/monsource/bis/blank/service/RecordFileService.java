@@ -6,40 +6,22 @@ import com.monsource.bis.blank.exception.NotXlsxFileException;
 import com.monsource.bis.blank.exception.QuestionCodeNotMatchException;
 import com.monsource.bis.blank.exception.QuestionCodeRowIsEmptyException;
 import com.monsource.bis.blank.exception.UnknownCellValueException;
-import com.monsource.bis.blank.model.Choice;
 import com.monsource.bis.blank.model.MetaData;
 import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.blank.model.Record;
 import com.monsource.bis.core.exception.BaseException;
 import com.monsource.bis.data.entity.ChoiceEntity;
 import com.monsource.bis.data.entity.QuestionEntity;
-import com.monsource.bis.data.entity.RecordEntity;
-import com.monsource.bis.data.entity.RecordQuestionEntity;
-import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
-import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
-import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
-import net.sf.dynamicreports.report.builder.column.Columns;
-import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
-import net.sf.dynamicreports.report.builder.grid.ColumnGridComponentBuilder;
-import net.sf.dynamicreports.report.builder.grid.ColumnTitleGroupBuilder;
-import net.sf.dynamicreports.report.builder.style.StyleBuilder;
-import net.sf.dynamicreports.report.constant.*;
-import net.sf.dynamicreports.report.constant.HorizontalAlignment;
-import net.sf.dynamicreports.report.constant.VerticalAlignment;
-import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.exception.DRException;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -148,7 +130,7 @@ public class RecordFileService {
     }
 
     private List<Record> getRecords(String blankId, Integer researchId, Integer districtId) {
-        List<RecordEntity> recordEntities = recordDao.find(blankId, researchId, districtId);
+        /*List<RecordEntity> recordEntities = recordDao.find(blankId, researchId, districtId);
         ArrayList<Record> records = new ArrayList<>();
 
         for (RecordEntity recordEntity : recordEntities) {
@@ -188,7 +170,9 @@ public class RecordFileService {
             records.add(record);
         }
 
-        return records;
+        return records;*/
+
+        return null;
     }
 
 

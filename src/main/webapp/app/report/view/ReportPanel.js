@@ -25,7 +25,7 @@ Ext.define('Report.view.ReportPanel', {
         {
             xtype: 'panel',
             region: 'north',
-            bodyStyle: 'background-color:'+PANEL_COLOR+'',
+            bodyStyle: 'background-color:' + PANEL_COLOR + '',
             border: false,
             defaults: {
                 labelWidth: 120,
@@ -54,7 +54,25 @@ Ext.define('Report.view.ReportPanel', {
                 },
                 {
                     xtype: 'combo',
+                    name: 'type',
+                    query: 'local',
+                    fieldLabel: 'Төрөл',
+                    allowBlank: false,
+                    valueField: 'id',
+                    displayField: 'name',
+                    editable: false,
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['id', 'name'],
+                        data: [
+                            { id: 'SIMPLE', name: 'Энгийн'},
+                            { id: 'QUERY', name: 'Мэргэжлийн'}
+                        ]
+                    })
+                },
+                {
+                    xtype: 'combo',
                     name: 'blankId',
+                    hidden: true,
                     query: 'local',
                     fieldLabel: 'Анкет',
                     allowBlank: false,

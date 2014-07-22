@@ -30,7 +30,9 @@ public class ReportService {
                 reportEntity.getBlank().getName(),
                 reportEntity.getChart(),
                 reportEntity.getChartCategory(),
-                reportEntity.getOrder()
+                reportEntity.getOrder(),
+                reportEntity.getType(),
+                reportEntity.getQuery()
         );
 
         report.setColumns(new ArrayList<Column>());
@@ -142,6 +144,9 @@ public class ReportService {
         reportEntity.setGroup(report.isGroup());
         reportEntity.setChart(report.getChart());
         reportEntity.setChartCategory(report.getChartCategory());
+        reportEntity.setQuery(report.getQuery());
+        reportEntity.setType(report.getType());
+
         if (report.getParentId() != null)
             reportEntity.setParent(new ReportEntity(report.getParentId()));
         if (report.getBlankId() != null)

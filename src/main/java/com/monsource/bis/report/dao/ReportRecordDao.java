@@ -1,7 +1,7 @@
 package com.monsource.bis.report.dao;
 
+import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.core.data.HibernateDaoSupport;
-import com.monsource.bis.data.entity.RecordEntity;
 import com.monsource.bis.report.component.RecordQueryBuilder;
 import com.monsource.bis.report.model.Report;
 import org.hibernate.SQLQuery;
@@ -15,11 +15,11 @@ import java.util.Map;
  * Created by nasanjargal on 7/8/14.
  */
 @Repository
-public class ReportRecordDao extends HibernateDaoSupport<RecordEntity> {
+public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
 
-    public List<Map> find(Report report) {
+    public List<Map> find(Report report, Integer districtId) {
 
-        RecordQueryBuilder rqb = new RecordQueryBuilder(report);
+        RecordQueryBuilder rqb = new RecordQueryBuilder(report, districtId);
 
         SQLQuery query = this.getSession().createSQLQuery(rqb.query());
 

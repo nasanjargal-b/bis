@@ -56,10 +56,10 @@ public class ReportFileCtrl {
     ServletContext servletCtx;
 
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET})
-    public void download(Integer reportId, FileType type, String svg, HttpServletResponse response) throws Exception {
+    public void download(Integer reportId, Integer districtId, FileType type, String svg, HttpServletResponse response) throws Exception {
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         Report report = reportService.get(reportId);
-        List<Map> datas = reportViewService.calc(report);
+        List<Map> datas = reportViewService.calc(report, districtId);
         String name = report.getName() + "_" + df.format(new Date());
 
         InputStream imageInput = svgConverter.convertPNG(svg);

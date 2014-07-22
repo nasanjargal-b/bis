@@ -19,7 +19,6 @@ public class ResearchEntity implements DataEntity {
     private Date startDate;
     private Date endDate;
     private String description;
-    private List<RecordEntity> records;
     private List<BlankEntity> blanks;
 
     public ResearchEntity() {
@@ -127,15 +126,6 @@ public class ResearchEntity implements DataEntity {
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "research")
-    public List<RecordEntity> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<RecordEntity> records) {
-        this.records = records;
     }
 
     @ManyToMany

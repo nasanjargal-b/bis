@@ -4,6 +4,7 @@ Ext.define('Report.view.ReportViewWindow', {
     width: 800,
     height: 600,
     modal: true,
+    maximizable: true,
     autoShow: true,
     chart: null,
     layout: 'fit',
@@ -12,11 +13,11 @@ Ext.define('Report.view.ReportViewWindow', {
         items: [
             '->',
             /*{
-                text: 'PDF',
-                icon: '/resources/images/pdf-16px.png',
-                data: 'PDF',
-                action: 'download'
-            },*/
+             text: 'PDF',
+             icon: '/resources/images/pdf-16px.png',
+             data: 'PDF',
+             action: 'download'
+             },*/
             {
                 text: 'Excel',
                 icon: '/resources/images/excel-16px.png',

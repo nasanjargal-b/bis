@@ -22,7 +22,6 @@ public class QuestionEntity implements DataEntity {
     private Integer order;
     private List<ChoiceEntity> choices;
     private BlankEntity blank;
-    private List<RecordQuestionEntity> recordQuestions;
     private QuestionEntity parent;
     private List<QuestionEntity> children;
 
@@ -141,15 +140,6 @@ public class QuestionEntity implements DataEntity {
 
     public void setBlank(BlankEntity blank) {
         this.blank = blank;
-    }
-
-    @OneToMany(mappedBy = "question")
-    public List<RecordQuestionEntity> getRecordQuestions() {
-        return recordQuestions;
-    }
-
-    public void setRecordQuestions(List<RecordQuestionEntity> recordQuestions) {
-        this.recordQuestions = recordQuestions;
     }
 
     @ManyToOne

@@ -24,14 +24,15 @@ public class ReportViewService {
 
     /**
      * @param id
+     * @param districtId
      */
-    public List<Map> calc(Integer id) {
+    public List<Map> calc(Integer id, Integer districtId) {
         Report report = reportService.get(id);
-        return this.calc(report);
+        return this.calc(report, districtId);
     }
 
-    public List<Map> calc(Report report) {
-        List<Map> results = reportRecordDao.find(report);
+    public List<Map> calc(Report report, Integer districtId) {
+        List<Map> results = reportRecordDao.find(report, districtId);
 
         for (Column column : report.getColumns()) {
             if (column.getPercent()) {

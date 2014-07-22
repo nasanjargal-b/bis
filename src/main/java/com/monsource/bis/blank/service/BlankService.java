@@ -1,11 +1,9 @@
 package com.monsource.bis.blank.service;
 
+import com.monsource.bis.blank.component.BlankCreateBuilder;
 import com.monsource.bis.blank.exception.QuestionCodeEmptyException;
 import com.monsource.bis.blank.model.*;
-import com.monsource.bis.data.entity.BlankEntity;
-import com.monsource.bis.data.entity.BlankGroupEntity;
-import com.monsource.bis.data.entity.ChoiceEntity;
-import com.monsource.bis.data.entity.QuestionEntity;
+import com.monsource.bis.data.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +19,8 @@ public class BlankService {
     BlankDao blankDao;
     @Autowired
     QuestionDao questionDao;
+    @Autowired
+    TableViewDao tableViewDao;
 
     /**
      * @param blank
@@ -43,6 +43,14 @@ public class BlankService {
         }
 
         blankDao.merge(blankEntity);
+        TableViewEntity table = tableViewDao.getTable(blank.getId());
+        List<TableViewEntity> multiTable = null;
+        if (table != null) {
+            multiTable = tableViewDao.findMultiTable(table);
+        }
+
+        BlankCreateBuilder blankCreateBuilder = new BlankCreateBuilder(blankEntity, questionDao.findWithoutGroup(blankEntity.getId()), table, multiTable);
+        blankDao.mergeDbView(blankCreateBuilder);
 
     }
 

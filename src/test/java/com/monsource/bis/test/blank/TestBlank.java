@@ -1,6 +1,10 @@
 package com.monsource.bis.test.blank;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monsource.bis.blank.dao.BlankDao;
+import com.monsource.bis.blank.dao.TableViewDao;
+import com.monsource.bis.data.entity.ColumnViewEntity;
+import com.monsource.bis.data.entity.TableViewEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +46,10 @@ public class TestBlank {
 
     private MockMvc mockMvc;
 
+    @Autowired
+    BlankDao blankDao;
+    @Autowired
+    TableViewDao tableViewDao;
     @Autowired
     ObjectMapper objectMapper;
 
@@ -87,6 +95,18 @@ public class TestBlank {
         System.out.println(content);
         System.out.println("=================CONTENT===========================");
 
+    }
+
+    @Test
+    @Transactional
+    public void testTable() {
+        TableViewEntity table = tableViewDao.get("b10");
+        System.out.println(table);
+        System.out.println(table.getTableName());
+        for (ColumnViewEntity columnView : table.getColumns()) {
+            System.out.println(columnView.getColumnName());
+            System.out.println("\t"+columnView.getDataType());
+        }
     }
 
     /*@Test

@@ -25,8 +25,9 @@ Ext.define('Report.controller.ReportViewCtrl', {
     getMainPanel: function () {
         return Ext.ComponentQuery.query('#reportViewMainPanel')[0];
     },
-    show: function (reportId) {
+    show: function (reportId, districtId) {
         var me = this;
+
         Ext.Ajax.request({
             url: '/report-mod/view/metadata.json',
             params: {
@@ -36,12 +37,12 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 var result = Ext.decode(response.responseText);
                 var report = result.data;
 
-                me.showWindow(report);
+                me.showWindow(report, districtId);
             }
         });
     },
-    showWindow: function (report) {
-        var store = this.createStore(report);
+    showWindow: function (report, districtId) {
+        var store = this.createStore(report, districtId);
         var chart = this.createChart(report, store);
 
         store.load({
@@ -49,6 +50,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 var win = Ext.create('Report.view.ReportViewWindow', {
                     title: 'Тайлан: ' + report.name,
                     report: report,
+                    districtId: districtId,
                     items: {
                         xtype: 'panel',
                         border: false,
@@ -66,7 +68,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 win.chart = chart;
 
                 Ext.Ajax.request({
-                    url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML',
+                    url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML' + (districtId ? '&districtId=' + districtId : ''),
                     success: function (response) {
                         var frameCmp = win.down('component[action="reportFrame"]');
                         frameCmp.update(response.responseText)
@@ -219,7 +221,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
         }
         return null;
     },
-    createStore: function (report) {
+    createStore: function (report, districtId) {
         var fields = [];
 
         for (var i = 0; i < report.columns.length; i++) {
@@ -232,7 +234,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                url: '/report-mod/view/data.json?id=' + report.id,
+                url: '/report-mod/view/data.json?id=' + report.id + (districtId ? '&districtId=' + districtId : ''),
                 reader: {
                     type: 'json',
                     root: 'data'
@@ -261,6 +263,11 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     xtype: 'hiddenfield',
                     name: 'reportId',
                     value: report.id
+                },
+                {
+                    xtype: 'hiddenfield',
+                    name: 'districtId',
+                    value: win.districtId
                 },
                 {
                     xtype: 'hiddenfield',

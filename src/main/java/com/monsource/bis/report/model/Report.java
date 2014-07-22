@@ -3,6 +3,7 @@ package com.monsource.bis.report.model;
 import com.monsource.bis.core.model.Model;
 import com.monsource.bis.core.model.TreeModel;
 import com.monsource.bis.data.entity.type.ReportChartType;
+import com.monsource.bis.data.entity.type.ReportType;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class Report implements TreeModel<Integer> {
     private ReportChartType chart;
     private String chartCategory;
     private Integer order;
+    private ReportType type;
+    private String query;
     private List<Column> columns;
     private List<Filter> filters;
     private List<ChartSeries> chartSerieses;
@@ -28,7 +31,7 @@ public class Report implements TreeModel<Integer> {
     public Report() {
     }
 
-    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, ReportChartType chart, String chartCategory, Integer order) {
+    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, ReportChartType chart, String chartCategory, Integer order, ReportType type, String query) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -38,9 +41,11 @@ public class Report implements TreeModel<Integer> {
         this.chart = chart;
         this.chartCategory = chartCategory;
         this.order = order;
+        this.type = type;
+        this.query = query;
     }
 
-    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, boolean group, ReportChartType chart, String chartCategory, Integer order) {
+    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, boolean group, ReportChartType chart, String chartCategory, Integer order, ReportType type, String query) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -51,6 +56,8 @@ public class Report implements TreeModel<Integer> {
         this.chart = chart;
         this.chartCategory = chartCategory;
         this.order = order;
+        this.type = type;
+        this.query = query;
     }
 
     public Integer getId() {
@@ -131,6 +138,22 @@ public class Report implements TreeModel<Integer> {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    public ReportType getType() {
+        return type;
+    }
+
+    public void setType(ReportType type) {
+        this.type = type;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     public List<Column> getColumns() {

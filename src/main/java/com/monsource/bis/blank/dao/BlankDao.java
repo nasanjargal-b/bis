@@ -1,9 +1,11 @@
 package com.monsource.bis.blank.dao;
 
+import com.monsource.bis.blank.component.BlankCreateBuilder;
 import com.monsource.bis.core.data.*;
 import com.monsource.bis.blank.model.*;
 import com.monsource.bis.data.entity.BlankEntity;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -64,4 +66,12 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
         return new Blank(entity.getId(), entity.getName(), entity.getBlankGroup().getId());
     }
 
+    public void mergeDbView(BlankCreateBuilder createBuilder) {
+
+        for (String query : createBuilder.getQueries()) {
+            this.getSession().createSQLQuery(query).executeUpdate();
+        }
+
+        this.getSession().flush();
+    }
 }

@@ -28,12 +28,15 @@ public class RecordQueryBuilder {
     private final static String TABLE = "registration.record_view";
 
     Report report;
+    Integer districtId;
     List<QueryAlias> queryAliases = new ArrayList<>();
     List<QueryColumn> queryColumns = new ArrayList<>();
     List<QueryFilter> queryFilters = new ArrayList<>();
 
-    public RecordQueryBuilder(Report report) {
+
+    public RecordQueryBuilder(Report report, Integer districtId) {
         this.report = report;
+        this.districtId = districtId;
         initAlias();
         initColumn();
         initFilter();
@@ -97,6 +100,14 @@ public class RecordQueryBuilder {
         blankFilter.setColumn("blank_id");
         blankFilter.setFilter("$ = \"" + report.getBlankId() + "\"");
         queryFilters.add(blankFilter);
+
+        if (districtId != null) {
+            QueryFilter districtFilter = new QueryFilter();
+            districtFilter.setAlias(RECORD);
+            districtFilter.setColumn("district_id");
+            districtFilter.setFilter("$ = " + districtId);
+            queryFilters.add(districtFilter);
+        }
 
         for (Filter filter : report.getFilters()) {
             QueryFilter queryFilter = new QueryFilter();
@@ -181,7 +192,7 @@ public class RecordQueryBuilder {
             String column = queryFilter.getAlias() + "." + queryFilter.getColumn();
 
             if (queryFilter.getFilter() != null) {
-                filterList.add("(" + queryFilter.getFilter().replace("\"","'").replace("$", column) + ")");
+                filterList.add("(" + queryFilter.getFilter().replace("\"", "'").replace("$", column) + ")");
             } else if (queryFilter.getResearchId() != null) {
                 filterList.add(column + " = " + queryFilter.getResearchId());
             } else if (queryFilter.getCityId() != null) {

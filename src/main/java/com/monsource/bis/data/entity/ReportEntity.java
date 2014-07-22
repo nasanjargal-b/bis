@@ -2,6 +2,7 @@ package com.monsource.bis.data.entity;
 
 import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.data.entity.type.ReportChartType;
+import com.monsource.bis.data.entity.type.ReportType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,8 @@ public class ReportEntity implements DataEntity {
     private Boolean group;
     private ReportChartType chart;
     private String chartCategory;
+    private ReportType type;
+    private String query;
     private BlankEntity blank;
     private ReportEntity parent;
     private List<ReportEntity> children;
@@ -104,6 +107,27 @@ public class ReportEntity implements DataEntity {
 
     public void setChartCategory(String chartCategory) {
         this.chartCategory = chartCategory;
+    }
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    public ReportType getType() {
+        return type;
+    }
+
+    public void setType(ReportType type) {
+        this.type = type;
+    }
+
+    @Basic
+    @Column(name = "\"query\"")
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     @Override

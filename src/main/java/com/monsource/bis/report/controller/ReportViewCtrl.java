@@ -24,14 +24,14 @@ public class ReportViewCtrl {
 
     @RequestMapping("data.json")
     @ResponseBody
-    public JsonData getData(Integer id) {
-        return new JsonData(reportViewSrv.calc(id));
+    public JsonData getData(Integer id, Integer districtId) {
+        return new JsonData(reportViewSrv.calc(id, districtId));
     }
 
     @RequestMapping("preview/data.json")
     @ResponseBody
     public JsonData getPreviewData(@RequestBody Report report) {
-        return new JsonData(reportViewSrv.calc(report));
+        return new JsonData(reportViewSrv.calc(report, null));
     }
 
     @RequestMapping("metadata.json")

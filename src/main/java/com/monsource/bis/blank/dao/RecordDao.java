@@ -1,45 +1,91 @@
 package com.monsource.bis.blank.dao;
 
-//import com.monsource.bis.blank.controller.RecordFilter;
-
-import com.monsource.bis.blank.exception.ChoiceNotMatchException;
-import com.monsource.bis.blank.model.Blank;
-import com.monsource.bis.blank.model.Question;
+import com.monsource.bis.blank.component.db.DbBuilder;
 import com.monsource.bis.blank.model.Record;
-import com.monsource.bis.blank.service.BlankService;
-//import com.monsource.bis.blank.service.QuestionService;
+import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.core.data.HibernateDaoSupport;
-import com.monsource.bis.data.entity.RecordEntity;
-import org.hibernate.Criteria;
+import com.monsource.bis.data.entity.QuestionEntity;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.type.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.bind.JAXBException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
-public class RecordDao extends HibernateDaoSupport<RecordEntity> {
-    public List<RecordEntity> find(String blankId, Integer researchId, Integer districtId) {
-        Criteria criteria = this.getSession().createCriteria(RecordEntity.class);
+public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
-        criteria.createAlias("blank", "blank");
-        criteria.createAlias("district", "district");
-        criteria.createAlias("research", "research");
+    String insertQuery = "INSERT INTO bdata.%s(%s) values (%s)";
+    String updateQuery = "UPDATE bdata.%s SET %s WHERE id=:id";
 
-        criteria.add(Restrictions.eq("blank.id", blankId));
-        criteria.add(Restrictions.eq("district.id", districtId));
-        criteria.add(Restrictions.eq("research.id", researchId));
+    public List<Record> find(String blankId, Integer researchId, Integer districtId) {
 
-        criteria.addOrder(Order.asc("id"));
+        SQLQuery sqlQuery = this.getSession().createSQLQuery("SELECT * FROM bdata.V_" + blankId + " WHERE research_id=:researchId AND district_id = :districtId");
 
-        return criteria.list();
+        sqlQuery.setParameter("researchId", researchId);
+        sqlQuery.setParameter("districtId", districtId);
+
+        sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+        return sqlQuery.list();
+    }
+
+    public List<Record> find(String blankId) {
+        SQLQuery sqlQuery = this.getSession().createSQLQuery("SELECT * FROM bdata.V_" + blankId);
+
+        sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+        return sqlQuery.list();
+    }
+
+    public void merge(Record record, String blankId, Integer researchId, Integer districtId, Integer accountId, List<QuestionEntity> questions) {
+
+        System.out.println(record);
+
+        List<String> columns = new ArrayList<>();
+        List<String> codes = new ArrayList<>();
+
+        columns.add("research_id");
+        columns.add("account_id");
+        columns.add("district_id");
+
+        codes.add(":research_id");
+        codes.add(":account_id");
+        codes.add(":district_id");
+
+        for (QuestionEntity question : questions) {
+            columns.add(DbBuilder.COLUMN_PREFIX + question.getId());
+            codes.add(":" + question.getCode());
+        }
+
+        Integer id = (Integer) record.get("id");
+        String query;
+        if (id == null) {
+            query = String.format(insertQuery, blankId, StringUtils.join(columns, ", "), StringUtils.join(codes, ", "));
+        } else {
+            List<String> updates = new ArrayList<>();
+            for (int i = 0; i < columns.size(); i++) {
+                String column = columns.get(i);
+                String code = codes.get(i);
+                updates.add(column + " = " + code);
+            }
+            query = String.format(updateQuery, blankId, StringUtils.join(updates, ", "));
+        }
+
+        SQLQuery sqlQuery = getSession().createSQLQuery(query);
+
+        sqlQuery.setParameter("research_id", researchId);
+        sqlQuery.setParameter("district_id", districtId);
+        sqlQuery.setParameter("account_id", accountId);
+
+        for (QuestionEntity question : questions) {
+            sqlQuery.setParameter(question.getCode(), record.get(question.getCode()));
+        }
+
+        if(id != null) {
+            sqlQuery.setParameter("id", id);
+        }
+
+        sqlQuery.executeUpdate();
     }
 }

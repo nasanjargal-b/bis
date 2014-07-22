@@ -87,7 +87,7 @@ public class TestReportView {
     public void testView() throws Exception {
         Report report = reportService.get(6);
         String svg = getSvg();
-        ReportBuilder builder = new ReportBuilder(report, reportViewService.calc(report), svgConverter.convertPNG(svg), ReportFileCtrl.FileType.HTML, null);
+        ReportBuilder builder = new ReportBuilder(report, reportViewService.calc(report,null), svgConverter.convertPNG(svg), ReportFileCtrl.FileType.HTML, null);
 
         builder.getJasperReport().show();
         Scanner scanner = new Scanner(System.in);

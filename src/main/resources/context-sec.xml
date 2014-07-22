@@ -33,8 +33,8 @@
         <sec:intercept-url pattern="/report-mod/**" access="hasAnyRole('ROLE_REPORTER')"/>
 
         <sec:access-denied-handler ref="authService"/>
-        <!--<sec:http-basic/>-->
-        <sec:form-login
+        <sec:http-basic/>
+        <!--<sec:form-login
                 login-page="/security/error.json"
                 login-processing-url="/security/login-process"
                 default-target-url="/home.jsp"
@@ -47,7 +47,7 @@
                 invalidate-session="true"
                 logout-success-url="/home.jsp"
                 logout-url="/security/logout-process"
-                />
+                />-->
     </sec:http>
 
     <sec:authentication-manager>

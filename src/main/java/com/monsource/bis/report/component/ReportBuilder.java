@@ -95,7 +95,7 @@ public class ReportBuilder {
                                                 .setStyle(stl.style()
                                                         .setTopPadding(3)
                                                         .setBottomPadding(2)
-                                                        .setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE)))
+                                                        .setAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE)))
                                         .widthFixed())
                                 .add(cmp.text(report.getName()).setStyle(stl.style()
                                         .setForegroundColor(color)
@@ -126,7 +126,7 @@ public class ReportBuilder {
                                         .setForegroundColor(color)
                                         .setFontSize(15)
                                         .setBold(true)
-                                        .setAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE)
+                                        .setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE)
                                         .setTopPadding(5)
                                         .setBottomPadding(5)))
                                 .setStyle(stl.style()
@@ -140,12 +140,13 @@ public class ReportBuilder {
     }
 
     private void initFooter() {
+//        jasperReport.subtotalsAtSummary(sbt.sum())
         jasperReport.pageFooter(cmp.horizontalList()
                         .add(cmp.pageNumber().setStyle(stl.style()
                                 .setForegroundColor(color)
                                 .setFontSize(11)
                                 .setBold(true)
-                                .setAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE)
+                                .setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE)
                                 .setTopPadding(5)
                                 .setBottomPadding(5)))
                         .setStyle(stl.style().setTopBorder(stl.pen(3f, LineStyle.SOLID).setLineColor(color)))
@@ -156,7 +157,7 @@ public class ReportBuilder {
         List<ColumnBuilder> columnBuilders = getColumnBuilders();
         List<GroupBuilder> columnGroupBuilders = getColumnGroupBuilders();
 
-        calcPageSize(columnBuilders.size() * 100);
+        calcPageSize(columnBuilders.size());
 
         jasperReport.setColumnHeaderStyle(stl.style()
                 .bold()
@@ -179,11 +180,17 @@ public class ReportBuilder {
         jasperReport.setSummaryStyle(stl.style().setBackgroundColor(new Color(0, 82, 150, 20)).setBottomPadding(3).setTopPadding(3));
     }
 
-    private void calcPageSize(double size) {
-        int pageNum = ((int) Math.ceil(size / PageType.A4.getWidth()));
-        pageNum = pageNum == 0 ? 1 : pageNum;
+    private void calcPageSize(int colNum) {
+//        int pageNum = ((int) Math.ceil(size / PageType.A4.getWidth()));
+//        pageNum = pageNum == 0 ? 1 : pageNum;
+//
+//        jasperReport.setPageFormat(PageType.A4.getWidth() * pageNum, PageType.A4.getHeight(), PageOrientation.PORTRAIT);
 
-        jasperReport.setPageFormat(PageType.A4.getWidth() * pageNum, PageType.A4.getHeight(), PageOrientation.PORTRAIT);
+        if (colNum > 6) {
+            jasperReport.setPageFormat(PageType.A4, PageOrientation.LANDSCAPE);
+        } else {
+            jasperReport.setPageFormat(PageType.A4, PageOrientation.PORTRAIT);
+        }
     }
 
     public void build(OutputStream outputStream) throws DRException, FileNotFoundException {
@@ -222,10 +229,10 @@ public class ReportBuilder {
         final NumberFormat numberFormat = new DecimalFormat("#,##0.00");
 
         StyleBuilder columnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3);
-        StyleBuilder numColumnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3).setHorizontalAlignment(HorizontalAlignment.RIGHT);
+        StyleBuilder numColumnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3).setHorizontalAlignment(HorizontalAlignment.LEFT);
 
         for (final Column column : report.getColumns()) {
-            if (column.getCalcType() == ReportCalcType.GROUP) continue;
+//            if (column.getCalcType() == ReportCalcType.GROUP) continue;
 
             AbstractValueFormatter<Object, Object> valueFormatter = new AbstractValueFormatter<Object, Object>() {
                 @Override
@@ -287,13 +294,13 @@ public class ReportBuilder {
     public List<GroupBuilder> getColumnGroupBuilders() {
         ArrayList<GroupBuilder> columnGroupBuilders = new ArrayList<>();
 
-        for (Column column : report.getColumns()) {
+        /*for (Column column : report.getColumns()) {
             if (column.getCalcType() == ReportCalcType.GROUP) {
                 CustomGroupBuilder group = grp.group(column.getCode(), getColumnClass(column))
                         .setStyle(stl.style().bold().setFontSize(11).setTopPadding(5));
                 columnGroupBuilders.add(group);
             }
-        }
+        }*/
 
         return columnGroupBuilders;
     }

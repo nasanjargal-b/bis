@@ -11,6 +11,8 @@ Ext.define('Report.model.Report', {
         {name: 'group', type: 'boolean', useNull: true},
         {name: 'chart', type: 'string', useNull: true},
         {name: 'chartCategory', type: 'string', useNull: true},
+        {name: 'type', type: 'string', useNull: true},
+        {name: 'query', type: 'string', useNull: true},
         {name: 'order', type: 'int', useNull: true}
     ],
     hasMany: [
