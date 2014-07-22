@@ -32,8 +32,8 @@ Ext.define('Blank.view.QuestionTreePanel', {
         listeners: {
             'edit': function(e,a) {
                 if(a.field=='type' && a.record.raw.id){
-                    Ext.MessageBox.confirm('Асуулт', 'Та устгах үйлдэлийг хийхдээ итгэлтэй байна уу!!!<br/>' +
-                        '<span style="color: red;">Та устгах үйлдлийг хийснээр үүнтэй холбоотой бусад мэдээллүүд мөн устах болно гэдэгийг анхаарана уу.</span>', function (btn) {
+                    Ext.MessageBox.confirm('Асуулт', 'Та энэ үйлдэлийг хийхдээ итгэлтэй байна уу!!!<br/>' +
+                        '<span style="color: red;">Та энэ үйлдлийг хийснээр үүнтэй холбоотой бусад мэдээллүүд мөн устах болно гэдэгийг анхаарана уу.</span>', function (btn) {
                         if (btn == 'yes') {
 
                         }else{
