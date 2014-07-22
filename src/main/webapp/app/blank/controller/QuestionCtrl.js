@@ -18,11 +18,11 @@ Ext.define('Blank.controller.QuestionCtrl', {
                 }
             },
             'menuitem[action="add"]': {
-                click: function(btn){
+                click: function (btn) {
                     this.add(Ext.ComponentQuery.query('questionTreePanel')[0]);
                 }
             },
-            'questionTreePanel':{
+            'questionTreePanel': {
 //              itemclick:function(record, index, node, eOpts){
 //                  alert('sdsd')
 //                  Ext.ComponentQuery.query('questionTreePanel')[0].getStore().each(function (model) {
@@ -33,6 +33,11 @@ Ext.define('Blank.controller.QuestionCtrl', {
 //                  })
 //              }
             },
+//            'questionTreePanel component[action="type"]':{
+//                childrenChanged:function(){
+//                    alert('sadsad')
+//                }
+//            },
             'questionTreePanel': {
                 edit: function (editor, e, eOpts) {
                     if ('GROUP' == e.record.get('type')) {
@@ -54,10 +59,11 @@ Ext.define('Blank.controller.QuestionCtrl', {
                 itemclick: function (view, record) {
                     var btn = view.up('treepanel').down('button[action="choice"]');
                     this.choiceBtnActive(btn, record.get('type'));
-                },
-                statesave:function(){
-                    alert('sadsda')
                 }
+//                ,
+//                select:function(){
+//                    alert('sdsad')
+//                }
             },
             'choiceWindow grid': {
                 edit: function (editor, e) {
@@ -76,7 +82,12 @@ Ext.define('Blank.controller.QuestionCtrl', {
             'choiceWindow': {
                 close: function (win) {
                     var store = win.down('grid').getStore();
+//                    store.each(function(model){
+                    console.log(store);
+//                        store.remove(store.raw);
+//                    })
                     store.remove(store.last());
+//                    store.clearData();
                 }
             }
         });
@@ -117,7 +128,6 @@ Ext.define('Blank.controller.QuestionCtrl', {
         var win = Ext.create('Blank.view.ChoiceWindow');
         win.down('grid').reconfigure(record.choices());
         record.choices().add(Ext.create('Blank.model.Choice'));
-
         win.show();
     },
     add: function (treepanel) {
@@ -134,15 +144,20 @@ Ext.define('Blank.controller.QuestionCtrl', {
         }));
     },
     delete: function (treepanel) {
-        var nodes = treepanel.getSelectionModel().getSelection();
-        if (nodes && nodes.length > 0) {
-            for (var i = nodes.length - 1; i >= 0; i--) {
-                var node = nodes[i];
-                node.parentNode.removeChild(node);
+        Ext.MessageBox.confirm('Асуулт', 'Та устгах үйлдэлийг хийхдээ итгэлтэй байна уу!!!<br/>' +
+            '<span style="color: red;">Та устгах үйлдлийг хийснээр үүнтэй холбоотой бусад мэдээллүүд мөн устах болно гэдэгийг анхаарана уу.</span>', function (btn) {
+            if (btn == 'yes') {
+                var nodes = treepanel.getSelectionModel().getSelection();
+                if (nodes && nodes.length > 0) {
+                    for (var i = nodes.length - 1; i >= 0; i--) {
+                        var node = nodes[i];
+                        node.parentNode.removeChild(node);
+                    }
+                } else {
+                    Ext.MessageBox.alert('Алдаа', 'Та устгах мөрөө сонгоно уу?');
+                }
             }
-        } else {
-            Ext.MessageBox.alert('Алдаа', 'Та устгах мөрөө сонгоно уу?');
-        }
+        });
     },
     deleteChoice: function (grid) {
         var model = grid.getSelectionModel().getSelection()[0];
