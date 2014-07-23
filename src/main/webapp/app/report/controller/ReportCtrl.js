@@ -290,31 +290,31 @@ Ext.define('Report.controller.ReportCtrl', {
 
         var columnGrid = Ext.ComponentQuery.query('columnPanel')[0].down('grid[action="columnGrid"]');
         columnGrid.reconfigure(record.columns());
-//        var filterGrid = Ext.ComponentQuery.query('filterPanel')[0].down('grid[action="filterGrid"]');
-//        record.filters().each(function (fRecord) {
-//            switch (fRecord.get('type')) {
-//                case 'RESEARCH':
-//                    fRecord.set('data', fRecord.get('researchId'));
-//                    break;
-//                case 'CITY':
-//                    fRecord.set('data', fRecord.get('cityId'));
-//                    break;
-//                case 'DISTRICT':
-//                    fRecord.set('data', fRecord.get('districtId'));
-//                    break;
-//                default:
-//                    switch (fRecord.get('columnType')) {
-//                        case 'SINGLE_CHOICE':
-//                        case 'MULTIPLE_CHOICE':
-//                            fRecord.set('data', fRecord.get('choiceIds'));
-//                            break;
-//                        default:
-//                            fRecord.set('data', fRecord.get('filter'));
-//                            break;
-//                    }
-//            }
-//        })
-//        filterGrid.reconfigure(record.filters());
+        var filterGrid = Ext.ComponentQuery.query('filterPanel')[0].down('grid[action="filterGrid"]');
+        record.filters().each(function (fRecord) {
+            switch (fRecord.get('type')) {
+                case 'RESEARCH':
+                    fRecord.set('data', fRecord.get('researchId'));
+                    break;
+                case 'CITY':
+                    fRecord.set('data', fRecord.get('cityId'));
+                    break;
+                case 'DISTRICT':
+                    fRecord.set('data', fRecord.get('districtId'));
+                    break;
+                default:
+                    switch (fRecord.get('columnType')) {
+                        case 'SINGLE_CHOICE':
+                        case 'MULTIPLE_CHOICE':
+                            fRecord.set('data', fRecord.get('choiceIds'));
+                            break;
+                        default:
+                            fRecord.set('data', fRecord.get('filter'));
+                            break;
+                    }
+            }
+        })
+        filterGrid.reconfigure(record.filters());
 
         var chartColumnGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartColumnGrid"]');
         chartColumnGrid.reconfigure(record.columns());

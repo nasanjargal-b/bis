@@ -18,6 +18,7 @@ Ext.define('Report.view.ReportQueryPanel', {
                 {
                     xtype: 'textareafield',
                     id: 'codearea',
+                    name:'query',
                     title: 'query',
                     allowBlank: false,
                     flex: 1,
@@ -46,9 +47,44 @@ Ext.define('Report.view.ReportQueryPanel', {
 
         },
         {
-            xtype: 'questionGrid',
+            xtype: 'grid',
             region: 'center',
-            padding: '0 5 0 0'
+            title: 'Асуултын жагсаалт',
+            name:'questionQueryGrid',
+            forceFit: true,
+            multiSelect: true,
+            viewConfig: {
+                copy: true,
+                plugins: {
+                    ptype: 'gridviewdragdrop'
+                }
+            },
+            columns: [
+                {
+                    text: 'Код',
+                    width: 100,
+                    dataIndex: 'code'
+                },
+                {
+                    text: 'Асуулт',
+                    flex: 1,
+                    dataIndex: 'text'
+                },
+                {
+                    text: 'Төрөл',
+                    width: 100,
+                    dataIndex: 'type',
+                    renderer: function (value) {
+                        if (value == 'TEXT') return 'Текст';
+                        if (value == 'NUMERIC') return 'Тоо';
+                        if (value == 'SINGLE_CHOICE') return 'Нэг сонголттой';
+                        if (value == 'MULTIPLE_CHOICE') return 'Олон сонголттой';
+                        if (value == 'DATE') return 'Огноо';
+                        if (value == 'TIME') return 'Цаг';
+                        if (value == 'GROUP') return 'Групп';
+                    }
+                }
+            ]
         }
     ]
 });
