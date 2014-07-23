@@ -11,6 +11,7 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class RecordDataCtrl {
     @RequestMapping(value = "records.json", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
-    public JsonData save(@RequestParam String blankId, @RequestParam Integer researchId, @RequestParam Integer districtId, @RequestBody List<Record> records) {
+    public JsonData save(@RequestParam String blankId, @RequestParam Integer researchId, @RequestParam Integer districtId, @RequestBody List<Record> records) throws ParseException {
         recordSrv.save(blankId, researchId, districtId, records);
         return new JsonData(true);
     }
