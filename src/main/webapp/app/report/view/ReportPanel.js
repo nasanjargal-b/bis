@@ -55,6 +55,7 @@ Ext.define('Report.view.ReportPanel', {
                 {
                     xtype: 'combo',
                     name: 'type',
+                    action:'comboType',
                     query: 'local',
                     fieldLabel: 'Төрөл',
                     allowBlank: false,
@@ -85,12 +86,7 @@ Ext.define('Report.view.ReportPanel', {
         },
         {
             xtype: 'tabpanel',
-            region: 'center',
-            items: [
-                {xtype: 'columnPanel'},
-                {xtype: 'filterPanel'},
-                {xtype: 'chartPanel'}
-            ]
+            region: 'center'
         }
     ]
 });
