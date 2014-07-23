@@ -115,25 +115,46 @@ Ext.define('Blank.controller.BlankCtrl', {
 //        for (var i = 0; i < root.childNodes.length; i++) {
 //            var node = root.childNodes[i];
 //            for (var j=0; j<node.childNodes.length;j++) {
-//                node.childNodes[j].get('code');
+//                console.log(node.childNodes[j].get('code'));
 //            }
 //        }
+        valid = true;
         for (var i = 0; i < root.childNodes.length; i++) {
             var node = root.childNodes[i];
-            questions[questions.length] = this.getNodeData(node, order);
+            for (var k = i + 1; k < root.childNodes.length; k++) {
+                var node1 = root.childNodes[k];
+                if (node.get('code') == node1.get('code')) {
+                    Ext.MessageBox.alert("Алдаа", node.get('code') + ' уг код давхацсан байна та шалгаад өгөгдөлөө дахин оруулна уу?');
+                    valid = false;
+                }
+            }
+            for (var j = 0; j < node.childNodes.length; j++) {
+                for (var l = j + 1; l < node1.childNodes.length; l++) {
+                    if (node.childNodes[j].get('code') == node.childNodes[l].get('code')) {
+                        Ext.MessageBox.alert("Алдаа", node.childNodes[j].get('code') + ' уг код давхацсан байна та шалгаад өгөгдөлөө дахин оруулна уу?');
+                        valid = false;
+                    }
+                }
+            }
+        }
+        for (var i = 0; i < root.childNodes.length; i++) {
+            var node = root.childNodes[i];
+            questions[questions.length] = this.getNodeData(node, order, valid);
         }
 
         blank.questions = questions;
-
-        Ext.Ajax.request({
-            url: '/blank-mod/blank/blank.json',
-            method: 'post',
-            jsonData: blank,
-            success: function () {
-                me.getMainPanel().removeAll();
-                me.getBlankGrid().getStore().reload();
-            }
-        })
+        console.log(valid);
+        if (valid == true) {
+            Ext.Ajax.request({
+                url: '/blank-mod/blank/blank.json',
+                method: 'post',
+                jsonData: blank,
+                success: function () {
+                    me.getMainPanel().removeAll();
+                    me.getBlankGrid().getStore().reload();
+                }
+            })
+        }
 
     },
     getNodeData: function (node, order) {
@@ -148,7 +169,6 @@ Ext.define('Blank.controller.BlankCtrl', {
 
         node.choices().each(function (record) {
             if (!obj.choices) obj.choices = [];
-
             var choice = {
                 id: record.get('id'),
                 code: record.get('code'),
@@ -156,7 +176,16 @@ Ext.define('Blank.controller.BlankCtrl', {
             };
             obj.choices[obj.choices.length] = choice;
         })
-
+        if (obj.choices) {
+            for (var i = 0; i < obj.choices.length; i++) {
+                for (var j = i + 1; j < obj.choices.length; j++) {
+                    if (obj.choices[i].code == obj.choices[j].code) {
+                        Ext.MessageBox.alert("Алдаа", obj.code + ' уг асуултын '+obj.choices[i].code+' хариултын код давхацсан байна!');
+                        valid = false;
+                    }
+                }
+            }
+        }
         order.num++;
 
         if (node.childNodes != null && node.childNodes.length > 0) {
@@ -166,10 +195,10 @@ Ext.define('Blank.controller.BlankCtrl', {
                 obj.children[obj.children.length] = this.getNodeData(child, order);
             }
         }
-
         return obj;
     },
     cancel: function (btn) {
         this.getMainPanel().removeAll();
     }
 });
+var valid = true;

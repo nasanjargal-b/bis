@@ -46,7 +46,7 @@ Ext.define('Blank.view.RecordUploadWindow', {
                 name: 'codeRow',
                 allowBlank: false,
                 allowDecimals: false,
-                value: 2
+                value: 1
             }
         ]
     },
