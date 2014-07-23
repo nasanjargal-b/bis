@@ -42,14 +42,10 @@ public class RecordDataCtrl {
     }
 
     @RequestMapping(value = "records.json", method = RequestMethod.DELETE)
+    @Transactional
     @ResponseBody
-    public JsonData delete(@RequestBody final List<Record> records) {
-        return template.execute(new TransactionCallback<JsonData>() {
-            @Override
-            public JsonData doInTransaction(TransactionStatus status) {
-                recordSrv.delete(records);
-                return new JsonData(true);
-            }
-        });
+    public JsonData delete(String blankId, @RequestBody final List<Record> records) {
+        recordSrv.delete(blankId, records);
+        return new JsonData(true);
     }
 }

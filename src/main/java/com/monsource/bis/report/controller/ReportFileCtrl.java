@@ -17,11 +17,13 @@ import org.jdom2.output.SAXOutputter;
 import org.jdom2.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.HTML;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +38,7 @@ import java.util.Map;
  * Created by nasanjargal on 7/17/14.
  */
 @Controller
-@RequestMapping("/report-mod/view/file.html")
+@RequestMapping("/report-mod/view")
 public class ReportFileCtrl {
 
     public static enum FileType {
@@ -55,10 +57,19 @@ public class ReportFileCtrl {
     @Autowired
     ServletContext servletCtx;
 
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "file.html", method = {RequestMethod.POST, RequestMethod.GET})
     public void download(Integer reportId, Integer districtId, FileType type, String svg, HttpServletResponse response) throws Exception {
-        DateFormat df = new SimpleDateFormat("yyyyMMdd");
         Report report = reportService.get(reportId);
+        buildReport(report, districtId, type, svg, response);
+    }
+
+    @RequestMapping(value = "preview.html", method = {RequestMethod.POST, RequestMethod.GET})
+    public void download(@RequestBody Report report, HttpServletResponse response) throws Exception {
+        buildReport(report, null, FileType.HTML, null, response);
+    }
+
+    private void buildReport(Report report, Integer districtId, FileType type, String svg, HttpServletResponse response) throws Exception {
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
         List<Map> datas = reportViewService.calc(report, districtId);
         String name = report.getName() + "_" + df.format(new Date());
 

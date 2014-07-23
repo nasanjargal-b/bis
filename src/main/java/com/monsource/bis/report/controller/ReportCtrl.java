@@ -22,6 +22,8 @@ public class ReportCtrl {
     ReportDao reportDao;
     @Autowired
     ReportService reportSrv;
+    @Autowired
+    ReportQueryService reportQuerySrv;
 
     /**
      * @param node
@@ -73,6 +75,12 @@ public class ReportCtrl {
     public JsonData delete(@RequestBody List<Report> reports) {
         reportSrv.delete(reports);
         return new JsonData(true);
+    }
+
+    @RequestMapping(value = "report-query.json", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonData query(String query) {
+        return new JsonData(reportQuerySrv.queryMetaData(query));
     }
 
 }

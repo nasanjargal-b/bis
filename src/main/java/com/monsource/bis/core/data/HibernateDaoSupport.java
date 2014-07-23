@@ -23,7 +23,7 @@ public class HibernateDaoSupport<E extends DataEntity> implements DataAccessObje
 
     public E merge(E entity, boolean isAutoFlush) {
         Object merge = this.getSession().merge(entity);
-        if(isAutoFlush) this.flush();
+        if (isAutoFlush) this.flush();
         return (E) merge;
     }
 
@@ -63,6 +63,10 @@ public class HibernateDaoSupport<E extends DataEntity> implements DataAccessObje
 
     protected Session getSession() {
         return sessionFactory.getCurrentSession();
+    }
+
+    protected SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
 }

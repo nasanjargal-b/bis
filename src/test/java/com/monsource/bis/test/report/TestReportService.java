@@ -1,7 +1,10 @@
 package com.monsource.bis.test.report;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monsource.bis.data.entity.type.ReportQuestionType;
+import com.monsource.bis.report.model.Column;
 import com.monsource.bis.report.model.Report;
+import com.monsource.bis.report.service.ReportQueryService;
 import com.monsource.bis.report.service.ReportService;
 import com.monsource.bis.report.service.ReportViewService;
 import org.hibernate.*;
@@ -32,6 +35,8 @@ public class TestReportService {
     ReportViewService reportViewService;
     @Autowired
     ReportService reportService;
+    @Autowired
+    ReportQueryService reportQueryService;
 
     @Autowired
     SessionFactory sessionFactory;
@@ -49,6 +54,18 @@ public class TestReportService {
 
         objectMapper.writeValue(System.out, data);
         System.out.println();
+    }
+
+    @Test
+    @Transactional
+    public void testQuery() throws Exception {
+
+        List<Column> columns = reportQueryService.queryMetaData("SELECT \"Q3_2\" FROM bdata.V_B01");
+        System.out.println(columns.size());
+        for (Column column : columns) {
+            System.out.println(column.getCode());
+        }
+
     }
 
     @Test
