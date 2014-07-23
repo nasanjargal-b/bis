@@ -9,11 +9,9 @@ Ext.define('Report.controller.ReportCtrl', {
                 change:function(btn){
                    var tab = btn.up('panel').up('panel').down('tabpanel');
                    var combo = btn.up('panel').up('panel').down('combo[name="blankId"]');
-
-                    console.log(combo)
                     if(btn.getValue()=='SIMPLE'){
                         tab.removeAll();
-                        tab.add({xtype: 'columnPanel'},{xtype: 'chartPanel'},{xtype: 'filterPanel'})
+                        tab.add({xtype: 'columnPanel'},{xtype: 'filterPanel'},{xtype: 'chartPanel'})
                         combo.show();
                         tab.doLayout();
                     }else{

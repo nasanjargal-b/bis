@@ -8,9 +8,16 @@ Ext.define('Report.view.ReportQueryPanel', {
     },
     items: [
         {
-            region: 'west',
-            width:350,
+            region: 'center',
             title:'query',
+            dockedItems:{
+                xtype:'toolbar',
+                items:[
+                    {
+                        text:'Шалгах'
+                    }
+                ]
+            },
             border:true,
             bodyStyle: 'background-color:'+PANEL_COLOR+'',
             layout:'vbox',
@@ -18,6 +25,7 @@ Ext.define('Report.view.ReportQueryPanel', {
                 {
                     xtype: 'textareafield',
                     id: 'codearea',
+                    resizable:true,
                     name:'query',
                     title: 'query',
                     allowBlank: false,
@@ -37,18 +45,13 @@ Ext.define('Report.view.ReportQueryPanel', {
 
                         }
                     }
-                },
-                {
-                    bodyStyle: 'background-color:'+PANEL_COLOR+'',
-                    xtype:'button',
-                    text:'check'
                 }
             ]
-
         },
         {
             xtype: 'grid',
-            region: 'center',
+            region: 'east',
+            width:350,
             title: 'Асуултын жагсаалт',
             name:'questionQueryGrid',
             forceFit: true,
