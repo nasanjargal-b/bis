@@ -8,12 +8,9 @@ Ext.define('Report.view.ReportQueryPanel', {
     },
     items: [
         {
-            xtype: 'questionGrid',
             region: 'west',
-            padding: '0 5 0 0'
-        },
-        {
-            region: 'center',
+            width:350,
+            title:'query',
             border:true,
             bodyStyle: 'background-color:'+PANEL_COLOR+'',
             layout:'vbox',
@@ -34,26 +31,24 @@ Ext.define('Report.view.ReportQueryPanel', {
                             });
                             codemirror.on("change", function () {
                                 var val = Ext.ComponentQuery.query('textareafield[id="codearea"]')[0].bodyEl.dom.innerText;
-                                console.log(Ext.ComponentQuery.query('textareafield[id="codearea"]'));
                                 Ext.ComponentQuery.query('textareafield[id="codearea"]')[0].setValue(val);
                             })
 
                         }
-//                ,
-//                change:function(){
-//                    alert('sadsda')
-//                   var val = Ext.ComponentQuery.query('textareafield[id="codearea"]')[0].bodyEl.dom.innerText;
-//                    Ext.ComponentQuery.query('textareafield[id="codearea"]').setValue(val);
-//                    console.log(val);
-//                }
                     }
                 },
                 {
                     bodyStyle: 'background-color:'+PANEL_COLOR+'',
-                    xtype:'checkbox'
+                    xtype:'button',
+                    text:'check'
                 }
             ]
 
+        },
+        {
+            xtype: 'questionGrid',
+            region: 'center',
+            padding: '0 5 0 0'
         }
     ]
 });

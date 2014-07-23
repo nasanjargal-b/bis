@@ -8,20 +8,20 @@ Ext.define('Report.controller.ReportCtrl', {
             'reportPanel combo[action="comboType"]':{
                 change:function(btn){
                    var tab = btn.up('panel').up('panel').down('tabpanel');
-                    console.log(btn.getValue())
+                   var combo = btn.up('panel').up('panel').down('combo[name="blankId"]');
+
+                    console.log(combo)
                     if(btn.getValue()=='SIMPLE'){
                         tab.removeAll();
                         tab.add({xtype: 'columnPanel'},{xtype: 'chartPanel'},{xtype: 'filterPanel'})
+                        combo.show();
                         tab.doLayout();
                     }else{
                         tab.removeAll();
+                        combo.hide();
                         tab.add({xtype: 'reportQueryPanel'},{xtype: 'chartPanel'})
                         tab.doLayout();
                     }
-//                    {xtype: 'columnPanel'},
-//                    {xtype: 'filterPanel'},
-//                    {xtype: 'reportQueryPanel'},
-//                    {xtype: 'chartPanel'}
                 }
             },
             'reportTreePanel button[action="add"]': {
