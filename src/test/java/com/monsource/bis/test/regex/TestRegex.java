@@ -1,43 +1,21 @@
-package com.monsource.bis.report.dao;
+package com.monsource.bis.test.regex;
 
-import com.monsource.bis.core.data.DataEntity;
-import com.monsource.bis.core.data.HibernateDaoSupport;
-import com.monsource.bis.data.entity.type.ReportType;
-import com.monsource.bis.report.component.RecordQueryBuilder;
-import com.monsource.bis.report.model.Column;
-import com.monsource.bis.report.model.Report;
-import org.hibernate.SQLQuery;
-import org.hibernate.transform.Transformers;
-import org.springframework.stereotype.Repository;
+import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by nasanjargal on 7/8/14.
+ * Created by nasanjargal on 7/23/14.
  */
-@Repository
-public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
+public class TestRegex {
 
-    public List<Map> find(Report report, Integer districtId) {
-        String query = null;
-
-        if (report.getType() == ReportType.SIMPLE) {
-            RecordQueryBuilder rqb = new RecordQueryBuilder(report, districtId);
-            query = rqb.query();
-        } else if (report.getType() == ReportType.QUERY) {
-            query = covertSqlQuery(report.getQuery());
-        }
-        SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
-        sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        return sqlQuery.list();
-    }
-
-    private String covertSqlQuery(String query) {
+    @Test
+    public void regexQuery() {
+        String query = "SELECT b.$C{Q3_2} AS q3_2,b.$c{Q3_1} AS q3_1 FROM $B{B01} WHERE district_id = $P{districtId}";
+        System.out.println(query);
         Map<String, String> changer = new HashMap<>();
 
         findColumn(query, changer);
@@ -49,7 +27,8 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
             query = query.replace(origin, value);
         }
 
-        return query;
+
+        System.out.println(query);
     }
 
     private void findParameter(String query, Map<String, String> changer) {
@@ -85,19 +64,4 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
         }
     }
 
-    public List<Column> getQueryMetaData(String query) {
-        List<Column> columns = new ArrayList<>();
-        SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
-        sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        sqlQuery.setMaxResults(1);
-        Map<String, Object> data = (Map<String, Object>) sqlQuery.uniqueResult();
-
-        for (String key : data.keySet()) {
-            Column column = new Column();
-            column.setCode(key);
-            columns.add(column);
-        }
-
-        return columns;
-    }
 }

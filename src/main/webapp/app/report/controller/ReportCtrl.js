@@ -282,11 +282,11 @@ Ext.define('Report.controller.ReportCtrl', {
         }
     },
     buildReportPanel: function (record) {
-            var mainPanel = this.getMainPanel();
-            mainPanel.removeAll();
-            var panel = Ext.create('Report.view.ReportPanel');
-            panel.loadRecord(record);
-            mainPanel.add(panel);
+        var mainPanel = this.getMainPanel();
+        mainPanel.removeAll();
+        var panel = Ext.create('Report.view.ReportPanel');
+        panel.loadRecord(record);
+        mainPanel.add(panel);
         if (Ext.ComponentQuery.query('columnPanel')[0] && Ext.ComponentQuery.query('filterPanel')[0]) {
             var columnGrid = Ext.ComponentQuery.query('columnPanel')[0].down('grid[action="columnGrid"]');
             columnGrid.reconfigure(record.columns());
@@ -316,6 +316,7 @@ Ext.define('Report.controller.ReportCtrl', {
             })
             filterGrid.reconfigure(record.filters());
 
+            //todo out of if condition
             var chartColumnGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartColumnGrid"]');
             chartColumnGrid.reconfigure(record.columns());
             var chartSeriesGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartSeriesGrid"]');

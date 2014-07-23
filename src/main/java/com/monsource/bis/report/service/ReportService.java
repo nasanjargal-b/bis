@@ -2,6 +2,7 @@ package com.monsource.bis.report.service;
 
 import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.data.entity.*;
+import com.monsource.bis.data.entity.type.ReportType;
 import com.monsource.bis.report.model.*;
 import com.monsource.bis.report.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class ReportService {
                 reportEntity.getName(),
                 reportEntity.getParent() == null ? null : reportEntity.getParent().getId(),
                 reportEntity.getParent() == null ? null : reportEntity.getParent().getName(),
-                reportEntity.getBlank().getId(),
-                reportEntity.getBlank().getName(),
+                reportEntity.getBlank() == null ? null : reportEntity.getBlank().getId(),
+                reportEntity.getBlank() == null ? null : reportEntity.getBlank().getName(),
                 reportEntity.getChart(),
                 reportEntity.getChartCategory(),
                 reportEntity.getOrder(),
@@ -138,7 +139,6 @@ public class ReportService {
             reportEntity.getReportFilters().clear();
             reportEntity.getChartSerieses().clear();
         }
-
 
         reportEntity.setName(report.getName());
         reportEntity.setGroup(report.isGroup());

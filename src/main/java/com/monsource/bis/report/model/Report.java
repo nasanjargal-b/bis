@@ -85,7 +85,7 @@ public class Report implements TreeModel<Integer> {
     }
 
     public String getParentName() {
-        return this.parentName;
+        return parentName;
     }
 
     public void setParentName(String parentName) {

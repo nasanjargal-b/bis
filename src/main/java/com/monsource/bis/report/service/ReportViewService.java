@@ -1,6 +1,7 @@
 package com.monsource.bis.report.service;
 
 import com.monsource.bis.data.entity.ReportEntity;
+import com.monsource.bis.data.entity.type.ReportType;
 import com.monsource.bis.report.dao.*;
 import com.monsource.bis.report.model.Column;
 import com.monsource.bis.report.model.Report;
@@ -34,36 +35,24 @@ public class ReportViewService {
     public List<Map> calc(Report report, Integer districtId) {
         List<Map> results = reportRecordDao.find(report, districtId);
 
-        for (Column column : report.getColumns()) {
-            if (column.getPercent()) {
-                double total = 0d;
-                for (Map result : results) {
-                    Object value = result.get(column.getCode());
-                    total += ((Number) (value == null ? 0 : value)).doubleValue();
+        if (report.getType() == ReportType.SIMPLE)
+            for (Column column : report.getColumns()) {
+                if (column.getPercent()) {
+                    double total = 0d;
+                    for (Map result : results) {
+                        Object value = result.get(column.getCode());
+                        total += ((Number) (value == null ? 0 : value)).doubleValue();
+                    }
+
+                    for (Map result : results) {
+                        Object value = result.get(column.getCode());
+                        double number = ((Number) (value == null ? 0 : value)).doubleValue();
+                        number = number * 100 / total;
+
+                        result.put(column.getCode(), number);
+                    }
                 }
-
-                for (Map result : results) {
-                    Object value = result.get(column.getCode());
-                    double number = ((Number) (value == null ? 0 : value)).doubleValue();
-                    number = number * 100 / total;
-
-                    result.put(column.getCode(), number);
-                }
-                /*total = 0d;
-                for (Map result : results) {
-                    Object value = result.get(column.getCode());
-                    total += ((Number) value).doubleValue();
-                }
-                for (Map result : results) {
-                    Object value = result.get(column.getCode());
-                    double number = ((Number) (value == null ? 0 : value)).doubleValue();
-                    number = number * 100 / total;
-
-                    result.put(column.getCode(), Math.round(number));
-                }*/
-
             }
-        }
 
         return results;
     }

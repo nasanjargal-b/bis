@@ -35,7 +35,6 @@ Ext.define('Report.view.ReportQueryPanel', {
                         afterrender: function () {
                             var textarea = Ext.getCmp('codearea');
                             var codemirror = CodeMirror.fromTextArea(textarea.inputEl.dom, {
-//                        lineNumbers: true,
                                 mode: 'text/x-plsql'
                             });
                             codemirror.on("change", function () {

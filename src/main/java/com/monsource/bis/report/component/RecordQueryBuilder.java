@@ -25,7 +25,7 @@ public class RecordQueryBuilder {
     protected final static String QUESTION = "Q_";
     protected static final String QCOLUMN = "question_id";
 
-    private final static String TABLE = "registration.record_view";
+    private final String TABLE;
 
     Report report;
     Integer districtId;
@@ -37,12 +37,17 @@ public class RecordQueryBuilder {
     public RecordQueryBuilder(Report report, Integer districtId) {
         this.report = report;
         this.districtId = districtId;
-        initAlias();
-        initColumn();
-        initFilter();
+        TABLE = "bdata." + report.getBlankName();
+//        initAlias();
+//        initColumn();
+//        initFilter();
     }
 
-    private void initAlias() {
+    public String query() {
+        return "";
+    }
+
+    /*private void initAlias() {
         for (Column column : report.getColumns()) {
             if (column.getType() == ReportQuestionType.QUESTION) {
                 QueryAlias queryAlias = new QueryAlias(
@@ -284,22 +289,5 @@ public class RecordQueryBuilder {
             default:
                 return "%s";
         }
-    }
-
-    private String getColumnName(QuestionType columnType) {
-        switch (columnType) {
-            case SINGLE_CHOICE:
-            case MULTIPLE_CHOICE:
-                return "text";
-            case TIME:
-                return "time";
-            case NUMERIC:
-                return "numeric";
-            case DATE:
-                return "date";
-            case TEXT:
-                return "string";
-        }
-        return null;
-    }
+    }*/
 }
