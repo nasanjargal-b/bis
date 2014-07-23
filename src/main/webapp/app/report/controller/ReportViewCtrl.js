@@ -132,7 +132,12 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         type: 'Category',
                         position: 'bottom',
                         fields: [report.chartCategory],
-                        title: title
+                        title: title,
+                        label: {
+                            rotate: {
+                                degrees: -20
+                            }
+                        }
                     }
                 ];
 

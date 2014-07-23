@@ -40,7 +40,7 @@ public class RecordQueryBuilder {
         TABLE = SCHEMA + report.getBlankId();
         initAlias();
         initColumn();
-//        initFilter();
+        initFilter();
     }
 
     public String query() {
@@ -49,13 +49,17 @@ public class RecordQueryBuilder {
         buildColumn(queryBuilder);
         queryBuilder.append(" FROM " + TABLE + " AS " + RECORD + " ");
         buildAlias(queryBuilder);
-//        buildFilter(queryBuilder);
-//        buildGroup(queryBuilder);
+        buildFilter(queryBuilder);
+        buildGroup(queryBuilder);
 
         return queryBuilder.toString();
     }
 
     private void initAlias() {
+
+        queryAliases.add(new QueryAlias("RS", "registration.research", "id", "research_id", RECORD, null, QueryAlias.Join.INNER));
+        queryAliases.add(new QueryAlias("D", "public.district", "id", "district_id", RECORD, null, QueryAlias.Join.INNER));
+        queryAliases.add(new QueryAlias("C", "public.city", "id", "city_id", "D", null, QueryAlias.Join.INNER));
 
         for (Column column : report.getColumns()) {
             if (column.getFilter() != null || column.getChoiceId() != null) {
@@ -78,81 +82,10 @@ public class RecordQueryBuilder {
                 queryAliases.add(queryAlias);
 
                 if (column.getChoiceId() != null) {
-//todo filter
+                    queryAliases.add(new QueryAlias(CHOICE + QUESTION + column.getCode(), "registration.choice", "id", QUESTION + column.getQuestionId(), RECORD, null, QueryAlias.Join.LEFT));
                 }
             }
         }
-
-        /*for (Column column : report.getColumns()) {
-            if (column.getFilter() != null || column.getChoiceId() != null) {
-                QueryAlias queryAlias = new QueryAlias(
-                        QUESTION + column.getCode(),
-                        "record_question_view",
-                        "registration",
-                        "record_id",
-                        "id",
-                        RECORD,
-                        column.getQuestionId(),
-                        getColumnName(column.getColumnType()),
-                        QueryAlias.Join.LEFT);
-                if (column.getFilter() != null)
-                    queryAlias.setFilter(column.getFilter());
-                if (column.getChoiceId() != null) {
-                    queryAlias.setFilter(QUESTION + column.getCode() + ".choice_id = " + column.getChoiceId());
-                }
-
-                queryAliases.add(queryAlias);
-            }
-        }*/
-
-        /*for (Column column : report.getColumns()) {
-            if (column.getType() == ReportQuestionType.QUESTION) {
-                QueryAlias queryAlias = new QueryAlias(
-                        QUESTION + column.getCode(),
-                        "record_question_view",
-                        "registration",
-                        "record_id",
-                        "id",
-                        RECORD,
-                        column.getQuestionId(),
-                        getColumnName(column.getColumnType()),
-                        QueryAlias.Join.LEFT);
-                if (column.getFilter() != null)
-                    queryAlias.setFilter(column.getFilter());
-                if (column.getChoiceId() != null) {
-                    queryAlias.setFilter(QUESTION + column.getCode() + ".choice_id = " + column.getChoiceId());
-                }
-
-                queryAliases.add(queryAlias);
-            }
-        }
-
-        for (Filter filter : report.getFilters()) {
-
-            boolean notHave = true;
-            for (QueryAlias queryAliase : queryAliases) {
-                if (queryAliase.getAlias().equals(FILTER + filter.getCode())) {
-                    notHave = false;
-                    break;
-                }
-            }
-            if (!notHave) continue;
-
-            if (filter.getType() == ReportQuestionType.QUESTION) {
-                QueryAlias queryAlias = new QueryAlias(
-                        FILTER + filter.getCode(),
-                        "record_question_view",
-                        "registration",
-                        "record_id",
-                        "id",
-                        RECORD,
-                        filter.getQuestionId(),
-                        getColumnName(filter.getColumnType()),
-                        QueryAlias.Join.INNER);
-
-                queryAliases.add(queryAlias);
-            }
-        }*/
     }
 
     private void buildAlias(StringBuilder queryBuilder) {
@@ -189,19 +122,19 @@ public class RecordQueryBuilder {
             }
             switch (column.getType()) {
                 case RESEARCH:
-                    queryColumns.add(new QueryColumn(RECORD, "research_name", column.getCode(), column.getCalcType()));
+                    queryColumns.add(new QueryColumn("RS", "name", column.getCode(), column.getCalcType()));
                     break;
                 case CITY:
-                    queryColumns.add(new QueryColumn(RECORD, "city_name", column.getCode(), column.getCalcType()));
+                    queryColumns.add(new QueryColumn("C", "name", column.getCode(), column.getCalcType()));
                     break;
                 case DISTRICT:
-                    queryColumns.add(new QueryColumn(RECORD, "district_name", column.getCode(), column.getCalcType()));
+                    queryColumns.add(new QueryColumn("D", "name", column.getCode(), column.getCalcType()));
                     break;
                 case QUESTION:
                     switch (column.getColumnType()) {
                         case MULTIPLE_CHOICE:
                         case SINGLE_CHOICE:
-                            queryColumns.add(new QueryColumn(alias, "choice_text", column.getCode(), column.getCalcType()));
+                            queryColumns.add(new QueryColumn(CHOICE + alias, "text", column.getCode(), column.getCalcType()));
                             break;
                         default:
                             queryColumns.add(new QueryColumn(alias, QUESTION + column.getQuestionId(), column.getCode(), column.getCalcType()));
@@ -229,6 +162,89 @@ public class RecordQueryBuilder {
         queryBuilder.append(StringUtils.join(columnList, ", "));
     }
 
+    private void initFilter() {
+
+        if (districtId != null) {
+            QueryFilter districtFilter = new QueryFilter();
+            districtFilter.setAlias(RECORD);
+            districtFilter.setColumn("district_id");
+            districtFilter.setFilter("$ = " + districtId);
+            queryFilters.add(districtFilter);
+        }
+
+        for (Filter filter : report.getFilters()) {
+            QueryFilter queryFilter = new QueryFilter();
+            switch (filter.getType()) {
+                case RESEARCH:
+                    queryFilter.setAlias("RS");
+                    queryFilter.setColumn("id");
+                    queryFilter.setResearchId(filter.getResearchId());
+                    break;
+                case CITY:
+                    queryFilter.setAlias("C");
+                    queryFilter.setColumn("id");
+                    queryFilter.setCityId(filter.getCityId());
+                    break;
+                case DISTRICT:
+                    queryFilter.setAlias("D");
+                    queryFilter.setColumn("id");
+                    queryFilter.setDistrictId(filter.getDistrictId());
+                    break;
+                case QUESTION:
+                    queryFilter.setAlias(RECORD);
+                    queryFilter.setColumn(QUESTION + filter.getQuestionId());
+                    switch (filter.getColumnType()) {
+                        case MULTIPLE_CHOICE:
+                        case SINGLE_CHOICE:
+                            queryFilter.setChoiceIds(filter.getChoiceIds());
+                            break;
+                        default:
+                            queryFilter.setFilter(filter.getFilter());
+                    }
+            }
+
+            queryFilters.add(queryFilter);
+        }
+    }
+
+    private void buildFilter(StringBuilder queryBuilder) {
+        List<String> filterList = new ArrayList<>();
+
+        for (QueryFilter queryFilter : queryFilters) {
+            String column = queryFilter.getAlias() + "." + queryFilter.getColumn();
+
+            if (queryFilter.getFilter() != null) {
+                filterList.add("(" + queryFilter.getFilter().replace("\"", "'").replace("$", column) + ")");
+            } else if (queryFilter.getResearchId() != null) {
+                filterList.add(column + " = " + queryFilter.getResearchId());
+            } else if (queryFilter.getCityId() != null) {
+                filterList.add(column + " = " + queryFilter.getCityId());
+            } else if (queryFilter.getDistrictId() != null) {
+                filterList.add(column + " = " + queryFilter.getDistrictId());
+            } else if (queryFilter.getChoiceIds() != null) {
+                filterList.add(column + " IN (" + StringUtils.join(queryFilter.getChoiceIds(), ",") + ")");
+            }
+        }
+
+        if (filterList.size() > 0)
+            queryBuilder.append(" WHERE " + StringUtils.join(filterList, " AND "));
+    }
+
+    private void buildGroup(StringBuilder queryBuilder) {
+
+        List<String> groups = new ArrayList<>();
+
+        for (Column column : report.getColumns()) {
+            if (column.getCalcType() == ReportCalcType.GROUP) {
+                groups.add("\"" + column.getCode() + "\"");
+            }
+        }
+
+        queryBuilder.append(" GROUP BY");
+        queryBuilder.append(StringUtils.join(groups, ", "));
+        queryBuilder.append(" ORDER BY");
+        queryBuilder.append(StringUtils.join(groups, ", "));
+    }
     /*private void initAlias() {
         for (Column column : report.getColumns()) {
             if (column.getType() == ReportQuestionType.QUESTION) {

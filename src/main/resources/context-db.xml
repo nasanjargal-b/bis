@@ -6,7 +6,7 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://10.0.0.110/bis"/>
+        <property name="url" value="jdbc:postgresql://db.monsource.net/bis"/>
         <property name="username" value="bis"/>
         <property name="password" value="bis@123"/>
         <property name="minIdle" value="10"/>

@@ -324,7 +324,7 @@ Ext.define('Report.controller.ReportCtrl', {
         filterGrid.reconfigure(record.filters());
     },
     initQueryGrid: function (record) {
-        var queryColumnGrid = Ext.ComponentQuery.query('columnPanel')[0].down('grid[action="queryColumnGrid"]');
+        var queryColumnGrid = Ext.ComponentQuery.query('reportQueryPanel')[0].down('grid[action="queryColumnGrid"]');
         queryColumnGrid.reconfigure(record.columns());
     },
     initChartGrid: function (record) {
