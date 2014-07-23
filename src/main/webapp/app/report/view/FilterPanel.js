@@ -16,6 +16,7 @@ Ext.define('Report.view.FilterPanel', {
         {
             xtype: 'grid',
             action: 'filterGrid',
+            title: 'Шүүлтүүр',
             region: 'center',
             plugins: Ext.create('Ext.grid.plugin.CellEditing', {
                 clicksToEdit: 1

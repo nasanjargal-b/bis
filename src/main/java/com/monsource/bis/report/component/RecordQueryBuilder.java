@@ -19,11 +19,11 @@ import java.util.Map;
 
 public class RecordQueryBuilder {
 
-    protected final static String RCV = "RCV_";
+    protected final static String SCHEMA = "bdata.";
     protected final static String FILTER = "F_";
     protected final static String RECORD = "R";
     protected final static String QUESTION = "Q_";
-    protected static final String QCOLUMN = "question_id";
+    protected static final String CHOICE = "C_";
 
     private final String TABLE;
 
@@ -37,14 +37,196 @@ public class RecordQueryBuilder {
     public RecordQueryBuilder(Report report, Integer districtId) {
         this.report = report;
         this.districtId = districtId;
-        TABLE = "bdata." + report.getBlankName();
-//        initAlias();
-//        initColumn();
+        TABLE = SCHEMA + report.getBlankId();
+        initAlias();
+        initColumn();
 //        initFilter();
     }
 
     public String query() {
-        return "";
+
+        StringBuilder queryBuilder = new StringBuilder("SELECT ");
+        buildColumn(queryBuilder);
+        queryBuilder.append(" FROM " + TABLE + " AS " + RECORD + " ");
+        buildAlias(queryBuilder);
+//        buildFilter(queryBuilder);
+//        buildGroup(queryBuilder);
+
+        return queryBuilder.toString();
+    }
+
+    private void initAlias() {
+
+        for (Column column : report.getColumns()) {
+            if (column.getFilter() != null || column.getChoiceId() != null) {
+                QueryAlias queryAlias = new QueryAlias(
+                        QUESTION + column.getCode(),
+                        TABLE,
+                        "id",
+                        "id",
+                        RECORD,
+                        QUESTION + column.getQuestionId(),
+                        QueryAlias.Join.LEFT
+                );
+
+                if (column.getFilter() != null)
+                    queryAlias.setFilter(column.getFilter());
+
+                if (column.getChoiceId() != null) {
+                    queryAlias.setFilter(QUESTION + column.getCode() + "." + QUESTION + column.getQuestionId() + " = " + column.getChoiceId());
+                }
+                queryAliases.add(queryAlias);
+
+                if (column.getChoiceId() != null) {
+//todo filter
+                }
+            }
+        }
+
+        /*for (Column column : report.getColumns()) {
+            if (column.getFilter() != null || column.getChoiceId() != null) {
+                QueryAlias queryAlias = new QueryAlias(
+                        QUESTION + column.getCode(),
+                        "record_question_view",
+                        "registration",
+                        "record_id",
+                        "id",
+                        RECORD,
+                        column.getQuestionId(),
+                        getColumnName(column.getColumnType()),
+                        QueryAlias.Join.LEFT);
+                if (column.getFilter() != null)
+                    queryAlias.setFilter(column.getFilter());
+                if (column.getChoiceId() != null) {
+                    queryAlias.setFilter(QUESTION + column.getCode() + ".choice_id = " + column.getChoiceId());
+                }
+
+                queryAliases.add(queryAlias);
+            }
+        }*/
+
+        /*for (Column column : report.getColumns()) {
+            if (column.getType() == ReportQuestionType.QUESTION) {
+                QueryAlias queryAlias = new QueryAlias(
+                        QUESTION + column.getCode(),
+                        "record_question_view",
+                        "registration",
+                        "record_id",
+                        "id",
+                        RECORD,
+                        column.getQuestionId(),
+                        getColumnName(column.getColumnType()),
+                        QueryAlias.Join.LEFT);
+                if (column.getFilter() != null)
+                    queryAlias.setFilter(column.getFilter());
+                if (column.getChoiceId() != null) {
+                    queryAlias.setFilter(QUESTION + column.getCode() + ".choice_id = " + column.getChoiceId());
+                }
+
+                queryAliases.add(queryAlias);
+            }
+        }
+
+        for (Filter filter : report.getFilters()) {
+
+            boolean notHave = true;
+            for (QueryAlias queryAliase : queryAliases) {
+                if (queryAliase.getAlias().equals(FILTER + filter.getCode())) {
+                    notHave = false;
+                    break;
+                }
+            }
+            if (!notHave) continue;
+
+            if (filter.getType() == ReportQuestionType.QUESTION) {
+                QueryAlias queryAlias = new QueryAlias(
+                        FILTER + filter.getCode(),
+                        "record_question_view",
+                        "registration",
+                        "record_id",
+                        "id",
+                        RECORD,
+                        filter.getQuestionId(),
+                        getColumnName(filter.getColumnType()),
+                        QueryAlias.Join.INNER);
+
+                queryAliases.add(queryAlias);
+            }
+        }*/
+    }
+
+    private void buildAlias(StringBuilder queryBuilder) {
+        List<String> aliasList = new ArrayList<>();
+
+        for (QueryAlias queryAlias : queryAliases) {
+            StringBuilder aliasBuilder = new StringBuilder();
+
+            aliasBuilder.append(queryAlias.getJoin() + " JOIN ");
+            aliasBuilder.append(queryAlias.getTable() + " AS " + queryAlias.getAlias());
+            aliasBuilder.append(" ON ");
+            aliasBuilder.append(queryAlias.getAlias() + "." + queryAlias.getColumn());
+            aliasBuilder.append(" = ");
+            aliasBuilder.append(queryAlias.getRefAlias() + "." + queryAlias.getRefColumn());
+
+            if (queryAlias.getFilter() != null) {
+                String filter = queryAlias.getFilter();
+                aliasBuilder.append(" AND ");
+                aliasBuilder.append(filter.replace("$", queryAlias.getAlias() + "." + queryAlias.getFilterColumn()));
+            }
+
+            aliasList.add(aliasBuilder.toString());
+        }
+
+
+        queryBuilder.append(StringUtils.join(aliasList, " "));
+    }
+
+    private void initColumn() {
+        for (Column column : report.getColumns()) {
+            String alias = RECORD;
+            if (column.getFilter() != null || column.getChoiceId() != null) {
+                alias = QUESTION + column.getCode();
+            }
+            switch (column.getType()) {
+                case RESEARCH:
+                    queryColumns.add(new QueryColumn(RECORD, "research_name", column.getCode(), column.getCalcType()));
+                    break;
+                case CITY:
+                    queryColumns.add(new QueryColumn(RECORD, "city_name", column.getCode(), column.getCalcType()));
+                    break;
+                case DISTRICT:
+                    queryColumns.add(new QueryColumn(RECORD, "district_name", column.getCode(), column.getCalcType()));
+                    break;
+                case QUESTION:
+                    switch (column.getColumnType()) {
+                        case MULTIPLE_CHOICE:
+                        case SINGLE_CHOICE:
+                            queryColumns.add(new QueryColumn(alias, "choice_text", column.getCode(), column.getCalcType()));
+                            break;
+                        default:
+                            queryColumns.add(new QueryColumn(alias, QUESTION + column.getQuestionId(), column.getCode(), column.getCalcType()));
+                            break;
+                    }
+                    break;
+
+            }
+        }
+    }
+
+    private void buildColumn(StringBuilder queryBuilder) {
+        List<String> columnList = new ArrayList<>();
+
+        for (QueryColumn queryColumn : queryColumns) {
+            StringBuilder columnBuilder = new StringBuilder();
+
+            columnBuilder.append(String.format(getCalc(queryColumn.getCalc()), queryColumn.getAlias() + "." + queryColumn.getColumn()));
+            columnBuilder.append(" AS ");
+            columnBuilder.append("\"" + queryColumn.getName() + "\"");
+
+            columnList.add(columnBuilder.toString());
+        }
+
+        queryBuilder.append(StringUtils.join(columnList, ", "));
     }
 
     /*private void initAlias() {
@@ -274,6 +456,8 @@ public class RecordQueryBuilder {
         queryBuilder.append(StringUtils.join(aliasList, " "));
     }
 
+    */
+
     private String getCalc(ReportCalcType calc) {
         switch (calc) {
             case AVG:
@@ -289,5 +473,5 @@ public class RecordQueryBuilder {
             default:
                 return "%s";
         }
-    }*/
+    }
 }

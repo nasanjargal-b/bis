@@ -52,7 +52,7 @@ Ext.define('Report.view.ReportQueryPanel', {
             region: 'east',
             width:350,
             title: 'Асуултын жагсаалт',
-            name:'questionQueryGrid',
+            action:'queryColumnGrid',
             forceFit: true,
             multiSelect: true,
             viewConfig: {

@@ -11,23 +11,19 @@ public class QueryAlias {
 
     String alias;
     String table;
-    String schema;
     String column;
     String refColumn;
     String refAlias;
-    Integer questionId;
     String filterColumn;
     Join join;
     String filter;
 
-    public QueryAlias(String alias, String table, String schema, String column, String refColumn, String refAlias, Integer questionId, String filterColumn, Join join) {
+    public QueryAlias(String alias, String table, String column, String refColumn, String refAlias, String filterColumn, Join join) {
         this.alias = alias;
         this.table = table;
-        this.schema = schema;
         this.column = column;
         this.refColumn = refColumn;
         this.refAlias = refAlias;
-        this.questionId = questionId;
         this.filterColumn = filterColumn;
         this.join = join;
     }
@@ -40,10 +36,6 @@ public class QueryAlias {
         return table;
     }
 
-    public String getSchema() {
-        return schema;
-    }
-
     public String getColumn() {
         return column;
     }
@@ -54,10 +46,6 @@ public class QueryAlias {
 
     public String getRefAlias() {
         return refAlias;
-    }
-
-    public Integer getQuestionId() {
-        return questionId;
     }
 
     public String getFilterColumn() {

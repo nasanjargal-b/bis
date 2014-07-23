@@ -1,6 +1,7 @@
 package com.monsource.bis.test.report;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monsource.bis.report.component.RecordQueryBuilder;
 import com.monsource.bis.report.component.ReportBuilder;
 import com.monsource.bis.report.component.SvgConverter;
 import com.monsource.bis.report.controller.ReportFileCtrl;
@@ -84,10 +85,19 @@ public class TestReportView {
 
     @Test
     @Transactional
+    public void testSimpleQueryBuilder() {
+        Report report = reportService.get(1150);
+        RecordQueryBuilder recordQueryBuilder = new RecordQueryBuilder(report, null);
+
+        System.out.println(recordQueryBuilder.query());
+    }
+
+    @Test
+    @Transactional
     public void testView() throws Exception {
         Report report = reportService.get(6);
         String svg = getSvg();
-        ReportBuilder builder = new ReportBuilder(report, reportViewService.calc(report,null), svgConverter.convertPNG(svg), ReportFileCtrl.FileType.HTML, null);
+        ReportBuilder builder = new ReportBuilder(report, reportViewService.calc(report, null), svgConverter.convertPNG(svg), ReportFileCtrl.FileType.HTML, null);
 
         builder.getJasperReport().show();
         Scanner scanner = new Scanner(System.in);
