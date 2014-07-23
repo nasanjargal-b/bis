@@ -170,6 +170,7 @@ Ext.define('Report.controller.ReportCtrl', {
         var data = {
             id: record.get('id'),
             name: form.down('textfield[name="name"]').getValue(),
+            type: form.down('combo[name="type"]').getValue(),
             parentId: record.get('parentId'),
             blankId: record.get('blankId'),
             chart: record.get('chart') == "" ? null : record.get('chart'),
