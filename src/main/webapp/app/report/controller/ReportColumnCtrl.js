@@ -71,29 +71,28 @@ Ext.define('Report.controller.ReportColumnCtrl', {
     },
     validColumn: function () {
         var valid = true;
+        if (Ext.ComponentQuery.query('grid[action="columnGrid"]')[0]) {
+            var store = Ext.ComponentQuery.query('grid[action="columnGrid"]')[0].getStore();
 
-        var store = Ext.ComponentQuery.query('grid[action="columnGrid"]')[0].getStore();
+            var columns = [];
+            store.each(function (columnRecord) {
+                columns[columns.length] = columnRecord;
+            })
 
-        var columns = [];
-        store.each(function (columnRecord) {
-            columns[columns.length] = columnRecord;
-        })
+            for (var i = 0; i < columns.length; i++) {
+                columns[i].set('error', false);
+            }
 
-        for (var i = 0; i < columns.length; i++) {
-            columns[i].set('error', false);
-        }
-
-        for (var i = 0; i < columns.length; i++) {
-            for (var j = 0; j < columns.length; j++) {
-                if (columns[j] != columns[i] && columns[j].get('code') == columns[i].get('code')) {
-                    var msg = 'Код давхацсан байна!!!';
-                    columns[i].set('error', true);
-                    columns[j].set('error', true);
-
-                    columns[i].set('errorMsg', msg);
-                    columns[j].set('errorMsg', msg);
-
-                    valid = false;
+            for (var i = 0; i < columns.length; i++) {
+                for (var j = 0; j < columns.length; j++) {
+                    if (columns[j] != columns[i] && columns[j].get('code') == columns[i].get('code')) {
+                        var msg = 'Код давхацсан байна!!!';
+                        columns[i].set('error', true);
+                        columns[j].set('error', true);
+                        columns[i].set('errorMsg', msg);
+                        columns[j].set('errorMsg', msg);
+                        valid = false;
+                    }
                 }
             }
         }

@@ -5,19 +5,19 @@ Ext.define('Report.controller.ReportCtrl', {
             'reportPanel button[action="save"]': {
                 click: this.save
             },
-            'reportPanel combo[action="comboType"]':{
-                change:function(btn){
-                   var tab = btn.up('panel').up('panel').down('tabpanel');
-                   var combo = btn.up('panel').up('panel').down('combo[name="blankId"]');
-                    if(btn.getValue()=='SIMPLE'){
+            'reportPanel combo[action="comboType"]': {
+                change: function (btn) {
+                    var tab = btn.up('panel').up('panel').down('tabpanel');
+                    var combo = btn.up('panel').up('panel').down('combo[name="blankId"]');
+                    if (btn.getValue() == 'SIMPLE') {
                         tab.removeAll();
-                        tab.add({xtype: 'columnPanel'},{xtype: 'filterPanel'},{xtype: 'chartPanel'})
+                        tab.add({xtype: 'columnPanel'}, {xtype: 'filterPanel'}, {xtype: 'chartPanel'})
                         combo.show();
                         tab.doLayout();
-                    }else{
+                    } else {
                         tab.removeAll();
                         combo.hide();
-                        tab.add({xtype: 'reportQueryPanel'},{xtype: 'chartPanel'})
+                        tab.add({xtype: 'reportQueryPanel'}, {xtype: 'chartPanel'})
                         tab.doLayout();
                     }
                 }
@@ -83,7 +83,7 @@ Ext.define('Report.controller.ReportCtrl', {
     save: function (btn) {
         var me = this;
         var form = btn.up('form');
-        var valid=true;
+        var valid = true;
         if (form.getForm().isValid() && this.getController('ReportColumnCtrl').validColumn()) {
             var data = this.getFormData();
             form.mask('Хадгалаж байна...');
@@ -171,6 +171,7 @@ Ext.define('Report.controller.ReportCtrl', {
             id: record.get('id'),
             name: form.down('textfield[name="name"]').getValue(),
             type: form.down('combo[name="type"]').getValue(),
+            query: form.up('panel').down('textarea[name="query"]').getValue(),
             parentId: record.get('parentId'),
             blankId: record.get('blankId'),
             chart: record.get('chart') == "" ? null : record.get('chart'),
@@ -281,44 +282,45 @@ Ext.define('Report.controller.ReportCtrl', {
         }
     },
     buildReportPanel: function (record) {
-        var mainPanel = this.getMainPanel();
-        mainPanel.removeAll();
-        var panel = Ext.create('Report.view.ReportPanel');
-        panel.loadRecord(record);
-        mainPanel.add(panel);
+            var mainPanel = this.getMainPanel();
+            mainPanel.removeAll();
+            var panel = Ext.create('Report.view.ReportPanel');
+            panel.loadRecord(record);
+            mainPanel.add(panel);
+        if (Ext.ComponentQuery.query('columnPanel')[0] && Ext.ComponentQuery.query('filterPanel')[0]) {
+            var columnGrid = Ext.ComponentQuery.query('columnPanel')[0].down('grid[action="columnGrid"]');
+            columnGrid.reconfigure(record.columns());
+            var filterGrid = Ext.ComponentQuery.query('filterPanel')[0].down('grid[action="filterGrid"]');
+            record.filters().each(function (fRecord) {
+                switch (fRecord.get('type')) {
+                    case 'RESEARCH':
+                        fRecord.set('data', fRecord.get('researchId'));
+                        break;
+                    case 'CITY':
+                        fRecord.set('data', fRecord.get('cityId'));
+                        break;
+                    case 'DISTRICT':
+                        fRecord.set('data', fRecord.get('districtId'));
+                        break;
+                    default:
+                        switch (fRecord.get('columnType')) {
+                            case 'SINGLE_CHOICE':
+                            case 'MULTIPLE_CHOICE':
+                                fRecord.set('data', fRecord.get('choiceIds'));
+                                break;
+                            default:
+                                fRecord.set('data', fRecord.get('filter'));
+                                break;
+                        }
+                }
+            })
+            filterGrid.reconfigure(record.filters());
 
-        var columnGrid = Ext.ComponentQuery.query('columnPanel')[0].down('grid[action="columnGrid"]');
-        columnGrid.reconfigure(record.columns());
-        var filterGrid = Ext.ComponentQuery.query('filterPanel')[0].down('grid[action="filterGrid"]');
-        record.filters().each(function (fRecord) {
-            switch (fRecord.get('type')) {
-                case 'RESEARCH':
-                    fRecord.set('data', fRecord.get('researchId'));
-                    break;
-                case 'CITY':
-                    fRecord.set('data', fRecord.get('cityId'));
-                    break;
-                case 'DISTRICT':
-                    fRecord.set('data', fRecord.get('districtId'));
-                    break;
-                default:
-                    switch (fRecord.get('columnType')) {
-                        case 'SINGLE_CHOICE':
-                        case 'MULTIPLE_CHOICE':
-                            fRecord.set('data', fRecord.get('choiceIds'));
-                            break;
-                        default:
-                            fRecord.set('data', fRecord.get('filter'));
-                            break;
-                    }
-            }
-        })
-        filterGrid.reconfigure(record.filters());
-
-        var chartColumnGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartColumnGrid"]');
-        chartColumnGrid.reconfigure(record.columns());
-        var chartSeriesGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartSeriesGrid"]');
-        chartSeriesGrid.reconfigure(record.chartSerieses());
+            var chartColumnGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartColumnGrid"]');
+            chartColumnGrid.reconfigure(record.columns());
+            var chartSeriesGrid = Ext.ComponentQuery.query('chartPanel')[0].down('grid[action="chartSeriesGrid"]');
+            chartSeriesGrid.reconfigure(record.chartSerieses());
+        }
 
     },
     blank: function (cmb, value) {

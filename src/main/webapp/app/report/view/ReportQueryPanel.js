@@ -9,7 +9,7 @@ Ext.define('Report.view.ReportQueryPanel', {
     items: [
         {
             region: 'center',
-            title:'query',
+            title:'Query',
             dockedItems:{
                 xtype:'toolbar',
                 items:[
