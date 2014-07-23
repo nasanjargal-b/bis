@@ -8,8 +8,14 @@ import com.monsource.bis.data.entity.QuestionEntity;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.Type;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
@@ -38,9 +44,10 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         return sqlQuery.list();
     }
 
-    public void merge(Record record, String blankId, Integer researchId, Integer districtId, Integer accountId, List<QuestionEntity> questions) {
+    public void merge(Record record, String blankId, Integer researchId, Integer districtId, Integer accountId, List<QuestionEntity> questions) throws ParseException {
 
-        System.out.println(record);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
 
         List<String> columns = new ArrayList<>();
         List<String> codes = new ArrayList<>();
@@ -79,13 +86,56 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         sqlQuery.setParameter("account_id", accountId);
 
         for (QuestionEntity question : questions) {
-            sqlQuery.setParameter(question.getCode(), record.get(question.getCode()));
+            Object value = record.get(question.getCode());
+            Type type = null;
+            switch (question.getType()) {
+                case MULTIPLE_CHOICE:
+                case SINGLE_CHOICE:
+                    value = value instanceof Integer ? (Integer) value : new Integer(value + "");
+                    type = StandardBasicTypes.INTEGER;
+                    break;
+                case TEXT:
+                    if (value != null)
+                        value = value + "";
+                    type = StandardBasicTypes.STRING;
+                    break;
+                case NUMERIC:
+                    if (value != null)
+                        value = value instanceof Double ? (Double) value : new Double(value + "");
+                    type = StandardBasicTypes.DOUBLE;
+                    break;
+                case DATE:
+                    if (value != null)
+                        if (value instanceof Long)
+                            value = new Date((Long) value);
+                        else if (value instanceof String)
+                            value = dateFormat.parse((String) value);
+                    type = StandardBasicTypes.DATE;
+                    break;
+                case TIME:
+                    if (value != null)
+                        if (value instanceof Long)
+                            value = new Time((Long) value);
+                        else if (value instanceof String)
+                            value = timeFormat.parse((String) value);
+                    type = StandardBasicTypes.TIME;
+                    break;
+
+            }
+            sqlQuery.setParameter(question.getCode(), value, type);
         }
 
-        if(id != null) {
+        if (id != null) {
             sqlQuery.setParameter("id", id);
         }
 
         sqlQuery.executeUpdate();
+    }
+
+    public void delete(String blankId, Integer id) {
+        SQLQuery sqlQuery = this.getSession().createSQLQuery("DELETE FROM bdata." + blankId + " WHERE id = :id");
+        sqlQuery.setInteger("id", id);
+        sqlQuery.executeUpdate();
+        this.flush();
     }
 }

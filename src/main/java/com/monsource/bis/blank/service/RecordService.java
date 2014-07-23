@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ public class RecordService {
         return records;
     }
 
-    public void save(String blankId, Integer researchId, Integer districtId, List<Record> records) {
+    public void save(String blankId, Integer researchId, Integer districtId, List<Record> records) throws ParseException {
         this.clearEmptyRecords(records);
         AccountEntity account = accountDao.get(authSupport.getAuthDetails().getId());
         List<QuestionEntity> questionEntities = questionDao.findWithoutGroup(blankId);
@@ -58,7 +59,7 @@ public class RecordService {
         }*/
 
         for (Record record : records) {
-            recordDao.merge(record, blankId, research.getId(), district.getId(), account.getId(),questionEntities);
+            recordDao.merge(record, blankId, research.getId(), district.getId(), account.getId(), questionEntities);
         }
 
         recordDao.flush();
@@ -99,11 +100,11 @@ public class RecordService {
         }
     }
 
-    public void delete(List<Record> records) {
+    public void delete(String blankId, List<Record> records) {
         for (Record record : records) {
             if (record.get("id") != null) {
                 Integer id = (Integer) record.get("id");
-                recordDao.delete(recordDao.get(id));
+                recordDao.delete(blankId, id);
             }
         }
     }
