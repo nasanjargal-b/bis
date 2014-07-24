@@ -13,6 +13,7 @@ import net.sf.dynamicreports.report.builder.group.CustomGroupBuilder;
 import net.sf.dynamicreports.report.builder.group.GroupBuilder;
 import net.sf.dynamicreports.report.builder.style.FontBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.builder.subtotal.SubtotalBuilder;
 import net.sf.dynamicreports.report.constant.*;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
@@ -226,7 +227,7 @@ public class ReportBuilder {
 
         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        final NumberFormat numberFormat = new DecimalFormat("#,##0.00");
+        final NumberFormat numberFormat = new DecimalFormat("#,##0");
 
         StyleBuilder columnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3);
         StyleBuilder numColumnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3).setHorizontalAlignment(HorizontalAlignment.LEFT);
@@ -286,6 +287,35 @@ public class ReportBuilder {
             }
             columnBuilder.setTitleStyle(stl.style().bold().setBottomPadding(3).setTopPadding(3));
             columnBuilders.add(columnBuilder);
+
+            List<SubtotalBuilder> subtotalBuilders = new ArrayList<>();
+
+            StyleBuilder subStyle = stl.style().bold().setBottomBorder(stl.pen(2f, LineStyle.SOLID).setLineColor(color));
+
+            if (column.getSummaryType() != null) {
+                switch (column.getSummaryType()) {
+                    case AVG:
+                        subtotalBuilders.add(sbt.avg((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        break;
+                    case COUNT:
+                        subtotalBuilders.add(sbt.count((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        break;
+                    case SUM:
+                        subtotalBuilders.add(sbt.sum((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        break;
+                    case MAX:
+                        subtotalBuilders.add(sbt.max((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        break;
+                    case MIN:
+                        subtotalBuilders.add(sbt.min((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        break;
+                }
+            }
+
+            if (subtotalBuilders.size() > 0) {
+                jasperReport.subtotalsAtSummary(subtotalBuilders.toArray(new SubtotalBuilder[subtotalBuilders.size()]));
+            }
+
         }
 
         return columnBuilders;

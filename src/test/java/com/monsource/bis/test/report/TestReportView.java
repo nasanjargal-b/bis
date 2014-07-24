@@ -95,7 +95,7 @@ public class TestReportView {
     @Test
     @Transactional
     public void testView() throws Exception {
-        Report report = reportService.get(6);
+        Report report = reportService.get(1504);
         String svg = getSvg();
         ReportBuilder builder = new ReportBuilder(report, reportViewService.calc(report, null), svgConverter.convertPNG(svg), ReportFileCtrl.FileType.HTML, null);
 

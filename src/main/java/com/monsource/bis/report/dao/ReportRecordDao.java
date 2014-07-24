@@ -56,7 +56,7 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
     }
 
     private void findParameter(String query, Map<String, String> changer) {
-        Pattern pattern = Pattern.compile("\\$[Pp]?\\{[A-Za-z0-9_]+\\}");
+        Pattern pattern = Pattern.compile("\\$[Pp]?\\{[A-Za-z0-9_$]+\\}");
         Matcher matcher = pattern.matcher(query);
 
         while (matcher.find()) {
@@ -67,7 +67,7 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
     }
 
     private void findBlank(String query, Map<String, String> changer) {
-        Pattern pattern = Pattern.compile("\\$[Bb]?\\{[A-Za-z0-9_]+\\}");
+        Pattern pattern = Pattern.compile("\\$[Bb]?\\{[A-Za-z0-9_$]+\\}");
         Matcher matcher = pattern.matcher(query);
 
         while (matcher.find()) {
@@ -78,7 +78,7 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
     }
 
     private void findColumn(String query, Map<String, String> changer) {
-        Pattern pattern = Pattern.compile("\\$[Cc]?\\{[A-Za-z0-9_]+\\}");
+        Pattern pattern = Pattern.compile("\\$[Cc]?\\{[A-Za-z0-9_$]+\\}");
         Matcher matcher = pattern.matcher(query);
 
         while (matcher.find()) {

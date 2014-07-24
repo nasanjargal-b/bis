@@ -47,6 +47,7 @@ public class ReportService {
                     reportQuestionEntity.getType(),
                     reportQuestionEntity.getCalcType(),
                     reportQuestionEntity.getColumnType(),
+                    reportQuestionEntity.getSummaryType(),
                     question == null ? null : question.getId(),
                     reportQuestionEntity.getFilter(),
                     reportQuestionEntity.getChoice() == null ? null : reportQuestionEntity.getChoice().getId(),
@@ -168,6 +169,7 @@ public class ReportService {
             reportQuestionEntity.setType(column.getType());
             reportQuestionEntity.setCalcType(column.getCalcType());
             reportQuestionEntity.setColumnType(column.getColumnType());
+            reportQuestionEntity.setSummaryType(column.getSummaryType());
             reportQuestionEntity.setFilter(filter);
             reportQuestionEntity.setOrder(order++);
             reportQuestionEntity.setReport(reportEntity);

@@ -4,6 +4,7 @@ import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.core.model.Model;
 import com.monsource.bis.data.entity.type.ReportCalcType;
 import com.monsource.bis.data.entity.type.ReportQuestionType;
+import com.monsource.bis.data.entity.type.ReportSummaryType;
 
 import java.util.*;
 
@@ -18,6 +19,7 @@ public class Column implements Model<Integer> {
     private ReportQuestionType type;
     private ReportCalcType calcType;
     private QuestionType columnType;
+    private ReportSummaryType summaryType;
     private Integer questionId;
     private String filter;
     private Integer choiceId;
@@ -27,13 +29,14 @@ public class Column implements Model<Integer> {
     public Column() {
     }
 
-    public Column(Integer id, String name, String code, ReportQuestionType type, ReportCalcType calcType, QuestionType columnType, Integer questionId, String filter, Integer choiceId, Boolean percent) {
+    public Column(Integer id, String name, String code, ReportQuestionType type, ReportCalcType calcType, QuestionType columnType, ReportSummaryType summaryType, Integer questionId, String filter, Integer choiceId, Boolean percent) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.type = type;
         this.calcType = calcType;
         this.columnType = columnType;
+        this.summaryType = summaryType;
         this.questionId = questionId;
         this.filter = filter;
         this.choiceId = choiceId;
@@ -86,6 +89,14 @@ public class Column implements Model<Integer> {
 
     public void setColumnType(QuestionType columnType) {
         this.columnType = columnType;
+    }
+
+    public ReportSummaryType getSummaryType() {
+        return summaryType;
+    }
+
+    public void setSummaryType(ReportSummaryType summaryType) {
+        this.summaryType = summaryType;
     }
 
     public Integer getQuestionId() {

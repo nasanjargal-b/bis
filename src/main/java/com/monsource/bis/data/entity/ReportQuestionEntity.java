@@ -4,6 +4,7 @@ import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.data.entity.type.ReportCalcType;
 import com.monsource.bis.data.entity.type.ReportQuestionType;
+import com.monsource.bis.data.entity.type.ReportSummaryType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +19,7 @@ public class ReportQuestionEntity implements DataEntity {
     private String code;
     private String name;
     private ReportQuestionType type;
+    private ReportSummaryType summaryType;
     private ReportCalcType calcType;
     private QuestionType columnType;
     private String filter;
@@ -26,6 +28,9 @@ public class ReportQuestionEntity implements DataEntity {
     private ReportEntity report;
     private QuestionEntity question;
     private ChoiceEntity choice;
+
+    public ReportQuestionEntity() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_question_seq_gen")
@@ -68,6 +73,17 @@ public class ReportQuestionEntity implements DataEntity {
 
     public void setType(ReportQuestionType type) {
         this.type = type;
+    }
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "summary_type")
+    public ReportSummaryType getSummaryType() {
+        return summaryType;
+    }
+
+    public void setSummaryType(ReportSummaryType summaryType) {
+        this.summaryType = summaryType;
     }
 
     @Basic
@@ -132,6 +148,7 @@ public class ReportQuestionEntity implements DataEntity {
         if (calcType != that.calcType) return false;
         if (code != null ? !code.equals(that.code) : that.code != null) return false;
         if (columnType != that.columnType) return false;
+        if (summaryType != that.summaryType) return false;
         if (filter != null ? !filter.equals(that.filter) : that.filter != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -147,6 +164,7 @@ public class ReportQuestionEntity implements DataEntity {
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (summaryType != null ? summaryType.hashCode() : 0);
         result = 31 * result + (calcType != null ? calcType.hashCode() : 0);
         result = 31 * result + (columnType != null ? columnType.hashCode() : 0);
         result = 31 * result + (filter != null ? filter.hashCode() : 0);

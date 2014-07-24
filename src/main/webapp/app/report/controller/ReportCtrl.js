@@ -204,6 +204,7 @@ Ext.define('Report.controller.ReportCtrl', {
                 percent: cRecord.get('percent'),
                 calcType: cRecord.get('calcType'),
                 columnType: cRecord.get('columnType'),
+                summaryType: cRecord.get('summaryType'),
                 questionId: cRecord.get('questionId'),
                 filter: cRecord.get('filter'),
                 choiceId: cRecord.get('choiceId')

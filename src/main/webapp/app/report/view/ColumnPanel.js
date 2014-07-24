@@ -146,6 +146,29 @@ Ext.define('Report.view.ColumnPanel', {
                     }
                 },
                 {
+                    text: 'Хөлийн дүн',
+                    dataIndex: 'summaryType',
+                    width: 70,
+                    editor: {
+                        xtype: 'combo',
+                        editable: false,
+                        valueField: 'value',
+                        displayField: 'display',
+                        tpl: new Ext.XTemplate('<tpl for="."><div style="height:22px;" class="x-boundlist-item" role="option">{display}</div></tpl>'),
+                        store: Ext.create('Ext.data.Store', {
+                            fields: ['value', 'display'],
+                            data: [
+                                {value: null, display: ''},
+                                {value: 'SUM', display: 'SUM'},
+                                {value: 'AVG', display: 'AVG'},
+                                {value: 'COUNT', display: 'COUNT'},
+                                {value: 'MAX', display: 'MAX'},
+                                {value: 'MIN', display: 'MIN'}
+                            ]
+                        })
+                    }
+                },
+                {
                     xtype: 'checkcolumn',
                     text: '%',
                     width: 30,
