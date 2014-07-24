@@ -221,7 +221,6 @@ Ext.define('Report.view.ColumnPanel', {
                             default :
                                 return Ext.create('Ext.grid.CellEditor', {
                                     field: Ext.createWidget('textfield', {
-                                        allowBlank: false
                                     })
                                 });
                         }

@@ -195,7 +195,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                             'text-anchor': 'middle',
                             orientation: 'vertical',
                             field: columns,
-                            renderer: Ext.util.Format.numberRenderer('0.00')
+                            renderer: Ext.util.Format.numberRenderer('0,0')
                         }
                     }
                 }
@@ -221,7 +221,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                             display: 'inside',
                             contrast: true,
                             renderer: function (value, series, record) {
-                                var numRender = Ext.util.Format.numberRenderer('0.00');
+                                var numRender = Ext.util.Format.numberRenderer('0,0');
                                 return numRender(record.get(report.chartSerieses[0].field));
                             }
                         }

@@ -290,30 +290,30 @@ public class ReportBuilder {
 
             List<SubtotalBuilder> subtotalBuilders = new ArrayList<>();
 
-            StyleBuilder subStyle = stl.style().bold().setBottomBorder(stl.pen(2f, LineStyle.SOLID).setLineColor(color));
 
             if (column.getSummaryType() != null) {
                 switch (column.getSummaryType()) {
                     case AVG:
-                        subtotalBuilders.add(sbt.avg((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        subtotalBuilders.add(sbt.avg((ValueColumnBuilder<?, Number>) columnBuilder).setValueFormatter(valueFormatter));
                         break;
                     case COUNT:
-                        subtotalBuilders.add(sbt.count((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        subtotalBuilders.add(sbt.count((ValueColumnBuilder<?, Number>) columnBuilder).setValueFormatter(valueFormatter));
                         break;
                     case SUM:
-                        subtotalBuilders.add(sbt.sum((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        subtotalBuilders.add(sbt.sum((ValueColumnBuilder<?, Number>) columnBuilder).setValueFormatter(valueFormatter));
                         break;
                     case MAX:
-                        subtotalBuilders.add(sbt.max((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        subtotalBuilders.add(sbt.max((ValueColumnBuilder<?, Number>) columnBuilder).setValueFormatter(valueFormatter));
                         break;
                     case MIN:
-                        subtotalBuilders.add(sbt.min((ValueColumnBuilder<?, Number>) columnBuilder).setStyle(subStyle));
+                        subtotalBuilders.add(sbt.min((ValueColumnBuilder<?, Number>) columnBuilder).setValueFormatter(valueFormatter));
                         break;
                 }
             }
 
             if (subtotalBuilders.size() > 0) {
                 jasperReport.subtotalsAtSummary(subtotalBuilders.toArray(new SubtotalBuilder[subtotalBuilders.size()]));
+                jasperReport.setSubtotalStyle(stl.style().boldItalic().underline().setHorizontalAlignment(HorizontalAlignment.LEFT).setTopPadding(3).setBottomPadding(3));
             }
 
         }
