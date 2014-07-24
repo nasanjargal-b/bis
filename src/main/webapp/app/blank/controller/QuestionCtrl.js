@@ -23,22 +23,6 @@ Ext.define('Blank.controller.QuestionCtrl', {
                 }
             },
             'questionTreePanel': {
-//              itemclick:function(record, index, node, eOpts){
-//                  alert('sdsd')
-//                  Ext.ComponentQuery.query('questionTreePanel')[0].getStore().each(function (model) {
-//                      console.log(model);
-////                      if (model) {
-////                          empty[empty.length] = record;
-////                      }
-//                  })
-//              }
-            },
-//            'questionTreePanel component[action="type"]':{
-//                childrenChanged:function(){
-//                    alert('sadsad')
-//                }
-//            },
-            'questionTreePanel': {
                 edit: function (editor, e, eOpts) {
                     if ('GROUP' == e.record.get('type')) {
                         e.record.set('leaf', false);
@@ -82,12 +66,7 @@ Ext.define('Blank.controller.QuestionCtrl', {
             'choiceWindow': {
                 close: function (win) {
                     var store = win.down('grid').getStore();
-//                    store.each(function(model){
-                    console.log(store);
-//                        store.remove(store.raw);
-//                    })
                     store.remove(store.last());
-//                    store.clearData();
                 }
             }
         });

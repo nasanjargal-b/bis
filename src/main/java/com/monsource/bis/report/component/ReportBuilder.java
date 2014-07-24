@@ -69,7 +69,7 @@ public class ReportBuilder {
             jasperReport.addTitle(cmp.horizontalList()
                     .add(cmp.rectangle()
                             .setPrintWhenExpression(exp.printInFirstPage())
-                            .setHeight(300)
+                            .setHeight(400)
                             .setStyle(stl.style().setBorder(stl.border(stl.pen(1f, LineStyle.SOLID).setLineColor(Color.black)))))
                     .setStyle(stl.style().setBottomPadding(20)));
         } else if (imageInput != null) {

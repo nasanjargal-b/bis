@@ -1,37 +1,26 @@
-{
-    "id": null,
-    "name": "R03",
-    "parentId": null,
-    "blankId": "B01",
-    "chart": null,
-    "chartCategory": null,
-    "order": null,
-    "columns": [
-        {
-            "id": null,
-            "name": "\u0425\u043e\u0442/\u0410\u0439\u043c\u0430\u0433",
-            "code": "$C",
-            "type": "CITY",
-            "percent": null,
-            "calcType": "NORMAL",
-            "columnType": "TEXT",
-            "questionId": null,
-            "filter": "",
-            "choiceId": null
-        },
-        {
-            "id": null,
-            "name": "\u0422\u043e\u043e",
-            "code": "Q4_2_1",
-            "type": "QUESTION",
-            "percent": null,
-            "calcType": "NORMAL",
-            "columnType": "NUMERIC",
-            "questionId": 101,
-            "filter": "",
-            "choiceId": null
-        }
-    ],
-    "filters": [],
-    "chartSerieses": []
-}
+{"id": 21, "name": "Test", "type": "QUERY", "query": "\n\u00a0\nSELECT $C{Q3_2},$C{Q3_1} FROM $B{B01}\n", "parentId": 800, "blankId": null, "chart": null, "chartCategory": null, "group": false, "order": 1, "columns": [
+    {
+        "id": 34,
+        "name": "\u0411\u0430\u0433\u0430\u043d\u0430 3_2",
+        "code": "Q3_2",
+        "type": null,
+        "percent": false,
+        "calcType": "NORMAL",
+        "columnType": "TEXT",
+        "questionId": null,
+        "filter": null,
+        "choiceId": null
+    },
+    {
+        "id": null,
+        "name": "\u0411\u0430\u0433\u0430\u043d\u0430 3_1",
+        "code": "Q3_1",
+        "type": "",
+        "percent": false,
+        "calcType": "NORMAL",
+        "columnType": "TEXT",
+        "questionId": null,
+        "filter": "",
+        "choiceId": null
+    }
+], "filters": [], "chartSerieses": []}

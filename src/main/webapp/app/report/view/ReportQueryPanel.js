@@ -9,24 +9,26 @@ Ext.define('Report.view.ReportQueryPanel', {
     items: [
         {
             region: 'center',
-            title:'Query',
-            dockedItems:{
-                xtype:'toolbar',
-                items:[
+            title: 'Query',
+            dockedItems: {
+                xtype: 'toolbar',
+                items: [
                     {
-                        text:'Шалгах'
+                        text: 'Шалгах',
+                        action: 'check',
+                        icon: '/resources/images/check-query-16px.png'
                     }
                 ]
             },
-            border:true,
-            bodyStyle: 'background-color:'+PANEL_COLOR+'',
-            layout:'vbox',
-            items:[
+            border: true,
+            bodyStyle: 'background-color:' + PANEL_COLOR + '',
+            layout: 'vbox',
+            items: [
                 {
                     xtype: 'textareafield',
                     id: 'codearea',
-                    resizable:true,
-                    name:'query',
+                    resizable: true,
+                    name: 'query',
                     title: 'query',
                     allowBlank: false,
                     flex: 1,
@@ -50,13 +52,15 @@ Ext.define('Report.view.ReportQueryPanel', {
         {
             xtype: 'grid',
             region: 'east',
-            width:350,
+            width: 350,
             title: 'Асуултын жагсаалт',
-            action:'queryColumnGrid',
+            action: 'queryColumnGrid',
             forceFit: true,
             multiSelect: true,
+            plugins: Ext.create('Ext.grid.plugin.CellEditing', {
+                clicksToEdit: 1
+            }),
             viewConfig: {
-                copy: true,
                 plugins: {
                     ptype: 'gridviewdragdrop'
                 }
@@ -68,23 +72,45 @@ Ext.define('Report.view.ReportQueryPanel', {
                     dataIndex: 'code'
                 },
                 {
-                    text: 'Асуулт',
+                    text: 'Багана',
                     flex: 1,
-                    dataIndex: 'text'
+                    dataIndex: 'name',
+                    editor: {
+                        xtype: 'textfield',
+                        allowBlank: false
+                    }
                 },
                 {
                     text: 'Төрөл',
                     width: 100,
-                    dataIndex: 'type',
+                    dataIndex: 'columnType',
+                    editor: {
+                        xtype: 'combo',
+                        allowBlank: false,
+                        displayField: 'value',
+                        valueField: 'id',
+                        store: Ext.create('Ext.data.Store', {
+                            fields: ['id', 'value'],
+                            data: [
+                                {id: 'TEXT', value: 'Текст'},
+                                {id: 'NUMERIC', value: 'Тоо'},
+                                {id: 'DATE', value: 'Огноо'},
+                                {id: 'TIME', value: 'Цаг'}
+                            ]
+                        })
+                    },
                     renderer: function (value) {
                         if (value == 'TEXT') return 'Текст';
                         if (value == 'NUMERIC') return 'Тоо';
-                        if (value == 'SINGLE_CHOICE') return 'Нэг сонголттой';
-                        if (value == 'MULTIPLE_CHOICE') return 'Олон сонголттой';
                         if (value == 'DATE') return 'Огноо';
                         if (value == 'TIME') return 'Цаг';
-                        if (value == 'GROUP') return 'Групп';
                     }
+                },
+                {
+                    xtype: 'checkcolumn',
+                    text: '%',
+                    width: 30,
+                    dataIndex: 'percent'
                 }
             ]
         }

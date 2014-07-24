@@ -76,8 +76,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                             Ext.createWidget('panel', {
                                 layout: 'fit',
                                 border: false,
-                                width: 554,
-                                height: 300,
+                                height: 400,
                                 items: chart,
                                 renderTo: 'chart'
                             });
@@ -135,7 +134,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         title: title,
                         label: {
                             rotate: {
-                                degrees: -20
+                                degrees: -90
                             }
                         }
                     }
@@ -189,7 +188,15 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         axis: 'left',
                         xField: report.chartCategory,
                         yField: columns,
-                        title: titles
+                        title: titles,
+                        label: {
+                            display: 'insideEnd',
+                            contrast: true,
+                            'text-anchor': 'middle',
+                            orientation: 'vertical',
+                            field: columns,
+                            renderer: Ext.util.Format.numberRenderer('0.00')
+                        }
                     }
                 }
 
@@ -211,9 +218,12 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         },
                         label: {
                             field: report.chartCategory,
-                            display: 'none',
-                            contrast: true
-                            //todo renderer value with percentage
+                            display: 'inside',
+                            contrast: true,
+                            renderer: function (value, series, record) {
+                                var numRender = Ext.util.Format.numberRenderer('0.00');
+                                return numRender(record.get(report.chartSerieses[0].field));
+                            }
                         }
                     }
                 ];

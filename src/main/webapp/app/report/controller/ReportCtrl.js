@@ -79,6 +79,12 @@ Ext.define('Report.controller.ReportCtrl', {
                     }
                     this.getController('ReportColumnCtrl').validColumn();
                 }
+            },
+            'reportQueryPanel button[action="check"]': {
+                click: function (btn) {
+                    var value = btn.up('reportQueryPanel').down('textareafield[name="query"]').getValue();
+                    this.checkQuery(value);
+                }
             }
         });
     },
@@ -179,7 +185,7 @@ Ext.define('Report.controller.ReportCtrl', {
             type: form.down('combo[name="type"]').getValue(),
             query: (queryField) ? queryField.getValue() : null,
             parentId: record.get('parentId'),
-            blankId: record.get('blankId'),
+            blankId: record.get('blankId') == "" ? null : record.get('blankId'),
             chart: record.get('chart') == "" ? null : record.get('chart'),
             chartCategory: record.get('chartCategory') == "" ? null : record.get('chartCategory'),
             group: false,
@@ -336,8 +342,6 @@ Ext.define('Report.controller.ReportCtrl', {
 
         chartPanel.down('combo[name="chart"]').setValue(record.get('chart'));
         chartPanel.down('textfield[name="chartCategory"]').setValue(record.get('chartCategory'));
-
-        //todo default init chartFields
     },
     blank: function (cmb, value) {
         if (value)
@@ -408,5 +412,53 @@ Ext.define('Report.controller.ReportCtrl', {
         } else {
             Ext.MessageBox.alert('Алдаа', 'Та устгах тайлангаа сонгоно уу!!!');
         }
+    },
+    checkQuery: function (query) {
+        Ext.Ajax.request({
+            url: '/report-mod/report/report-query.json',
+            method: 'post',
+            params: {
+                query: query
+            },
+            success: function (response) {
+                var columns = Ext.decode(response.responseText).data;
+                var store = Ext.ComponentQuery.query('reportQueryPanel grid[action="queryColumnGrid"]')[0].getStore();
+
+                for (var i = 0; i < columns.length; i++) {
+                    var column = columns[i];
+                    var mColumn = Ext.create('Report.model.Column');
+                    mColumn.set('code', column.code);
+                    mColumn.set('calcType', 'NORMAL');
+                    mColumn.set('percent', false);
+                    mColumn.set('type', null);
+                    mColumn.set('filter', null);
+
+                    var have = false;
+                    store.each(function (record) {
+                        if (record.get('code') == mColumn.get('code'))
+                            have = true;
+                    })
+
+                    if (!have)
+                        store.add(mColumn);
+                }
+
+                var rRecords = [];
+
+                store.each(function (record) {
+                    var remove = true;
+                    for (var i = 0; i < columns.length; i++)
+                        if (columns[i].code == record.get('code')) {
+                            remove = false;
+                            break;
+                        }
+                    if (remove)
+                        rRecords[rRecords.length] = record;
+
+                })
+
+                store.remove(rRecords);
+            }
+        })
     }
 });

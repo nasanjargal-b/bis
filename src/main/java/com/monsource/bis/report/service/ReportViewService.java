@@ -35,25 +35,23 @@ public class ReportViewService {
     public List<Map> calc(Report report, Integer districtId) {
         List<Map> results = reportRecordDao.find(report, districtId);
 
-        if (report.getType() == ReportType.SIMPLE)
-            for (Column column : report.getColumns()) {
-                if (column.getPercent()) {
-                    double total = 0d;
-                    for (Map result : results) {
-                        Object value = result.get(column.getCode());
-                        total += ((Number) (value == null ? 0 : value)).doubleValue();
-                    }
+        for (Column column : report.getColumns()) {
+            if (column.getPercent()) {
+                double total = 0d;
+                for (Map result : results) {
+                    Object value = result.get(column.getCode());
+                    total += ((Number) (value == null ? 0 : value)).doubleValue();
+                }
 
-                    for (Map result : results) {
-                        Object value = result.get(column.getCode());
-                        double number = ((Number) (value == null ? 0 : value)).doubleValue();
-                        number = number * 100 / total;
+                for (Map result : results) {
+                    Object value = result.get(column.getCode());
+                    double number = ((Number) (value == null ? 0 : value)).doubleValue();
+                    number = number * 100 / total;
 
-                        result.put(column.getCode(), number);
-                    }
+                    result.put(column.getCode(), number);
                 }
             }
-
+        }
         return results;
     }
 

@@ -1,15 +1,18 @@
 package com.monsource.bis.blank.dao;
 
 import com.monsource.bis.blank.component.db.DbBuilder;
+import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.blank.model.Record;
 import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.core.data.HibernateDaoSupport;
+import com.monsource.bis.data.entity.ChoiceEntity;
 import com.monsource.bis.data.entity.QuestionEntity;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
@@ -21,10 +24,13 @@ import java.util.*;
 @Repository
 public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
+    @Autowired
+    QuestionDao questionDao;
+
     String insertQuery = "INSERT INTO bdata.%s(%s) values (%s)";
     String updateQuery = "UPDATE bdata.%s SET %s WHERE id=:id";
 
-    public List<Record> find(String blankId, Integer researchId, Integer districtId) {
+    public List<Record> find(String blankId, Integer researchId, Integer districtId, boolean choiceCode) {
 
         SQLQuery sqlQuery = this.getSession().createSQLQuery("SELECT * FROM bdata.V_" + blankId + " WHERE research_id=:researchId AND district_id = :districtId");
 
@@ -33,7 +39,11 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 
-        return sqlQuery.list();
+
+        List<Map> recordDatas = sqlQuery.list();
+        List<Record> records = convertRecord(recordDatas, blankId, choiceCode);
+
+        return records;
     }
 
     public List<Record> find(String blankId) {
@@ -41,7 +51,40 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 
-        return sqlQuery.list();
+        List<Map> recordDatas = sqlQuery.list();
+        List<Record> records = convertRecord(recordDatas, blankId, false);
+
+        return records;
+    }
+
+    private List<Record> convertRecord(List<Map> recordDatas, String blankId, boolean choiceCode) {
+        List<Record> records = new ArrayList<>();
+
+        List<QuestionEntity> questions = choiceCode ? questionDao.findWithoutGroup(blankId) : null;
+
+        for (Map recordData : recordDatas) {
+            Record record = new Record();
+            record.putAll(recordData);
+
+            if (choiceCode) {
+                for (QuestionEntity question : questions) {
+                    if (question.getType() == QuestionType.SINGLE_CHOICE || question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                        Integer choiceId = (Integer) record.get(question.getCode());
+                        for (ChoiceEntity choice : question.getChoices()) {
+                            if (choice.getId() == choiceId) {
+                                record.put(question.getCode(), choice.getCode());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            records.add(record);
+
+        }
+
+        return records;
     }
 
     public void merge(Record record, String blankId, Integer researchId, Integer districtId, Integer accountId, List<QuestionEntity> questions) throws ParseException {
@@ -91,7 +134,8 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
             switch (question.getType()) {
                 case MULTIPLE_CHOICE:
                 case SINGLE_CHOICE:
-                    value = value instanceof Integer ? (Integer) value : new Integer(value + "");
+                    if (value != null)
+                        value = value instanceof Integer ? (Integer) value : new Integer(value + "");
                     type = StandardBasicTypes.INTEGER;
                     break;
                 case TEXT:

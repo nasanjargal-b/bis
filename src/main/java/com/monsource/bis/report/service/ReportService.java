@@ -144,7 +144,7 @@ public class ReportService {
         reportEntity.setGroup(report.isGroup());
         reportEntity.setChart(report.getChart());
         reportEntity.setChartCategory(report.getChartCategory());
-        reportEntity.setQuery(report.getQuery());
+        reportEntity.setQuery(clearQuery(report.getQuery()));
         reportEntity.setType(report.getType());
 
         if (report.getParentId() != null)
@@ -228,6 +228,14 @@ public class ReportService {
 
         return reportEntity.getId();
 
+    }
+
+    private String clearQuery(String query) {
+        if (query == null) return null;
+
+//        query = query.replace("\n", " ");
+        query = query.substring(query.indexOf("SELECT"));
+        return query;
     }
 
     public void saveOrder(List<Report> reports, Integer order, ReportEntity parent) {

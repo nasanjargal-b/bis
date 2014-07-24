@@ -112,12 +112,7 @@ Ext.define('Blank.controller.BlankCtrl', {
         var order = {
             num: 0
         };
-//        for (var i = 0; i < root.childNodes.length; i++) {
-//            var node = root.childNodes[i];
-//            for (var j=0; j<node.childNodes.length;j++) {
-//                console.log(node.childNodes[j].get('code'));
-//            }
-//        }
+
         valid = true;
         for (var i = 0; i < root.childNodes.length; i++) {
             var node = root.childNodes[i];
@@ -143,7 +138,6 @@ Ext.define('Blank.controller.BlankCtrl', {
         }
 
         blank.questions = questions;
-        console.log(valid);
         if (valid == true) {
             Ext.Ajax.request({
                 url: '/blank-mod/blank/blank.json',

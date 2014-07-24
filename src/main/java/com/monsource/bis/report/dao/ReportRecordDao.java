@@ -30,15 +30,18 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
             RecordQueryBuilder rqb = new RecordQueryBuilder(report, districtId);
             query = rqb.query();
         } else if (report.getType() == ReportType.QUERY) {
-            query = covertSqlQuery(report.getQuery());
+            query = convertSqlQuery(report.getQuery());
         }
         SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         return sqlQuery.list();
     }
 
-    private String covertSqlQuery(String query) {
+    private String convertSqlQuery(String query) {
         Map<String, String> changer = new HashMap<>();
+
+        query = query.replace("\n", " ");
+        query = query.substring(query.indexOf("SELECT"));
 
         findColumn(query, changer);
         findBlank(query, changer);
@@ -87,7 +90,7 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
 
     public List<Column> getQueryMetaData(String query) {
         List<Column> columns = new ArrayList<>();
-        SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
+        SQLQuery sqlQuery = this.getSession().createSQLQuery(this.convertSqlQuery(query));
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         sqlQuery.setMaxResults(1);
         Map<String, Object> data = (Map<String, Object>) sqlQuery.uniqueResult();

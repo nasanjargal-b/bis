@@ -41,7 +41,7 @@ public class RecordService {
     DistrictDao districtDao;
 
     public List<Record> getRecords(String blankId, Integer researchId, Integer districtId) {
-        List<Record> records = recordDao.find(blankId, researchId, districtId);
+        List<Record> records = recordDao.find(blankId, researchId, districtId, false);
 
         return records;
     }

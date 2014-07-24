@@ -6,6 +6,7 @@ import com.monsource.bis.blank.exception.NotXlsxFileException;
 import com.monsource.bis.blank.exception.QuestionCodeNotMatchException;
 import com.monsource.bis.blank.exception.QuestionCodeRowIsEmptyException;
 import com.monsource.bis.blank.exception.UnknownCellValueException;
+import com.monsource.bis.blank.model.Choice;
 import com.monsource.bis.blank.model.MetaData;
 import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.blank.model.Record;
@@ -87,7 +88,17 @@ public class RecordFileService {
             metaCell.setCellValue(metaData.getCode());
             metaCell.setCellStyle(metaStyle);
 
-            nameCell.setCellValue(metaData.getText());
+            String text = metaData.getText();
+
+            if (metaData.getChoices() != null && metaData.getChoices().size() > 0) {
+                List<String> choiceTexts = new ArrayList<>();
+                for (Choice choice : metaData.getChoices()) {
+                    choiceTexts.add(choice.getCode() + "=" + choice.getText());
+                }
+                text += " \n/" + StringUtils.join(choiceTexts, ", ") + "/";
+            }
+
+            nameCell.setCellValue(text);
             nameCell.setCellStyle(nameStyle);
         }
 
@@ -130,49 +141,8 @@ public class RecordFileService {
     }
 
     private List<Record> getRecords(String blankId, Integer researchId, Integer districtId) {
-        /*List<RecordEntity> recordEntities = recordDao.find(blankId, researchId, districtId);
-        ArrayList<Record> records = new ArrayList<>();
-
-        for (RecordEntity recordEntity : recordEntities) {
-            Record record = new Record();
-            for (RecordQuestionEntity recordQuestionEntity : recordEntity.getRecordQuestions()) {
-                QuestionEntity question = recordQuestionEntity.getQuestion();
-                String code = question.getCode();
-
-                switch (question.getType()) {
-                    case TEXT:
-                        record.put(code, recordQuestionEntity.getString());
-                        break;
-                    case NUMERIC:
-                        record.put(code, recordQuestionEntity.getNumeric());
-                        break;
-                    case DATE:
-                        record.put(code, recordQuestionEntity.getDate());
-                        break;
-                    case TIME:
-                        record.put(code, recordQuestionEntity.getTime());
-                        break;
-                    case MULTIPLE_CHOICE:
-                        List<String> codes = new ArrayList<>();
-                        for (ChoiceEntity choiceEntity : recordQuestionEntity.getChoices()) {
-                            codes.add(choiceEntity.getCode());
-                        }
-                        record.put(code, StringUtils.join(codes, ", "));
-                        break;
-                    case SINGLE_CHOICE:
-                        if (recordQuestionEntity.getChoices() != null && recordQuestionEntity.getChoices().size() > 0)
-                            record.put(code, recordQuestionEntity.getChoices().get(0).getCode());
-                        else
-                            record.put(code, null);
-                        break;
-                }
-            }
-            records.add(record);
-        }
-
-        return records;*/
-
-        return null;
+        List<Record> records = recordDao.find(blankId, researchId, districtId, true);
+        return records;
     }
 
 

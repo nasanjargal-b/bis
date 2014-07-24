@@ -55,7 +55,7 @@ Ext.define('Report.view.ReportPanel', {
                 {
                     xtype: 'combo',
                     name: 'type',
-                    action:'comboType',
+                    action: 'comboType',
                     query: 'local',
                     fieldLabel: 'Төрөл',
                     allowBlank: false,
@@ -76,7 +76,6 @@ Ext.define('Report.view.ReportPanel', {
                     hidden: true,
                     query: 'local',
                     fieldLabel: 'Анкет',
-                    allowBlank: false,
                     valueField: 'id',
                     displayField: 'name',
                     editable: false,

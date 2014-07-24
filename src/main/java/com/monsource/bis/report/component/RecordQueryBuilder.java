@@ -80,10 +80,10 @@ public class RecordQueryBuilder {
                     queryAlias.setFilter(QUESTION + column.getCode() + "." + QUESTION + column.getQuestionId() + " = " + column.getChoiceId());
                 }
                 queryAliases.add(queryAlias);
+            }
 
-                if (column.getChoiceId() != null) {
-                    queryAliases.add(new QueryAlias(CHOICE + QUESTION + column.getCode(), "registration.choice", "id", QUESTION + column.getQuestionId(), RECORD, null, QueryAlias.Join.LEFT));
-                }
+            if (column.getColumnType() == QuestionType.SINGLE_CHOICE) {
+                queryAliases.add(new QueryAlias(CHOICE + QUESTION + column.getCode(), "registration.choice", "id", QUESTION + column.getQuestionId(), RECORD, null, QueryAlias.Join.LEFT));
             }
         }
     }
@@ -117,7 +117,7 @@ public class RecordQueryBuilder {
     private void initColumn() {
         for (Column column : report.getColumns()) {
             String alias = RECORD;
-            if (column.getFilter() != null || column.getChoiceId() != null) {
+            if (column.getColumnType() == QuestionType.SINGLE_CHOICE) {
                 alias = QUESTION + column.getCode();
             }
             switch (column.getType()) {
@@ -240,239 +240,13 @@ public class RecordQueryBuilder {
             }
         }
 
-        queryBuilder.append(" GROUP BY");
-        queryBuilder.append(StringUtils.join(groups, ", "));
-        queryBuilder.append(" ORDER BY");
-        queryBuilder.append(StringUtils.join(groups, ", "));
-    }
-    /*private void initAlias() {
-        for (Column column : report.getColumns()) {
-            if (column.getType() == ReportQuestionType.QUESTION) {
-                QueryAlias queryAlias = new QueryAlias(
-                        QUESTION + column.getCode(),
-                        "record_question_view",
-                        "registration",
-                        "record_id",
-                        "id",
-                        RECORD,
-                        column.getQuestionId(),
-                        getColumnName(column.getColumnType()),
-                        QueryAlias.Join.LEFT);
-                if (column.getFilter() != null)
-                    queryAlias.setFilter(column.getFilter());
-                if (column.getChoiceId() != null) {
-                    queryAlias.setFilter(QUESTION + column.getCode() + ".choice_id = " + column.getChoiceId());
-                }
-
-                queryAliases.add(queryAlias);
-            }
-        }
-
-        for (Filter filter : report.getFilters()) {
-
-            boolean notHave = true;
-            for (QueryAlias queryAliase : queryAliases) {
-                if (queryAliase.getAlias().equals(FILTER + filter.getCode())) {
-                    notHave = false;
-                    break;
-                }
-            }
-            if (!notHave) continue;
-
-            if (filter.getType() == ReportQuestionType.QUESTION) {
-                QueryAlias queryAlias = new QueryAlias(
-                        FILTER + filter.getCode(),
-                        "record_question_view",
-                        "registration",
-                        "record_id",
-                        "id",
-                        RECORD,
-                        filter.getQuestionId(),
-                        getColumnName(filter.getColumnType()),
-                        QueryAlias.Join.INNER);
-
-                queryAliases.add(queryAlias);
-            }
+        if (groups.size() > 0) {
+            queryBuilder.append(" GROUP BY");
+            queryBuilder.append(StringUtils.join(groups, ", "));
+            queryBuilder.append(" ORDER BY");
+            queryBuilder.append(StringUtils.join(groups, ", "));
         }
     }
-
-    private void initFilter() {
-
-        QueryFilter blankFilter = new QueryFilter();
-        blankFilter.setAlias(RECORD);
-        blankFilter.setColumn("blank_id");
-        blankFilter.setFilter("$ = \"" + report.getBlankId() + "\"");
-        queryFilters.add(blankFilter);
-
-        if (districtId != null) {
-            QueryFilter districtFilter = new QueryFilter();
-            districtFilter.setAlias(RECORD);
-            districtFilter.setColumn("district_id");
-            districtFilter.setFilter("$ = " + districtId);
-            queryFilters.add(districtFilter);
-        }
-
-        for (Filter filter : report.getFilters()) {
-            QueryFilter queryFilter = new QueryFilter();
-            switch (filter.getType()) {
-                case RESEARCH:
-                    queryFilter.setAlias(RECORD);
-                    queryFilter.setColumn("research_id");
-                    queryFilter.setResearchId(filter.getResearchId());
-                    break;
-                case CITY:
-                    queryFilter.setAlias(RECORD);
-                    queryFilter.setColumn("city_id");
-                    queryFilter.setCityId(filter.getCityId());
-                    break;
-                case DISTRICT:
-                    queryFilter.setAlias(RECORD);
-                    queryFilter.setColumn("district_id");
-                    queryFilter.setDistrictId(filter.getDistrictId());
-                    break;
-                case QUESTION:
-                    queryFilter.setAlias(FILTER + filter.getCode());
-                    switch (filter.getColumnType()) {
-                        case MULTIPLE_CHOICE:
-                        case SINGLE_CHOICE:
-                            queryFilter.setColumn("choice_id");
-                            queryFilter.setChoiceIds(filter.getChoiceIds());
-                            break;
-                        default:
-                            queryFilter.setColumn(getColumnName(filter.getColumnType()));
-                            queryFilter.setFilter(filter.getFilter());
-                    }
-            }
-
-            queryFilters.add(queryFilter);
-        }
-    }
-
-    private void initColumn() {
-        for (Column column : report.getColumns()) {
-            switch (column.getType()) {
-                case RESEARCH:
-                    queryColumns.add(new QueryColumn(RECORD, "research_name", column.getCode(), column.getCalcType()));
-                    break;
-                case CITY:
-                    queryColumns.add(new QueryColumn(RECORD, "city_name", column.getCode(), column.getCalcType()));
-                    break;
-                case DISTRICT:
-                    queryColumns.add(new QueryColumn(RECORD, "district_name", column.getCode(), column.getCalcType()));
-                    break;
-                case QUESTION:
-                    switch (column.getColumnType()) {
-                        case MULTIPLE_CHOICE:
-                        case SINGLE_CHOICE:
-                            queryColumns.add(new QueryColumn(QUESTION + column.getCode(), "choice_text", column.getCode(), column.getCalcType()));
-                            break;
-                        default:
-                            queryColumns.add(new QueryColumn(QUESTION + column.getCode(), getColumnName(column.getColumnType()), column.getCode(), column.getCalcType()));
-                            break;
-                    }
-                    break;
-
-            }
-        }
-    }
-
-    public String query() {
-
-        StringBuilder queryBuilder = new StringBuilder("SELECT ");
-        buildColumn(queryBuilder);
-        queryBuilder.append(" FROM " + TABLE + " AS " + RECORD + " ");
-        buildAlias(queryBuilder);
-        buildFilter(queryBuilder);
-        buildGroup(queryBuilder);
-
-        return queryBuilder.toString();
-    }
-
-    private void buildFilter(StringBuilder queryBuilder) {
-        List<String> filterList = new ArrayList<>();
-
-        for (QueryFilter queryFilter : queryFilters) {
-            String column = queryFilter.getAlias() + "." + queryFilter.getColumn();
-
-            if (queryFilter.getFilter() != null) {
-                filterList.add("(" + queryFilter.getFilter().replace("\"", "'").replace("$", column) + ")");
-            } else if (queryFilter.getResearchId() != null) {
-                filterList.add(column + " = " + queryFilter.getResearchId());
-            } else if (queryFilter.getCityId() != null) {
-                filterList.add(column + " = " + queryFilter.getCityId());
-            } else if (queryFilter.getDistrictId() != null) {
-                filterList.add(column + " = " + queryFilter.getDistrictId());
-            } else if (queryFilter.getChoiceIds() != null) {
-                filterList.add(column + " IN (" + StringUtils.join(queryFilter.getChoiceIds(), ",") + ")");
-            }
-        }
-
-        if (filterList.size() > 0)
-            queryBuilder.append(" WHERE " + StringUtils.join(filterList, " AND "));
-    }
-
-    private void buildGroup(StringBuilder queryBuilder) {
-        List<String> groupList = new ArrayList<>();
-
-        for (QueryColumn queryColumn : queryColumns) {
-            if (queryColumn.getCalc() == ReportCalcType.GROUP) {
-                groupList.add("\"" + queryColumn.getName() + "\"");
-            }
-        }
-        if (groupList.size() > 0) {
-            queryBuilder.append(" GROUP BY " + StringUtils.join(groupList, ", "));
-            queryBuilder.append(" ORDER BY " + StringUtils.join(groupList, ", "));
-        }
-    }
-
-    private void buildColumn(StringBuilder queryBuilder) {
-        List<String> columnList = new ArrayList<>();
-
-        for (QueryColumn queryColumn : queryColumns) {
-            StringBuilder columnBuilder = new StringBuilder();
-
-            columnBuilder.append(String.format(getCalc(queryColumn.getCalc()), queryColumn.getAlias() + "." + queryColumn.getColumn()));
-            columnBuilder.append(" AS ");
-            columnBuilder.append("\"" + queryColumn.getName() + "\"");
-
-            columnList.add(columnBuilder.toString());
-        }
-
-        queryBuilder.append(StringUtils.join(columnList, ", "));
-    }
-
-    private void buildAlias(StringBuilder queryBuilder) {
-        List<String> aliasList = new ArrayList<>();
-
-        for (QueryAlias queryAlias : queryAliases) {
-            StringBuilder aliasBuilder = new StringBuilder();
-
-            aliasBuilder.append(queryAlias.getJoin() + " JOIN ");
-            aliasBuilder.append(queryAlias.getSchema() + "." + queryAlias.getTable() + " AS " + queryAlias.getAlias());
-            aliasBuilder.append(" ON ");
-            aliasBuilder.append(queryAlias.getAlias() + "." + queryAlias.getColumn());
-            aliasBuilder.append(" = ");
-            aliasBuilder.append(queryAlias.getRefAlias() + "." + queryAlias.getRefColumn());
-
-            if (queryAlias.getQuestionId() != null) {
-                aliasBuilder.append(" AND ");
-                aliasBuilder.append(queryAlias.getAlias() + "." + QCOLUMN + " = " + queryAlias.getQuestionId());
-            }
-
-            if (queryAlias.getFilter() != null) {
-                String filter = queryAlias.getFilter();
-                aliasBuilder.append(" AND ");
-                aliasBuilder.append(filter.replace("$", queryAlias.getAlias() + "." + queryAlias.getFilterColumn()));
-            }
-
-            aliasList.add(aliasBuilder.toString());
-        }
-
-
-        queryBuilder.append(StringUtils.join(aliasList, " "));
-    }
-
-    */
 
     private String getCalc(ReportCalcType calc) {
         switch (calc) {
