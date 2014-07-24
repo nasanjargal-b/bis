@@ -92,7 +92,9 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 store: store,
                 shadow: true,
                 legend: {
-                    position: 'right'
+                    position: 'right',
+                    boxStroke: '#ffffff',
+                    labelFont: '11px Helvetica, sans-serif'
                 }
             }
 
