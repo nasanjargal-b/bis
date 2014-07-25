@@ -135,6 +135,8 @@ Ext.define('Blank.controller.RecordDataCtrl', {
                 success: function (f, action) {
                     form.unmask();
                     Ext.MessageBox.alert('Мэдээлэл', 'Амжилттай хуулагдлаа');
+                    Ext.ComponentQuery.query('recordGrid')[0].getStore().reload();
+                    btn.up('window').close();
                 },
                 failure: function (f, action) {
                     form.unmask();

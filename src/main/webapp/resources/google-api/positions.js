@@ -1965,7 +1965,7 @@ function zavhanBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.77791275550184, 98.1683349609375),
-            content: 'Булнай',
+            content: 'Тосонцэнгэл',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
