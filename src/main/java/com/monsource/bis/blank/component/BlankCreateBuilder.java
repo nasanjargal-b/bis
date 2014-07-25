@@ -16,15 +16,14 @@ public class BlankCreateBuilder {
     private List<DbBuilder> dbBuilders = new ArrayList<>();
 
     public BlankCreateBuilder(BlankEntity blank, List<QuestionEntity> questions, TableViewEntity table, List<TableViewEntity> multiTable) {
-
+        dbBuilders.add(new DropViewBuilder(blank.getId()));
         if (table == null) {
             dbBuilders.add(new CreateTableBuilder(blank.getId(), questions));
         } else {
             dbBuilders.add(new AlterColumnBuilder(blank.getId(), questions, table));
             dbBuilders.add(new DropColumnBuilder(blank.getId(), questions, table, multiTable));
-            dbBuilders.add(new AlterViewBuilder(blank.getId(), questions));
         }
-
+        dbBuilders.add(new AlterViewBuilder(blank.getId(), questions));
     }
 
     public List<String> getQueries() {

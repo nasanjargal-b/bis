@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class AlterViewBuilder extends DbBuilder {
 
+    private final static String CODE_SUFFIX = "_CODE";
 
     private String column = "%s AS \"%s\"";
     private String join = "LEFT JOIN registration.choice AS %s ON %s.id = r.%s";
@@ -46,16 +47,12 @@ public class AlterViewBuilder extends DbBuilder {
     private void initColumns() {
         for (QuestionEntity question : questions) {
             String columnAlias = COLUMN_PREFIX + question.getId();
-            /*if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
-
-            } else if (question.getType() == QuestionType.SINGLE_CHOICE) {
-                String choiceAlias = "C_" + question.getCode();
-                joins.add(String.format(join, choiceAlias, choiceAlias, columnAlias));
-                columns.add(String.format(column, choiceAlias + ".code", question.getCode()));
-            } else {
-                columns.add(String.format(column, columnAlias, question.getCode()));
-            }*/
             columns.add(String.format(column, columnAlias, question.getCode()));
+            if (question.getType() == QuestionType.SINGLE_CHOICE) {
+                String alias = COLUMN_PREFIX + question.getId() + CODE_SUFFIX;
+                joins.add(String.format(join, alias, alias, COLUMN_PREFIX + question.getId()));
+                columns.add(String.format(column, alias + ".code", question.getCode() + CODE_SUFFIX));
+            }
         }
     }
 

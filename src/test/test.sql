@@ -1,7 +1,27 @@
-select c."text",count(*) as num_project, sum(b1.$C{Q4_1}) as "Y2014",sum(b2.$C{Q4_1}) as "Y2015",sum(b3.$C{Q4_1}) as "Y2016" from $B{B01} as b
-  left join registration.choice as c on c.id = b.$C{Q3_17}
-  left join $B{B01} as b1 on b1.id = b.id and b1.$C{Q3_18} = 2014
-  left join $B{B01} as b2 on b2.id = b.id and b2.$C{Q3_18} = 2015
-  left join $B{B01} as b3 on b3.id = b.id and b3.$C{Q3_18} = 2016
-WHERE b.district_id in (20,34,55,73,74,104,120,137,356,182,197,211,228,255,274,291,315,337,341,357,355)
-GROUP BY c."text"
+SELECT
+  r.id          AS id,
+  r.research_id AS research_id,
+  r.district_id AS district_id,
+  d.city_id     AS city_id,
+  rs.name       AS research_name,
+  rs.year       AS research_year,
+  d.name        AS district_name,
+  c.name        AS city_name,
+  Q_7550        AS "Q01",
+  Q_7550_CODE   AS "Q01_CODE",
+  Q_7551        AS "Q02",
+  Q_7551_CODE   AS "Q02_CODE",
+  Q_7552        AS "Q03",
+  Q_7552_CODE   AS "Q03_CODE",
+  Q_7651        AS "Q05",
+  Q_7750        AS "D1",
+  Q_7751        AS "T1"
+FROM bdata.Test AS r INNER JOIN registration.research AS rs ON rs.id = r.research_id
+  INNER JOIN public.district AS d ON r.district_id = d.id
+  INNER JOIN public.city AS c ON d.city_id = c.id
+  LEFT JOIN registration.choice AS Q_7550_CODE ON Q_7550_CODE.id = r.Q_7550
+  LEFT JOIN registration.choice AS Q_7551_CODE ON Q_7551_CODE.id = r.Q_7551
+  LEFT JOIN registration.choice AS Q_7552_CODE ON Q_7552_CODE.id = r.Q_7552;
+
+
+  select * from bdata.test

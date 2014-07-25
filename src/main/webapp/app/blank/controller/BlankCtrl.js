@@ -94,6 +94,7 @@ Ext.define('Blank.controller.BlankCtrl', {
         }
     },
     save: function (btn) {
+        console.log('save');
         var me = this;
 
         var blankPanel = btn.up('blankPanel');
@@ -113,7 +114,7 @@ Ext.define('Blank.controller.BlankCtrl', {
             num: 0
         };
 
-        valid = true;
+        var valid = true;
         for (var i = 0; i < root.childNodes.length; i++) {
             var node = root.childNodes[i];
             for (var k = i + 1; k < root.childNodes.length; k++) {
@@ -125,7 +126,7 @@ Ext.define('Blank.controller.BlankCtrl', {
             }
             for (var j = 0; j < node.childNodes.length; j++) {
                 for (var l = j + 1; l < node1.childNodes.length; l++) {
-                    if (node.childNodes[j].get('code') == node.childNodes[l].get('code')) {
+                    if (node.childNodes[j] && node.childNodes[l] && node.childNodes[j].get('code') == node.childNodes[l].get('code')) {
                         Ext.MessageBox.alert("Алдаа", node.childNodes[j].get('code') + ' уг код давхацсан байна та шалгаад өгөгдөлөө дахин оруулна уу?');
                         valid = false;
                     }
@@ -134,10 +135,11 @@ Ext.define('Blank.controller.BlankCtrl', {
         }
         for (var i = 0; i < root.childNodes.length; i++) {
             var node = root.childNodes[i];
-            questions[questions.length] = this.getNodeData(node, order, valid);
+            questions[questions.length] = this.getNodeData(node, order);
         }
 
         blank.questions = questions;
+        console.log(valid);
         if (valid == true) {
             Ext.Ajax.request({
                 url: '/blank-mod/blank/blank.json',
@@ -174,7 +176,7 @@ Ext.define('Blank.controller.BlankCtrl', {
             for (var i = 0; i < obj.choices.length; i++) {
                 for (var j = i + 1; j < obj.choices.length; j++) {
                     if (obj.choices[i].code == obj.choices[j].code) {
-                        Ext.MessageBox.alert("Алдаа", obj.code + ' уг асуултын '+obj.choices[i].code+' хариултын код давхацсан байна!');
+                        Ext.MessageBox.alert("Алдаа", obj.code + ' уг асуултын ' + obj.choices[i].code + ' хариултын код давхацсан байна!');
                         valid = false;
                     }
                 }

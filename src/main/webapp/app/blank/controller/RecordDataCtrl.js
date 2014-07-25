@@ -116,7 +116,7 @@ Ext.define('Blank.controller.RecordDataCtrl', {
     },
     deleteAll: function (menuItem) {
 //        if (menuItem.record) {
-            this.getRecordGrid().getStore().removeAll();
+        this.getRecordGrid().getStore().removeAll();
 //        }
     },
     download: function (btn) {
@@ -128,13 +128,16 @@ Ext.define('Blank.controller.RecordDataCtrl', {
         window.location = '/blank-mod/record/file.xlsx?blankId=' + blankId + '&researchId=' + researchId + '&districtId=' + districtId;
     },
     upload: function (btn) {
+        var me = this;
         var form = btn.up('window').down('form');
         if (form.getForm().isValid()) {
             form.mask('Файлыг илгээж байна...');
             form.submit({
                 success: function (f, action) {
                     form.unmask();
+                    me.getRecordGrid().getStore().reload();
                     Ext.MessageBox.alert('Мэдээлэл', 'Амжилттай хуулагдлаа');
+                    btn.up('window').close();
                 },
                 failure: function (f, action) {
                     form.unmask();
