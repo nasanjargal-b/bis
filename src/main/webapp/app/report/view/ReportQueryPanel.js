@@ -52,7 +52,7 @@ Ext.define('Report.view.ReportQueryPanel', {
         {
             xtype: 'grid',
             region: 'east',
-            width: 350,
+            width: 500,
             title: 'Асуултын жагсаалт',
             action: 'queryColumnGrid',
             forceFit: true,
@@ -63,6 +63,34 @@ Ext.define('Report.view.ReportQueryPanel', {
             viewConfig: {
                 plugins: {
                     ptype: 'gridviewdragdrop'
+                },
+                getRowClass: function (record, wIndex, rp, ds) {
+                    if (record.get('error'))
+                        return 'u-row-cell-error';
+                },
+                listeners: {
+                    render: function (view) {
+                        view.tip = Ext.create('Ext.tip.ToolTip', {
+                            target: view.el,
+                            delegate: view.itemSelector,
+                            trackMouse: true,
+                            renderTo: Ext.getBody(),
+                            listeners: {
+                                beforeshow: function (tip) {
+                                    var record = view.getRecord(tip.triggerElement);
+                                    if (!record.get('error')) return false;
+                                    var tooltip = record.get('errorMsg');
+                                    if (tooltip) {
+                                        tip.update(tooltip);
+                                    } else {
+                                        tip.on('show', function () {
+                                            Ext.defer(tip.hide, 10, tip);
+                                        }, tip, {single: true});
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             },
             columns: [
@@ -72,12 +100,11 @@ Ext.define('Report.view.ReportQueryPanel', {
                     dataIndex: 'code'
                 },
                 {
-                    text: 'Багана',
+                    text: 'Баганы нэр',
                     flex: 1,
                     dataIndex: 'name',
                     editor: {
-                        xtype: 'textfield',
-                        allowBlank: false
+                        xtype: 'textfield'
                     }
                 },
                 {
@@ -86,7 +113,6 @@ Ext.define('Report.view.ReportQueryPanel', {
                     dataIndex: 'columnType',
                     editor: {
                         xtype: 'combo',
-                        allowBlank: false,
                         displayField: 'value',
                         valueField: 'id',
                         store: Ext.create('Ext.data.Store', {

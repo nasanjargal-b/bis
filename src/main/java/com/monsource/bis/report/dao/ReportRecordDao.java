@@ -33,6 +33,9 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
             query = convertSqlQuery(report.getQuery());
         }
         SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
+        if (districtId != null) {
+            sqlQuery.setInteger("district_id", districtId);
+        }
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         return sqlQuery.list();
     }
@@ -41,7 +44,7 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
         Map<String, String> changer = new HashMap<>();
 
         query = query.replace("\n", " ");
-        query = query.substring(query.indexOf("SELECT"));
+        query = query.substring(query.toUpperCase().indexOf("SELECT"));
 
         findColumn(query, changer);
         findBlank(query, changer);

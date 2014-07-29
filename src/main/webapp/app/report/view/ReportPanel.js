@@ -80,6 +80,13 @@ Ext.define('Report.view.ReportPanel', {
                     displayField: 'name',
                     editable: false,
                     store: 'Blanks'
+                },
+                {
+                    xtype: 'checkbox',
+                    name: 'filterDistrict',
+                    fieldLabel:'Дүүргээр шүүх',
+                    inputValue: true,
+                    uncheckedValue: false
                 }
             ]
         },

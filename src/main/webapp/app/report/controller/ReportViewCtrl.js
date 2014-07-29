@@ -9,6 +9,22 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     }
                 }
             },
+            'reportViewWindow combo[name="cityId"]': {
+                change: function (cmb, value) {
+                    var record = cmb.getStore().findRecord('id', value);
+                    var districtCmb = cmb.up('window').down('combo[name="districtId"]');
+                    districtCmb.bindStore(record.districts());
+                    districtCmb.setValue(null);
+                }
+            },
+            'reportViewWindow combo[name="districtId"]': {
+                change: function (cmb, value) {
+                    var win = cmb.up('window');
+                    if (win.districtId != value) {
+                        this.showWindow(win.report, value, win);
+                    }
+                }
+            },
             'reportViewWindow button[action="refresh"]': {
                 click: function (btn) {
                     btn.up('panel').down('grid').getStore().reload();
@@ -41,49 +57,83 @@ Ext.define('Report.controller.ReportViewCtrl', {
             }
         });
     },
-    showWindow: function (report, districtId) {
-        var store = this.createStore(report, districtId);
-        var chart = this.createChart(report, store);
+    showWindow: function (report, districtId, oldWin) {
+        var win;
+        if (oldWin) {
+            win = oldWin;
+            win.report = report;
+            win.districtId = districtId;
+        } else {
+            win = Ext.create('Report.view.ReportViewWindow', {
+                title: 'Тайлан: ' + report.name,
+                report: report,
+                districtId: districtId,
+                items: {
+                    xtype: 'panel',
+                    border: false,
+                    layout: 'fit',
+                    items: [
+                        {
+                            xtype: 'component',
+                            action: 'reportFrame',
+                            autoScroll: true
+                        }
+                    ]
+                }
+            });
+        }
 
-        store.load({
-            callback: function () {
-                var win = Ext.create('Report.view.ReportViewWindow', {
-                    title: 'Тайлан: ' + report.name,
-                    report: report,
-                    districtId: districtId,
-                    items: {
-                        xtype: 'panel',
-                        border: false,
-                        layout: 'fit',
-                        items: [
-                            {
-                                xtype: 'component',
-                                action: 'reportFrame',
-                                autoScroll: true
-                            }
-                        ]
-                    }
-                });
+        if (report.filterDistrict) {
+            var cityCmb = win.down('combo[name="cityId"]');
+            var districtCmb = win.down('combo[name="districtId"]');
+            cityCmb.show();
+            districtCmb.show();
 
-                win.chart = chart;
-
-                Ext.Ajax.request({
-                    url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML' + (districtId ? '&districtId=' + districtId : ''),
-                    success: function (response) {
-                        var frameCmp = win.down('component[action="reportFrame"]');
-                        frameCmp.update(response.responseText)
-                        if (chart)
-                            Ext.createWidget('panel', {
-                                layout: 'fit',
-                                border: false,
-                                height: 400,
-                                items: chart,
-                                renderTo: 'chart'
-                            });
-                    }
+            if (districtId) {
+                cityCmb.getStore().each(function (city) {
+                    city.districts().each(function (district) {
+                        if (district.get('id') == districtId) {
+                            cityCmb.setValue(city.get('id'));
+                            districtCmb.setValue(district.get('id'));
+                        }
+                    })
                 });
             }
-        })
+
+        }
+
+        if ((report.filterDistrict && districtId) || report.filterDistrict == false) {
+            var store = this.createStore(report, districtId);
+            var chart = this.createChart(report, store);
+            store.load({
+                callback: function () {
+
+                    win.chart = chart;
+
+                    Ext.Ajax.request({
+                        url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML' + (districtId ? '&districtId=' + districtId : ''),
+                        success: function (response) {
+                            var frameCmp = win.down('component[action="reportFrame"]');
+                            frameCmp.update(response.responseText)
+                            if (chart)
+                                Ext.createWidget('panel', {
+                                    layout: 'fit',
+                                    border: false,
+                                    height: 400,
+                                    items: chart,
+                                    renderTo: 'chart'
+                                });
+                        }
+                    });
+                }
+            })
+        } else {
+            var frameCmp = win.down('component[action="reportFrame"]');
+            if (report.filterDistrict)
+                frameCmp.update('<div class="report-no-data">Өгөгдөл олдсонгүй<br/>Та шүүх дүүргээ сонгоогүй байна!!!</div>')
+            else
+                frameCmp.update('<div class="report-no-data">Өгөгдөл олдсонгүй</div>')
+        }
     },
     createChart: function (report, store) {
         if (report.chart) {

@@ -3,5 +3,6 @@ Ext.define('Report.model.City', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'name', type: 'string'}
-    ]
+    ],
+    hasMany: {model: 'Report.model.District', name: 'districts'}
 })

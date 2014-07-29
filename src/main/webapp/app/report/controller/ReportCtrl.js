@@ -94,7 +94,6 @@ Ext.define('Report.controller.ReportCtrl', {
     save: function (btn) {
         var me = this;
         var form = btn.up('form');
-        var valid = true;
         if (form.getForm().isValid() && this.getController('ReportColumnCtrl').validColumn()) {
             var data = this.getFormData();
             form.mask('Хадгалаж байна...');
@@ -184,6 +183,7 @@ Ext.define('Report.controller.ReportCtrl', {
             name: form.down('textfield[name="name"]').getValue(),
             type: form.down('combo[name="type"]').getValue(),
             query: (queryField) ? queryField.getValue() : null,
+            filterDistrict: form.down('checkbox[name="filterDistrict"]').getValue(),
             parentId: record.get('parentId'),
             blankId: record.get('blankId') == "" ? null : record.get('blankId'),
             chart: record.get('chart') == "" ? null : record.get('chart'),

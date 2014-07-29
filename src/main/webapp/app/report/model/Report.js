@@ -13,7 +13,8 @@ Ext.define('Report.model.Report', {
         {name: 'chartCategory', type: 'string', useNull: true},
         {name: 'type', type: 'string', useNull: true},
         {name: 'query', type: 'string', useNull: true},
-        {name: 'order', type: 'int', useNull: true}
+        {name: 'order', type: 'int', useNull: true},
+        {name: 'filterDistrict', type: 'boolean', useNull: true}
     ],
     hasMany: [
         {model: 'Report.model.Column', name: 'columns'},

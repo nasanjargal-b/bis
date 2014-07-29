@@ -30,6 +30,7 @@
         <!--REPORT-->
         <sec:intercept-url pattern="/report-mod/report/reports.json" method="GET" access="permitAll()"/>
         <sec:intercept-url pattern="/report-mod/view/**" access="permitAll()"/>
+        <sec:intercept-url pattern="/report-mod/helper/cities.json" access="permitAll()"/>
         <sec:intercept-url pattern="/report-mod/**" access="hasAnyRole('ROLE_REPORTER')"/>
 
         <sec:access-denied-handler ref="authService"/>

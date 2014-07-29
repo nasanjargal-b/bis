@@ -77,12 +77,6 @@ Ext.define('Report.view.FilterPanel', {
                     }
                 },
                 {
-                    xtype: 'checkcolumn',
-                    text: 'Асуух',
-                    dataIndex: 'prompt',
-                    width: 50
-                },
-                {
                     text: 'Шүүлтүүр',
                     dataIndex: 'data',
                     minWidth: 200,
@@ -93,19 +87,19 @@ Ext.define('Report.view.FilterPanel', {
                             case 'RESEARCH':
                                 Ext.getStore('Research').each(function (rec) {
                                     if (value == rec.get('id'))
-                                        valStr = '= "' + rec.get('year') + ' - ' + rec.get('name') + '"';
+                                        valStr = '$ = \'' + rec.get('year') + ' - ' + rec.get('name') + '\'';
                                 });
                                 return valStr;
                             case 'CITY':
                                 Ext.getStore('City').each(function (rec) {
                                     if (value == rec.get('id'))
-                                        valStr = '= "' + rec.get('name') + '"';
+                                        valStr = '$ = \'' + rec.get('name') + '\'';
                                 });
                                 return valStr;
                             case 'DISTRICT':
                                 Ext.getStore('District').each(function (rec) {
                                     if (value == rec.get('id'))
-                                        valStr = '= "' + rec.get('cityName') + ', ' + rec.get('name') + '"';
+                                        valStr = '$ = \'' + rec.get('cityName') + ', ' + rec.get('name') + '\'';
                                 });
                                 return valStr;
                             default:
@@ -120,7 +114,7 @@ Ext.define('Report.view.FilterPanel', {
                                                 }
                                             }
                                         });
-                                        return '= "' + val.join(", ") + '"';
+                                        return '$ IN (\'' + val.join("\', \'") + '\')';
                                     default :
                                         return value;
                                 }

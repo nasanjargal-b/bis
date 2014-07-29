@@ -1,8 +1,8 @@
 Ext.application({
     name: 'Report',
     controllers: ['ReportViewCtrl'],
-    models: ['Report'],
-    stores: ['Report'],
+    models: ['Report', 'City', 'District'],
+    stores: ['Report', 'City'],
     views: ['ReportViewTreePanel', 'ReportViewWindow'],
     appFolder: '/app/report',
     launch: function () {
@@ -19,7 +19,7 @@ Ext.application({
                     itemId: 'reportViewMainPanel',
                     layout: 'fit',
                     region: 'center',
-                    bodyStyle: 'background-color:'+PANEL_COLOR+''
+                    bodyStyle: 'background-color:' + PANEL_COLOR + ''
                 }
             ],
             renderTo: Ext.getBody('mainBody')

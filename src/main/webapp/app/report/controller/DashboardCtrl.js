@@ -186,6 +186,6 @@ Ext.define('Report.controller.DashboardCtrl', {
         }
     },
     loadWindow: function (id, me) {
-        this.getController('ReportViewCtrl').show(900, id);
+        this.getController('ReportViewCtrl').show(1850, id);
     }
 });

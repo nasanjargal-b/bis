@@ -168,7 +168,7 @@ public class RecordQueryBuilder {
             QueryFilter districtFilter = new QueryFilter();
             districtFilter.setAlias(RECORD);
             districtFilter.setColumn("district_id");
-            districtFilter.setFilter("$ = " + districtId);
+            districtFilter.setFilter("$ = :district_id");
             queryFilters.add(districtFilter);
         }
 

@@ -1,11 +1,14 @@
 package com.monsource.bis.report.model;
 
+import java.util.List;
+
 /**
  * Created by nasanjargal on 7/15/14.
  */
 public class City {
     private Integer id;
     private String name;
+    private List<District> districts;
 
     public City() {
     }
@@ -29,5 +32,13 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<District> getDistricts() {
+        return districts;
+    }
+
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
     }
 }

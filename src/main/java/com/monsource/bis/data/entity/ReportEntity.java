@@ -22,6 +22,7 @@ public class ReportEntity implements DataEntity {
     private String chartCategory;
     private ReportType type;
     private String query;
+    private Boolean filterDistrict;
     private BlankEntity blank;
     private ReportEntity parent;
     private List<ReportEntity> children;
@@ -130,6 +131,16 @@ public class ReportEntity implements DataEntity {
         this.query = query;
     }
 
+    @Basic
+    @Column(name = "filter_district")
+    public Boolean getFilterDistrict() {
+        return filterDistrict;
+    }
+
+    public void setFilterDistrict(Boolean filterDistrict) {
+        this.filterDistrict = filterDistrict;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -141,10 +152,14 @@ public class ReportEntity implements DataEntity {
         if (chartCategory != null ? !chartCategory.equals(that.chartCategory) : that.chartCategory != null)
             return false;
         if (file != null ? !file.equals(that.file) : that.file != null) return false;
+        if (filterDistrict != null ? !filterDistrict.equals(that.filterDistrict) : that.filterDistrict != null)
+            return false;
         if (group != null ? !group.equals(that.group) : that.group != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        if (query != null ? !query.equals(that.query) : that.query != null) return false;
+        if (type != that.type) return false;
 
         return true;
     }
@@ -158,6 +173,9 @@ public class ReportEntity implements DataEntity {
         result = 31 * result + (group != null ? group.hashCode() : 0);
         result = 31 * result + (chart != null ? chart.hashCode() : 0);
         result = 31 * result + (chartCategory != null ? chartCategory.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (query != null ? query.hashCode() : 0);
+        result = 31 * result + (filterDistrict != null ? filterDistrict.hashCode() : 0);
         return result;
     }
 

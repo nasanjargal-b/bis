@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,15 +87,17 @@ public class ReportFileCtrl {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         reportBuilder.build(outputStream);
 
+        name = URLEncoder.encode(name, "UTF-8").replace("+", "%20");
+
         switch (type) {
             case PDF:
-                response.setHeader("Content-Disposition", "attachment;filename=" + name + ".pdf");
+                response.setHeader("Content-Disposition", "attachment;filename=\"" + name + ".pdf\"");
                 break;
             case DOCX:
-                response.setHeader("Content-Disposition", "attachment;filename=" + name + ".docx");
+                response.setHeader("Content-Disposition", "attachment;filename=\"" + name + ".docx\"");
                 break;
             case XLSX:
-                response.setHeader("Content-Disposition", "attachment;filename=" + name + ".xlsx");
+                response.setHeader("Content-Disposition", "attachment;filename=\"" + name + ".xlsx\"");
                 break;
             case HTML:
                 if (report.getChart() != null)

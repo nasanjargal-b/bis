@@ -62,6 +62,8 @@ public class ReportBuilder {
 
         this.jasperReport = report();
         this.jasperReport.setPageMargin(margin(20));
+        this.jasperReport.setNoDataBackgroundComponent(cmp.text("Өгөгдөл олдсонгүй"));
+        this.jasperReport.setNoDataStyle(stl.style().bold().setFontSize(24).setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE));
 
         initHeader(ctx != null ? ctx.getRealPath("resources/images/logomn.png") : "/media/d/My Project/bis/WebBis/src/main/webapp/resources/images/logomn.png");
         initFooter();
@@ -127,7 +129,7 @@ public class ReportBuilder {
                                         .setForegroundColor(color)
                                         .setFontSize(15)
                                         .setBold(true)
-                                        .setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE)
+                                        .setAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE)
                                         .setTopPadding(5)
                                         .setBottomPadding(5)))
                                 .setStyle(stl.style()
@@ -182,11 +184,6 @@ public class ReportBuilder {
     }
 
     private void calcPageSize(int colNum) {
-//        int pageNum = ((int) Math.ceil(size / PageType.A4.getWidth()));
-//        pageNum = pageNum == 0 ? 1 : pageNum;
-//
-//        jasperReport.setPageFormat(PageType.A4.getWidth() * pageNum, PageType.A4.getHeight(), PageOrientation.PORTRAIT);
-
         if (colNum > 6) {
             jasperReport.setPageFormat(PageType.A4, PageOrientation.LANDSCAPE);
         } else {

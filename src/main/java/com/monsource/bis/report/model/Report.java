@@ -23,6 +23,7 @@ public class Report implements TreeModel<Integer> {
     private Integer order;
     private ReportType type;
     private String query;
+    private Boolean filterDistrict;
     private List<Column> columns;
     private List<Filter> filters;
     private List<ChartSeries> chartSerieses;
@@ -31,7 +32,7 @@ public class Report implements TreeModel<Integer> {
     public Report() {
     }
 
-    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, ReportChartType chart, String chartCategory, Integer order, ReportType type, String query) {
+    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, ReportChartType chart, String chartCategory, Integer order, ReportType type, String query, Boolean filterDistrict) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -43,9 +44,10 @@ public class Report implements TreeModel<Integer> {
         this.order = order;
         this.type = type;
         this.query = query;
+        this.filterDistrict = filterDistrict;
     }
 
-    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, boolean group, ReportChartType chart, String chartCategory, Integer order, ReportType type, String query) {
+    public Report(Integer id, String name, Integer parentId, String parentName, String blankId, String blankName, boolean group, ReportChartType chart, String chartCategory, Integer order, ReportType type, String query, Boolean filterDistrict) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
@@ -58,6 +60,7 @@ public class Report implements TreeModel<Integer> {
         this.order = order;
         this.type = type;
         this.query = query;
+        this.filterDistrict = filterDistrict;
     }
 
     public Integer getId() {
@@ -154,6 +157,14 @@ public class Report implements TreeModel<Integer> {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public Boolean getFilterDistrict() {
+        return filterDistrict;
+    }
+
+    public void setFilterDistrict(Boolean filterDistrict) {
+        this.filterDistrict = filterDistrict;
     }
 
     public List<Column> getColumns() {
