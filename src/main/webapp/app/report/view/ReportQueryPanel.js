@@ -10,6 +10,7 @@ Ext.define('Report.view.ReportQueryPanel', {
         {
             region: 'center',
             title: 'Query',
+            padding:'0 5 0 0',
             dockedItems: {
                 xtype: 'toolbar',
                 items: [
@@ -22,26 +23,23 @@ Ext.define('Report.view.ReportQueryPanel', {
             },
             border: true,
             bodyStyle: 'background-color:' + PANEL_COLOR + '',
-            layout: 'vbox',
+            layout: 'fit',
             items: [
                 {
                     xtype: 'textareafield',
-                    id: 'codearea',
                     resizable: true,
                     name: 'query',
-                    title: 'query',
                     allowBlank: false,
                     flex: 1,
-                    width: '100%',
                     listeners: {
-                        afterrender: function () {
-                            var textarea = Ext.getCmp('codearea');
-                            var codemirror = CodeMirror.fromTextArea(textarea.inputEl.dom, {
+                        afterrender: function (field) {
+                            var codemirror = CodeMirror.fromTextArea(field.inputEl.dom, {
                                 mode: 'text/x-plsql'
                             });
+                            codemirror.setValue(field.getValue());
                             codemirror.on("change", function () {
-                                var val = Ext.ComponentQuery.query('textareafield[id="codearea"]')[0].bodyEl.dom.innerText;
-                                Ext.ComponentQuery.query('textareafield[id="codearea"]')[0].setValue(val);
+                                var val = codemirror.getValue();
+                                field.setValue(val);
                             })
 
                         }
