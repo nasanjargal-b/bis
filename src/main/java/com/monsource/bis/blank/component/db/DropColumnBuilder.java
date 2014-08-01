@@ -52,7 +52,10 @@ public class DropColumnBuilder extends DbBuilder {
             String tableName = foreignTable.getTableName().toUpperCase();
             boolean isDrop = true;
             for (QuestionEntity question : questions) {
-                if (tableName.equals(name.toUpperCase() + question.getId())) {
+                String multiTableName = name.toUpperCase() + question.getId();
+                System.out.println("tableName = " + tableName);
+                System.out.println("multiTableName = " + multiTableName);
+                if (tableName.equals(multiTableName)) {
                     isDrop = false;
                     break;
                 }

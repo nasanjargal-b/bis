@@ -34,7 +34,7 @@ public class AlterViewBuilder extends DbBuilder {
             "INNER JOIN public.city AS c ON d.city_id = c.id " +
             "%s";
 
-    private String multiQuery = "CREATE VIEW bdata.V_%s_%s AS SELECT " +
+    private String multiQuery = "CREATE VIEW bdata.\"V_%s_%s\" AS SELECT " +
             "rc.record_id," +
             "c.id as choice_id," +
             "c.code as choice_code," +
