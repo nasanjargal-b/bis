@@ -22,9 +22,10 @@ public class AlterColumnBuilder extends DbBuilder {
     private String queryAddColumn = "ALTER TABLE %s ADD COLUMN %s %s";
     private String queryDropColumn = "ALTER TABLE %s DROP COLUMN %s";
     private String queryDropTable = "DROP TABLE IF EXISTS %s";
-    private String foreignQuery = "CREATE TABLE IF NOT EXISTS %s(record_id int4 references %s(id),choice_id int4 references registration.choice(id),primary key(record_id,choice_id))";
+    private String queryViewTable = "DROP VIEW IF EXISTS %s";
+    private String foreignQuery = "CREATE TABLE IF NOT EXISTS %s(record_id INTEGER REFERENCES %s(id),choice_id INTEGER REFERENCES registration.choice(id),PRIMARY KEY(record_id,choice_id))";
 
-    public AlterColumnBuilder(String name, List<QuestionEntity> questions, TableViewEntity table/*, List<TableViewEntity> multiTable*/) {
+    public AlterColumnBuilder(String name, List<QuestionEntity> questions, TableViewEntity table, List<TableViewEntity> multiTable) {
         this.name = name;
         this.questions = questions;
         this.table = table;
@@ -58,6 +59,7 @@ public class AlterColumnBuilder extends DbBuilder {
         for (QuestionEntity question : questions) {
             if (question.getType() != QuestionType.MULTIPLE_CHOICE) {
                 queries.add(String.format(queryDropTable, SCHEMA + "." + name + "_" + question.getId()));
+                queries.add(String.format(queryViewTable, SCHEMA + ".V_" + name + "_" + question.getCode()));
             } else {
                 String foreignTableName = SCHEMA + "." + name + "_" + question.getId();
                 queries.add(String.format(foreignQuery, foreignTableName, SCHEMA + "." + name));

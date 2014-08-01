@@ -8,7 +8,7 @@ import java.util.List;
  * Created by nasanjargal on 7/22/14.
  */
 public abstract class DbBuilder {
-    public static final String SCHEMA = "bdata";
+    public static final String SCHEMA = "BDATA";
     public static final String COLUMN_PREFIX = "Q_";
 
     public abstract List<String> getQueries();
@@ -16,30 +16,30 @@ public abstract class DbBuilder {
     protected String getColumnType(QuestionType type) {
         switch (type) {
             case NUMERIC:
-                return "float8";
+                return "DOUBLE";
             case DATE:
-                return "date";
+                return "DATE";
             case TIME:
-                return "time";
+                return "TIME";
             case TEXT:
-                return "text";
+                return "LONGVARCHAR";
             case SINGLE_CHOICE:
-                return "int4";
+                return "INTEGER";
         }
         return null;
     }
 
     protected QuestionType getQuestionType(String dataType) {
 
-        if (dataType.equals("text"))
+        if (dataType.equals("CHARACTER VARYING"))
             return QuestionType.TEXT;
-        if (dataType.contains("double"))
+        if (dataType.contains("DOUBLE PRECISION"))
             return QuestionType.NUMERIC;
-        if (dataType.equals("date"))
+        if (dataType.equals("DATE"))
             return QuestionType.DATE;
-        if (dataType.contains("time"))
+        if (dataType.contains("TIME"))
             return QuestionType.TIME;
-        if (dataType.contains("int"))
+        if (dataType.contains("INTEGER"))
             return QuestionType.SINGLE_CHOICE;
 
         return null;

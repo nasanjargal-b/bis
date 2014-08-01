@@ -11,7 +11,7 @@ import java.util.List;
  * Created by nasanjargal on 7/6/14.
  */
 @Entity
-@Table(name = "report", schema = "report", catalog = "bis")
+@Table(name = "report", schema = "report", catalog = "PUBLIC")
 public class ReportEntity implements DataEntity {
     private Integer id;
     private String name;
@@ -39,7 +39,7 @@ public class ReportEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_seq_gen")
-    @SequenceGenerator(name = "report_seq_gen", sequenceName = "report.report_id_seq")
+    @SequenceGenerator(name = "report_seq_gen", sequenceName = "report.seq_report")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -60,7 +60,7 @@ public class ReportEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "file")
+    @Column(name = "\"file\"")
     public String getFile() {
         return file;
     }
@@ -122,7 +122,7 @@ public class ReportEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "\"query\"")
+    @Column(name = "query")
     public String getQuery() {
         return query;
     }

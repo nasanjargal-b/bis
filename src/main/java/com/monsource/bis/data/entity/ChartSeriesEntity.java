@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by nasanjargal on 7/16/14.
  */
 @Entity
-@Table(name = "chart_series", schema = "report", catalog = "bis")
+@Table(name = "chart_series", schema = "report", catalog = "PUBLIC")
 public class ChartSeriesEntity {
     private Integer id;
     private String field;
@@ -18,7 +18,7 @@ public class ChartSeriesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chart_series_seq_gen")
-    @SequenceGenerator(name = "chart_series_seq_gen", sequenceName = "report.chart_series_id_seq")
+    @SequenceGenerator(name = "chart_series_seq_gen", sequenceName = "report.seq_chart_series")
     @Column(name = "id")
     public Integer getId() {
         return id;

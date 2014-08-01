@@ -13,7 +13,7 @@ import java.util.List;
  * Created by nasanjargal on 6/20/14.
  */
 @Entity
-@Table(name = "choice", schema = "registration", catalog = "bis")
+@Table(name = "choice", schema = "registration", catalog = "PUBLIC")
 public class ChoiceEntity implements DataEntity {
     private Integer id;
     private String code;
@@ -36,7 +36,7 @@ public class ChoiceEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "choice_seq_gen")
-    @SequenceGenerator(name = "choice_seq_gen", sequenceName = "registration.choice_id_seq")
+    @SequenceGenerator(name = "choice_seq_gen", sequenceName = "registration.seq_choice")
     @Column(name = "id")
     public Integer getId() {
         return id;

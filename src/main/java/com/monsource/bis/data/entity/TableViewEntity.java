@@ -11,7 +11,7 @@ import java.util.List;
  * Created by nasanjargal on 7/22/14.
  */
 @Entity
-@Table(name = "table_view", schema = "bdata", catalog = "bis")
+@Table(name = "table_view", schema = "bdata", catalog = "PUBLIC")
 public class TableViewEntity implements DataEntity {
     private String tableName;
     private String tableSchema;

@@ -13,7 +13,7 @@ import java.util.List;
  * Created by nasanjargal on 7/6/14.
  */
 @Entity
-@Table(name = "report_question", schema = "report", catalog = "bis")
+@Table(name = "report_question", schema = "report", catalog = "PUBLIC")
 public class ReportQuestionEntity implements DataEntity {
     private Integer id;
     private String code;
@@ -34,7 +34,7 @@ public class ReportQuestionEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_question_seq_gen")
-    @SequenceGenerator(name = "report_question_seq_gen", sequenceName = "report.report_question_id_seq")
+    @SequenceGenerator(name = "report_question_seq_gen", sequenceName = "report.seq_report_question")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -119,7 +119,7 @@ public class ReportQuestionEntity implements DataEntity {
     }
 
     @Basic
-    @Column(name = "percent")
+    @Column(name = "\"percent\"")
     public Boolean getPercent() {
         return percent;
     }

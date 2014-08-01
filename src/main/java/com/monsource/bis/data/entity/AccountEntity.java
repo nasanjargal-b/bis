@@ -12,7 +12,7 @@ import java.util.Set;
  * Created by nasanjargal on 3/31/14.
  */
 @Entity
-@Table(name = "account", schema = "public", catalog = "bis")
+@Table(name = "account", schema = "public", catalog = "PUBLIC")
 public class AccountEntity implements DataEntity {
     private Integer id;
     private String username;
@@ -29,7 +29,7 @@ public class AccountEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq_gen")
-    @SequenceGenerator(name = "account_seq_gen", sequenceName = "public.account_id_seq")
+    @SequenceGenerator(name = "account_seq_gen", sequenceName = "public.seq_account")
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 10, precision = 0)
     public Integer getId() {
         return id;
@@ -176,7 +176,7 @@ public class AccountEntity implements DataEntity {
     }
 
     @ManyToMany
-    @JoinTable(name = "account_group", catalog = "bis", schema = "public", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false))
+    @JoinTable(name = "account_group", catalog = "PUBLIC", schema = "public", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false))
     public Set<GroupEntity> getGroups() {
         return groups;
     }

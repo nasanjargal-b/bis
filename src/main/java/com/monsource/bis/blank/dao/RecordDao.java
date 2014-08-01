@@ -29,6 +29,8 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
     String insertQuery = "INSERT INTO bdata.%s(%s) values (%s)";
     String updateQuery = "UPDATE bdata.%s SET %s WHERE id=:id";
+    String insertMultiQuery = "INSERT INTO bdata.%s(record_id,choice_id) values (%s,%s)";
+    String deleteMultiQuery = "DELETE FROM bdata.%s WHERE record_id = %s";
 
     public List<Record> find(String blankId, Integer researchId, Integer districtId, boolean choiceCode) {
 
@@ -39,20 +41,20 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 
-
         List<Map> recordDatas = sqlQuery.list();
+
+        for (Map recordData : recordDatas) {
+            List<QuestionEntity> questions = questionDao.findWithoutGroup(blankId);
+            for (QuestionEntity question : questions) {
+                if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                    List choiceIds = this.getSession().createSQLQuery("SELECT choice_id FROM bdata." + blankId + "_" + question.getId() + " WHERE record_id = " + recordData.get("ID"))
+                            .list();
+                    recordData.put(question.getCode(), choiceIds);
+                }
+            }
+        }
+
         List<Record> records = convertRecord(recordDatas, blankId, choiceCode);
-
-        return records;
-    }
-
-    public List<Record> find(String blankId) {
-        SQLQuery sqlQuery = this.getSession().createSQLQuery("SELECT * FROM bdata.V_" + blankId);
-
-        sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-
-        List<Map> recordDatas = sqlQuery.list();
-        List<Record> records = convertRecord(recordDatas, blankId, false);
 
         return records;
     }
@@ -68,14 +70,28 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
 
             if (choiceCode) {
                 for (QuestionEntity question : questions) {
-                    if (question.getType() == QuestionType.SINGLE_CHOICE || question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                    if (question.getType() == QuestionType.SINGLE_CHOICE) {
                         Integer choiceId = (Integer) record.get(question.getCode());
                         for (ChoiceEntity choice : question.getChoices()) {
-                            if (choice.getId() == choiceId) {
+                            if (choice.getId().equals(choiceId)) {
                                 record.put(question.getCode(), choice.getCode());
                                 break;
                             }
                         }
+                    } else if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                        List<Integer> choiceIds = (List<Integer>) record.get(question.getCode());
+                        List<String> codes = new ArrayList<>();
+
+                        for (Integer choiceId : choiceIds) {
+                            for (ChoiceEntity choice : question.getChoices()) {
+                                if (choice.getId().equals(choiceId)) {
+                                    codes.add(choice.getCode());
+                                }
+                            }
+                        }
+
+                        record.put(question.getCode(), codes);
+
                     }
                 }
             }
@@ -88,6 +104,8 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
     }
 
     public void merge(Record record, String blankId, Integer researchId, Integer districtId, Integer accountId, List<QuestionEntity> questions) throws ParseException {
+
+        List<String> multiQueries = new ArrayList<>();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
@@ -104,14 +122,22 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         codes.add(":district_id");
 
         for (QuestionEntity question : questions) {
-            columns.add(DbBuilder.COLUMN_PREFIX + question.getId());
-            codes.add(":" + question.getCode());
+            if (question.getType() != QuestionType.MULTIPLE_CHOICE) {
+                columns.add(DbBuilder.COLUMN_PREFIX + question.getId());
+                codes.add(":" + question.getCode());
+            }
         }
 
         Integer id = (Integer) record.get("id");
+        Integer newId = null;
         String query;
         if (id == null) {
+            codes.add(":id");
+            columns.add("id");
             query = String.format(insertQuery, blankId, StringUtils.join(columns, ", "), StringUtils.join(codes, ", "));
+
+            newId = (Integer) getSession().createSQLQuery("call next value for bdata.SEQ_" + blankId).uniqueResult();
+
         } else {
             List<String> updates = new ArrayList<>();
             for (int i = 0; i < columns.size(); i++) {
@@ -128,11 +154,26 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         sqlQuery.setParameter("district_id", districtId);
         sqlQuery.setParameter("account_id", accountId);
 
+        if (newId != null) {
+            sqlQuery.setInteger("id", newId);
+        }
+
+
         for (QuestionEntity question : questions) {
             Object value = record.get(question.getCode());
             Type type = null;
             switch (question.getType()) {
                 case MULTIPLE_CHOICE:
+                    Integer recId = (id == null) ? newId : id;
+                    multiQueries.add(String.format(deleteMultiQuery, blankId + "_" + question.getId(), recId + ""));
+
+                    if (value != null) {
+                        List<Integer> values = value instanceof List ? (List) value : null;
+                        for (Integer choiceId : values) {
+                            multiQueries.add(String.format(insertMultiQuery, blankId + "_" + question.getId(), recId + "", choiceId + ""));
+                        }
+                    }
+                    break;
                 case SINGLE_CHOICE:
                     if (value != null)
                         value = value instanceof Integer ? (Integer) value : new Integer(value + "");
@@ -166,7 +207,8 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
                     break;
 
             }
-            sqlQuery.setParameter(question.getCode(), value, type);
+            if (question.getType() != QuestionType.MULTIPLE_CHOICE)
+                sqlQuery.setParameter(question.getCode(), value, type);
         }
 
         if (id != null) {
@@ -174,6 +216,11 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         }
 
         sqlQuery.executeUpdate();
+
+        for (String multiQuery : multiQueries) {
+            System.out.println("multiQuery = " + multiQuery);
+            this.getSession().createSQLQuery(multiQuery).executeUpdate();
+        }
     }
 
     public void delete(String blankId, Integer id) {

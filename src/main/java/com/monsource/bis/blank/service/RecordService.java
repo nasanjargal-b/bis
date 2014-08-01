@@ -53,11 +53,6 @@ public class RecordService {
         ResearchEntity research = researchDao.get(researchId);
         DistrictEntity district = districtDao.get(districtId);
 
-        /*for (Record record : records) {
-            RecordEntity recordEntity = getRecordEntity(blank, research, district, account, record);
-            recordDao.merge(recordEntity, false);
-        }*/
-
         for (Record record : records) {
             recordDao.merge(record, blankId, research.getId(), district.getId(), account.getId(), questionEntities);
         }

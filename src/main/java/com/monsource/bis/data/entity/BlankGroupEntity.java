@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by nasanjargal on 6/20/14.
  */
 @Entity
-@Table(name = "blank_group", schema = "registration", catalog = "bis")
+@Table(name = "blank_group", schema = "registration", catalog = "PUBLIC")
 public class BlankGroupEntity implements DataEntity {
     private String id;
     private String name;

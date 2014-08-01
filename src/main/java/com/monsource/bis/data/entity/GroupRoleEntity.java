@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by nasanjargal on 3/31/14.
  */
 @javax.persistence.Entity
-@Table(name = "group_role", schema = "public",catalog = "bis")
+@Table(name = "group_role", schema = "public",catalog = "PUBLIC")
 public class GroupRoleEntity implements DataEntity {
     private Integer id;
     private Role role;
@@ -17,7 +17,7 @@ public class GroupRoleEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_role_seq_gen")
-    @SequenceGenerator(name = "group_role_seq_gen", sequenceName = "public.group_role_id_seq")
+    @SequenceGenerator(name = "group_role_seq_gen", sequenceName = "public.seq_group_role")
     @Column(name = "id", nullable = true, insertable = true, updatable = true, length = 255, precision = 0)
     public Integer getId() {
         return id;

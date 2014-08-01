@@ -10,7 +10,7 @@ import java.util.List;
  * Created by nasanjargal on 6/20/14.
  */
 @Entity
-@Table(name = "research", schema = "registration", catalog = "bis")
+@Table(name = "research", schema = "registration", catalog = "PUBLIC")
 public class ResearchEntity implements DataEntity {
     private Integer id;
     private String name;
@@ -30,7 +30,7 @@ public class ResearchEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "research_seq_gen")
-    @SequenceGenerator(name = "research_seq_gen", sequenceName = "registration.research_id_seq")
+    @SequenceGenerator(name = "research_seq_gen", sequenceName = "registration.seq_research")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -129,7 +129,7 @@ public class ResearchEntity implements DataEntity {
     }
 
     @ManyToMany
-    @JoinTable(name = "research_blank", schema = "registration", catalog = "bis",
+    @JoinTable(name = "research_blank", schema = "registration", catalog = "PUBLIC",
             joinColumns = @JoinColumn(name = "research_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "blank_id", referencedColumnName = "id")
     )

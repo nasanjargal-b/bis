@@ -12,8 +12,9 @@ import java.util.List;
  */
 public class CreateTableBuilder extends DbBuilder {
 
+    private String seqQuery = "CREATE SEQUENCE %s;";
     private String createQuery = "CREATE TABLE %s (%s);";
-    private String foreignQuery = "CREATE TABLE %s(record_id int4 references %s(id),choice_id int4 references registration.choice(id),primary key(record_id,choice_id))";
+    private String foreignQuery = "CREATE TABLE %s(record_id INTEGER REFERENCES %s(id),choice_id INTEGER REFERENCES registration.choice(id),PRIMARY KEY(record_id,choice_id))";
 
     private String name;
     private List<QuestionEntity> questions;
@@ -27,10 +28,10 @@ public class CreateTableBuilder extends DbBuilder {
     }
 
     private void buildColumns() {
-        columns.add("id serial primary key");
-        columns.add("research_id int4 not null");
-        columns.add("account_id int4 NOT NULL");
-        columns.add("district_id int4 NOT NULL");
+        columns.add("id INTEGER PRIMARY KEY");
+        columns.add("research_id INTEGER NOT NULL");
+        columns.add("account_id INTEGER NOT NULL");
+        columns.add("district_id INTEGER NOT NULL");
 
         for (QuestionEntity question : questions) {
             if (question.getType() != QuestionType.MULTIPLE_CHOICE) {
@@ -50,6 +51,7 @@ public class CreateTableBuilder extends DbBuilder {
     @Override
     public List<String> getQueries() {
         List<String> queries = new ArrayList<>();
+        queries.add(String.format(seqQuery, SCHEMA + ".SEQ_" + name));
         queries.add(String.format(createQuery, SCHEMA + "." + name, StringUtils.join(columns, ", ")));
         queries.addAll(foreignQueries);
         return queries;

@@ -15,6 +15,6 @@ public class DropViewBuilder extends DbBuilder {
 
     @Override
     public List<String> getQueries() {
-        return Arrays.asList("DROP VIEW bdata.V_" + name);
+        return Arrays.asList("DROP VIEW bdata.V_" + name + " IF EXISTS");
     }
 }

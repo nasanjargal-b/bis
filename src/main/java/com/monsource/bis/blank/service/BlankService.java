@@ -1,6 +1,7 @@
 package com.monsource.bis.blank.service;
 
 import com.monsource.bis.blank.component.BlankCreateBuilder;
+import com.monsource.bis.blank.component.BlankDropBuilder;
 import com.monsource.bis.blank.exception.QuestionCodeEmptyException;
 import com.monsource.bis.blank.model.*;
 import com.monsource.bis.data.entity.*;
@@ -11,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.monsource.bis.blank.dao.*;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Service
 public class BlankService {
@@ -21,37 +25,47 @@ public class BlankService {
     QuestionDao questionDao;
     @Autowired
     TableViewDao tableViewDao;
+    @Autowired
+    ResearchDao researchDao;
+    @Autowired
+    TransactionTemplate transactionTemplate;
 
     /**
      * @param blank
      */
-    public void save(Blank blank) {
-        BlankEntity blankEntity = new BlankEntity();
+    public void save(final Blank blank) {
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
 
-        blankEntity.setId(blank.getId());
-        blankEntity.setName(blank.getName());
-        blankEntity.setBlankGroup(new BlankGroupEntity(blank.getBlankGroupId()));
+                BlankEntity blankEntity = new BlankEntity();
 
-        if (blankEntity.getQuestions() == null)
-            blankEntity.setQuestions(new ArrayList<QuestionEntity>());
-        else
-            blankEntity.getQuestions().clear();
+                blankEntity.setId(blank.getId());
+                blankEntity.setName(blank.getName());
+                blankEntity.setBlankGroup(new BlankGroupEntity(blank.getBlankGroupId()));
 
-        if (blank.getQuestions() != null) {
-            List<QuestionEntity> questions = getQuestionEntities(blank.getQuestions(), null, null, blankEntity);
-            blankEntity.getQuestions().addAll(questions);
-        }
+                if (blankEntity.getQuestions() == null)
+                    blankEntity.setQuestions(new ArrayList<QuestionEntity>());
+                else
+                    blankEntity.getQuestions().clear();
 
-        blankDao.merge(blankEntity);
-        TableViewEntity table = tableViewDao.getTable(blank.getId());
-        List<TableViewEntity> multiTable = null;
-        if (table != null) {
-            multiTable = tableViewDao.findMultiTable(table);
-        }
+                if (blank.getQuestions() != null) {
+                    List<QuestionEntity> questions = getQuestionEntities(blank.getQuestions(), null, null, blankEntity);
+                    blankEntity.getQuestions().addAll(questions);
+                }
 
-        BlankCreateBuilder blankCreateBuilder = new BlankCreateBuilder(blankEntity, questionDao.findWithoutGroup(blankEntity.getId()), table, multiTable);
-        blankDao.mergeDbView(blankCreateBuilder);
+                blankDao.merge(blankEntity);
+                TableViewEntity table = tableViewDao.getTable(blank.getId());
+                List<TableViewEntity> multiTable = null;
+                if (table != null) {
+                    multiTable = tableViewDao.findMultiTable(table);
+                }
 
+                BlankCreateBuilder blankCreateBuilder = new BlankCreateBuilder(blankEntity, questionDao.findWithoutGroup(blankEntity.getId()), table, multiTable);
+                blankDao.mergeDbView(blankCreateBuilder);
+
+            }
+        });
     }
 
     private List<QuestionEntity> getQuestionEntities(List<Question> questions, List<QuestionEntity> questionEntities, QuestionEntity parent, BlankEntity blankEntity) {
@@ -134,10 +148,26 @@ public class BlankService {
     /**
      * @param ids
      */
-    public void delete(List<String> ids) {
-        for (String id : ids) {
-            blankDao.delete(blankDao.get(id));
-        }
+    public void delete(final List<String> ids) {
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                for (String id : ids) {
+                    BlankEntity entity = blankDao.get(id);
+
+                    List<ResearchEntity> researches = entity.getResearches();
+
+                    for (ResearchEntity research : researches) {
+                        research.getBlanks().remove(entity);
+                        researchDao.merge(research);
+                    }
+
+                    BlankDropBuilder blankDropBuilder = new BlankDropBuilder(entity, questionDao.findWithoutGroup(entity.getId()));
+                    blankDao.deleteDbView(blankDropBuilder);
+                    blankDao.delete(entity);
+                }
+            }
+        });
     }
 
 }

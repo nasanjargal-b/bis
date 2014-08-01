@@ -13,7 +13,7 @@ import java.util.List;
  * Created by nasanjargal on 7/6/14.
  */
 @Entity
-@Table(name = "report_filter", schema = "report", catalog = "bis")
+@Table(name = "report_filter", schema = "report", catalog = "PUBLIC")
 public class ReportFilterEntity implements DataEntity {
     private Integer id;
     private ReportQuestionType type;
@@ -30,7 +30,7 @@ public class ReportFilterEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_filter_seq_gen")
-    @SequenceGenerator(name = "report_filter_seq_gen", sequenceName = "report.report_filter_id_seq")
+    @SequenceGenerator(name = "report_filter_seq_gen", sequenceName = "report.seq_report_filter")
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -141,7 +141,7 @@ public class ReportFilterEntity implements DataEntity {
     }
 
     @ManyToMany
-    @JoinTable(name = "choice_report_filter", catalog = "bis", schema = "report",
+    @JoinTable(name = "choice_report_filter", catalog = "PUBLIC", schema = "report",
             joinColumns = @JoinColumn(name = "report_filter_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "choice_id", referencedColumnName = "id", nullable = false))
     public List<ChoiceEntity> getChoices() {

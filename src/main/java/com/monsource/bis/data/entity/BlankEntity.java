@@ -9,7 +9,7 @@ import java.util.List;
  * Created by nasanjargal on 6/20/14.
  */
 @Entity
-@Table(name = "blank", schema = "registration", catalog = "bis")
+@Table(name = "blank", schema = "registration", catalog = "PUBLIC")
 public class BlankEntity implements DataEntity {
     private String id;
     private String name;

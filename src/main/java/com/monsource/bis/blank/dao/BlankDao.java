@@ -1,6 +1,7 @@
 package com.monsource.bis.blank.dao;
 
 import com.monsource.bis.blank.component.BlankCreateBuilder;
+import com.monsource.bis.blank.component.BlankDropBuilder;
 import com.monsource.bis.core.data.*;
 import com.monsource.bis.blank.model.*;
 import com.monsource.bis.data.entity.BlankEntity;
@@ -69,6 +70,14 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
     public void mergeDbView(BlankCreateBuilder createBuilder) {
 
         for (String query : createBuilder.getQueries()) {
+            this.getSession().createSQLQuery(query).executeUpdate();
+        }
+
+        this.getSession().flush();
+    }
+
+    public void deleteDbView(BlankDropBuilder dropBuilder) {
+        for (String query : dropBuilder.getQueries()) {
             this.getSession().createSQLQuery(query).executeUpdate();
         }
 

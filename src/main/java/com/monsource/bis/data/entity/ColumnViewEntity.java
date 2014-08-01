@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by nasanjargal on 7/22/14.
  */
 @Entity
-@Table(name = "column_view", schema = "bdata", catalog = "bis")
+@Table(name = "column_view", schema = "bdata", catalog = "PUBLIC")
 public class ColumnViewEntity implements DataEntity {
     private String columnName;
     private String dataType;

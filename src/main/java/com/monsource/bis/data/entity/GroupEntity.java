@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by nasanjargal on 3/31/14.
  */
 @javax.persistence.Entity
-@Table(name = "group", schema = "public",catalog = "bis")
+@Table(name = "\"group\"", schema = "public",catalog = "PUBLIC")
 public class GroupEntity implements DataEntity {
     private Integer id;
     private String name;
@@ -19,7 +19,7 @@ public class GroupEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq_gen")
-    @SequenceGenerator(name = "group_seq_gen", sequenceName = "public.group_id_seq")
+    @SequenceGenerator(name = "group_seq_gen", sequenceName = "public.seq_group")
     @Column(name = "id", nullable = true, insertable = true, updatable = true, length = 255, precision = 0)
     public Integer getId() {
         return id;

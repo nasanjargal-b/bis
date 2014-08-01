@@ -3,27 +3,21 @@ package com.monsource.bis.blank.component;
 import com.monsource.bis.blank.component.db.*;
 import com.monsource.bis.data.entity.BlankEntity;
 import com.monsource.bis.data.entity.QuestionEntity;
-import com.monsource.bis.data.entity.TableViewEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nasanjargal on 7/21/14.
+ * Created by nasanjargal on 8/1/14.
  */
-public class BlankCreateBuilder {
+public class BlankDropBuilder {
 
     private List<DbBuilder> dbBuilders = new ArrayList<>();
 
-    public BlankCreateBuilder(BlankEntity blank, List<QuestionEntity> questions, TableViewEntity table, List<TableViewEntity> multiTable) {
+    public BlankDropBuilder(BlankEntity blank, List<QuestionEntity> questions) {
+        dbBuilders.add(new DropMultiViewBuilder(blank.getId(), questions));
         dbBuilders.add(new DropViewBuilder(blank.getId()));
-        if (table == null) {
-            dbBuilders.add(new CreateTableBuilder(blank.getId(), questions));
-        } else {
-            dbBuilders.add(new AlterColumnBuilder(blank.getId(), questions, table, multiTable));
-            dbBuilders.add(new DropColumnBuilder(blank.getId(), questions, table, multiTable));
-        }
-        dbBuilders.add(new AlterViewBuilder(blank.getId(), questions));
+        dbBuilders.add(new DropTableBuilder(blank.getId()));
     }
 
     public List<String> getQueries() {

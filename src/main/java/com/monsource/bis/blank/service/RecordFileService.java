@@ -116,6 +116,11 @@ public class RecordFileService {
                 recordCell.setCellStyle(recordStyle);
                 Object data = record.get(metaData.getCode());
 
+                if (data instanceof List) {
+                    data = StringUtils.join((Collection) data, ", ");
+                    System.out.println(data);
+                }
+
                 if (data instanceof String)
                     recordCell.setCellValue((String) data);
                 else if (data instanceof Date)
@@ -203,6 +208,7 @@ public class RecordFileService {
                                     throw new UnknownCellValueException(cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
                                 ids.add(choiceMultiple.getId());
                             }
+                            value = ids;
                             break;
                         case TIME:
                         case DATE:

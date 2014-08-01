@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by nasanjargal on 3/31/14.
  */
 @Entity
-@Table(name = "district", schema = "public", catalog = "bis")
+@Table(name = "district", schema = "public", catalog = "PUBLIC")
 public class DistrictEntity implements DataEntity {
     private Integer id;
     private String name;
@@ -27,7 +27,7 @@ public class DistrictEntity implements DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "district_seq_gen")
-    @SequenceGenerator(name = "district_seq_gen", sequenceName = "public.district_id_seq")
+    @SequenceGenerator(name = "district_seq_gen", sequenceName = "public.seq_district")
     @Column(name = "id", nullable = true, insertable = true, updatable = true, length = 255, precision = 0)
     public Integer getId() {
         return id;
