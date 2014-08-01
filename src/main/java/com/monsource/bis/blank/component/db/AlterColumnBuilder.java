@@ -58,8 +58,8 @@ public class AlterColumnBuilder extends DbBuilder {
 
         for (QuestionEntity question : questions) {
             if (question.getType() != QuestionType.MULTIPLE_CHOICE) {
-                queries.add(String.format(queryDropTable, SCHEMA + "." + name + "_" + question.getId()));
                 queries.add(String.format(queryViewTable, SCHEMA + ".\"V_" + name + "_" + question.getCode()+"\""));
+                queries.add(String.format(queryDropTable, SCHEMA + "." + name + "_" + question.getId()));
             } else {
                 String foreignTableName = SCHEMA + "." + name + "_" + question.getId();
                 queries.add(String.format(foreignQuery, foreignTableName, SCHEMA + "." + name));
