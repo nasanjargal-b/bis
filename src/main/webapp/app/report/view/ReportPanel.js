@@ -66,7 +66,8 @@ Ext.define('Report.view.ReportPanel', {
                         fields: ['id', 'name'],
                         data: [
                             { id: 'SIMPLE', name: 'Энгийн'},
-                            { id: 'QUERY', name: 'Мэргэжлийн'}
+                            { id: 'QUERY', name: 'Мэргэжлийн'},
+                            { id: 'JASPER', name: 'JasperReport'}
                         ]
                     })
                 },
@@ -84,7 +85,7 @@ Ext.define('Report.view.ReportPanel', {
                 {
                     xtype: 'checkbox',
                     name: 'filterDistrict',
-                    fieldLabel:'Дүүргээр шүүх',
+                    fieldLabel: 'Дүүргээр шүүх',
                     inputValue: true,
                     uncheckedValue: false
                 }

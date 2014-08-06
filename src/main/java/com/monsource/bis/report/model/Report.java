@@ -23,6 +23,7 @@ public class Report implements TreeModel<Integer> {
     private Integer order;
     private ReportType type;
     private String query;
+    private String file;
     private Boolean filterDistrict;
     private List<Column> columns;
     private List<Filter> filters;
@@ -61,6 +62,14 @@ public class Report implements TreeModel<Integer> {
         this.type = type;
         this.query = query;
         this.filterDistrict = filterDistrict;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public Integer getId() {

@@ -3,7 +3,7 @@ Ext.application({
     controllers: ['ReportCtrl', 'ReportColumnCtrl', 'ReportFilterCtrl', 'ReportChartCtrl'],
     models: ['Report', 'Column', 'Choice', 'City', 'District', 'Research', 'Blank', 'Question', 'Filter', 'ChartSeries'],
     stores: ['Report', 'City', 'District', 'Research', 'Blanks'],
-    views: ['ReportTreePanel', 'ReportPanel', 'QuestionGrid', 'ColumnPanel', 'FilterPanel', 'ChartPanel', 'ReportContextMenu', 'ReportGroupWindow','ReportQueryPanel'],
+    views: ['ReportTreePanel', 'ReportPanel', 'QuestionGrid', 'ColumnPanel', 'FilterPanel', 'ChartPanel', 'ReportContextMenu', 'ReportGroupWindow', 'ReportQueryPanel', 'ReportFilePanel'],
     appFolder: '/app/report',
     launch: function () {
         Ext.create('Ext.container.Viewport', {
@@ -19,7 +19,7 @@ Ext.application({
                     itemId: 'reportMainPanel',
                     layout: 'fit',
                     region: 'center',
-                    bodyStyle: 'background-color:'+PANEL_COLOR+''
+                    bodyStyle: 'background-color:' + PANEL_COLOR + ''
                 }
             ]
         });

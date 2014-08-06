@@ -5,5 +5,6 @@ package com.monsource.bis.data.entity.type;
  */
 public enum ReportType {
     SIMPLE,
-    QUERY
+    QUERY,
+    JASPER
 }

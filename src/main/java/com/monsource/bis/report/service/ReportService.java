@@ -120,6 +120,8 @@ public class ReportService {
             report.getChartSerieses().add(new ChartSeries(chartSeriesEntity.getId(), chartSeriesEntity.getField(), chartSeriesEntity.getType()));
         }
 
+        report.setFile(reportEntity.getFile());
+
         return report;
     }
 
@@ -149,6 +151,10 @@ public class ReportService {
         reportEntity.setQuery(clearQuery(report.getQuery()));
         reportEntity.setType(report.getType());
         reportEntity.setFilterDistrict(report.getFilterDistrict() == null ? false : report.getFilterDistrict());
+
+        if (report.getFile() != null) {
+            reportEntity.setFile(report.getFile());
+        }
 
         if (report.getParentId() != null)
             reportEntity.setParent(new ReportEntity(report.getParentId()));

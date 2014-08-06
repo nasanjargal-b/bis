@@ -22,8 +22,13 @@ Ext.define('Report.controller.ReportCtrl', {
                         combo.hide();
                         tab.add({xtype: 'reportQueryPanel'}, {xtype: 'chartPanel'})
                         tab.doLayout();
-                        this.initQueryGrid(record)
+                        this.initQueryGrid(record);
                         this.initChartGrid(record);
+                    } else if (cmb.getValue() == 'JASPER') {
+                        tab.removeAll();
+                        combo.hide();
+                        tab.add({xtype: 'reportFilePanel'});
+                        tab.doLayout();
                     }
                 }
             },
@@ -96,21 +101,78 @@ Ext.define('Report.controller.ReportCtrl', {
         var form = btn.up('form');
         if (form.getForm().isValid() && this.getController('ReportColumnCtrl').validColumn()) {
             var data = this.getFormData();
-            form.mask('Хадгалаж байна...');
-            Ext.Ajax.request({
-                url: '/report-mod/report/report.json',
-                jsonData: data,
-                success: function (response) {
-                    form.unmask();
+            if (data.type != 'JASPER') {
+                form.mask('Хадгалаж байна...');
+                Ext.Ajax.request({
+                    url: '/report-mod/report/report.json',
+                    jsonData: data,
+                    success: function (response) {
+                        form.unmask();
+                        var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
+                        tree.getStore().load();
+                        var result = Ext.decode(response.responseText);
+                        me.edit(result.data);
+                    },
+                    failure: function () {
+                        form.unmask();
+                    }
+                });
+            } else
+                me.saveWithFile(form, data);
+        }
+    },
+    saveWithFile: function (form, data) {
+        var me = this;
+        if (window.FormData) {
+            var file = form.down('filefield').fileInputEl.dom.files[0];
+
+            var formData = new FormData();
+
+            formData.append('report', Ext.encode(data));
+            formData.append('file', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/report-mod/report/reportJasper.json', true);
+
+            var progressBox = Ext.MessageBox.show({
+                title: 'Мэдээлэл',
+                msg: 'Хадгалаж байна',
+                width: 300,
+                progress: true
+            });
+
+            xhr.upload.addEventListener('progress', function (e) {
+                var loaded = Math.ceil(e.loaded / e.total * 100);
+                progressBox.updateProgress(loaded, 'Илгээж байна... ' + loaded + '%');
+            }, false);
+
+            xhr.onload = function () {
+                progressBox.close();
+                var response = xhr;
+                if (xhr.status == 200) {
                     var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
                     tree.getStore().load();
                     var result = Ext.decode(response.responseText);
                     me.edit(result.data);
-                },
-                failure: function () {
-                    form.unmask();
+                } else {
+                    if (xhr.status == 500) {
+                        var result = Ext.decode(response.responseText);
+                        Ext.MessageBox.alert('Алдаа', result.message);
+                    } else if (xhr.status == 401) {
+                        var result = Ext.decode(response.responseText);
+                        Ext.MessageBox.alert('Алдаа : <span style="color:red">' + response.status + '</span>', result.message, function () {
+                            window.location = "/security/login.jsp"
+                        });
+                    } else {
+                        Ext.MessageBox.alert('Алдаа : <span style="color:red">' + response.status + '</span>', response.statusText);
+                    }
                 }
-            })
+            };
+
+            xhr.send(formData);
+
+        } else {
+            Ext.MessageBox.alert('Алдаа', 'Таны Веб хөтөч хуучирсан тул уг үйлдлийг хийх боломжгүй байна!!!');
         }
     },
     saveGroup: function (win) {
@@ -136,7 +198,7 @@ Ext.define('Report.controller.ReportCtrl', {
                     var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
                     tree.getStore().load();
                 }
-            })
+            });
         }
     },
     saveReportOrder: function () {

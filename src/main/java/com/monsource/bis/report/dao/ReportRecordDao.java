@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
 public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
 
     public List<Map> find(Report report, Integer districtId) {
+
+        if (report.getType() == ReportType.JASPER) return new ArrayList<>();
+
         String query = null;
 
         if (report.getType() == ReportType.SIMPLE) {
