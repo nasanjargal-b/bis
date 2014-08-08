@@ -120,6 +120,25 @@ public class ReportService {
             report.getChartSerieses().add(new ChartSeries(chartSeriesEntity.getId(), chartSeriesEntity.getField(), chartSeriesEntity.getType()));
         }
 
+        report.setParameters(new ArrayList<Parameter>());
+        for (ReportParameterEntity reportParameterEntity : reportEntity.getReportParameters()) {
+            ResearchEntity research = reportParameterEntity.getResearch();
+            CityEntity city = reportParameterEntity.getCity();
+            DistrictEntity district = reportParameterEntity.getDistrict();
+            report.getParameters().add(new Parameter(
+                    reportParameterEntity.getId(),
+                    reportParameterEntity.getCode(),
+                    reportParameterEntity.getType(),
+                    reportParameterEntity.getPrompt(),
+                    reportParameterEntity.getQuery(),
+                    research != null ? research.getId() : null,
+                    city != null ? city.getId() : null,
+                    district != null ? district.getId() : null
+            ));
+        }
+
+        report.setFile(reportEntity.getFile());
+
         return report;
     }
 
@@ -135,11 +154,13 @@ public class ReportService {
             reportEntity.setReportQuestions(new ArrayList<ReportQuestionEntity>());
             reportEntity.setReportFilters(new ArrayList<ReportFilterEntity>());
             reportEntity.setChartSerieses(new ArrayList<ChartSeriesEntity>());
+            reportEntity.setReportParameters(new ArrayList<ReportParameterEntity>());
         } else {
             reportEntity = reportDao.get(report.getId());
             reportEntity.getReportQuestions().clear();
             reportEntity.getReportFilters().clear();
             reportEntity.getChartSerieses().clear();
+            reportEntity.getReportParameters().clear();
         }
 
         reportEntity.setName(report.getName());
@@ -149,6 +170,10 @@ public class ReportService {
         reportEntity.setQuery(clearQuery(report.getQuery()));
         reportEntity.setType(report.getType());
         reportEntity.setFilterDistrict(report.getFilterDistrict() == null ? false : report.getFilterDistrict());
+
+        if (report.getFile() != null) {
+            reportEntity.setFile(report.getFile());
+        }
 
         if (report.getParentId() != null)
             reportEntity.setParent(new ReportEntity(report.getParentId()));
@@ -226,6 +251,26 @@ public class ReportService {
 
             reportEntity.getChartSerieses().add(chartSeriesEntity);
 
+        }
+
+        for (Parameter parameter : report.getParameters()) {
+
+            Integer cityId = parameter.getCityId();
+            Integer districtId = parameter.getDistrictId();
+            Integer researchId = parameter.getResearchId();
+
+            ReportParameterEntity parameterEntity = new ReportParameterEntity();
+            parameterEntity.setId(parameter.getId());
+            parameterEntity.setCode(parameter.getCode());
+            parameterEntity.setType(parameter.getType());
+            parameterEntity.setPrompt(parameter.getPrompt());
+            parameterEntity.setQuery(parameter.getQuery());
+            parameterEntity.setReport(reportEntity);
+            parameterEntity.setCity(cityId != null ? new CityEntity(cityId) : null);
+            parameterEntity.setDistrict(districtId != null ? new DistrictEntity(districtId) : null);
+            parameterEntity.setResearch(researchId != null ? new ResearchEntity(researchId) : null);
+
+            reportEntity.getReportParameters().add(parameterEntity);
         }
 
         reportEntity = reportDao.merge(reportEntity);

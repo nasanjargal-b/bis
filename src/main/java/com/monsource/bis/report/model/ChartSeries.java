@@ -1,10 +1,12 @@
 package com.monsource.bis.report.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.monsource.bis.data.entity.type.ChartSeriesType;
 
 /**
  * Created by nasanjargal on 7/16/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChartSeries {
     private Integer id;
     private String field;

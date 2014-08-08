@@ -1,5 +1,6 @@
 package com.monsource.bis.report.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.data.entity.type.ReportQuestionType;
 
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by nasanjargal on 7/14/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Filter {
 
     private Integer id;

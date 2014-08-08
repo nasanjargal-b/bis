@@ -11,7 +11,7 @@ import java.util.List;
  * Created by nasanjargal on 7/6/14.
  */
 @Entity
-@Table(name = "report", schema = "report", catalog = "PUBLIC")
+@Table(name = "REPORT", schema = "REPORT", catalog = "PUBLIC")
 public class ReportEntity implements DataEntity {
     private Integer id;
     private String name;
@@ -29,6 +29,7 @@ public class ReportEntity implements DataEntity {
     private List<ReportQuestionEntity> reportQuestions;
     private List<ReportFilterEntity> reportFilters;
     private List<ChartSeriesEntity> chartSerieses;
+    private List<ReportParameterEntity> reportParameters;
 
     public ReportEntity() {
     }
@@ -236,5 +237,14 @@ public class ReportEntity implements DataEntity {
 
     public void setChartSerieses(List<ChartSeriesEntity> chartSerieses) {
         this.chartSerieses = chartSerieses;
+    }
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<ReportParameterEntity> getReportParameters() {
+        return reportParameters;
+    }
+
+    public void setReportParameters(List<ReportParameterEntity> reportParameters) {
+        this.reportParameters = reportParameters;
     }
 }

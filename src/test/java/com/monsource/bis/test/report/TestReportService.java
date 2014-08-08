@@ -60,7 +60,7 @@ public class TestReportService {
     @Transactional
     public void testQuery() throws Exception {
 
-        List<Column> columns = reportQueryService.queryMetaData("SELECT \"Q3_2\" FROM bdata.V_B01");
+        List<Column> columns = reportQueryService.queryMetaData(reportService.get(10));
         System.out.println(columns.size());
         for (Column column : columns) {
             System.out.println(column.getCode());

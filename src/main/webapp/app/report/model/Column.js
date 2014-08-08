@@ -6,7 +6,7 @@ Ext.define('Report.model.Column', {
         {name: 'type', type: 'string', useNull: true},
         {name: 'calcType', type: 'string', useNull: true},
         {name: 'columnType', type: 'string', useNull: true},
-        {name: 'summaryType', type: 'string', useNull: true},
+        {name: 'summaryType', type: 'string', useNull: true, defaultValue: null},
         {name: 'percent', type: 'boolean', useNull: true},
         {name: 'questionId', type: 'int', useNull: true},
         {name: 'code', type: 'string', useNull: true},

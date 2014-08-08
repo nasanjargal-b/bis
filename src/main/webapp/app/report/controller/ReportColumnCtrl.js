@@ -97,20 +97,23 @@ Ext.define('Report.controller.ReportColumnCtrl', {
             }
         } else {
 
-            var store = Ext.ComponentQuery.query('grid[action="queryColumnGrid"]')[0].getStore();
+            var queryColumnGrid = Ext.ComponentQuery.query('grid[action="queryColumnGrid"]')[0];
+            if (queryColumnGrid) {
+                var store = queryColumnGrid.getStore();
 
-            var columns = [];
-            store.each(function (columnRecord) {
-                columns[columns.length] = columnRecord;
-            })
+                var columns = [];
+                store.each(function (columnRecord) {
+                    columns[columns.length] = columnRecord;
+                })
 
-            for (var i = 0; i < columns.length; i++) {
-                var column = columns[i];
-                if (column.get('columnType') == null || column.get('name') == null || column.get('name') == "") {
-                    valid = false;
-                    var msg = 'Мэдээлэл дутуу байна. Та баганы төрөл эсвэл нэрээ шалгана уу!!!';
-                    column.set('error', true);
-                    column.set('errorMsg', msg);
+                for (var i = 0; i < columns.length; i++) {
+                    var column = columns[i];
+                    if (column.get('columnType') == null || column.get('name') == null || column.get('name') == "") {
+                        valid = false;
+                        var msg = 'Мэдээлэл дутуу байна. Та баганы төрөл эсвэл нэрээ шалгана уу!!!';
+                        column.set('error', true);
+                        column.set('errorMsg', msg);
+                    }
                 }
             }
         }

@@ -8,7 +8,7 @@ Ext.define('Report.model.Filter', {
         {name: 'prompt', type: 'boolean', useNull: true},
         {name: 'filter', type: 'string', useNull: true},
         {name: 'questionId', type: 'int', useNull: true},
-        {name: 'choiceIds', type: 'auto', useNull: true},
+        {name: 'choiceIds', type: 'auto', useNull: true, defaultValue: []},
         {name: 'researchId', type: 'int', useNull: true},
         {name: 'cityId', type: 'int', useNull: true},
         {name: 'districtId', type: 'int', useNull: true},

@@ -19,7 +19,8 @@ Ext.define('Report.model.Report', {
     hasMany: [
         {model: 'Report.model.Column', name: 'columns'},
         {model: 'Report.model.Filter', name: 'filters'},
-        {model: 'Report.model.ChartSeries', name: 'chartSerieses'}
+        {model: 'Report.model.ChartSeries', name: 'chartSerieses'},
+        {model: 'Report.model.Parameter', name: 'parameters'}
     ],
     proxy: {
         type: 'ajax',
