@@ -94,7 +94,6 @@ Ext.define('Blank.controller.BlankCtrl', {
         }
     },
     save: function (btn) {
-        console.log('save');
         var me = this;
 
         var blankPanel = btn.up('blankPanel');
@@ -139,7 +138,6 @@ Ext.define('Blank.controller.BlankCtrl', {
         }
 
         blank.questions = questions;
-        console.log(valid);
         if (valid == true) {
             Ext.Ajax.request({
                 url: '/blank-mod/blank/blank.json',

@@ -38,11 +38,9 @@ Ext.define('Blank.view.QuestionTreePanel', {
 
                         }else{
                             a.record.set('type',a.record.raw.type)
-                            console.log(a.record.raw.id);
                         }
                     });
                 }
-                console.log(a.field);
             }
         }
     }),

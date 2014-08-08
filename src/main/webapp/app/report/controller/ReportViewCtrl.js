@@ -28,6 +28,12 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     var data = btn.data;
                     this.download(data, btn.up('window'));
                 }
+            },
+            'reportViewWindow button[action="print"]': {
+                click: function (btn) {
+                    var win = btn.up('window');
+                    this.print(win);
+                }
             }
         });
     },
@@ -49,12 +55,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
             }
         });
     },
-    showWindow: function (report, districtId, oldWin) {
-        /*var win;
-         if (oldWin) {
-         win = oldWin;
-         win.report = report;
-         } else {*/
+    showWindow: function (report, districtId) {
         var parameterForm = Ext.createWidget('form', {
             region: 'north',
             layout: {
@@ -149,60 +150,6 @@ Ext.define('Report.controller.ReportViewCtrl', {
         });
 
         this.buildReport(report, win);
-//        }
-
-
-        /*if (report.filterDistrict) {
-         var cityCmb = win.down('combo[name="cityId"]');
-         var districtCmb = win.down('combo[name="districtId"]');
-         cityCmb.show();
-         districtCmb.show();
-
-         if (districtId) {
-         cityCmb.getStore().each(function (city) {
-         city.districts().each(function (district) {
-         if (district.get('id') == districtId) {
-         cityCmb.setValue(city.get('id'));
-         districtCmb.setValue(district.get('id'));
-         }
-         })
-         });
-         }
-
-         }
-
-         if ((report.filterDistrict && districtId) || report.filterDistrict == false) {
-         var store = this.createStore(report, districtId);
-         var chart = this.createChart(report, store);
-         store.load({
-         callback: function () {
-
-         win.chart = chart;
-
-         Ext.Ajax.request({
-         url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML' + (districtId ? '&districtId=' + districtId : ''),
-         success: function (response) {
-         var frameCmp = win.down('component[action="reportFrame"]');
-         frameCmp.update(response.responseText)
-         if (chart)
-         Ext.createWidget('panel', {
-         layout: 'fit',
-         border: false,
-         height: 400,
-         items: chart,
-         renderTo: 'chart'
-         });
-         }
-         });
-         }
-         })
-         } else {
-         var frameCmp = win.down('component[action="reportFrame"]');
-         if (report.filterDistrict)
-         frameCmp.update('<div class="report-no-data">Өгөгдөл олдсонгүй<br/>Та шүүх дүүргээ сонгоогүй байна!!!</div>')
-         else
-         frameCmp.update('<div class="report-no-data">Өгөгдөл олдсонгүй</div>')
-         }*/
     },
     buildReport: function (report, win) {
         var form = win.down('form');
@@ -460,5 +407,27 @@ Ext.define('Report.controller.ReportViewCtrl', {
             });
             form.submit()
         }
+    },
+    print: function (win) {
+        var cmp = win.down('component[action="reportFrame"]');
+        var newstr = document.getElementById(cmp.id).innerHTML;
+
+        var frame = document.createElement('iframe');
+        frame.setAttribute('id', 'bis-printFrame');
+        frame.setAttribute('name', 'bis-printFrame');
+        frame.setAttribute('style', 'width:0px;height:0px;');
+
+        window.document.body.appendChild(frame);
+
+        var newWin = window.frames["bis-printFrame"];
+        newWin.document.body.innerHTML = newstr;
+        newWin.focus();
+        newWin.print();
+        window.setTimeout(function () {
+            frame = document.getElementById('bis-printFrame');
+
+            window.document.body.removeChild(frame);
+
+        }, 100);
     }
 });
