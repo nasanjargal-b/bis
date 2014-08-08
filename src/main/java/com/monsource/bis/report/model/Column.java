@@ -1,5 +1,6 @@
 package com.monsource.bis.report.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.core.model.Model;
 import com.monsource.bis.data.entity.type.ReportCalcType;
@@ -11,6 +12,7 @@ import java.util.*;
 /**
  * Created by nasanjargal on 7/7/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Column implements Model<Integer> {
 
     private Integer id;

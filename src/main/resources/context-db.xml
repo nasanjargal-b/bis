@@ -7,6 +7,7 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
         <property name="url" value="jdbc:hsqldb:hsql://10.0.0.20/bis"/>
+        <!--<property name="url" value="jdbc:hsqldb:file:/opt/hsqldb/data/bis"/>-->
         <property name="username" value="SA"/>
         <property name="password" value=""/>
         <property name="minIdle" value="10"/>
@@ -19,7 +20,6 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                <!--<prop key="hibernate.show_sql">true</prop>-->
             </props>
         </property>
         <property name="packagesToScan" value="com.monsource.bis.data.entity"/>

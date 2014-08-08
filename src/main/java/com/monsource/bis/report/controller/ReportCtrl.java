@@ -86,7 +86,7 @@ public class ReportCtrl {
 
         Report report = objectMapper.readValue(reportJson, Report.class);
         String name = null;
-        if (!file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             name = new Date().getTime() + ".jasper";
             FileOutputStream fos = new FileOutputStream(context.getRealPath("/WEB-INF/report/" + name));
             IOUtils.copy(file.getInputStream(), fos);
@@ -114,8 +114,8 @@ public class ReportCtrl {
 
     @RequestMapping(value = "report-query.json", method = RequestMethod.POST)
     @ResponseBody
-    public JsonData query(String query) {
-        return new JsonData(reportQuerySrv.queryMetaData(query));
+    public JsonData query(@RequestBody Report report) {
+        return new JsonData(reportQuerySrv.queryMetaData(report));
     }
 
 }

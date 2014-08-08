@@ -3,6 +3,8 @@ package com.monsource.bis.report.controller;
 import com.monsource.bis.data.entity.type.ReportType;
 import com.monsource.bis.report.component.ReportBuilder;
 import com.monsource.bis.report.component.SvgConverter;
+import com.monsource.bis.report.dao.ReportRecordDao;
+import com.monsource.bis.report.model.Parameter;
 import com.monsource.bis.report.model.Report;
 import com.monsource.bis.report.service.ReportService;
 import com.monsource.bis.report.service.ReportViewService;
@@ -80,6 +82,8 @@ public class ReportFileCtrl {
     ServletContext context;
     @Autowired
     BasicDataSource dataSource;
+    @Autowired
+    ReportRecordDao reportRecordDao;
 
     @RequestMapping(value = "file.html", method = {RequestMethod.POST, RequestMethod.GET})
     public void download(Integer reportId, Integer districtId, FileType type, String svg, HttpServletResponse response) throws Exception {
@@ -102,7 +106,15 @@ public class ReportFileCtrl {
 
             Connection connection = dataSource.getConnection();
             String filePath = context.getRealPath("/WEB-INF/report/" + report.getFile());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(filePath, new HashMap(), connection);
+            HashMap params = new HashMap();
+
+            for (Parameter parameter : report.getParameters()) {
+                params.put(parameter.getCode(), reportRecordDao.getParameterValue(parameter));
+            }
+
+            System.out.println("params = " + params);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(filePath, params, connection);
 
             switch (type) {
                 case HTML:

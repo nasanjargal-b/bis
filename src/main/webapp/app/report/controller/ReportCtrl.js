@@ -20,14 +20,16 @@ Ext.define('Report.controller.ReportCtrl', {
                     } else if (cmb.getValue() == 'QUERY') {
                         tab.removeAll();
                         combo.hide();
-                        tab.add({xtype: 'reportQueryPanel'}, {xtype: 'chartPanel'})
+                        tab.add({xtype: 'reportQueryPanel'}, {xtype: 'reportParameterPanel'}, {xtype: 'chartPanel'})
                         tab.doLayout();
                         this.initQueryGrid(record);
                         this.initChartGrid(record);
+                        this.initParameterGrid(record);
                     } else if (cmb.getValue() == 'JASPER') {
                         tab.removeAll();
                         combo.hide();
-                        tab.add({xtype: 'reportFilePanel'});
+                        tab.add({xtype: 'reportFilePanel'}, {xtype: 'reportParameterPanel'});
+                        this.initParameterGrid(record);
                         tab.doLayout();
                     }
                 }
@@ -100,21 +102,16 @@ Ext.define('Report.controller.ReportCtrl', {
         var me = this;
         var form = btn.up('form');
         if (form.getForm().isValid() && this.getController('ReportColumnCtrl').validColumn()) {
-            var data = this.getFormData();
+            var data = this.getFormData(form);
             if (data.type != 'JASPER') {
-                form.mask('Хадгалаж байна...');
                 Ext.Ajax.request({
                     url: '/report-mod/report/report.json',
                     jsonData: data,
                     success: function (response) {
-                        form.unmask();
                         var tree = Ext.ComponentQuery.query('reportTreePanel')[0];
                         tree.getStore().load();
                         var result = Ext.decode(response.responseText);
                         me.edit(result.data);
-                    },
-                    failure: function () {
-                        form.unmask();
                     }
                 });
             } else
@@ -235,11 +232,63 @@ Ext.define('Report.controller.ReportCtrl', {
         });
 
     },
-    getFormData: function () {
-        var form = Ext.ComponentQuery.query('reportPanel')[0];
+    getFormData: function (form) {
+
         var record = form.getRecord();
         record.set(form.getValues());
+
         var queryField = form.up('panel').down('textarea[name="query"]');
+
+        var associatedData = record.getAssociatedData();
+
+        for (var i = 0; i < associatedData.filters.length; i++) {
+            var filter = associatedData.filters[i];
+            var recordData = filter.data;
+            if (recordData == "") recordData = null;
+            switch (filter.type) {
+                case 'RESEARCH':
+                    filter.researchId = recordData;
+                    break;
+                case 'CITY':
+                    filter.cityId = recordData;
+                    break;
+                case 'DISTRICT':
+                    filter.districtId = recordData;
+                    break;
+                default:
+                    switch (filter.columnType) {
+                        case 'SINGLE_CHOICE':
+                        case 'MULTIPLE_CHOICE':
+                            filter.choiceIds = recordData
+                            break;
+                        default:
+                            filter.filter = recordData;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        for (var i = 0; i < associatedData.parameters.length; i++) {
+            var parameter = associatedData.parameters[i];
+            parameter.prompt = parameter.prompt ? true : false;
+
+            switch (parameter.type) {
+                case 'QUERY':
+                    parameter.query = parameter.data;
+                    break;
+                case 'RESEARCH':
+                    parameter.researchId = parameter.data;
+                    break;
+                case 'CITY':
+                    parameter.cityId = parameter.data;
+                    break;
+                case 'DISTRICT':
+                    parameter.districtId = parameter.data;
+                    break;
+            }
+        }
+
         var data = {
             id: record.get('id'),
             name: form.down('textfield[name="name"]').getValue(),
@@ -252,80 +301,11 @@ Ext.define('Report.controller.ReportCtrl', {
             chartCategory: record.get('chartCategory') == "" ? null : record.get('chartCategory'),
             group: false,
             order: record.get('order'),
-            columns: [],
-            filters: [],
-            chartSerieses: []
+            columns: associatedData.columns,
+            filters: associatedData.filters,
+            chartSerieses: associatedData.chartSerieses,
+            parameters: associatedData.parameters
         };
-
-        record.columns().each(function (cRecord) {
-            var column = {
-                id: cRecord.get('id'),
-                name: cRecord.get('name'),
-                code: cRecord.get('code'),
-                type: cRecord.get('type'),
-                percent: cRecord.get('percent'),
-                calcType: cRecord.get('calcType'),
-                columnType: cRecord.get('columnType'),
-                summaryType: cRecord.get('summaryType') == "" ? null : cRecord.get('summaryType'),
-                questionId: cRecord.get('questionId'),
-                filter: cRecord.get('filter'),
-                choiceId: cRecord.get('choiceId')
-            };
-            data.columns[data.columns.length] = column;
-        });
-
-        record.filters().each(function (fRecord) {
-            var filter = {
-                id: fRecord.get('id'),
-                code: fRecord.get('code'),
-                type: fRecord.get('type'),
-                columnType: fRecord.get('columnType'),
-                prompt: fRecord.get('prompt'),
-                questionId: fRecord.get('questionId'),
-                filter: null,
-                researchId: null,
-                cityId: null,
-                districtId: null,
-                choiceIds: null
-            };
-
-            var recordData = fRecord.get('data');
-            if (recordData == "") recordData = null;
-
-            switch (fRecord.get('type')) {
-                case 'RESEARCH':
-                    filter.researchId = recordData;
-                    break;
-                case 'CITY':
-                    filter.cityId = recordData;
-                    break;
-                case 'DISTRICT':
-                    filter.districtId = recordData;
-                    break;
-                default:
-                    switch (fRecord.get('columnType')) {
-                        case 'SINGLE_CHOICE':
-                        case 'MULTIPLE_CHOICE':
-                            filter.choiceIds = recordData
-                            break;
-                        default:
-                            filter.filter = recordData;
-                            break;
-                    }
-                    break;
-            }
-            data.filters[data.filters.length] = filter;
-        })
-
-        record.chartSerieses().each(function (sRecord) {
-            var series = {
-                id: sRecord.get('id'),
-                type: sRecord.get('type'),
-                field: sRecord.get('field')
-            };
-
-            data.chartSerieses[data.chartSerieses.length] = series;
-        });
 
         return data;
     },
@@ -406,6 +386,26 @@ Ext.define('Report.controller.ReportCtrl', {
         chartPanel.down('combo[name="chart"]').setValue(record.get('chart'));
         chartPanel.down('textfield[name="chartCategory"]').setValue(record.get('chartCategory'));
     },
+    initParameterGrid: function (record) {
+        var parameterPanel = Ext.ComponentQuery.query('reportParameterPanel')[0];
+        record.parameters().each(function (record) {
+            switch (record.get('type')) {
+                case 'QUERY':
+                    record.set('data', record.get('query'));
+                    break;
+                case 'RESEARCH':
+                    record.set('data', record.get('researchId'));
+                    break;
+                case 'CITY':
+                    record.set('data', record.get('cityId'));
+                    break;
+                case 'DISTRICT':
+                    record.set('data', record.get('districtId'));
+                    break;
+            }
+        });
+        parameterPanel.reconfigure(record.parameters());
+    },
     blank: function (cmb, value) {
         if (value)
             Report.model.Blank.load(value, {
@@ -477,12 +477,11 @@ Ext.define('Report.controller.ReportCtrl', {
         }
     },
     checkQuery: function (query) {
+        var formData = this.getFormData(Ext.ComponentQuery.query('reportPanel')[0]);
         Ext.Ajax.request({
             url: '/report-mod/report/report-query.json',
             method: 'post',
-            params: {
-                query: query
-            },
+            jsonData: formData,
             success: function (response) {
                 var columns = Ext.decode(response.responseText).data;
                 var store = Ext.ComponentQuery.query('reportQueryPanel grid[action="queryColumnGrid"]')[0].getStore();

@@ -2,6 +2,7 @@ package com.monsource.bis.report.service;
 
 import com.monsource.bis.report.dao.ReportRecordDao;
 import com.monsource.bis.report.model.Column;
+import com.monsource.bis.report.model.Report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class ReportQueryService {
     @Autowired
     ReportRecordDao recordDao;
 
-    public List<Column> queryMetaData(String query) {
-        List<Column> columns = recordDao.getQueryMetaData(query);
+    public List<Column> queryMetaData(Report report) {
+        List<Column> columns = recordDao.getQueryMetaData(report);
         return columns;
     }
 }

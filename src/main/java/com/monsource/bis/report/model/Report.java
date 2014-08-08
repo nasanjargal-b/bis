@@ -1,5 +1,6 @@
 package com.monsource.bis.report.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.monsource.bis.core.model.Model;
 import com.monsource.bis.core.model.TreeModel;
 import com.monsource.bis.data.entity.type.ReportChartType;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by nasanjargal on 7/7/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Report implements TreeModel<Integer> {
     private Integer id;
     private String name;
@@ -28,6 +30,7 @@ public class Report implements TreeModel<Integer> {
     private List<Column> columns;
     private List<Filter> filters;
     private List<ChartSeries> chartSerieses;
+    private List<Parameter> parameters;
     private List<Report> children;
 
     public Report() {
@@ -198,6 +201,14 @@ public class Report implements TreeModel<Integer> {
 
     public void setChartSerieses(List<ChartSeries> chartSerieses) {
         this.chartSerieses = chartSerieses;
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
     }
 
     @Override

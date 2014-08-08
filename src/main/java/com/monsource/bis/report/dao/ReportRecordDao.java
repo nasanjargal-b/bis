@@ -2,9 +2,11 @@ package com.monsource.bis.report.dao;
 
 import com.monsource.bis.core.data.DataEntity;
 import com.monsource.bis.core.data.HibernateDaoSupport;
+import com.monsource.bis.data.entity.type.ReportParameterType;
 import com.monsource.bis.data.entity.type.ReportType;
 import com.monsource.bis.report.component.RecordQueryBuilder;
 import com.monsource.bis.report.model.Column;
+import com.monsource.bis.report.model.Parameter;
 import com.monsource.bis.report.model.Report;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
@@ -23,6 +25,7 @@ import java.util.regex.Pattern;
 @Repository
 public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
 
+
     public List<Map> find(Report report, Integer districtId) {
 
         if (report.getType() == ReportType.JASPER) return new ArrayList<>();
@@ -33,7 +36,7 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
             RecordQueryBuilder rqb = new RecordQueryBuilder(report, districtId);
             query = rqb.query();
         } else if (report.getType() == ReportType.QUERY) {
-            query = convertSqlQuery(report.getQuery());
+            query = convertSqlQuery(report.getQuery(), report.getParameters());
         }
         SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
         if (districtId != null) {
@@ -43,15 +46,21 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
         return sqlQuery.list();
     }
 
-    private String convertSqlQuery(String query) {
+    private String convertSqlQuery(String query, List<Parameter> parameters) {
         Map<String, String> changer = new HashMap<>();
 
         query = query.replace("\n", " ");
         query = query.substring(query.toUpperCase().indexOf("SELECT"));
 
+        if (parameters != null) {
+            for (Parameter parameter : parameters) {
+                Object value = getParameterValue(parameter);
+                query = findParameter(query, parameter.getCode(), value);
+            }
+        }
+
         findColumn(query, changer);
         findBlank(query, changer);
-        findParameter(query, changer);
 
         for (String origin : changer.keySet()) {
             String value = changer.get(origin);
@@ -61,15 +70,14 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
         return query;
     }
 
-    private void findParameter(String query, Map<String, String> changer) {
-        Pattern pattern = Pattern.compile("\\$[Pp]?\\{[A-Za-z0-9_$]+\\}");
-        Matcher matcher = pattern.matcher(query);
-
-        while (matcher.find()) {
-            String column = query.substring(matcher.start(), matcher.end());
-            String newColumn = column.replaceAll("\\$[Pp]?\\{", ":").replaceAll("\\}", "");
-            changer.put(column, newColumn);
+    private String findParameter(String query, String code, Object value) {
+        if (value instanceof String) {
+            query = query.replace("$P{" + code + "}", "'" + value + "'");
+        } else {
+            query = query.replace("$P{" + code + "}", value + "");
         }
+
+        return query;
     }
 
     private void findBlank(String query, Map<String, String> changer) {
@@ -94,9 +102,9 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
         }
     }
 
-    public List<Column> getQueryMetaData(String query) {
+    public List<Column> getQueryMetaData(Report report) {
         List<Column> columns = new ArrayList<>();
-        SQLQuery sqlQuery = this.getSession().createSQLQuery(this.convertSqlQuery(query));
+        SQLQuery sqlQuery = this.getSession().createSQLQuery(this.convertSqlQuery(report.getQuery(), report.getParameters()));
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         sqlQuery.setMaxResults(1);
         Map<String, Object> data = (Map<String, Object>) sqlQuery.uniqueResult();
@@ -108,5 +116,23 @@ public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
         }
 
         return columns;
+    }
+
+    public Object getParameterValue(Parameter parameter) {
+        switch (parameter.getType()) {
+            case CITY:
+                return parameter.getCityId();
+            case DISTRICT:
+                return parameter.getDistrictId();
+            case RESEARCH:
+                return parameter.getResearchId();
+            default:
+                String query = convertSqlQuery(parameter.getQuery(), null);
+                List data = this.getSession().createSQLQuery(query).list();
+                if (data.size() == 1)
+                    return data.get(0);
+                else
+                    return data;
+        }
     }
 }
