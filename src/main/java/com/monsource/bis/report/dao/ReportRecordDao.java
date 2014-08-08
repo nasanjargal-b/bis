@@ -26,22 +26,37 @@ import java.util.regex.Pattern;
 public class ReportRecordDao extends HibernateDaoSupport<DataEntity> {
 
 
-    public List<Map> find(Report report, Integer districtId) {
+    public List<Map> find(Report report, Map<String, String[]> requestParameter) {
 
         if (report.getType() == ReportType.JASPER) return new ArrayList<>();
 
         String query = null;
 
         if (report.getType() == ReportType.SIMPLE) {
-            RecordQueryBuilder rqb = new RecordQueryBuilder(report, districtId);
+            RecordQueryBuilder rqb = new RecordQueryBuilder(report);
             query = rqb.query();
         } else if (report.getType() == ReportType.QUERY) {
+
+            for (Parameter parameter : report.getParameters()) {
+                String[] values = requestParameter.get(parameter.getCode());
+                if (values != null && values.length == 1 && parameter.getType() != ReportParameterType.QUERY) {
+                    switch (parameter.getType()) {
+                        case CITY:
+                            parameter.setCityId(Integer.valueOf(values[0]));
+                            break;
+                        case DISTRICT:
+                            parameter.setDistrictId(Integer.valueOf(values[0]));
+                            break;
+                        case RESEARCH:
+                            parameter.setResearchId(Integer.valueOf(values[0]));
+                            break;
+                    }
+                }
+            }
+
             query = convertSqlQuery(report.getQuery(), report.getParameters());
         }
         SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
-        if (districtId != null) {
-            sqlQuery.setInteger("district_id", districtId);
-        }
         sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         return sqlQuery.list();
     }

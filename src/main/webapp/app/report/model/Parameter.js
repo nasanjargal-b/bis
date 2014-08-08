@@ -3,6 +3,7 @@ Ext.define('Report.model.Parameter', {
     fields: [
         {name: 'id', type: 'int', useNull: true},
         {name: 'code', type: 'string', useNull: true, default: null},
+        {name: 'name', type: 'string', useNull: true, default: null},
         {name: 'type', type: 'string', useNull: true, default: null},
         {name: 'prompt', type: 'boolean', useNull: true, default: false},
         {name: 'query', type: 'string', useNull: true, default: null},

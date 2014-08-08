@@ -10,6 +10,7 @@ import com.monsource.bis.data.entity.type.ReportParameterType;
 public class Parameter {
     private Integer id;
     private String code;
+    private String name;
     private ReportParameterType type;
     private Boolean prompt;
     private String query;
@@ -20,9 +21,10 @@ public class Parameter {
     public Parameter() {
     }
 
-    public Parameter(Integer id, String code, ReportParameterType type, Boolean prompt, String query, Integer researchId, Integer cityId, Integer districtId) {
+    public Parameter(Integer id, String code, String name, ReportParameterType type, Boolean prompt, String query, Integer researchId, Integer cityId, Integer districtId) {
         this.id = id;
         this.code = code;
+        this.name = name;
         this.type = type;
         this.prompt = prompt;
         this.query = query;
@@ -45,6 +47,14 @@ public class Parameter {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ReportParameterType getType() {

@@ -11,30 +11,30 @@ Ext.define('Report.view.ReportViewWindow', {
     dockedItems: {
         xtype: 'toolbar',
         items: [
-            {
-                xtype: 'combo',
-                fieldLabel: 'Аймаг/Хот',
-                name: 'cityId',
-                labelWidth: 55,
-                hidden: true,
-                queryMode: 'local',
-                editable: false,
-                padding: '0 10 0 0',
-                store: 'City',
-                displayField: 'name',
-                valueField: 'id'
-            },
-            {
-                xtype: 'combo',
-                fieldLabel: 'Сум/Дүүрэг',
-                queryMode: 'local',
-                editable: false,
-                name: 'districtId',
-                labelWidth: 65,
-                hidden: true,
-                displayField: 'name',
-                valueField: 'id'
-            },
+            /*{
+             xtype: 'combo',
+             fieldLabel: 'Аймаг/Хот',
+             name: 'cityId',
+             labelWidth: 55,
+             hidden: true,
+             queryMode: 'local',
+             editable: false,
+             padding: '0 10 0 0',
+             store: 'City',
+             displayField: 'name',
+             valueField: 'id'
+             },
+             {
+             xtype: 'combo',
+             fieldLabel: 'Сум/Дүүрэг',
+             queryMode: 'local',
+             editable: false,
+             name: 'districtId',
+             labelWidth: 65,
+             hidden: true,
+             displayField: 'name',
+             valueField: 'id'
+             },*/
             '->',
             /*{
              text: 'PDF',

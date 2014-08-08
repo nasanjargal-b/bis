@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class ReportParameterEntity {
     private Integer id;
     private String code;
+    private String name;
     private ReportParameterType type;
     private Boolean prompt;
     private String query;
@@ -40,6 +41,16 @@ public class ReportParameterEntity {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Basic
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic
@@ -82,9 +93,10 @@ public class ReportParameterEntity {
 
         if (code != null ? !code.equals(that.code) : that.code != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (prompt != null ? !prompt.equals(that.prompt) : that.prompt != null) return false;
         if (query != null ? !query.equals(that.query) : that.query != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (type != that.type) return false;
 
         return true;
     }
@@ -93,6 +105,7 @@ public class ReportParameterEntity {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (prompt != null ? prompt.hashCode() : 0);
         result = 31 * result + (query != null ? query.hashCode() : 0);

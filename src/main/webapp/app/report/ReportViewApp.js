@@ -1,8 +1,8 @@
 Ext.application({
     name: 'Report',
     controllers: ['ReportViewCtrl'],
-    models: ['Report', 'City', 'District'],
-    stores: ['Report', 'City'],
+    models: ['Report', 'City', 'District', 'Research'],
+    stores: ['Report', 'City', 'District', 'Research'],
     views: ['ReportViewTreePanel', 'ReportViewWindow'],
     appFolder: '/app/report',
     launch: function () {

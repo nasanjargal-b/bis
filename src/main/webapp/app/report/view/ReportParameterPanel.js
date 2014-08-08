@@ -39,6 +39,15 @@ Ext.define('Report.view.ReportParameterPanel', {
             }
         },
         {
+            text: 'Нэр',
+            dataIndex: 'name',
+            width: 150,
+            editor: {
+                xtype: 'textfield',
+                allowBlank: false
+            }
+        },
+        {
             text: 'Төрөл',
             dataIndex: 'type',
             width: 150,
