@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.text.html.HTML;
@@ -86,18 +87,18 @@ public class ReportFileCtrl {
     ReportRecordDao reportRecordDao;
 
     @RequestMapping(value = "file.html", method = {RequestMethod.POST, RequestMethod.GET})
-    public void download(Integer reportId, Integer districtId, FileType type, String svg, HttpServletResponse response) throws Exception {
+    public void download(Integer reportId, FileType type, String svg, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Report report = reportService.get(reportId);
-        buildReport(report, districtId, type, svg, response);
+        buildReport(report, type, svg, request, response);
     }
 
     @RequestMapping(value = "preview.html", method = {RequestMethod.POST, RequestMethod.GET})
-    public void download(@RequestBody Report report, HttpServletResponse response) throws Exception {
-        buildReport(report, null, FileType.HTML, null, response);
+    public void download(@RequestBody Report report, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        buildReport(report, FileType.HTML, null, request, response);
     }
 
-    private void buildReport(Report report, Integer districtId, FileType type, String svg, HttpServletResponse response) throws Exception {
-
+    private void buildReport(Report report, FileType type, String svg, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map<String, String[]> requestParameter = request.getParameterMap();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         String name = report.getName() + "_" + df.format(new Date());
@@ -109,6 +110,20 @@ public class ReportFileCtrl {
             HashMap params = new HashMap();
 
             for (Parameter parameter : report.getParameters()) {
+                String[] values = requestParameter.get(parameter.getCode());
+                if (values != null && values.length == 1) {
+                    switch (parameter.getType()) {
+                        case CITY:
+                            parameter.setCityId(Integer.valueOf(values[0]));
+                            break;
+                        case DISTRICT:
+                            parameter.setDistrictId(Integer.valueOf(values[0]));
+                            break;
+                        case RESEARCH:
+                            parameter.setResearchId(Integer.valueOf(values[0]));
+                            break;
+                    }
+                }
                 params.put(parameter.getCode(), reportRecordDao.getParameterValue(parameter));
             }
 
@@ -146,7 +161,7 @@ public class ReportFileCtrl {
                     break;
             }
         } else {
-            List<Map> datas = reportViewService.calc(report, districtId);
+            List<Map> datas = reportViewService.calc(report, requestParameter);
 
             InputStream imageInput = svgConverter.convertPNG(svg);
 

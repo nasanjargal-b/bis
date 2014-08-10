@@ -9,19 +9,12 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     }
                 }
             },
-            'reportViewWindow combo[name="cityId"]': {
-                change: function (cmb, value) {
-                    var record = cmb.getStore().findRecord('id', value);
-                    var districtCmb = cmb.up('window').down('combo[name="districtId"]');
-                    districtCmb.bindStore(record.districts());
-                    districtCmb.setValue(null);
-                }
-            },
-            'reportViewWindow combo[name="districtId"]': {
-                change: function (cmb, value) {
-                    var win = cmb.up('window');
-                    if (win.districtId != value) {
-                        this.showWindow(win.report, value, win);
+            'component[action="parameter"]': {
+                change: function (field) {
+                    var form = field.up('form');
+                    if (form && form.getForm().isValid()) {
+                        var win = form.up('window');
+                        this.buildReport(win.report, win);
                     }
                 }
             },
@@ -34,6 +27,12 @@ Ext.define('Report.controller.ReportViewCtrl', {
                 click: function (btn) {
                     var data = btn.data;
                     this.download(data, btn.up('window'));
+                }
+            },
+            'reportViewWindow button[action="print"]': {
+                click: function (btn) {
+                    var win = btn.up('window');
+                    this.print(win);
                 }
             }
         });
@@ -52,58 +51,111 @@ Ext.define('Report.controller.ReportViewCtrl', {
             success: function (response) {
                 var result = Ext.decode(response.responseText);
                 var report = result.data;
-
                 me.showWindow(report, districtId);
             }
         });
     },
-    showWindow: function (report, districtId, oldWin) {
-        var win;
-        if (oldWin) {
-            win = oldWin;
-            win.report = report;
-            win.districtId = districtId;
-        } else {
-            win = Ext.create('Report.view.ReportViewWindow', {
-                title: 'Тайлан: ' + report.name,
-                report: report,
-                districtId: districtId,
-                items: {
-                    xtype: 'panel',
-                    border: false,
-                    layout: 'fit',
-                    items: [
-                        {
-                            xtype: 'component',
-                            action: 'reportFrame',
-                            autoScroll: true
-                        }
-                    ]
+    showWindow: function (report, districtId) {
+        var parameterForm = Ext.createWidget('form', {
+            region: 'north',
+            layout: {
+                type: 'vbox',
+                padding: 5
+            },
+            bodyStyle: 'background-color:' + PANEL_COLOR + '',
+            hidden: true
+        });
+
+        for (var i = 0; i < report.parameters.length; i++) {
+            var parameter = report.parameters[i];
+            if (parameter.prompt && parameter.type != 'QUERY') {
+                parameterForm.show();
+                var cmp = null;
+                switch (parameter.type) {
+                    case 'RESEARCH':
+                        cmp = Ext.createWidget('combo', {
+                            fieldLabel: parameter.name,
+                            allowBlank: false,
+                            name: parameter.code,
+                            action: 'parameter',
+                            editable: false,
+                            valueField: 'id',
+                            displayField: 'year',
+                            width: 300,
+                            tpl: new Ext.XTemplate('<tpl for="."><div style="height:22px;" class="x-boundlist-item" role="option">{year} - {name}</div></tpl>'),
+                            displayTpl: '<tpl for=".">{year} - {name}</tpl>',
+                            queryMode: 'local',
+                            store: 'Research'
+                        });
+                        cmp.setValue(parameter.researchId);
+                        break;
+                    case 'DISTRICT':
+                        cmp = Ext.createWidget('combo', {
+                            fieldLabel: parameter.name,
+                            allowBlank: false,
+                            name: parameter.code,
+                            action: 'parameter',
+                            forceSelection: true,
+                            valueField: 'id',
+                            displayField: 'name',
+                            width: 300,
+                            tpl: new Ext.XTemplate('<tpl for="."><div style="height:22px;" class="x-boundlist-item" role="option">{cityName}, {name}</div></tpl>'),
+                            displayTpl: '<tpl for=".">{cityName}, {name}</tpl>',
+                            queryMode: 'local',
+                            store: 'District'
+                        });
+                        if (districtId)
+                            cmp.setValue(districtId);
+                        else
+                            cmp.setValue(parameter.districtId);
+                        break;
+                    case 'CITY':
+                        cmp = Ext.createWidget('combo', {
+                            fieldLabel: parameter.name,
+                            allowBlank: false,
+                            name: parameter.code,
+                            action: 'parameter',
+                            editable: false,
+                            valueField: 'id',
+                            displayField: 'name',
+                            width: 300,
+                            queryMode: 'local',
+                            store: 'City'
+                        });
+                        cmp.setValue(parameter.cityId);
+                        break;
                 }
-            });
-        }
-
-        if (report.filterDistrict) {
-            var cityCmb = win.down('combo[name="cityId"]');
-            var districtCmb = win.down('combo[name="districtId"]');
-            cityCmb.show();
-            districtCmb.show();
-
-            if (districtId) {
-                cityCmb.getStore().each(function (city) {
-                    city.districts().each(function (district) {
-                        if (district.get('id') == districtId) {
-                            cityCmb.setValue(city.get('id'));
-                            districtCmb.setValue(district.get('id'));
-                        }
-                    })
-                });
+                parameterForm.add(cmp);
             }
 
         }
 
-        if ((report.filterDistrict && districtId) || report.filterDistrict == false) {
-            var store = this.createStore(report, districtId);
+        var win = Ext.create('Report.view.ReportViewWindow', {
+            title: 'Тайлан: ' + report.name,
+            report: report,
+            items: {
+                xtype: 'panel',
+                border: false,
+                layout: 'border',
+                items: [
+                    parameterForm,
+                    {
+                        region: 'center',
+                        xtype: 'component',
+                        action: 'reportFrame',
+                        autoScroll: true
+                    }
+                ]
+            }
+        });
+
+        this.buildReport(report, win);
+    },
+    buildReport: function (report, win) {
+        var form = win.down('form');
+        if (form.getForm().isValid()) {
+            var parameterValues = form.getValues();
+            var store = this.createStore(report, parameterValues);
             var chart = this.createChart(report, store);
             store.load({
                 callback: function () {
@@ -111,7 +163,8 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     win.chart = chart;
 
                     Ext.Ajax.request({
-                        url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML' + (districtId ? '&districtId=' + districtId : ''),
+                        url: '/report-mod/view/file.html?reportId=' + report.id + '&type=HTML',
+                        params: parameterValues,
                         success: function (response) {
                             var frameCmp = win.down('component[action="reportFrame"]');
                             frameCmp.update(response.responseText)
@@ -127,12 +180,6 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     });
                 }
             })
-        } else {
-            var frameCmp = win.down('component[action="reportFrame"]');
-            if (report.filterDistrict)
-                frameCmp.update('<div class="report-no-data">Өгөгдөл олдсонгүй<br/>Та шүүх дүүргээ сонгоогүй байна!!!</div>')
-            else
-                frameCmp.update('<div class="report-no-data">Өгөгдөл олдсонгүй</div>')
         }
     },
     createChart: function (report, store) {
@@ -288,7 +335,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
         }
         return null;
     },
-    createStore: function (report, districtId) {
+    createStore: function (report, parameterValues) {
         var fields = [];
 
         for (var i = 0; i < report.columns.length; i++) {
@@ -301,7 +348,8 @@ Ext.define('Report.controller.ReportViewCtrl', {
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                url: '/report-mod/view/data.json?id=' + report.id + (districtId ? '&districtId=' + districtId : ''),
+                extraParams: parameterValues,
+                url: '/report-mod/view/data.json?id=' + report.id,
                 reader: {
                     type: 'json',
                     root: 'data'
@@ -311,30 +359,25 @@ Ext.define('Report.controller.ReportViewCtrl', {
         return store;
     },
     download: function (data, win) {
-        var report = win.report;
-        var svg = null;
+        var paramForm = win.down('form');
+        if (paramForm.getForm().isValid()) {
+            var report = win.report;
+            var svg = null;
 
-        var chart = win.chart;
-        if (chart) {
-            svg = chart.save({
-                type: 'image/svg+xml'
-            });
-        }
+            var chart = win.chart;
+            if (chart) {
+                svg = chart.save({
+                    type: 'image/svg+xml'
+                });
+            }
 
-        var form = Ext.createWidget('form', {
-            url: '/report-mod/view/file.html',
-            method: 'post',
-            standardSubmit: true,
-            items: [
+            var formData = paramForm.getValues();
+
+            var items = [
                 {
                     xtype: 'hiddenfield',
                     name: 'reportId',
                     value: report.id
-                },
-                {
-                    xtype: 'hiddenfield',
-                    name: 'districtId',
-                    value: win.districtId
                 },
                 {
                     xtype: 'hiddenfield',
@@ -346,13 +389,45 @@ Ext.define('Report.controller.ReportViewCtrl', {
                     name: 'type',
                     value: data
                 }
-            ]
-        });
+            ];
 
-        form.submit({
-            reportId: report.id,
-            svg: svg,
-            type: data
-        })
+            for (var key in formData) {
+                items[items.length] = {
+                    xtype: 'hiddenfield',
+                    name: key,
+                    value: formData[key]
+                };
+            }
+
+            var form = Ext.createWidget('form', {
+                url: '/report-mod/view/file.html',
+                method: 'post',
+                standardSubmit: true,
+                items: items
+            });
+            form.submit()
+        }
+    },
+    print: function (win) {
+        var cmp = win.down('component[action="reportFrame"]');
+        var newstr = document.getElementById(cmp.id).innerHTML;
+
+        var frame = document.createElement('iframe');
+        frame.setAttribute('id', 'bis-printFrame');
+        frame.setAttribute('name', 'bis-printFrame');
+        frame.setAttribute('style', 'width:0px;height:0px;');
+
+        window.document.body.appendChild(frame);
+
+        var newWin = window.frames["bis-printFrame"];
+        newWin.document.body.innerHTML = newstr;
+        newWin.focus();
+        newWin.print();
+        window.setTimeout(function () {
+            frame = document.getElementById('bis-printFrame');
+
+            window.document.body.removeChild(frame);
+
+        }, 100);
     }
 });

@@ -28,15 +28,13 @@ public class RecordQueryBuilder {
     private final String TABLE;
 
     Report report;
-    Integer districtId;
     List<QueryAlias> queryAliases = new ArrayList<>();
     List<QueryColumn> queryColumns = new ArrayList<>();
     List<QueryFilter> queryFilters = new ArrayList<>();
 
 
-    public RecordQueryBuilder(Report report, Integer districtId) {
+    public RecordQueryBuilder(Report report) {
         this.report = report;
-        this.districtId = districtId;
         TABLE = SCHEMA + report.getBlankId();
         initAlias();
         initColumn();
@@ -163,14 +161,6 @@ public class RecordQueryBuilder {
     }
 
     private void initFilter() {
-
-        if (districtId != null) {
-            QueryFilter districtFilter = new QueryFilter();
-            districtFilter.setAlias(RECORD);
-            districtFilter.setColumn("district_id");
-            districtFilter.setFilter("$ = :district_id");
-            queryFilters.add(districtFilter);
-        }
 
         for (Filter filter : report.getFilters()) {
             QueryFilter queryFilter = new QueryFilter();

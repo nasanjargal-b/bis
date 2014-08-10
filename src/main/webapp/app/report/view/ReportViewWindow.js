@@ -12,36 +12,11 @@ Ext.define('Report.view.ReportViewWindow', {
         xtype: 'toolbar',
         items: [
             {
-                xtype: 'combo',
-                fieldLabel: 'Аймаг/Хот',
-                name: 'cityId',
-                labelWidth: 55,
-                hidden: true,
-                queryMode: 'local',
-                editable: false,
-                padding: '0 10 0 0',
-                store: 'City',
-                displayField: 'name',
-                valueField: 'id'
-            },
-            {
-                xtype: 'combo',
-                fieldLabel: 'Сум/Дүүрэг',
-                queryMode: 'local',
-                editable: false,
-                name: 'districtId',
-                labelWidth: 65,
-                hidden: true,
-                displayField: 'name',
-                valueField: 'id'
+                text: 'Хэвлэх',
+                icon: '/resources/images/printer-16px.png',
+                action: 'print'
             },
             '->',
-            /*{
-             text: 'PDF',
-             icon: '/resources/images/pdf-16px.png',
-             data: 'PDF',
-             action: 'download'
-             },*/
             {
                 text: 'Excel',
                 icon: '/resources/images/excel-16px.png',

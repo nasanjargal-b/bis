@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 /**
  * Created by nasanjargal on 7/8/14.
  */
@@ -24,8 +27,9 @@ public class ReportViewCtrl {
 
     @RequestMapping("data.json")
     @ResponseBody
-    public JsonData getData(Integer id, Integer districtId) {
-        return new JsonData(reportViewSrv.calc(id, districtId));
+    public JsonData getData(Integer id, HttpServletRequest request) {
+        Map<String, String[]> requestParameter = request.getParameterMap();
+        return new JsonData(reportViewSrv.calc(id, requestParameter));
     }
 
     @RequestMapping("preview/data.json")

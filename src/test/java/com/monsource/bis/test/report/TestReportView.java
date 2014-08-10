@@ -87,7 +87,7 @@ public class TestReportView {
     @Transactional
     public void testSimpleQueryBuilder() {
         Report report = reportService.get(1150);
-        RecordQueryBuilder recordQueryBuilder = new RecordQueryBuilder(report, null);
+        RecordQueryBuilder recordQueryBuilder = new RecordQueryBuilder(report);
 
         System.out.println(recordQueryBuilder.query());
     }

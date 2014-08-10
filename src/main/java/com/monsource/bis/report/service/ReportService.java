@@ -128,6 +128,7 @@ public class ReportService {
             report.getParameters().add(new Parameter(
                     reportParameterEntity.getId(),
                     reportParameterEntity.getCode(),
+                    reportParameterEntity.getName(),
                     reportParameterEntity.getType(),
                     reportParameterEntity.getPrompt(),
                     reportParameterEntity.getQuery(),
@@ -262,6 +263,7 @@ public class ReportService {
             ReportParameterEntity parameterEntity = new ReportParameterEntity();
             parameterEntity.setId(parameter.getId());
             parameterEntity.setCode(parameter.getCode());
+            parameterEntity.setName(parameter.getName());
             parameterEntity.setType(parameter.getType());
             parameterEntity.setPrompt(parameter.getPrompt());
             parameterEntity.setQuery(parameter.getQuery());
