@@ -88,7 +88,7 @@ Ext.define('Blank.view.QuestionTreePanel', {
                         { id: 'TEXT', value: 'Текст'},
                         { id: 'NUMERIC', value: 'Тоо'},
                         { id: 'SINGLE_CHOICE', value: 'Нэг сонголттой'},
-                        { id: 'MULTIPLE_CHOICE', value: 'Олон сонголттой'},
+//                        { id: 'MULTIPLE_CHOICE', value: 'Олон сонголттой'},
                         { id: 'DATE', value: 'Огноо'},
                         { id: 'TIME', value: 'Цаг'},
                         { id: 'GROUP', value: 'Групп'}
