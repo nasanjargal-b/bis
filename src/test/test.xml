@@ -1,164 +1,194 @@
-<?xml version="1.0" standalone="yes"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-        "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="554px" height="300px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     version="1.1">
-    <defs></defs>
-    <rect width="100%" height="100%" fill="#fff" fill-opacity="0" stroke="none"/>
-    <path d="M 69.5 238 l 0 -228 M 69 238.5 l -6 0 M 69 215.5 l -6 0 M 69 192.5 l -6 0 M 69 169.5 l -6 0 M 69 146.5 l -6 0 M 69 124.5 l -6 0 M 69 101.5 l -6 0 M 69 78.5 l -6 0 M 69 55.5 l -6 0 M 69 32.5 l -6 0 M 69 10.5 l -6 0"
-          fill="none" stroke="#444" stroke-width="1" z-index="0" transform="matrix(1,0,0,1,0,0)"/>
-    <text x="52" y="238" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="52" dy="3">0</tspan>
-    </text>
-    <text x="45" y="215" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">10</tspan>
-    </text>
-    <text x="45" y="192" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">20</tspan>
-    </text>
-    <text x="45" y="169" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">30</tspan>
-    </text>
-    <text x="45" y="146" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">40</tspan>
-    </text>
-    <text x="45" y="124" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">50</tspan>
-    </text>
-    <text x="45" y="101" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">60</tspan>
-    </text>
-    <text x="45" y="78" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">70</tspan>
-    </text>
-    <text x="45" y="55" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">80</tspan>
-    </text>
-    <text x="45" y="32" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="45" dy="3">90</tspan>
-    </text>
-    <text x="38" y="10" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="38" dy="3">100</tspan>
-    </text>
-    <text x="0" y="0" font-size="18" font-family="Arial" fill="#444" transform="matrix(0,-1,1,0,22,167)">
-        <tspan x="" dy="4.5">Тоон утга</tspan>
-    </text>
-    <path d="M 69 238.5 l 330 0 M 121.5 238 l 0 7 M 234.5 238 l 0 7 M 347.5 238 l 0 7" fill="none" stroke="#444"
-          stroke-width="1" z-index="0" transform="matrix(1,0,0,1,0,0)"/>
-    <text x="72" y="256" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="72" dy="3">Амины орон сууц</tspan>
-    </text>
-    <text x="179" y="256" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="179" dy="3">Нийтийн орон сууц</tspan>
-    </text>
-    <text x="289" y="256" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#444"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="289" dy="3">Таун Хаус орон сууц</tspan>
-    </text>
-    <text x="0" y="0" font-size="18" font-family="Arial" fill="#444" transform="matrix(1,0,0,1,170,284)">
-        <tspan x="" dy="4.5">Сууцны төрөл</tspan>
-    </text>
-    <path d="M 69.5 215.5 l 328 0 M 69.5 192.5 l 328 0 M 69.5 169.5 l 328 0 M 69.5 146.5 l 328 0 M 69.5 124.5 l 328 0 M 69.5 101.5 l 328 0 M 69.5 78.5 l 328 0 M 69.5 55.5 l 328 0 M 69.5 32.5 l 328 0"
-          fill="none" stroke="#ccc" stroke-width="1" z-index="0" transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="80" y="232" width="21" height="6" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="80" y="232" width="21" height="6" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="80" y="232" width="21" height="6" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="80" y="232" width="21" height="6" fill="rgb(148,174,10)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="110" y="238" width="21" height="0" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="110" y="238" width="21" height="0" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="110" y="238" width="21" height="0" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="110" y="238" width="21" height="0" fill="rgb(17,95,166)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="140" y="227" width="21" height="11" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="140" y="227" width="21" height="11" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="140" y="227" width="21" height="11" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="140" y="227" width="21" height="11" fill="rgb(166,17,32)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="193" y="35" width="21" height="203" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="193" y="35" width="21" height="203" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="193" y="35" width="21" height="203" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="193" y="35" width="21" height="203" fill="rgb(148,174,10)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="224" y="10" width="21" height="228" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="224" y="10" width="21" height="228" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="224" y="10" width="21" height="228" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="224" y="10" width="21" height="228" fill="rgb(17,95,166)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="254" y="56" width="21" height="182" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="254" y="56" width="21" height="182" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="254" y="56" width="21" height="182" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="254" y="56" width="21" height="182" fill="rgb(166,17,32)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="307" y="220" width="21" height="18" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="307" y="220" width="21" height="18" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="307" y="220" width="21" height="18" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="307" y="220" width="21" height="18" fill="rgb(148,174,10)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="337" y="238" width="21" height="0" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="337" y="238" width="21" height="0" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="337" y="238" width="21" height="0" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="337" y="238" width="21" height="0" fill="rgb(17,95,166)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="368" y="204" width="21" height="34" fill="none" stroke="rgb(200,200,200)" stroke-opacity="0.05"
-          stroke-width="6px" transform="matrix(1,0,0,1,1.2,1.2)"/>
-    <rect x="368" y="204" width="21" height="34" fill="none" stroke="rgb(150,150,150)" stroke-opacity="0.1"
-          stroke-width="4px" transform="matrix(1,0,0,1,0.9,0.9)"/>
-    <rect x="368" y="204" width="21" height="34" fill="none" stroke="rgb(100,100,100)" stroke-opacity="0.15"
-          stroke-width="2px" transform="matrix(1,0,0,1,0.6,0.6)"/>
-    <rect x="368" y="204" width="21" height="34" fill="rgb(166,17,32)" stroke-width="0px"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <rect x="409.5" y="87.5" width="135" height="73" fill="#FFF" stroke="#000" stroke-width="1"
-          transform="matrix(1,0,0,1,0,0)"/>
-    <text x="435" y="100" font-size="12" font-family="Helvetica, sans-serif" fill="#000"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="435" dy="3">0-оос 50 хүртэл</tspan>
-    </text>
-    <rect x="0" y="0" width="12" height="12" fill="#94ae0a" transform="matrix(1,0,0,1,415,94)"/>
-    <text x="435" y="124" font-size="12" font-family="Helvetica, sans-serif" fill="#000"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="435" dy="3">80-аас 100 хүртэл</tspan>
-    </text>
-    <rect x="0" y="0" width="12" height="12" fill="#115fa6" transform="matrix(1,0,0,1,415,118)"/>
-    <text x="435" y="148" font-size="12" font-family="Helvetica, sans-serif" fill="#000"
-          transform="matrix(1,0,0,1,0,0)">
-        <tspan x="435" dy="3">50-аас 80 хүртэл</tspan>
-    </text>
-    <rect x="0" y="0" width="12" height="12" fill="#a61120" transform="matrix(1,0,0,1,415,142)"/>
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="DashboardReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty"
+              uuid="891acd89-22ef-4e07-b7d3-9ad40a40ea10">
+    <property name="com.jaspersoft.studio.data.sql.tables" value="IkNJVFkiICwyMCwyMDsiRElTVFJJQ1QiICwyODAsMDs="/>
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="BIS-HSQLDB"/>
+    <style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <subDataset name="NIILUULELT_DS" uuid="371a901b-465b-4ec2-9e7c-798ce5a3af55">
+        <property name="com.jaspersoft.studio.data.defaultdataadapter" value="BIS-HSQLDB"/>
+        <parameter name="DISTRICT_ID" class="java.lang.Integer"/>
+        <queryString language="SQL">
+            <![CDATA[SELECT
+	DISTRICT_NAME,
+	SUM(CASE WHEN "Q4_8" >= 50 THEN "Q4_1" ELSE 0 END) AS "bolomjit",
+	SUM("Q4_1") AS "tolovlogdson" 
+FROM BDATA.V_B01 
+WHERE
+	"Q3_18" = 2014 AND DISTRICT_ID = $P!{DISTRICT_ID} 
+GROUP BY DISTRICT_NAME]]>
+        </queryString>
+        <field name="bolomjit" class="java.lang.Double"/>
+        <field name="tolovlogdson" class="java.lang.Double"/>
+        <field name="DISTRICT_NAME" class="java.lang.String"/>
+    </subDataset>
+    <parameter name="DISTRICT_ID" class="java.lang.Integer">
+        <defaultValueExpression><![CDATA[342]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[SELECT
+	"DISTRICT"."ID",
+	"CITY"."NAME" AS CITY_NAME,
+	"DISTRICT"."NAME" AS DISTRICT_NAME
+FROM "CITY"
+	 INNER JOIN DISTRICT ON 
+	 "DISTRICT"."CITY_ID" = "CITY"."ID" 
+WHERE 
+	 "DISTRICT"."ID" = $P{DISTRICT_ID} ]]>
+    </queryString>
+    <field name="CITY_NAME" class="java.lang.String"/>
+    <field name="DISTRICT_NAME" class="java.lang.String"/>
+    <field name="ID" class="java.lang.Integer"/>
+    <title>
+        <band height="70" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="801" height="50" forecolor="#005296"
+                               uuid="25b0948f-54b2-4f98-8da1-d62d6aa6e54e"/>
+                <box>
+                    <topPen lineStyle="Double"/>
+                    <leftPen lineStyle="Double"/>
+                    <bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#005296"/>
+                    <rightPen lineStyle="Double"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ЭРЭЛТ, НИЙЛҮҮЛЭЛТИЙН СУДАЛГААНЫ ХУРААНГУЙ ТАЙЛАН]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="50" width="802" height="20" uuid="38a7b1aa-234b-4bc9-8211-e007b772eb58"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CITY_NAME}+", "+$F{DISTRICT_NAME}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <summary>
+        <band height="365">
+            <barChart>
+                <chart evaluationTime="Report">
+                    <reportElement x="0" y="10" width="310" height="193" uuid="2f0cb803-ea98-4eab-8d57-0bf80a2f46d4"/>
+                    <chartTitle/>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <categoryDataset>
+                    <dataset incrementType="Report">
+                        <datasetRun subDataset="NIILUULELT_DS" uuid="4cf8fdb9-64e5-4340-9421-7f900bfec5b1">
+                            <datasetParameter name="DISTRICT_ID"/>
+                            <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                        </datasetRun>
+                    </dataset>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["SERIES 1"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{DISTRICT_NAME}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{bolomjit}]]></valueExpression>
+                    </categorySeries>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["SERIES 2"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{DISTRICT_NAME}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{tolovlogdson}]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <barPlot>
+                    <plot>
+                        <seriesColor seriesOrder="0" color="#4078EA"/>
+                        <seriesColor seriesOrder="1" color="#7BC0A9"/>
+                    </plot>
+                    <itemLabel/>
+                    <categoryAxisFormat>
+                        <axisFormat/>
+                    </categoryAxisFormat>
+                    <valueAxisFormat>
+                        <axisFormat/>
+                    </valueAxisFormat>
+                </barPlot>
+            </barChart>
+        </band>
+    </summary>
+</jasperReport>
