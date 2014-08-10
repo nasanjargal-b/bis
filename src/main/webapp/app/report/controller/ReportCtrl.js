@@ -184,7 +184,8 @@ Ext.define('Report.controller.ReportCtrl', {
                 parentId: record.get('parentId') == 0 ? null : record.get('parentId'),
                 columns: [],
                 filters: [],
-                chartSerieses: []
+                chartSerieses: [],
+                parameters: []
             };
 
             Ext.Ajax.request({
