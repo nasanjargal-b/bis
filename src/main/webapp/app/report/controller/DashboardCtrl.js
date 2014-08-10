@@ -73,7 +73,7 @@ Ext.define('Report.controller.DashboardCtrl', {
             try {
                 for (var i = 0; i < doc[0].placemarks.length; i++) {
                     var placemark = doc[0].placemarks[i];
-                    placemark.polygon.setOptions({ fillColor: '#d4cb2c', fillOpacity: 0.5 });
+                    placemark.polygon.setOptions({ fillColor: '#0099CC', fillOpacity: 0.5 });
                     polygonMouseover(placemark.polygon, placemark);
                 }
             } catch (e) {
@@ -86,7 +86,8 @@ Ext.define('Report.controller.DashboardCtrl', {
         function polygonMouseover(poly, text) {
             google.maps.event.addListener(poly, 'click', function (evt) {
 //                win.close();
-
+                  console.log(text)
+                  console.log(evt.latLng)
 
                 aimagBunbble(map, false);
                 var para = new Date();

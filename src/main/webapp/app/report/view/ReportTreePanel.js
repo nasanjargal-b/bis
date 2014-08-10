@@ -2,7 +2,7 @@ Ext.define('Report.view.ReportTreePanel', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.reportTreePanel',
     title: 'Тайлангын жагсаалт',
-    width: 400,
+    width: '30%',
     multiSelect: true,
     viewConfig: {
         plugins: { ptype: 'treeviewdragdrop' }

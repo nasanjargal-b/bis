@@ -27,8 +27,10 @@ Ext.define('Report.view.ReportQueryPanel', {
             items: [
                 {
                     xtype: 'textareafield',
-                    resizable: true,
+                    resizable: false,
+                    autoScroll:false,
                     name: 'query',
+                    preventScrollbars: true,
                     allowBlank: false,
                     flex: 1,
                     listeners: {
@@ -50,7 +52,7 @@ Ext.define('Report.view.ReportQueryPanel', {
         {
             xtype: 'grid',
             region: 'east',
-            width: 500,
+            width: '40%',
             title: 'Асуултын жагсаалт',
             action: 'queryColumnGrid',
             forceFit: true,
@@ -91,10 +93,11 @@ Ext.define('Report.view.ReportQueryPanel', {
                     }
                 }
             },
+            forceFit:true,
             columns: [
                 {
                     text: 'Код',
-                    width: 100,
+                    width: 80,
                     dataIndex: 'code'
                 },
                 {
@@ -107,7 +110,7 @@ Ext.define('Report.view.ReportQueryPanel', {
                 },
                 {
                     text: 'Төрөл',
-                    width: 100,
+                    width: 70,
                     dataIndex: 'columnType',
                     editor: {
                         xtype: 'combo',

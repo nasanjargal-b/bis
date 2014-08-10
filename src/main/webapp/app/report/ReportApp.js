@@ -11,7 +11,8 @@ Ext.application({
             items: [
                 {
                     region: 'west',
-                    xtype: 'reportTreePanel'
+                    xtype: 'reportTreePanel',
+                    width:300
                 },
                 {
                     xtype: 'panel',

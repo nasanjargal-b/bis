@@ -468,7 +468,7 @@ function omonogovi_bubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(43.58039085560786, 104.403076171875),
-            content: 'Даланзадгад',
+            content: 'Даланзадгад<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -484,7 +484,7 @@ function omonogovi_bubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(43.25320494908846, 100.711669921875),
-            content: 'Гурвантэс',
+            content: 'Гурвантэс<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -628,7 +628,7 @@ function omonogovi_bubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(43.76315996157264, 105.809326171875),
-            content: 'Цогтцэцэй',
+            content: 'Цогтцэций<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -676,7 +676,7 @@ function omonogovi_bubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(42.944360446966286, 107.2265625),
-            content: 'Ханбогд',
+            content: 'Ханбогд<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -726,6 +726,7 @@ var bayanUlgii_altantsogt = new InfoBox();
 var bayanUlgii_buyant = new InfoBox();
 var bayanUlgii_tolbo = new InfoBox();
 var bayanUlgii_deluun = new InfoBox();
+var bayanUlgii_ulgii = new InfoBox();
 var bayanUlgii_bayannuur = new InfoBox();
 var bayanUlgii_bulgan = new InfoBox();
 function bayanUlgiiBubble(map, show) {
@@ -770,6 +771,22 @@ function bayanUlgiiBubble(map, show) {
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.22467264956519, 88.92333984375),
             content: 'Сагсай',
+            map: map,
+            disableAutoPan: true,
+            borderColor: 'black',
+            disableAutoPan: true,
+            pixelOffset: new google.maps.Size(-25, 0),
+            closeBoxURL: "",
+            arrowStyle: 0
+        });
+        bayanUlgii_ulgii = new InfoBox({
+            closeBoxMargin: "10px 2px 2px 2px",
+            padding: 0,
+            backgroundColor: 'white',
+            boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
+            closeBoxMargin: "10px 2px 2px 2px",
+            position: new google.maps.LatLng(49.00977643328977, 89.95609280420467),
+            content: 'Өлгий<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -924,6 +941,7 @@ function bayanUlgiiBubble(map, show) {
         });
 
         bayanUlgii_tsengel.open(map);
+        bayanUlgii_ulgii.open(map);
         bayanUlgii_altai.open(map);
         bayanUlgii_ulaanHus.open(map);
         bayanUlgii_nogoonnuur.open(map);
@@ -940,6 +958,7 @@ function bayanUlgiiBubble(map, show) {
         bayanUlgii_ulaanHus.close();
         bayanUlgii_bugat.close();
         bayanUlgii_sagsai.close();
+        bayanUlgii_ulgii.close();
         bayanUlgii_nogoonnuur.close();
         bayanUlgii_altai.close();
         bayanUlgii_altantsogt.close();
@@ -963,6 +982,7 @@ var uvc_hyargas = new InfoBox();
 var uvc_zavhan = new InfoBox();
 var uvc_ulgii = new InfoBox();
 var uvc_umunugovi = new InfoBox();
+var uvc_ulaangom = new InfoBox();
 var uvc_hovd = new InfoBox();
 var uvc_turgen = new InfoBox();
 var uvc_tarialan = new InfoBox();
@@ -978,6 +998,22 @@ function uvsBubble(map, show) {
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(49.837982453084834, 90.494384765625),
             content: 'Бөх мөрөн',
+            map: map,
+            disableAutoPan: true,
+            borderColor: 'black',
+            disableAutoPan: true,
+            pixelOffset: new google.maps.Size(-25, 0),
+            closeBoxURL: "",
+            arrowStyle: 0
+        });
+        uvc_ulaangom = new InfoBox({
+            closeBoxMargin: "10px 2px 2px 2px",
+            padding: 0,
+            backgroundColor: 'white',
+            boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
+            closeBoxMargin: "10px 2px 2px 2px",
+            position: new google.maps.LatLng(49.98726340379481, 92.06546782515943),
+            content: 'Улаангом<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -1260,6 +1296,7 @@ function uvsBubble(map, show) {
         });
 
         uvc_bohmoron.open(map);
+        uvc_ulaangom.open(map);
         uvc_hyargas.open(map);
         uvc_malchin.open(map);
         uvc_naranbulag.open(map);
@@ -1280,6 +1317,7 @@ function uvsBubble(map, show) {
     } else {
         uvc_bohmoron.close();
         uvc_hyargas.close();
+        uvc_ulaangom.close();
         uvc_malchin.close();
         uvc_naranbulag.close();
         uvc_tarialan.close();
@@ -1532,7 +1570,7 @@ function hovdBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.09642606004488, 91.241455078125),
-            content: 'Ховд',
+            content: 'Ховд<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -1965,7 +2003,7 @@ function zavhanBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.77791275550184, 98.1683349609375),
-            content: 'Тосонцэнгэл',
+            content: 'Тосонцэнгэл<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -1997,7 +2035,7 @@ function zavhanBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(47.73932336136857, 96.8389892578125),
-            content: 'Улиастай',
+            content: 'Улиастай<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -2474,7 +2512,7 @@ function huvsgulBubby(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(49.635619698841445, 100.1348876953125),
-            content: 'Мөрөн',
+            content: 'Мөрөн<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -2686,7 +2724,7 @@ function bulganBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.828565527993234, 103.46923828125),
-            content: 'Булган',
+            content: 'Булган<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -2994,7 +3032,7 @@ function dornoGoviBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(44.574817404670306, 109.88525390625),
-            content: 'Сайншанд',
+            content: 'Сайншанд<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -3106,7 +3144,7 @@ function dornoGoviBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(43.78695837311561, 111.829833984375),
-            content: 'Замын-үүд',
+            content: 'Замын-үүд<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -3362,7 +3400,7 @@ function dornodBubble(map, show) {
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.90805939965007, 115.5377197265625),
-            content: 'Чойбалсан',
+            content: 'Чойбалсан<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -3450,6 +3488,22 @@ function bayanhongorBubble(map, show) {
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(43.229195113965005, 97.97607421875),
             content: 'Баянөндөр',
+            map: map,
+            disableAutoPan: true,
+            borderColor: 'black',
+            disableAutoPan: true,
+            pixelOffset: new google.maps.Size(-25, 0),
+            closeBoxURL: "",
+            arrowStyle: 0
+        });
+        bayanhongor_bayanhongor = new InfoBox({
+            closeBoxMargin: "10px 2px 2px 2px",
+            padding: 0,
+            backgroundColor: 'white',
+            boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
+            closeBoxMargin: "10px 2px 2px 2px",
+            position: new google.maps.LatLng(46.18059638399027, 100.67874907123041),
+            content: 'Баянхонгор<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -4240,7 +4294,7 @@ function tuvBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(47.702368466573716, 106.93817138671875),
-            content: 'Зуунмод',
+            content: 'Зуунмод<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -4460,7 +4514,7 @@ function hentiiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(47.69497434186282, 110.36865234375),
-            content: 'Хэрлэн',
+            content: 'Хэрлэн<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -4572,7 +4626,7 @@ function hentiiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(46.48326472915561, 109.22607421875),
-            content: 'Дархан',
+            content: 'Дархан<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -4588,7 +4642,7 @@ function hentiiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(46.52863469527167, 110.478515625),
-            content: 'Галшир',
+            content: 'Галшар',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -4605,6 +4659,7 @@ function hentiiBubble(map,show){
         hentii_jargalanthaan.open(map);
         hentii_delgerhaan.open(map);
         hentii_tsenhermandal.open(map);
+        hentii_galshir.open(map);
         hentii_herlen.open(map);
         hentii_bayanovoo.open(map);
         hentii_batnorov.open(map);
@@ -4619,6 +4674,7 @@ function hentiiBubble(map,show){
         hentii_bayanmunh.close();
         hentii_murun.close();
         hentii_bayanhutagt.close();
+        hentii_galshir.close();
         hentii_jargalanthaan.close();
         hentii_delgerhaan.close();
         hentii_tsenhermandal.close();
@@ -4787,7 +4843,7 @@ function arhangaiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.980216985374994, 100.865478515625),
-            content: 'Цэцэрлэг',
+            content: 'Цэцэрлэг<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5103,7 +5159,7 @@ function selengeBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(50.162824333817284, 106.50146484375),
-            content: 'Алтанбулаг',
+            content: 'Алтанбулаг<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5199,7 +5255,7 @@ function selengeBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(48.814098527355746, 106.644287109375),
-            content: 'Мандал',
+            content: 'Мандал<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5215,7 +5271,7 @@ function selengeBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(49.26063518364422, 105.611572265625),
-            content: 'Сайхан',
+            content: 'Сайхан<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5279,7 +5335,7 @@ function selengeBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(50.21909462044748, 106.2103271484375),
-            content: 'Сүхбаатар',
+            content: 'Сүхбаатар<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5354,7 +5410,7 @@ function darhanuulBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(49.221185044221336, 106.446533203125),
-            content: 'Шарынгол',
+            content: 'Шарынгол<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5370,7 +5426,7 @@ function darhanuulBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(49.46990895880499, 105.9356689453125),
-            content: 'Дархан',
+            content: 'Дархан<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5620,7 +5676,7 @@ function suhbaatarBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(46.677710064644344, 113.2965087890625),
-            content: 'Баруунурт',
+            content: 'Баруунурт<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5826,7 +5882,7 @@ function dundgoviBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(45.75985868785574, 106.182861328125),
-            content: 'Сайнцагаан',
+            content: 'Сайнцагаан<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -5975,7 +6031,7 @@ function govialtaiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(44.62175409623324, 95.07568359375),
-            content: 'Алтай',
+            content: 'Алтай<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -6322,7 +6378,7 @@ function orhonBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(49.0558701819386, 104.08447265625),
-            content: 'Баянөндөр',
+            content: 'Баянөндөр<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -6542,7 +6598,7 @@ function govisumberBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(46.445427497233865, 108.5284423828125),
-            content: 'Чойр',
+            content: 'Чойр<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -6796,7 +6852,7 @@ function ovorhangaiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(47.11499982620772, 102.85400390625),
-            content: 'Хархорин',
+            content: 'Хархорин<br/><center><img src="/resources/images/star.png" height="13" width="13"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
@@ -6876,7 +6932,7 @@ function ovorhangaiBubble(map,show){
             boxStyle: {                    textAlign: "center", fontSize: "8pt", zIndex: 99999            },
             closeBoxMargin: "10px 2px 2px 2px",
             position: new google.maps.LatLng(46.25204849722291, 102.7825927734375),
-            content: 'Арвайнхээр',
+            content: 'Арвайнхээр<br/><center><img src="/resources/images/star.png" height="25" width="25"></center>',
             map: map,
             disableAutoPan: true,
             borderColor: 'black',
