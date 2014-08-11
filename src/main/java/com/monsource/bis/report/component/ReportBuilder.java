@@ -63,7 +63,7 @@ public class ReportBuilder {
         this.jasperReport = report();
         this.jasperReport.setPageMargin(margin(20));
         this.jasperReport.setNoDataBackgroundComponent(cmp.text("Өгөгдөл олдсонгүй"));
-        this.jasperReport.setNoDataStyle(stl.style().bold().setFontSize(24).setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE));
+        this.jasperReport.setNoDataStyle(stl.style().bold().setFontSize(24).setFontName("Arial").setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE));
 
         initHeader(ctx != null ? ctx.getRealPath("resources/images/logomn.png") : "/media/d/My Project/bis/WebBis/src/main/webapp/resources/images/logomn.png");
         initFooter();
@@ -102,6 +102,7 @@ public class ReportBuilder {
                                         .widthFixed())
                                 .add(cmp.text(report.getName()).setStyle(stl.style()
                                         .setForegroundColor(color)
+                                        .setFontName("Arial")
                                         .setFontSize(15)
                                         .setBold(true)
                                         .setAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE)
@@ -127,6 +128,7 @@ public class ReportBuilder {
                                         .widthFixed())
                                 .add(cmp.text(report.getName()).setStyle(stl.style()
                                         .setForegroundColor(color)
+                                        .setFontName("Arial")
                                         .setFontSize(15)
                                         .setBold(true)
                                         .setAlignment(HorizontalAlignment.RIGHT, VerticalAlignment.MIDDLE)
@@ -147,6 +149,7 @@ public class ReportBuilder {
         jasperReport.pageFooter(cmp.horizontalList()
                         .add(cmp.pageNumber().setStyle(stl.style()
                                 .setForegroundColor(color)
+                                .setFontName("Arial")
                                 .setFontSize(11)
                                 .setBold(true)
                                 .setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE)
@@ -164,11 +167,13 @@ public class ReportBuilder {
 
         jasperReport.setColumnHeaderStyle(stl.style()
                 .bold()
+                .setFontName("Arial")
                 .setTopBorder(stl.pen(2f, LineStyle.SOLID).setLineColor(color))
                 .setBottomBorder(stl.pen(2f, LineStyle.SOLID).setLineColor(color)));
 
         jasperReport.setDetailStyle(stl.style()
                 .setBottomBorder(stl.pen(.5f, LineStyle.SOLID).setLineColor(new Color(0, 82, 150, 83)))
+                .setFontName("Arial")
                 .setTopPadding(3)
                 .setBottomPadding(3));
 
@@ -180,7 +185,7 @@ public class ReportBuilder {
 
         jasperReport.setDataSource(datas);
 
-        jasperReport.setSummaryStyle(stl.style().setBackgroundColor(new Color(0, 82, 150, 20)).setBottomPadding(3).setTopPadding(3));
+        jasperReport.setSummaryStyle(stl.style().setFontName("Arial").setBackgroundColor(new Color(0, 82, 150, 20)).setBottomPadding(3).setTopPadding(3));
     }
 
     private void calcPageSize(int colNum) {
@@ -226,8 +231,8 @@ public class ReportBuilder {
         final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         final NumberFormat numberFormat = new DecimalFormat("#,##0");
 
-        StyleBuilder columnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3);
-        StyleBuilder numColumnStyle = stl.style().setFontSize(11).setTopPadding(3).setBottomPadding(3).setHorizontalAlignment(HorizontalAlignment.LEFT);
+        StyleBuilder columnStyle = stl.style().setFontName("Arial").setFontSize(11).setTopPadding(3).setBottomPadding(3);
+        StyleBuilder numColumnStyle = stl.style().setFontName("Arial").setFontSize(11).setTopPadding(3).setBottomPadding(3).setHorizontalAlignment(HorizontalAlignment.LEFT);
 
         for (final Column column : report.getColumns()) {
 //            if (column.getCalcType() == ReportCalcType.GROUP) continue;
@@ -282,7 +287,7 @@ public class ReportBuilder {
                     }
                     break;
             }
-            columnBuilder.setTitleStyle(stl.style().bold().setBottomPadding(3).setTopPadding(3));
+            columnBuilder.setTitleStyle(stl.style().setFontName("Arial").bold().setBottomPadding(3).setTopPadding(3));
             columnBuilders.add(columnBuilder);
 
             List<SubtotalBuilder> subtotalBuilders = new ArrayList<>();
@@ -310,7 +315,7 @@ public class ReportBuilder {
 
             if (subtotalBuilders.size() > 0) {
                 jasperReport.subtotalsAtSummary(subtotalBuilders.toArray(new SubtotalBuilder[subtotalBuilders.size()]));
-                jasperReport.setSubtotalStyle(stl.style().boldItalic().underline().setHorizontalAlignment(HorizontalAlignment.LEFT).setTopPadding(3).setBottomPadding(3));
+                jasperReport.setSubtotalStyle(stl.style().setFontName("Arial").boldItalic().underline().setHorizontalAlignment(HorizontalAlignment.LEFT).setTopPadding(3).setBottomPadding(3));
             }
 
         }
@@ -324,7 +329,7 @@ public class ReportBuilder {
         /*for (Column column : report.getColumns()) {
             if (column.getCalcType() == ReportCalcType.GROUP) {
                 CustomGroupBuilder group = grp.group(column.getCode(), getColumnClass(column))
-                        .setStyle(stl.style().bold().setFontSize(11).setTopPadding(5));
+                        .setStyle(stl.style().setFontName("Arial").bold().setFontSize(11).setTopPadding(5));
                 columnGroupBuilders.add(group);
             }
         }*/
