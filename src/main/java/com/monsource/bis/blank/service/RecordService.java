@@ -97,8 +97,8 @@ public class RecordService {
 
     public void delete(String blankId, List<Record> records) {
         for (Record record : records) {
-            if (record.get("id") != null) {
-                Integer id = (Integer) record.get("id");
+            if (record.get("ID") != null) {
+                Integer id = (Integer) record.get("ID");
                 recordDao.delete(blankId, id);
             }
         }

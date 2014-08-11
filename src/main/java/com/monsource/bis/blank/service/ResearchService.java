@@ -1,6 +1,7 @@
 package com.monsource.bis.blank.service;
 
 //import com.monsource.bis.blank.controller.RecordFilter;
+
 import com.monsource.bis.blank.dao.BlankDao;
 import com.monsource.bis.blank.dao.RecordDao;
 import com.monsource.bis.blank.dao.ResearchDao;
@@ -65,29 +66,7 @@ public class ResearchService {
     }
 
     public void delete(final Integer id) {
-        /*template.execute(new TransactionCallbackWithoutResult() {
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                try {
-                    ResearchEntity research = researchDao.get(id);
-                    for (BlankEntity blankEntity : blankDao.findAll()) {
-                        Blank blank = blankSrv.get(blankEntity.getId());
-                        RecordFilter filter = new RecordFilter();
-                        filter.setResearchId(research.getId());
-                        Map<String, Object> result = recordDao.find(blankEntity.getId(), null, null, filter);
-                        List<Record> records = (List<Record>) result.get("records");
-                        List<Integer> ids = new ArrayList<>();
-                        for (Record record : records) {
-                            ids.add(record.getId());
-                        }
-                        recordDao.delete(blank, ids);
-                    }
-
-                    researchDao.delete(research);
-                } catch (JAXBException e) {
-                    throw new BaseException(e);
-                }
-            }
-        });*/
+        researchDao.delete(researchDao.get(id));
+        researchDao.flush();
     }
 }

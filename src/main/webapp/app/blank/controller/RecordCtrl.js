@@ -100,7 +100,7 @@ Ext.define('Blank.controller.RecordCtrl', {
     getStore: function (metas, blankId, researchId) {
         var fields = [
             {
-                name: 'id',
+                name: 'ID',
                 useNull: true
             }
         ];
