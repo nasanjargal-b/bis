@@ -1,8 +1,8 @@
 Ext.application({
     name: 'Report',
     controllers: ['DashboardCtrl', 'ReportViewCtrl'],
-    models: ['Report', 'City', 'District'],
-    stores: ['Report', 'City'],
+    models: ['Report', 'City', 'District', 'Research'],
+    stores: ['Report', 'City', 'District', 'Research'],
     views: ['ReportViewTreePanel', 'ReportViewWindow'],
     appFolder: '/app/report',
     launch: function () {
@@ -15,7 +15,8 @@ Ext.application({
                     region: 'west',
                     title: 'Эрэлт, нийллүүлэлтийн тайлан',
                     collapsible: true,
-                    collapsed: true
+                    collapsed: false,
+                    resizable: true
                 },
                 {
                     xtype: 'DashboardPanel',

@@ -104,9 +104,9 @@ Ext.define('Report.controller.ReportViewCtrl', {
                             queryMode: 'local',
                             store: 'District'
                         });
-                        if (districtId)
-                            cmp.setValue(districtId);
-                        else
+                        if (districtId) {
+                            cmp.setValue(parseInt(districtId + ''));
+                        } else
                             cmp.setValue(parameter.districtId);
                         break;
                     case 'CITY':
