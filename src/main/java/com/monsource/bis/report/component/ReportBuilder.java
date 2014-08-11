@@ -6,6 +6,7 @@ import com.monsource.bis.report.model.Column;
 import com.monsource.bis.report.model.Report;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperHtmlExporterBuilder;
+import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
 import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
 import net.sf.dynamicreports.report.builder.FieldBuilder;
 import net.sf.dynamicreports.report.builder.column.*;
@@ -199,7 +200,9 @@ public class ReportBuilder {
     public void build(OutputStream outputStream) throws DRException, FileNotFoundException {
         switch (type) {
             case PDF:
-                jasperReport.toPdf(outputStream);
+                JasperPdfExporterBuilder pdfExporter = export.pdfExporter(outputStream);
+                pdfExporter.setCharacterEncoding("UTF-8");
+                jasperReport.toPdf(pdfExporter);
                 break;
             case DOCX:
                 jasperReport.toDocx(outputStream);
@@ -209,6 +212,7 @@ public class ReportBuilder {
                 break;
             case HTML:
                 JasperHtmlExporterBuilder htmlExporter = export.htmlExporter(outputStream)
+                        .setCharacterEncoding("UTF-8")
                         .setImagesDirName(ctx.getRealPath("resources/report"))
                         .setImagesURI("/resources/report/")
                         .setHtmlHeader("")
