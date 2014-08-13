@@ -2,6 +2,7 @@ package com.monsource.bis.blank.component.db;
 
 import com.monsource.bis.blank.model.QuestionType;
 import com.monsource.bis.data.entity.ColumnViewEntity;
+import com.monsource.bis.data.entity.ConstraintViewEntity;
 import com.monsource.bis.data.entity.QuestionEntity;
 import com.monsource.bis.data.entity.TableViewEntity;
 
@@ -21,6 +22,7 @@ public class AlterColumnBuilder extends DbBuilder {
     private List<String> queries = new ArrayList<>();
     private String queryAddColumn = "ALTER TABLE %s ADD COLUMN %s %s";
     private String queryDropColumn = "ALTER TABLE %s DROP COLUMN %s";
+    private String queryDropConstraint = "ALTER TABLE %s DROP CONSTRAINT %s";
     private String queryDropTable = "DROP TABLE IF EXISTS %s";
     private String queryViewTable = "DROP VIEW IF EXISTS %s";
     private String foreignQuery = "CREATE TABLE IF NOT EXISTS %s(record_id INTEGER REFERENCES %s(id),choice_id INTEGER REFERENCES registration.choice(id),PRIMARY KEY(record_id,choice_id))";
@@ -44,6 +46,9 @@ public class AlterColumnBuilder extends DbBuilder {
                     if (question.getType() != QuestionType.MULTIPLE_CHOICE) {
                         QuestionType columnType = getQuestionType(column.getDataType());
                         if (columnType != question.getType()) {
+                            for (ConstraintViewEntity constraint : column.getConstraints()) {
+                                queries.add(String.format(queryDropConstraint, tableName, constraint.getConstraintName()));
+                            }
                             queries.add(String.format(queryDropColumn, tableName, column.getColumnName()));
                             addAddColumn(tableName, column.getColumnName(), question);
                         }

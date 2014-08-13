@@ -1,8 +1,11 @@
 package com.monsource.bis.data.entity;
 
 import com.monsource.bis.core.data.DataEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by nasanjargal on 7/22/14.
@@ -12,6 +15,7 @@ import javax.persistence.*;
 public class ColumnViewEntity implements DataEntity {
     private String columnName;
     private String dataType;
+    private List<ConstraintViewEntity> constraints;
 
     @Id
     @Column(name = "column_name")
@@ -53,4 +57,14 @@ public class ColumnViewEntity implements DataEntity {
         return result;
     }
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinColumn(name = "column_name", referencedColumnName = "column_name")
+    public List<ConstraintViewEntity> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(List<ConstraintViewEntity> constraints) {
+        this.constraints = constraints;
+    }
 }
