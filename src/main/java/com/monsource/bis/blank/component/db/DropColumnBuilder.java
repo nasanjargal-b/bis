@@ -2,6 +2,7 @@ package com.monsource.bis.blank.component.db;
 
 import com.monsource.bis.blank.component.db.DbBuilder;
 import com.monsource.bis.data.entity.ColumnViewEntity;
+import com.monsource.bis.data.entity.ConstraintViewEntity;
 import com.monsource.bis.data.entity.QuestionEntity;
 import com.monsource.bis.data.entity.TableViewEntity;
 
@@ -20,6 +21,7 @@ public class DropColumnBuilder extends DbBuilder {
     List<String> queries = new ArrayList<>();
 
     private String queryDropColumn = "ALTER TABLE %s DROP COLUMN %s";
+    private String queryDropConstraint = "ALTER TABLE %s DROP CONSTRAINT %s";
     private String queryDropTable = "DROP TABLE IF EXISTS %s";
 
     public DropColumnBuilder(String name, List<QuestionEntity> questions, TableViewEntity table, List<TableViewEntity> multiTable) {
@@ -43,8 +45,12 @@ public class DropColumnBuilder extends DbBuilder {
                     }
                 }
 
-                if (isDrop)
+                if (isDrop) {
+                    for (ConstraintViewEntity constraint : column.getConstraints()) {
+                        queries.add(String.format(queryDropConstraint, SCHEMA + "." + name, constraint.getConstraintName()));
+                    }
                     queries.add(String.format(queryDropColumn, SCHEMA + "." + name, column.getColumnName()));
+                }
             }
         }
 
