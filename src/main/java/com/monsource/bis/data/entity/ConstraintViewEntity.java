@@ -9,6 +9,14 @@ import java.util.List;
 
 /**
  * Created by nasanjargal on 7/22/14.
+ * View Definition :
+ * CREATE VIEW BDATA.CONSTRAINT_VIEW AS
+ *      SELECT
+ *          TABLE_SCHEMA,
+ *          TABLE_NAME,
+ *          COLUMN_NAME,
+ *          CONSTRAINT_NAME
+*       FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE
  */
 @Entity
 @Table(name = "constraints_view", schema = "bdata", catalog = "PUBLIC")
