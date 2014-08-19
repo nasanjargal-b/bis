@@ -16,6 +16,7 @@ public class DistrictEntity implements DataEntity {
     private Integer id;
     private String name;
     private Set<AccountEntity> accounts;
+    private Boolean cityCenter;
     private CityEntity city;
 
     public DistrictEntity() {
@@ -47,6 +48,16 @@ public class DistrictEntity implements DataEntity {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "CITY_CENTER", nullable = true, insertable = true, updatable = true)
+    public Boolean getCityCenter() {
+        return cityCenter;
+    }
+
+    public void setCityCenter(Boolean cityCenter) {
+        this.cityCenter = cityCenter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,6 +65,8 @@ public class DistrictEntity implements DataEntity {
 
         DistrictEntity that = (DistrictEntity) o;
 
+        if (accounts != null ? !accounts.equals(that.accounts) : that.accounts != null) return false;
+        if (cityCenter != null ? !cityCenter.equals(that.cityCenter) : that.cityCenter != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
@@ -64,6 +77,8 @@ public class DistrictEntity implements DataEntity {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
+        result = 31 * result + (cityCenter != null ? cityCenter.hashCode() : 0);
         return result;
     }
 

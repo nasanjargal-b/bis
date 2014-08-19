@@ -86,8 +86,8 @@ Ext.define('Report.controller.DashboardCtrl', {
         function polygonMouseover(poly, text) {
             google.maps.event.addListener(poly, 'click', function (evt) {
 //                win.close();
-                  console.log(text)
-                  console.log(evt.latLng)
+//                  console.log(text)
+//                  console.log(evt.latLng)
 
                 aimagBunbble(map, false);
                 var para = new Date();
@@ -187,6 +187,6 @@ Ext.define('Report.controller.DashboardCtrl', {
         }
     },
     loadWindow: function (id, me) {
-        this.getController('ReportViewCtrl').show(88500, id);
+        this.getController('ReportViewCtrl').showDashboard(id);
     }
 });

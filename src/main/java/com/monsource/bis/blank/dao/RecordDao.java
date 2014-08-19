@@ -218,7 +218,6 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         sqlQuery.executeUpdate();
 
         for (String multiQuery : multiQueries) {
-            System.out.println("multiQuery = " + multiQuery);
             this.getSession().createSQLQuery(multiQuery).executeUpdate();
         }
     }

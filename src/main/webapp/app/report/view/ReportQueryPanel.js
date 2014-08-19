@@ -10,7 +10,7 @@ Ext.define('Report.view.ReportQueryPanel', {
         {
             region: 'center',
             title: 'Query',
-            padding:'0 5 0 0',
+            padding: '0 5 0 0',
             dockedItems: {
                 xtype: 'toolbar',
                 items: [
@@ -28,11 +28,12 @@ Ext.define('Report.view.ReportQueryPanel', {
                 {
                     xtype: 'textareafield',
                     resizable: false,
-                    autoScroll:false,
+                    autoScroll: false,
                     name: 'query',
                     preventScrollbars: true,
                     allowBlank: false,
-                    flex: 1,
+                    width: 500,
+                    height: 500,
                     listeners: {
                         afterrender: function (field) {
                             var codemirror = CodeMirror.fromTextArea(field.inputEl.dom, {
@@ -93,7 +94,7 @@ Ext.define('Report.view.ReportQueryPanel', {
                     }
                 }
             },
-            forceFit:true,
+            forceFit: true,
             columns: [
                 {
                     text: 'Код',

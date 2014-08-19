@@ -40,7 +40,7 @@ Ext.define('Report.controller.ReportViewCtrl', {
     getMainPanel: function () {
         return Ext.ComponentQuery.query('#reportViewMainPanel')[0];
     },
-    show: function (reportId, districtId) {
+    show: function (reportId, districtId, cityId) {
         var me = this;
 
         Ext.Ajax.request({
@@ -51,11 +51,11 @@ Ext.define('Report.controller.ReportViewCtrl', {
             success: function (response) {
                 var result = Ext.decode(response.responseText);
                 var report = result.data;
-                me.showWindow(report, districtId);
+                me.showWindow(report, districtId, cityId);
             }
         });
     },
-    showWindow: function (report, districtId) {
+    showWindow: function (report, districtId, cityId) {
         var parameterForm = Ext.createWidget('form', {
             region: 'north',
             layout: {
@@ -122,7 +122,10 @@ Ext.define('Report.controller.ReportViewCtrl', {
                             queryMode: 'local',
                             store: 'City'
                         });
-                        cmp.setValue(parameter.cityId);
+                        if (cityId)
+                            cmp.setValue(cityId);
+                        else
+                            cmp.setValue(parameter.cityId);
                         break;
                 }
                 parameterForm.add(cmp);
@@ -168,14 +171,19 @@ Ext.define('Report.controller.ReportViewCtrl', {
                         success: function (response) {
                             var frameCmp = win.down('component[action="reportFrame"]');
                             frameCmp.update(response.responseText)
-                            if (chart)
-                                Ext.createWidget('panel', {
-                                    layout: 'fit',
-                                    border: false,
-                                    height: 400,
-                                    items: chart,
-                                    renderTo: 'chart'
-                                });
+                            try {
+                                if (chart)
+                                    Ext.createWidget('panel', {
+                                        layout: 'fit',
+                                        border: false,
+                                        height: 400,
+                                        items: chart,
+                                        renderTo: 'chart'
+                                    });
+                            } catch (err) {
+//                                console.log(err);
+                                win.close();
+                            }
                         }
                     });
                 }
@@ -407,6 +415,31 @@ Ext.define('Report.controller.ReportViewCtrl', {
             });
             form.submit()
         }
+    },
+    showDashboard: function (id) {
+        var me = this;
+        Ext.Ajax.request({
+            url: '/report-mod/view/districtStatus.json',
+            method: 'get',
+            params: {
+                districtId: id
+            },
+            success: function (response) {
+                var result = Ext.decode(response.responseText);
+//                console.log(result);
+                switch (result.data.status) {
+                    case 'C':
+                        me.show(88850, result.data.id);
+                        break;
+                    case 'A':
+                        me.show(88801, null, result.data.id);
+                        break;
+                    case 'D':
+                        me.show(88805, result.data.id);
+                        break;
+                }
+            }
+        })
     },
     print: function (win) {
         var cmp = win.down('component[action="reportFrame"]');

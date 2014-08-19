@@ -1,6 +1,9 @@
 package com.monsource.bis.report.controller;
 
 import com.monsource.bis.core.json.JsonData;
+import com.monsource.bis.data.entity.DistrictEntity;
+import com.monsource.bis.report.dao.ReportDistrictDao;
+import com.monsource.bis.report.model.DistrictStatus;
 import com.monsource.bis.report.model.Report;
 import com.monsource.bis.report.service.ReportService;
 import com.monsource.bis.report.service.ReportViewService;
@@ -24,6 +27,25 @@ public class ReportViewCtrl {
     ReportViewService reportViewSrv;
     @Autowired
     ReportService reportSrv;
+    @Autowired
+    ReportDistrictDao reportDistrictDao;
+
+    @RequestMapping("districtStatus.json")
+    @ResponseBody
+    public JsonData getDistrictStatus(Integer districtId) {
+        DistrictEntity district = reportDistrictDao.get(districtId);
+        DistrictStatus.Status result = DistrictStatus.Status.C;
+        Integer id;
+        id = district.getId();
+        if (district.getCity().getId() != 20)
+            if (district.getCityCenter() == true) {
+                result = DistrictStatus.Status.A;
+                id = district.getCity().getId();
+            } else
+                result = DistrictStatus.Status.D;
+
+        return new JsonData(new DistrictStatus(result, id));
+    }
 
     @RequestMapping("data.json")
     @ResponseBody

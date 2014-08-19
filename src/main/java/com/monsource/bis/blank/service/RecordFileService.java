@@ -118,7 +118,6 @@ public class RecordFileService {
 
                 if (data instanceof List) {
                     data = StringUtils.join((Collection) data, ", ");
-                    System.out.println(data);
                 }
 
                 if (data instanceof String)

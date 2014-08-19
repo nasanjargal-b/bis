@@ -70,7 +70,6 @@ public class BlankDao extends HibernateDaoSupport<BlankEntity> {
     public void mergeDbView(BlankCreateBuilder createBuilder) {
 
         for (String query : createBuilder.getQueries()) {
-            System.out.println("query = " + query);
             this.getSession().createSQLQuery(query).executeUpdate();
         }
 

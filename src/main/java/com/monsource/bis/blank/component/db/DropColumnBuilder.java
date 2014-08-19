@@ -59,8 +59,6 @@ public class DropColumnBuilder extends DbBuilder {
             boolean isDrop = true;
             for (QuestionEntity question : questions) {
                 String multiTableName = name.toUpperCase() + question.getId();
-                System.out.println("tableName = " + tableName);
-                System.out.println("multiTableName = " + multiTableName);
                 if (tableName.equals(multiTableName)) {
                     isDrop = false;
                     break;

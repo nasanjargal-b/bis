@@ -45,4 +45,9 @@ public class ReportDao extends HibernateDaoSupport<ReportEntity> {
         return criteria.list();
     }
 
+    public List<ReportEntity> findAll() {
+        Criteria criteria = this.getSession().createCriteria(ReportEntity.class);
+        criteria.add(Restrictions.eq("group", false));
+        return criteria.list();
+    }
 }

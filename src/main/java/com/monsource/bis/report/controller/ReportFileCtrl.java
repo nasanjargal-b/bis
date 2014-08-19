@@ -127,8 +127,6 @@ public class ReportFileCtrl {
                 params.put(parameter.getCode(), reportRecordDao.getParameterValue(parameter));
             }
 
-            System.out.println("params = " + params);
-
             JasperPrint jasperPrint = JasperFillManager.fillReport(filePath, params, connection);
 
             switch (type) {
