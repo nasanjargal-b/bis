@@ -1,9 +1,6 @@
 package com.monsource.bis.report.ws.xml;
 
-import com.sun.xml.internal.txw2.annotation.XmlCDATA;
-
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
