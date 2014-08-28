@@ -129,6 +129,8 @@ public class RecordDao extends HibernateDaoSupport<DataEntity> {
         }
 
         Integer id = (Integer) record.get("id");
+        if (id == null) id = (Integer) record.get("ID");
+
         Integer newId = null;
         String query;
         if (id == null) {
